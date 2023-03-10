@@ -19,6 +19,13 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
+    {{-- SELECT2 --}}
+    <link href="{{ asset('css/select2.min.css') }}" rel="stylesheet" />
+
+    {{-- DATATABLE --}}
+    <link href="https://cdn.datatables.net/1.13.3/css/jquery.dataTables.min.css" rel="stylesheet">
+
+
     <style>
         .navbar-dark .navbar-nav .nav-link {
             color: #fff;
@@ -110,15 +117,83 @@
             @yield('content')
         </main>
     </div>
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
-    </script>
+    <script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E="
+        crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js"
         integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous">
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js"
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
     </script>
+    <script src="{{ asset('js/select2.min.js') }}"></script>
+    <script src="https://cdn.datatables.net/1.13.3/js/jquery.dataTables.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            $('.select2-salesman').select2({
+                ajax: {
+                    url: "{{ route('getSalesman') }}",
+                    dataType: 'json',
+                    delay: 250,
+                    data: function(params) {
+                        return {
+                            q: params.term
+                        };
+                    },
+                    processResults: function(data) {
+                        return {
+                            results: data.results
+                        };
+                    },
+                    cache: true
+                },
+                placeholder: 'Pilih salesman',
+                // minimumInputLength: 3,
+                allowClear: true
+            });
+
+            var rute = '';
+            $('.select2-rute').select2({
+                ajax: {
+                    url: "{{ route('getRute') }}",
+                    dataType: 'json',
+                    delay: 250,
+                    data: function(params) {
+                        return {
+                            q: params.term,
+                            salesman: $('.select2-salesman').val()
+                        };
+                    },
+                    processResults: function(data) {
+                        return {
+                            results: data.results
+                        };
+                    },
+                    cache: true
+                },
+                placeholder: 'Pilih Rute',
+                // minimumInputLength: 3,
+                allowClear: true,
+                templateSelection: function(data) {
+                    if (data.id === '') { // jika nilai kosong dipilih
+                        return 'Pilih Karyawan';
+                    } else {
+                        rute = data.text;
+                        return data.text; // tampilkan teks nilai yang dipilih
+                    }
+                },
+            }).on('change', function() {
+                $('#select2-rute-rute').val(rute);
+                console.log(rute); // mengubah nilai input field tersembunyi
+            });
+
+            $('.myTable').DataTable({
+                "lengthMenu": [10, 25, 50, 75, 100],
+                "pageLength": 100
+            });
+        });
+    </script>
+
 </body>
 
 </html>

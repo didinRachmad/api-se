@@ -6,6 +6,7 @@ use BadMethodCallException;
 use Closure;
 use Exception;
 use Illuminate\Contracts\Database\Eloquent\Builder as BuilderContract;
+use Illuminate\Contracts\Database\Query\Expression;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Database\Concerns\BuildsQueries;
 use Illuminate\Database\Eloquent\Concerns\QueriesRelationships;
@@ -647,6 +648,8 @@ class Builder implements BuilderContract
     public function value($column)
     {
         if ($result = $this->first([$column])) {
+            $column = $column instanceof Expression ? $column->getValue($this->getGrammar()) : $column;
+
             return $result->{Str::afterLast($column, '.')};
         }
     }
@@ -662,6 +665,8 @@ class Builder implements BuilderContract
      */
     public function soleValue($column)
     {
+        $column = $column instanceof Expression ? $column->getValue($this->getGrammar()) : $column;
+
         return $this->sole([$column])->{Str::afterLast($column, '.')};
     }
 
@@ -675,6 +680,8 @@ class Builder implements BuilderContract
      */
     public function valueOrFail($column)
     {
+        $column = $column instanceof Expression ? $column->getValue($this->getGrammar()) : $column;
+
         return $this->firstOrFail([$column])->{Str::afterLast($column, '.')};
     }
 
@@ -859,6 +866,8 @@ class Builder implements BuilderContract
     {
         $results = $this->toBase()->pluck($column, $key);
 
+        $column = $column instanceof Expression ? $column->getValue($this->getGrammar()) : $column;
+
         // If the model has a mutator for the requested column, we will spin through
         // the results and mutate the values so that the mutated version of these
         // columns are returned as you would expect from these Eloquent models.
@@ -880,16 +889,15 @@ class Builder implements BuilderContract
      * @param  array|string  $columns
      * @param  string  $pageName
      * @param  int|null  $page
-     * @param  \Closure|int|null  $total
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      *
      * @throws \InvalidArgumentException
      */
-    public function paginate($perPage = null, $columns = ['*'], $pageName = 'page', $page = null, $total = null)
+    public function paginate($perPage = null, $columns = ['*'], $pageName = 'page', $page = null)
     {
         $page = $page ?: Paginator::resolveCurrentPage($pageName);
 
-        $total = value($total) ?? $this->toBase()->getCountForPagination();
+        $total = $this->toBase()->getCountForPagination();
 
         $perPage = ($perPage instanceof Closure
             ? $perPage($total)
@@ -1775,6 +1783,8 @@ class Builder implements BuilderContract
      */
     public function qualifyColumn($column)
     {
+        $column = $column instanceof Expression ? $column->getValue($this->getGrammar()) : $column;
+
         return $this->model->qualifyColumn($column);
     }
 

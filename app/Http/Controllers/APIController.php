@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\MasterConvertOutlet;
 use App\Models\MasterRute;
+use App\Models\Karyawan;
 
 class APIController extends Controller
 {
@@ -37,7 +38,9 @@ class APIController extends Controller
     }
     public function getDataByRuteId(Request $request)
     {
+        $salesman = $request->input('salesman');
         $rute_id = $request->input('rute_id');
+        $rute = $request->input('rute');
 
         // $validator = Validator::make($request->all(), [
         //     'rute_id' => 'required',
@@ -60,7 +63,7 @@ class APIController extends Controller
                 $query->select('id_outlet_mas', 'kode_customer');
             }])->find($rute_id);
 
-        return view('getRuteId', ['data' => $data, 'rute_id' => $request->input('rute_id')]);
+        return view('getRuteId', ['data' => $data, 'salesman' => $salesman, 'rute_id' => $rute_id, 'rute' => $rute]);
         // return response()->json($data);
         // return response()->json([
         //     'status' => 'success',

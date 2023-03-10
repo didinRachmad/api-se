@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\APIController;
+use App\Http\Controllers\GetDataController;
+use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Auth;
 
 
@@ -19,16 +21,19 @@ use Illuminate\Support\Facades\Auth;
 Route::get('/', function () {
     return view('home');
 });
-Route::get('/getKodeCustomer', function () {
-    return view('getKodeCustomer');
-});
 Route::get('/getRuteId', function () {
     return view('getRuteId');
 });
+Route::get('/getKodeCustomer', function () {
+    return view('getKodeCustomer');
+});
+
+Route::get('/getSalesman', [GetDataController::class, 'getSalesman'])->name('getSalesman');
+Route::get('/getRute', [GetDataController::class, 'getRute'])->name('getRute');
+Route::post('/getRuteId', [APIController::class, 'getDataByRuteId'])->middleware('web')->name('getRuteId');
 
 Route::post('/getKodeCustomer', [APIController::class, 'getDataByKodeCustomer'])->middleware('web')->name('getKodeCustomer');
-Route::post('/getRuteId', [APIController::class, 'getDataByRuteId'])->middleware('web')->name('getRuteId');
 Route::post('/getData', [APIController::class, 'getData'])->middleware('web')->name('getData');
 
 Auth::routes();
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index']);
+Route::get('/home', [HomeController::class, 'index']);
