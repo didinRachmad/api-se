@@ -14,8 +14,8 @@ class VerifyCsrfToken extends Middleware
     protected $addHttpCookie = true;
 
     protected $except = [
-        '/getDataByKodeCustomer', // tambahkan route yang ingin dikecualikan di sini
-        '/getDataByRuteId', // tambahkan route yang ingin dikecualikan di sini
-        '/getData', // tambahkan route yang ingin dikecualikan di sini
+        // '/getDataByKodeCustomer', // tambahkan route yang ingin dikecualikan di sini
+        // '/getDataByRuteId', // tambahkan route yang ingin dikecualikan di sini
+        // '/getData', // tambahkan route yang ingin dikecualikan di sini
     ];
 }

@@ -15,7 +15,7 @@ class GetDataController extends Controller
 
         $salesman =
             MasterRute::with('w')->select('salesman', 'id_wilayah')
-            ->where('salesman', 'LIKE', $term)
+            ->where('salesman', 'LIKE', '%' . $term . '%')
             ->groupBy('salesman', 'id_wilayah')
             ->get();
 

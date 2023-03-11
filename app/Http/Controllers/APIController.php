@@ -61,7 +61,9 @@ class APIController extends Controller
                 $query->select('id_pasar', 'nama_pasar');
             }, 'mrdo.mco' => function ($query) {
                 $query->select('id_outlet_mas', 'kode_customer');
-            }])->find($rute_id);
+            }])->where('salesman', '=', $salesman)->when($rute_id, function ($query, $rute_id) {
+                return $query->where('id', '=', $rute_id);
+            })->get();
 
         return view('getRuteId', ['data' => $data, 'salesman' => $salesman, 'rute_id' => $rute_id, 'rute' => $rute]);
         // return response()->json($data);
