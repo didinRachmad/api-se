@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\APIController;
 use App\Http\Controllers\GetDataController;
-use App\Http\Controllers\getRuteId;
+use App\Http\Controllers\RuteId;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Auth;
 
@@ -24,14 +24,17 @@ Route::get('/', function () {
 });
 
 
-Route::prefix('getRuteId')->group(function () {
+Route::prefix('RuteId')->group(function () {
     Route::get('/', function () {
         return view('getRuteId');
     })->name('getRuteId.index');
 
-    Route::post('/', [APIController::class, 'getDataByRuteId'])
+    Route::post('/', [RuteId::class, 'getDataByRuteId'])
         ->middleware('web')
         ->name('getRuteId.getDataByRuteId');
+
+    Route::post('/update-alamat', [RuteId::class, 'updateAlamat'])
+        ->name('getRuteId.updateAlamat');
 });
 
 Route::get('/getSalesman', [GetDataController::class, 'getSalesman'])->name('getSalesman');
@@ -45,5 +48,5 @@ Route::get('/getKodeCustomer', function () {
 Route::post('/getKodeCustomer', [APIController::class, 'getDataByKodeCustomer'])->middleware('web')->name('getKodeCustomer');
 Route::post('/getData', [APIController::class, 'getData'])->middleware('web')->name('getData');
 
-Auth::routes();
+// Auth::routes();
 Route::get('/home', [HomeController::class, 'index']);

@@ -21,6 +21,7 @@
 
     {{-- SELECT2 --}}
     <link href="{{ asset('css/select2.min.css') }}" rel="stylesheet" />
+    <link href="{{ asset('css/style.css') }}" rel="stylesheet" />
 
     {{-- DATATABLE --}}
     <link href="https://cdn.datatables.net/1.13.3/css/jquery.dataTables.min.css" rel="stylesheet">
@@ -118,6 +119,9 @@
 
         <main class="py-4 mt-5">
             @yield('content')
+            @include('modals.loading-modal')
+            @include('modals.success-modal')
+            @include('modals.error-modal')
         </main>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js"
@@ -128,6 +132,13 @@
     </script>
     <script src="{{ asset('js/select2.min.js') }}"></script>
     <script src="https://cdn.datatables.net/1.13.3/js/jquery.dataTables.min.js"></script>
+    <script>
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+    </script>
 </body>
 
 </html>

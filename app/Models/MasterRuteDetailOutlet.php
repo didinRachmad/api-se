@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class MasterRuteDetailOutlet extends Model
 {
     protected $table = 'master_rute_detail_outlet';
+    protected $fillable = ['alamat'];
+    public $timestamps = false;
 
     public function mr()
     {
