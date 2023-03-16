@@ -5,6 +5,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
+    <link rel="shortcut icon" href="{{ asset('img/logo.ico') }}">
+
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
@@ -18,17 +20,53 @@
     {{-- @vite(['resources/sass/app.scss', 'resources/js/app.js']) --}}
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
 
     {{-- SELECT2 --}}
     <link href="{{ asset('css/select2.min.css') }}" rel="stylesheet" />
     <link href="{{ asset('css/style.css') }}" rel="stylesheet" />
 
     {{-- DATATABLE --}}
-    <link href="https://cdn.datatables.net/1.13.3/css/jquery.dataTables.min.css" rel="stylesheet">
+    <link href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" rel="stylesheet">
+    <link href="https://cdn.datatables.net/buttons/2.3.6/css/buttons.dataTables.min.css" rel="stylesheet">
 
     {{-- JQUERY --}}
     <script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E="
         crossorigin="anonymous"></script>
+
+    {{-- FONTAWESOME --}}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" />
+
+    <style>
+        .overlay {
+            position: fixed;
+            z-index: 999999;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgb(255, 255, 255);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .overlay i {
+            font-size: 50px;
+            color: #3498db;
+            animation: spin 1s infinite linear;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
 
     <style>
         .navbar-dark .navbar-nav .nav-link {
@@ -47,17 +85,47 @@
         .navbar-dark .navbar-nav .nav-link:focus {
             color: #fff;
         }
+
+        /* menghapus style button.dt-button */
+        button.dt-button,
+        div.dt-button,
+        a.dt-button,
+        input.dt-button {
+            color: #fff;
+            background-color: #007bff;
+            border-color: #007bff;
+            font-size: 0.875rem;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.2rem;
+            font-size: 8pt;
+        }
+
+        button.dt-button:hover:not(.disabled),
+        div.dt-button:hover:not(.disabled),
+        a.dt-button:hover:not(.disabled),
+        input.dt-button:hover:not(.disabled) {
+            border: 0;
+            color: #fff;
+            background-color: #0069d9;
+            border-color: #0062cc;
+        }
     </style>
 </head>
 
 
 
 <body class="bg-dark">
-    <div class="container-fluid">
-        <nav class="navbar navbar-expand-md navbar-dark bg-secondary shadow-sm fixed-top">
+    {{-- LOADING OVERLAY --}}
+    <div class="overlay">
+        <i class="fa-brands fa-instalod"></i>
+    </div>
+
+    <div class="container-fluid pt-5">
+        <nav class="navbar navbar-expand-md navbar-dark bg-secondary shadow-sm fixed-top p-0">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ config('app.name', 'Laravel') }}
+                    {{-- {{ config('app.name', 'Laravel') }} --}}
+                    <img src="{{ asset('img/logo.ico') }}" alt="Logo">
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
@@ -86,11 +154,14 @@
                                     <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
                                 </li>
                             @endif
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('getRuteId.index') }}">{{ __('Rute Id') }}</a>
+                            <li class="nav-item px-3">
+                                <a class="btn btn-sm btn-info nav-link" href="{{ route('RuteId.index') }}"><i
+                                        class="bi bi-sign-turn-slight-right-fill"></i> {{ __('Rute Id') }}</a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ url('getKodeCustomer') }}">{{ __('Kode Customer') }}</a>
+                            <li class="nav-item px-3">
+                                <a class="btn btn-sm btn-info nav-link" href="{{ route('KodeCustomer.index') }}"><i
+                                        class="bi bi-qr-code"></i>
+                                    {{ __('Kode Customer') }}</a>
                             </li>
                         @else
                             <li class="nav-item dropdown">
@@ -117,7 +188,7 @@
             </div>
         </nav>
 
-        <main class="py-4 mt-5">
+        <main class="p-5">
             @yield('content')
             @include('modals.loading-modal')
             @include('modals.success-modal')
@@ -131,12 +202,32 @@
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
     </script>
     <script src="{{ asset('js/select2.min.js') }}"></script>
-    <script src="https://cdn.datatables.net/1.13.3/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.3.6/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.print.min.js"></script>
     <script>
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
+        });
+
+        $(document).ready(function() {
+            $('.overlay').fadeIn(200);
+
+            $(window).on('load', function() {
+                $('.overlay').fadeOut(200);
+            });
+        });
+
+        $('.form-control').on('paste', function(event) {
+            event.preventDefault();
+            var pastedValue = event.originalEvent.clipboardData.getData('text/plain');
+            $(this).val(pastedValue);
         });
     </script>
 </body>

@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class MasterConvertOutlet extends Model
 {
     protected $table = 'master_convert_outlet';
+    protected $fillable = ['kode_customer'];
+    public $timestamps = false;
 
     public function mrdo()
     {

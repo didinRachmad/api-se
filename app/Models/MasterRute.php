@@ -21,4 +21,9 @@ class MasterRute extends Model
     {
         return $this->hasOne(Wilayah::class, 'id_wilayah', 'id_wilayah');
     }
+
+    public function kr()
+    {
+        return $this->hasOne(Karyawan::class, 'nama', 'salesman');
+    }
 }
