@@ -13,6 +13,6 @@ class MasterConvertOutlet extends Model
 
     public function mrdo()
     {
-        return $this->belongsTo(MasterRuteDetailOutlet::class, 'id_outlet_mas', 'survey_pasar_id');
+        return $this->hasMany(MasterRuteDetailOutlet::class, 'survey_pasar_id', 'id_outlet_mas');
     }
 }

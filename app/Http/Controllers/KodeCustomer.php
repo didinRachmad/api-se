@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Dataar;
 use App\Models\MasterConvertOutlet;
 use App\Models\MasterRuteDetailOutlet;
+use App\Models\Order;
+use Yajra\DataTables\DataTables;
 use Illuminate\Http\Request;
 
 class KodeCustomer extends Controller
@@ -21,6 +23,28 @@ class KodeCustomer extends Controller
         // return response()->json(['data' => $data]);
 
         return view('KodeCustomer', compact('data', 'kode_customer'));
+    }
+
+    public function getOrder(Request $request)
+    {
+        $kode_customer = $request->input('kode_customer');
+
+        $data = Order::select('id', 'nama_wilayah', 'no_order', 'id_salesman', 'nama_salesman', 'nama_toko', 'id_survey_pasar', 'total_rp', 'total_qty', 'total_transaksi', 'tgl_transaksi', 'document', 'closed_order', 'platform')->selectRaw('CASE WHEN (order.total_rp = 0) THEN "KUNJUNGAN" ELSE "ORDER" END AS status')
+            ->with(['art' => function ($query) {
+                $query->select('dataar', 'document');
+                $query->with(['ar' => function ($query) {
+                    $query->select('id', 'kode_customer', 'id_qr_outlet');
+                }]);
+            }])->whereHas('art.ar', function ($query) use ($kode_customer) {
+                $query->where('kode_customer', $kode_customer);
+            })->orderBy('tgl_transaksi')->orderBy('id_salesman')->get();
+
+        // return response()->json(['data' => $data]);
+        return DataTables::make($data)->addColumn('id_qr_outlet', function ($data) {
+            return $data->art->ar->id_qr_outlet;
+        })->addColumn('kode_customer', function ($data) {
+            return $data->art->ar->kode_customer;
+        })->toJson();
     }
 
 

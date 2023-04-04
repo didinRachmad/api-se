@@ -5,8 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class MasterRuteDetail extends Model
+class VisitKandidat extends Model
 {
-    protected $table = 'master_rute_detail';
-    public $timestamps = false;
+    protected $connection = 'mysql2';
+    protected $table = 'visit_kandidat';
 }

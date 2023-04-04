@@ -1,23 +1,6 @@
 @extends('layouts.app')
 @section('content')
     <style>
-        .card-body-custom {
-            /* padding: 5px; */
-            /* ukuran padding yang lebih kecil */
-            font-size: smaller;
-            /* ukuran font yang lebih kecil */
-        }
-
-        .myTable {
-            font-size: 8pt;
-            font-weight: 600;
-            padding: 5px;
-        }
-
-        .btn-sm {
-            font-size: 8pt;
-        }
-
         .select2-results__option {
             font-size: 8pt;
         }
@@ -37,7 +20,7 @@
         }
     </style>
 
-    <div class="card">
+    <div class="card shadow-sm">
         <div class="card-header">Search Data by Kode Customer</div>
         <div class="card-body card-body-custom">
             <form class="form" method="POST" action="{{ route('KodeCustomer.getDataByKodeCustomer') }}">
@@ -51,6 +34,8 @@
                     <div class="col-lg-9">
                         <button type="submit" class="btn btn-primary btn-sm">Search <span> <i
                                     class="bi bi-search"></i></span></button>
+                        <button type="button" class="btn btn-info btn-sm btnOrder">Order <span> <i
+                                    class="bi bi-journal-text"></i></span></button>
                     </div>
                 </div>
             </form>
@@ -64,7 +49,7 @@
             <br>
             <div class="table-responsive">
                 <table class="table table-sm table-striped table-bordered myTable">
-                    <thead class="thead-dark text-center">
+                    <thead class="table-dark text-center">
                         <th>Wilayah</th>
                         <th>Salesman</th>
                         <th>rute</th>
@@ -87,46 +72,89 @@
                             $no = 0;
                         @endphp
                         @foreach ($data as $mco)
-                            @php
-                                $no += 1;
-                            @endphp
-                            <tr>
-                                <td>{{ $mco->mrdo?->mr->w->nama_wilayah . ' (' . $mco->mrdo?->mr->w->id_wilayah . ') ' }}
-                                </td>
-                                <td>{{ $mco->mrdo?->mr->salesman }}</td>
-                                <td class="text-success">{{ $mco->mrdo?->mr->rute }}</td>
-                                <td>{{ $mco->mrdo?->mr->hari }}</td>
-                                <td>{{ $mco->mrdo?->rute_id }}</td>
-                                <td>{{ $mco->mrdo?->rute_detail_id }}</td>
-                                <td>{{ $mco->mrdo?->survey_pasar_id }}</td>
-                                <td class="text-primary font-weight-bold" id="kode{{ $no }}">
-                                    {{ $mco->kode_customer }}</td>
-                                <td>{{ $mco->mrdo?->nama_toko }}</td>
-                                <td id="alamat{{ $no }}">{{ $mco->mrdo?->alamat }}</td>
-                                <td>{{ $mco->mrdo?->mrd->id_pasar }}</td>
-                                <td>{{ $mco->mrdo?->mrd->nama_pasar }}</td>
-                                <td>{{ $mco->mrdo?->id_pasar }}</td>
-                                <td>{{ $mco->mrdo?->mp->nama_pasar ?? ('' ?? '') }}</td>
-                                <td id="tipe_outlet{{ $no }}">{{ $mco->mrdo?->tipe_outlet ?? 'RETAIL' }}
-                                </td>
-                                <td>
-                                    <button type="button" class="btn btn-sm btn-warning editAlamat w-100"
-                                        data-row-index="{{ $no }}" data-alamat-awal="{{ $mco->mrdo?->alamat }}"
-                                        data-id_mrdo="{{ $mco->mrdo?->id }}">Alamat</button>
-                                    <button type="button" class="btn btn-sm btn-primary editKode w-100"
-                                        data-row-index="{{ $no }}" data-kode-awal="{{ $mco->kode_customer }}"
-                                        data-id_mco="{{ $mco->id }}">Kode</button>
-                                    <button type="button" class="btn btn-sm btn-info w-100" id="setRetail"
-                                        data-row-index="{{ $no }}" data-id_mrdo="{{ $mco->mrdo?->id }}"
-                                        data-id_mco="{{ $mco->id }}" data-set={{ null }}>Retail</button>
-                                    <button type="button" class="btn btn-sm btn-success w-100" id="setGrosir"
-                                        data-row-index="{{ $no }}" data-id_mrdo="{{ $mco->mrdo?->id }}"
-                                        data-id_mco="{{ $mco->id }}" data-set="TPOUT_WHSL">Grosir</button>
-                                </td>
-                            </tr>
+                            @foreach ($mco->mrdo as $mrdo)
+                                @php
+                                    $no += 1;
+                                @endphp
+                                <tr>
+                                    <td>{{ $mrdo->mr?->w?->nama_wilayah . ' (' . $mrdo->mr?->w?->id_wilayah . ') ' }}
+                                    </td>
+                                    <td>{{ $mrdo->mr?->salesman }}</td>
+                                    <td class="text-success">{{ $mrdo->mr?->rute }}</td>
+                                    <td>{{ $mrdo->mr?->hari }}</td>
+                                    <td>{{ $mrdo->rute_id }}</td>
+                                    <td>{{ $mrdo->rute_detail_id }}</td>
+                                    <td>{{ $mrdo->survey_pasar_id }}</td>
+                                    <td class="text-primary fw-bold" id="kode{{ $no }}">
+                                        {{ $mco->kode_customer }}</td>
+                                    <td>{{ $mrdo->nama_toko }}</td>
+                                    <td id="alamat{{ $no }}">{{ $mrdo->alamat }}</td>
+                                    <td>{{ $mrdo->mrd?->id_pasar }}</td>
+                                    <td>{{ $mrdo->mrd?->nama_pasar }}</td>
+                                    <td>{{ $mrdo->id_pasar }}</td>
+                                    <td>{{ $mrdo->mp->nama_pasar ?? ('' ?? '') }}</td>
+                                    <td id="tipe_outlet{{ $no }}">{{ $mrdo->tipe_outlet ?? 'RETAIL' }}
+                                    </td>
+                                    <td>
+                                        <button type="button" class="btn btn-sm btn-warning editAlamat w-100"
+                                            data-row-index="{{ $no }}" data-alamat-awal="{{ $mrdo->alamat }}"
+                                            data-id_mrdo="{{ $mrdo->id }}">Alamat</button>
+                                        <button type="button" class="btn btn-sm btn-primary editKode w-100"
+                                            data-row-index="{{ $no }}"
+                                            data-kode-awal="{{ $mco->kode_customer }}"
+                                            data-id_mco="{{ $mco->id }}">Kode</button>
+                                        <button type="button" class="btn btn-sm btn-info w-100" id="setRetail"
+                                            data-row-index="{{ $no }}" data-id_mrdo="{{ $mrdo->id }}"
+                                            data-id_mco="{{ $mco->id }}" data-set={{ null }}>Retail</button>
+                                        <button type="button" class="btn btn-sm btn-success w-100" id="setGrosir"
+                                            data-row-index="{{ $no }}" data-id_mrdo="{{ $mrdo->id }}"
+                                            data-id_mco="{{ $mco->id }}" data-set="TPOUT_WHSL">Grosir</button>
+                                    </td>
+                                </tr>
+                            @endforeach
                         @endforeach
                     </tbody>
                 </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Order -->
+    <div class="modal fade" id="orderModal" tabindex="-1" role="dialog" aria-labelledby="orderModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="orderModalLabel">Data Order</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="table-responsive">
+                        <table class="table table-sm table-striped table-bordered TableOrder">
+                            <thead class="table-dark text-center">
+                                <th>no</th>
+                                <th>id</th>
+                                <th id="filter-wilayah">wilayah</th>
+                                <th>no order</th>
+                                <th id="filter-salesman">salesman</th>
+                                <th>nama_toko</th>
+                                <th>id_survey_pasar</th>
+                                <th>status</th>
+                                <th>total_rp</th>
+                                <th>total_qty</th>
+                                <th>total_transaksi</th>
+                                <th>tgl transaksi</th>
+                                <th>document</th>
+                                <th>closed_order</th>
+                                <th>platform</th>
+                                <th>id_qr_outlet</th>
+                                <th>kode customer</th>
+                            </thead>
+                            <tbody id="bodyTabelOrder">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -138,9 +166,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="editAlamatModalLabel">Edit Alamat</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <form id="editAlamat">
@@ -160,7 +186,8 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                        aria-label="Close">Batal</button>
                     <button type="button" class="btn btn-primary" id="saveEditAlamat">Simpan</button>
                 </div>
             </div>
@@ -174,9 +201,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="editKodeModalLabel">Edit Kode Customer</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <form id="editKode">
@@ -196,7 +221,8 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                        aria-label="Close">Batal</button>
                     <button type="button" class="btn btn-primary" id="saveEditKode">Simpan</button>
                 </div>
             </div>
@@ -205,67 +231,11 @@
 
     <script>
         $(document).ready(function() {
-            $('.select2-salesman').select2({
-                ajax: {
-                    url: "{{ route('RuteId.getSalesman') }}",
-                    dataType: 'json',
-                    delay: 250,
-                    data: function(params) {
-                        return {
-                            q: params.term
-                        };
-                    },
-                    processResults: function(data) {
-                        return {
-                            results: data.results
-                        };
-                    },
-                    cache: true
-                },
-                placeholder: 'Pilih salesman',
-                // minimumInputLength: 3,
-                allowClear: true
-            });
-
-            var rute = '';
-            $('.select2-rute').select2({
-                ajax: {
-                    url: "{{ route('RuteId.getRute') }}",
-                    dataType: 'json',
-                    delay: 250,
-                    data: function(params) {
-                        return {
-                            q: params.term,
-                            salesman: $('.select2-salesman').val()
-                        };
-                    },
-                    processResults: function(data) {
-                        return {
-                            results: data.results
-                        };
-                    },
-                    cache: true
-                },
-                placeholder: 'Pilih Rute',
-                // minimumInputLength: 3,
-                allowClear: true,
-                templateSelection: function(data) {
-                    if (data.id === '') { // jika nilai kosong dipilih
-                        return 'Pilih Rute';
-                    } else {
-                        rute = data.text;
-                        return data.text; // tampilkan teks nilai yang dipilih
-                    }
-                },
-            }).on('change', function() {
-                $('#select2-rute-rute').val(rute);
-                console.log(rute); // mengubah nilai input field tersembunyi
-            });
-
             $('.myTable').DataTable({
                 dom: "<'row'<'col-sm-12 col-md-2'l><'col-sm-12 col-md-5'B><'col-sm-12 col-md-5 text-right'f>>" +
                     "<'row'<'col-sm-12'tr>>" +
                     "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
+                // scrollY: 260,
                 buttons: [
                     'copy', 'csv', {
                         extend: 'excel',
@@ -278,11 +248,173 @@
                     }, 'pdf', 'print'
                 ],
                 columnDefs: [{
-                    targets: [14], // kolom pertama
+                    targets: [4, 5, 6, 10, 11, 12, 14],
                     className: 'no-export' // kelas no-export
                 }],
                 "lengthMenu": [10, 25, 50, 75, 100, 500],
-                "pageLength": 500
+                "pageLength": 500,
+                "order": [
+                    [2, 'asc'],
+                    [6, 'desc'],
+                    [11, 'asc']
+                ],
+            });
+
+            var table = $('.TableOrder').DataTable({
+                processing: true,
+                serverSide: true,
+                dom: "<'row'<'col-sm-12 col-md-2'l><'col-sm-12 col-md-5'B><'col-sm-12 col-md-5 text-right'f >> " +
+                    "<'row'<'col-sm-12'tr>>" +
+                    "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
+                // scrollY: 260,
+                "lengthMenu": [10, 25, 50, 75, 100, 500],
+                "pageLength": 100,
+                buttons: [{
+                    extend: 'copy',
+                    title: 'Data ' + $('#nama-salesman').text() + " - " + $('#nama-distributor')
+                        .text() + " - " +
+                        $('#nama-wilayah').text(),
+                    exportOptions: {
+                        columns: ':not(.no-export)'
+                    }
+                }, 'csv', {
+                    extend: 'excel',
+                    title: 'Data ' + $('#nama-salesman').text() + " - " + $('#nama-distributor')
+                        .text() + " - " +
+                        $('#nama-wilayah').text(),
+                    exportOptions: {
+                        columns: ':not(.no-export)'
+                    }
+                }, 'pdf', 'print'],
+                ajax: {
+                    url: "{{ route('KodeCustomer.getOrder') }}",
+                    type: 'POST',
+                    data: function(d) {
+                        d.kode_customer = $('#kode_customer').val();
+                    },
+                },
+                order: [
+                    [11, 'asc'],
+                    [2, 'asc'],
+                    [4, 'asc']
+                ],
+                columnDefs: [{
+                    targets: [1, 6, 12, 13, 15, 14], // kolom pertama
+                    className: 'no-export' // kelas no-export
+                }],
+                columns: [{
+                        "title": "no",
+                        "orderable": false,
+                        "searchable": false,
+                        "width": "30px",
+                        "className": "dt-center",
+                        'render': function(data, type, full, meta) {
+                            return meta.row + 1;
+                        }
+                    },
+                    {
+                        data: 'id',
+                        name: 'id'
+                    },
+                    {
+                        data: 'nama_wilayah',
+                        name: 'nama_wilayah'
+                    },
+                    {
+                        data: 'no_order',
+                        name: 'no_order'
+                    },
+                    {
+                        data: 'nama_salesman',
+                        name: 'nama_salesman',
+                        className: 'text-primary'
+                    },
+                    {
+                        data: 'nama_toko',
+                        name: 'nama_toko'
+                    },
+                    {
+                        data: 'id_survey_pasar',
+                        name: 'id_survey_pasar'
+                    },
+                    {
+                        data: 'status',
+                        name: 'status'
+                    },
+                    {
+                        data: 'total_rp',
+                        name: 'total_rp'
+                    },
+                    {
+                        data: 'total_qty',
+                        name: 'total_qty'
+                    },
+                    {
+                        data: 'total_transaksi',
+                        name: 'total_transaksi'
+                    },
+                    {
+                        data: 'tgl_transaksi',
+                        name: 'tgl_transaksi',
+                        className: 'text-success fw-bold'
+                    },
+                    {
+                        data: 'document',
+                        name: 'document'
+                    },
+                    {
+                        data: 'closed_order',
+                        name: 'closed_order'
+                    },
+                    {
+                        data: 'platform',
+                        name: 'platform'
+                    },
+                    {
+                        data: 'id_qr_outlet',
+                        name: 'id_qr_outlet'
+                    },
+                    {
+                        data: 'kode_customer',
+                        name: 'kode_customer'
+                    },
+
+                ],
+                "initComplete": function(settings, json) {
+                    var salesmanList = table.column('nama_salesman:name').data().unique().sort();
+                    var select = $('<select><option value=""></option></select>')
+                        .appendTo('#filter-salesman')
+                        .on('change', function() {
+                            var val = $.fn.dataTable.util.escapeRegex(
+                                $(this).val()
+                            );
+                            table.column('nama_salesman:name').search(val ? '^' + val + '$' : '',
+                                true, false).draw();
+                        });
+                    salesmanList.each(function(d, j) {
+                        select.append('<option value="' + d + '">' + d + '</option>')
+                    });
+
+                    var wilayahList = table.column('nama_wilayah:name').data().unique().sort();
+                    var select = $('<select><option value=""></option></select>')
+                        .appendTo('#filter-wilayah')
+                        .on('change', function() {
+                            var val = $.fn.dataTable.util.escapeRegex(
+                                $(this).val()
+                            );
+                            table.column('nama_wilayah:name').search(val ? '^' + val + '$' : '',
+                                true, false).draw();
+                        });
+                    wilayahList.each(function(d, j) {
+                        select.append('<option value="' + d + '">' + d + '</option>')
+                    });
+                }
+            });
+
+            // MODAL ORDER
+            $(document).on('click', ".btnOrder", function() {
+                $('#orderModal').modal('show');
+                table.draw();
             });
 
             // INIT EDIT ALAMAT

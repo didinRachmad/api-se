@@ -1,24 +1,6 @@
 @extends('layouts.app')
 @section('content')
     <style>
-        .card-body-custom {
-            /* padding: 5px; */
-            /* ukuran padding yang lebih kecil */
-            font-size: smaller;
-            /* ukuran font yang lebih kecil */
-        }
-
-        .myTable,
-        .myTableServer {
-            font-size: 8pt;
-            font-weight: 600;
-            padding: 5px;
-        }
-
-        .btn-sm {
-            font-size: 8pt;
-        }
-
         .select2-results__option {
             font-size: 8pt;
         }
@@ -38,7 +20,7 @@
         }
     </style>
 
-    <div class="card">
+    <div class="card shadow-sm">
         <div class="card-header">Search Data by Route ID</div>
         <div class="card-body card-body-custom">
             <form class="form" method="POST" action="{{ route('RuteId.getDataByRuteId') }}">
@@ -51,7 +33,8 @@
                             <option value="{{ old('salesman', $salesman ?? '') }}">
                                 {{ old('salesman', $salesman ?? '') }}</option>
                         </select>
-                        <input type="hidden" name="id_salesman" id="id_salesman">
+                        <input type="hidden" name="id_salesman" id="id_salesman"
+                            value="{{ old('id_salesman', $id_salesman ?? '') }}">
                     </div>
                     <div class="col-lg-4">
                         <label for="rute_id" class="sr-only">Rute</label>
@@ -59,12 +42,14 @@
                             <option value="{{ old('rute_id', $rute_id ?? '') }}">
                                 {{ old('rute', $rute ?? '') }}</option>
                         </select>
-                        <input type="hidden" id="select2-rute-rute" name="rute">
+                        <input type="hidden" id="rute" name="rute" value="{{ old('rute', $rute ?? '') }}">
                     </div>
                     <div class="col-lg-4">
                         <button type="submit" class="btn btn-primary btn-sm">Search <span> <i
                                     class="bi bi-search"></i></span></button>
-                        <button type="button" class="btn btn-info btn-sm mx-5 btnOrder">Order <span> <i
+                        <button type="button" class="btn btn-info btn-sm btnOrder">Order <span> <i
+                                    class="bi bi-journal-text"></i></span></button>
+                        <button type="button" class="btn btn-warning btn-sm btnKandidat">Kandidat <span> <i
                                     class="bi bi-journal-text"></i></span></button>
                     </div>
                 </div>
@@ -78,13 +63,13 @@
             {{-- <h3>Hasil Pencarian:</h3> --}}
             <div class="row pt-3">
                 <div class="col-lg-12">
-                    <p class="d-inline-block pr-3">Distributor : <span class="font-weight-bold"
+                    <p class="d-inline-block pe-3">Distributor : <span class="fw-bold"
                             id="nama-distributor">{{ $data->first()->d->nama_distributor ?? '' }}({{ $data->first()->d->id_distributor ?? '' }})</span>
                     </p>
-                    <p class="d-inline-block pr-3">Wilayah : <span class="font-weight-bold"
+                    <p class="d-inline-block pe-3">Wilayah : <span class="fw-bold"
                             id="nama-wilayah">{{ $data->first()->w->nama_wilayah ?? '' }}({{ $data->first()->w->id_wilayah ?? '' }})</span>
                     </p>
-                    <p class="d-inline-block pr-3">Nama Salesman : <span class="font-weight-bold"
+                    <p class="d-inline-block pe-3">Nama Salesman : <span class="fw-bold"
                             id="nama-salesman">{{ $data->first()->salesman ?? '' }}</span>
                     </p>
                 </div>
@@ -92,7 +77,7 @@
             <br>
             <div class="table-responsive">
                 <table class="table table-sm table-striped table-bordered myTable">
-                    <thead class="thead-dark text-center">
+                    <thead class="table-dark text-center">
                         <th>no</th>
                         <th>rute</th>
                         <th>hari</th>
@@ -108,7 +93,6 @@
                         <th>nama pasar mp</th>
                         <th>Tipe Outlet</th>
                         <th>Action</th>
-                        </tr>
                     </thead>
                     <tbody>
                         @php
@@ -127,8 +111,10 @@
                                         <td>{{ $mrdo->rute_id }}</td>
                                         <td>{{ $mrdo->rute_detail_id }}</td>
                                         <td>{{ $mrdo->survey_pasar_id }}</td>
-                                        <td class="text-primary font-weight-bold" id="kode{{ $no }}">
-                                            {{ $mco->kode_customer }}</td>
+                                        <td class="text-primary fw-bold" id="kode{{ $no }}">
+                                            {{ $mco->kode_customer }}
+                                            <input type="hidden" class="form-control" value="{{ $mco->id }}">
+                                        </td>
                                         <td>{{ $mrdo->nama_toko }}</td>
                                         <td id="alamat{{ $no }}">{{ $mrdo->alamat }}</td>
                                         <td>{{ $mrdo->mrd->id_pasar }}</td>
@@ -164,7 +150,7 @@
         </div>
     </div>
 
-    <!-- Modal Edit Alamat -->
+    <!-- Modal Order -->
     <div class="modal fade" id="orderModal" tabindex="-1" role="dialog" aria-labelledby="orderModalLabel"
         aria-hidden="true">
         <div class="modal-dialog modal-xl" role="document">
@@ -173,15 +159,15 @@
                     <h5 class="modal-title" id="orderModalLabel">Data Order</h5>
                     <input type='date' class='form-control form-control-sm date' id='tgl_transaksi' name='tanggal'
                         value='<?= date('Y-m-d') ?>'>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div class="table-responsive">
-                        <table class="table table-sm table-striped table-bordered myTableServer">
-                            <thead class="thead-dark text-center">
+                        <table class="table table-sm table-striped table-bordered TableOrder">
+                            <thead class="table-dark text-center">
+                                <th>no</th>
                                 <th>id</th>
+                                <th>wilayah</th>
                                 <th>no_order</th>
                                 <th>nama_salesman</th>
                                 <th>nama_toko</th>
@@ -206,6 +192,41 @@
         </div>
     </div>
 
+    <!-- Modal Kandidat -->
+    <div class="modal fade" id="KandidatModal" tabindex="-1" role="dialog" aria-labelledby="KandidatModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="KandidatModalLabel">Data Kandidat</h5>
+                    <input type='date' class='form-control form-control-sm date' id='tgl_visit' name='tanggal'
+                        value='<?= date('Y-m-d') ?>'>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="table-responsive">
+                        <table class="table table-sm table-striped table-bordered TableKandidat w-100">
+                            <thead class="table-dark text-center">
+                                <th>No</th>
+                                <th>Distributor</th>
+                                <th>Wilayah</th>
+                                <th>id_salesman</th>
+                                <th>Salesman</th>
+                                <th>Nama Toko</th>
+                                <th>Status</th>
+                                <th>Reason</th>
+                                <th>Kode Customer</th>
+                                <th>Tgl Visit</th>
+                                <th>Lama Visit</th>
+                                <th>Jam Masuk</th>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Modal Edit Alamat -->
     <div class="modal fade" id="editAlamatModal" tabindex="-1" role="dialog" aria-labelledby="editAlamatModalLabel"
         aria-hidden="true">
@@ -213,9 +234,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="editAlamatModalLabel">Edit Alamat</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <form>
@@ -235,7 +254,8 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                        aria-label="Close">Batal</button>
                     <button type="button" class="btn btn-primary" id="saveEditAlamat">Simpan</button>
                 </div>
             </div>
@@ -249,9 +269,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="editKodeModalLabel">Edit Kode Customer</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <form id="editKode">
@@ -271,7 +289,8 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                        aria-label="Close">Batal</button>
                     <button type="button" class="btn btn-primary" id="saveEditKode">Simpan</button>
                 </div>
             </div>
@@ -280,7 +299,7 @@
 
     <script>
         $(document).ready(function() {
-            var id_salesman;
+            var id_salesman = 'tes';
             $('.select2-salesman').select2({
                 ajax: {
                     url: "{{ route('RuteId.getSalesman') }}",
@@ -301,21 +320,20 @@
                 placeholder: 'Pilih salesman',
                 // minimumInputLength: 3,
                 allowClear: true,
-                templateSelection: function(data) {
-                    if (data.id_salesman == '') { // jika nilai kosong dipilih
-                        return 'Pilih salesman';
-                    } else {
-                        id_salesman = data.id_salesman;
-                        return data.text; // tampilkan teks nilai yang dipilih
+                templateResult: function(data) {
+                    if (data.loading) {
+                        return data.text;
                     }
-                },
-            }).on('change', function() {
-                $('#id_salesman').val(id_salesman);
-                // mengubah nilai input field tersembunyi
+                    return $('<span>').text(data.text).addClass('pull-right').append($('<b>').text(
+                        ' - ' +
+                        data.nama_wilayah));
+                }
+            }).on('select2:select', function(e) {
+                var data = e.params.data;
+                // mengubah value dari id_salesman
+                $('#id_salesman').val(data.id_salesman);
             });
 
-
-            var rute = '';
             $('.select2-rute').select2({
                 ajax: {
                     url: "{{ route('RuteId.getRute') }}",
@@ -324,7 +342,7 @@
                     data: function(params) {
                         return {
                             q: params.term,
-                            salesman: $('.select2-salesman').val()
+                            salesman: $('#salesman').val()
                         };
                     },
                     processResults: function(data) {
@@ -337,23 +355,23 @@
                 placeholder: 'Pilih Rute',
                 // minimumInputLength: 3,
                 allowClear: true,
-                templateSelection: function(data) {
-                    if (data.id === '') { // jika nilai kosong dipilih
-                        return 'Pilih Rute';
-                    } else {
-                        rute = data.text;
-                        return data.text; // tampilkan teks nilai yang dipilih
+                templateResult: function(data) {
+                    if (data.loading) {
+                        return data.text;
                     }
-                },
-            }).on('change', function() {
-                $('#select2-rute-rute').val(rute);
-                // mengubah nilai input field tersembunyi
+                    return $('<span>').text(data.text);
+                }
+            }).on('select2:select', function(e) {
+                var data = e.params.data;
+                // mengubah value dari id_salesman
+                $('#rute').val(data.text);
             });
 
             $('.myTable').DataTable({
                 dom: "<'row'<'col-sm-12 col-md-2'l><'col-sm-12 col-md-5'B><'col-sm-12 col-md-5 text-right'f>>" +
                     "<'row'<'col-sm-12'tr>>" +
                     "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
+                // scrollY: 260,
                 buttons: [{
                     extend: 'copy',
                     title: 'Data ' + $('#nama-salesman').text() + " - " + $('#id_salesman')
@@ -370,19 +388,33 @@
                     }
                 }, 'pdf', 'print'],
                 columnDefs: [{
-                    targets: [14], // kolom pertama
+                    targets: [4, 5, 6, 10, 11, 12, 14],
                     className: 'no-export' // kelas no-export
                 }],
                 "lengthMenu": [10, 25, 50, 75, 100, 500],
-                "pageLength": 500
+                "pageLength": 500,
+                "columnDefs": [{
+                    "targets": [6],
+                    "createdCell": function(td, cellData, rowData, rowIndex, colIndex) {
+                        $(td).addClass('editable');
+                    }
+                }],
+                "order": [
+                    [2, 'asc'],
+                    [6, 'desc'],
+                    [11, 'asc']
+                ],
             });
 
-            var table = $('.myTableServer').DataTable({
+            var TableOrder = $('.TableOrder').DataTable({
                 processing: true,
                 serverSide: true,
                 dom: "<'row'<'col-sm-12 col-md-2'l><'col-sm-12 col-md-5'B><'col-sm-12 col-md-5 text-right'f >> " +
                     "<'row'<'col-sm-12'tr>>" +
                     "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
+                // scrollY: 260,
+                "lengthMenu": [10, 25, 50, 75, 100, 500],
+                "pageLength": 100,
                 buttons: [{
                     extend: 'copy',
                     title: 'Data ' + $('#nama-salesman').text() + " - " + $('#nama-distributor')
@@ -410,9 +442,32 @@
                             .val(); // ambil nilai input field id_transaksi
                     },
                 },
+                order: [
+                    [11, 'asc'],
+                    [2, 'asc'],
+                    [4, 'asc']
+                ],
+                columnDefs: [{
+                    targets: [1, 6, 12, 13, 15, 14],
+                    className: 'no-export' // kelas no-export
+                }],
                 columns: [{
+                        "title": "no",
+                        "orderable": false,
+                        "searchable": false,
+                        "width": "30px",
+                        "className": "dt-center",
+                        'render': function(data, type, full, meta) {
+                            return meta.row + 1;
+                        }
+                    },
+                    {
                         data: 'id',
                         name: 'id'
+                    },
+                    {
+                        data: 'nama_wilayah',
+                        name: 'nama_wilayah'
                     },
                     {
                         data: 'no_order',
@@ -420,7 +475,8 @@
                     },
                     {
                         data: 'nama_salesman',
-                        name: 'nama_salesman'
+                        name: 'nama_salesman',
+                        className: 'text-primary'
                     },
                     {
                         data: 'nama_toko',
@@ -431,8 +487,8 @@
                         name: 'id_survey_pasar'
                     },
                     {
-                        data: 'closed_order',
-                        name: 'closed_order'
+                        data: 'status',
+                        name: 'status'
                     },
                     {
                         data: 'total_rp',
@@ -448,7 +504,8 @@
                     },
                     {
                         data: 'tgl_transaksi',
-                        name: 'tgl_transaksi'
+                        name: 'tgl_transaksi',
+                        className: 'text-success fw-bold'
                     },
                     {
                         data: 'document',
@@ -468,19 +525,128 @@
                     },
                     {
                         data: 'kode_customer',
-                        name: 'kode customer'
+                        name: 'kode_customer'
                     },
+                ],
+            });
 
-                ]
+            var TableKandidat = $('.TableKandidat').DataTable({
+                processing: true,
+                serverSide: true,
+                dom: "<'row'<'col-sm-12 col-md-2'l><'col-sm-12 col-md-5'B><'col-sm-12 col-md-5 text-right'f >> " +
+                    "<'row'<'col-sm-12'tr>>" +
+                    "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
+                // scrollY: 260,
+                "lengthMenu": [10, 25, 50, 75, 100, 500],
+                "pageLength": 100,
+                buttons: [{
+                    extend: 'copy',
+                    title: 'Data ' + $('#nama-salesman').text() + " - " + $('#nama-distributor')
+                        .text() + " - " +
+                        $('#nama-wilayah').text(),
+                    exportOptions: {
+                        columns: ':not(.no-export)'
+                    }
+                }, 'csv', {
+                    extend: 'excel',
+                    title: 'Data ' + $('#nama-salesman').text() + " - " + $('#nama-distributor')
+                        .text() + " - " +
+                        $('#nama-wilayah').text(),
+                    exportOptions: {
+                        columns: ':not(.no-export)'
+                    }
+                }, 'pdf', 'print'],
+                ajax: {
+                    url: "{{ route('RuteId.getKandidat') }}",
+                    type: 'POST',
+                    data: function(d) {
+                        d.id_salesman = $('#id_salesman').val(); // ambil nilai input field id_salesman
+                        d.tgl_visit = $('#tgl_visit').val(); // ambil nilai input field id_visit
+                    },
+                },
+                order: [
+                    [11, 'asc'],
+                ],
+                columnDefs: [{
+                    targets: 11,
+                    render: function(data, type, row, meta) {
+                        return data
+                        // return moment(data).tz("Asia/Jakarta").format("YYYY-MM-DD HH:mm:ss");
+                    }
+                }],
+                columns: [{
+                        "title": "no",
+                        "orderable": false,
+                        "searchable": false,
+                        "width": "30px",
+                        "className": "dt-center",
+                        'render': function(data, type, full, meta) {
+                            return meta.row + 1;
+                        },
+                    },
+                    {
+                        data: 'nama_distributor',
+                        name: 'nama_distributor'
+                    },
+                    {
+                        data: 'nama_wilayah',
+                        name: 'nama_wilayah'
+                    },
+                    {
+                        data: 'id_salesman',
+                        name: 'id_salesman'
+                    },
+                    {
+                        data: 'nama_salesman',
+                        name: 'nama_salesman'
+                    },
+                    {
+                        data: 'nama_toko',
+                        name: 'nama_toko'
+                    },
+                    {
+                        data: 'status',
+                        name: 'status'
+                    },
+                    {
+                        data: 'reason',
+                        name: 'reason'
+                    },
+                    {
+                        data: 'kode_customer',
+                        name: 'kode_customer'
+                    },
+                    {
+                        data: 'tgl_visit',
+                        name: 'tgl_visit'
+                    },
+                    {
+                        data: 'lama_visit',
+                        name: 'lama_visit'
+                    },
+                    {
+                        data: 'updated_at',
+                        name: 'updated_at'
+                    }
+                ],
             });
 
             // MODAL ORDER
             $(document).on('click', ".btnOrder", function() {
                 $('#orderModal').modal('show');
-                table.draw();
+                TableOrder.draw();
             });
             $(document).on('change', "#tgl_transaksi", function() {
-                table.draw();
+                TableOrder.draw();
+            });
+
+            // MODAL KANDIDAT
+            $(document).on('click', ".btnKandidat", function() {
+                $('#KandidatModal').modal('show');
+                TableKandidat.draw();
+            });
+            $(document).on('change', "#tgl_visit", function() {
+                TableKandidat.draw();
             });
 
             // INIT EDIT ALAMAT
@@ -617,7 +783,8 @@
                         $('.loading-overlay').show();
                     },
                     success: function(response) {
-                        $('#tipe_outlet' + index).text(response.tipe_outlet ?? "RETAIL");
+                        $('#tipe_outlet' + index).text(response.tipe_outlet ??
+                            "RETAIL");
 
                         $('#successModal').modal('show');
                     },

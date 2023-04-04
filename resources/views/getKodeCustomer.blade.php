@@ -4,7 +4,7 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-12">
-                <div class="card">
+                <div class="card shadow-sm">
                     <div class="card-header">Search Data by Kode Customer</div>
                     <div class="card-body">
                         <form class="form-inline" method="POST" action="{{ route('getKodeCustomer') }}">

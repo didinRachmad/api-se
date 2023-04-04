@@ -14,7 +14,7 @@
 </style>
 
 <div class="loading-overlay" style="display: none;">
-    <div class="card">
+    <div class="card shadow-sm">
         <div class="card-body card-body-custom">
             <div class="spinner-grow m-5 text-primary" style="width: 6rem; height: 6rem;" role="status">
                 <span class="sr-only">Loading...</span>

@@ -12,8 +12,9 @@
                     <div class="swal2-success-fix" style="background-color: rgb(255, 255, 255);"></div>
                     <div class="swal2-success-circular-line-right" style="background-color: rgb(255, 255, 255);"></div>
                 </div>
-                <h3>Berhasil Tersimpan</h3>
-                <button type="button button-sm" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <h3 id="message">Berhasil Tersimpan</h3>
+                <button type="button button-sm" class="btn btn-secondary" data-bs-dismiss="modal"
+                    aria-label="Close">Close</button>
             </div>
         </div>
     </div>

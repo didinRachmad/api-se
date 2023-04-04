@@ -18,8 +18,8 @@
 
     <!-- Scripts -->
     {{-- @vite(['resources/sass/app.scss', 'resources/js/app.js']) --}}
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
-        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
 
     {{-- SELECT2 --}}
@@ -33,6 +33,8 @@
     {{-- JQUERY --}}
     <script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E="
         crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" />
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
     {{-- FONTAWESOME --}}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" />
@@ -69,7 +71,7 @@
     </style>
 
     <style>
-        .navbar-dark .navbar-nav .nav-link {
+        .navbar-dark .navbar-nav {
             color: #fff;
         }
 
@@ -81,9 +83,24 @@
             background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3e%3cpath stroke='rgba(255, 255, 255, 0.8)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
         }
 
-        .navbar-dark .navbar-nav .nav-link:hover,
-        .navbar-dark .navbar-nav .nav-link:focus {
+        .navbar-dark .navbar-nav:hover,
+        .navbar-dark .navbar-nav:focus {
             color: #fff;
+        }
+
+        .myTable,
+        .TableOrder,
+        .TableKandidat {
+            font-size: 8pt;
+            font-weight: 600;
+            padding: 5px;
+        }
+
+        .myTable input,
+        .TableOrder input,
+        .TableKandidat input {
+            font-size: 8pt;
+            padding: 2px;
         }
 
         /* menghapus style button.dt-button */
@@ -110,22 +127,39 @@
             border-color: #0062cc;
         }
     </style>
+    <style>
+        .dark {
+            background-color: #37383a;
+        }
+
+        .card-body-custom {
+            font-size: smaller;
+        }
+
+        .btn-sm {
+            font-size: 8pt;
+        }
+
+        .table>tbody>tr>td {
+            padding: 2px;
+        }
+    </style>
 </head>
 
 
 
-<body class="bg-dark">
+<body class="dark">
     {{-- LOADING OVERLAY --}}
     <div class="overlay">
         <i class="fa-brands fa-instalod"></i>
     </div>
 
     <div class="container-fluid pt-5">
-        <nav class="navbar navbar-expand-md navbar-dark bg-secondary shadow-sm fixed-top p-0">
+        <nav class="navbar navbar-expand-md navbar-dark bg-dark shadow-sm fixed-top p-0">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
                     {{-- {{ config('app.name', 'Laravel') }} --}}
-                    <img src="{{ asset('img/logo.ico') }}" alt="Logo">
+                    <img src="{{ asset('img/logo.ico') }}" alt="Logo"> SE - TOOLS
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
@@ -155,13 +189,23 @@
                                 </li>
                             @endif
                             <li class="nav-item px-3">
-                                <a class="btn btn-sm btn-info nav-link" href="{{ route('RuteId.index') }}"><i
+                                <a class="btn btn-info" href="{{ route('RuteId.index') }}"><i
                                         class="bi bi-sign-turn-slight-right-fill"></i> {{ __('Rute Id') }}</a>
                             </li>
                             <li class="nav-item px-3">
-                                <a class="btn btn-sm btn-info nav-link" href="{{ route('KodeCustomer.index') }}"><i
+                                <a class="btn btn-info" href="{{ route('KodeCustomer.index') }}"><i
                                         class="bi bi-qr-code"></i>
                                     {{ __('Kode Customer') }}</a>
+                            </li>
+                            <li class="nav-item px-3">
+                                <a class="btn btn-info" href="{{ route('ExecRekap.index') }}"><i
+                                        class="bi bi-ui-checks"></i>
+                                    {{ __('Exec Rekap') }}</a>
+                            </li>
+                            <li class="nav-item px-3">
+                                <a class="btn btn-info" href="{{ route('PindahOutlet.index') }}"><i
+                                        class="bi bi-sign-intersection-y-fill"></i>
+                                    {{ __('Pindah Outlet') }}</a>
                             </li>
                         @else
                             <li class="nav-item dropdown">
@@ -195,11 +239,11 @@
             @include('modals.error-modal')
         </main>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js"
-        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+        integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous">
     </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js"
-        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.min.js"
+        integrity="sha384-heAjqF+bCxXpCWLa6Zhcp4fu20XoNIA98ecBC1YkdXhszjoejr5y9Q77hIrv8R9i" crossorigin="anonymous">
     </script>
     <script src="{{ asset('js/select2.min.js') }}"></script>
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
@@ -209,6 +253,10 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
     <script src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.html5.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.print.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.42/moment-timezone-with-data.js"></script>
+
     <script>
         $.ajaxSetup({
             headers: {

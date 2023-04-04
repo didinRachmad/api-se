@@ -7,8 +7,9 @@
                     <span class="swal2-x-mark"><span class="swal2-x-mark-line-left"></span>
                         <span class="swal2-x-mark-line-right"></span></span>
                 </div>
-                <h3>Gagal Tersimpan</h3>
-                <button type="button button-sm" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <h3 id="message">Gagal Tersimpan</h3>
+                <button type="button button-sm" class="btn btn-secondary" data-bs-dismiss="modal"
+                    aria-label="Close">Close</button>
             </div>
         </div>
     </div>
