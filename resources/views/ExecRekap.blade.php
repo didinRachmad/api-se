@@ -1,44 +1,48 @@
 @extends('layouts.app')
 @section('content')
-    <div class="card shadow-sm">
+    <div class="card">
         <div class="card-header">Exec Rekap Call</div>
         <div class="card-body card-body-custom">
-            <div class="table-responsive">
-                <table class="table table-bordered table-striped table-sm align-middle myTable">
-                    <thead class="table-dark text-center">
-                        <th>No</th>
-                        <th>Nama</th>
-                        <th>id_salesman_mss</th>
-                        <th>id depo</th>
-                        <th>nama depo</th>
-                        <th width="200">nama distributor</th>
-                        <th width="200">response</th>
-                        <th>Aksi</th>
-                    </thead>
-                    <tbody>
-                        @php
-                            $no = 0;
-                        @endphp
-                        @foreach ($data as $salesman)
-                            @php
-                                $no += 1;
-                            @endphp
-                            <tr>
-                                <td class="text-center">{{ $no }}</td>
-                                <td>{{ $salesman->nama }}</td>
-                                <td class="fw-bold id-salesman notif">{{ $salesman->id_salesman_mss }}</td>
-                                <td>{{ $salesman->iddepo }}</td>
-                                <td>{{ $salesman->nama_depo }}</td>
-                                <td>{{ $salesman->nama_distributor }}</td>
-                                <td class="response"></td>
-                                <td>
-                                    <button type="button" name="kirim[]"
-                                        class="btn btn-sm btn-primary kirim-satu">Upload</button>
-                                </td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+            <div class="row">
+                <div class="col-12">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-dark table-striped table-sm align-middle myTable">
+                            <thead class="text-center">
+                                <th>No</th>
+                                <th>Nama</th>
+                                <th>id_salesman_mss</th>
+                                <th>id depo</th>
+                                <th>nama depo</th>
+                                <th width="200">nama distributor</th>
+                                <th width="200">response</th>
+                                <th>Aksi</th>
+                            </thead>
+                            <tbody>
+                                @php
+                                    $no = 0;
+                                @endphp
+                                @foreach ($data as $salesman)
+                                    @php
+                                        $no += 1;
+                                    @endphp
+                                    <tr>
+                                        <td class="text-center">{{ $no }}</td>
+                                        <td>{{ $salesman->nama }}</td>
+                                        <td class="fw-bold id-salesman notif">{{ $salesman->id_salesman_mss }}</td>
+                                        <td>{{ $salesman->iddepo }}</td>
+                                        <td>{{ $salesman->nama_depo }}</td>
+                                        <td>{{ $salesman->nama_distributor }}</td>
+                                        <td class="response"></td>
+                                        <td>
+                                            <button type="button" name="kirim[]"
+                                                class="btn btn-sm btn-primary kirim-satu">Upload</button>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -107,7 +111,7 @@
                     const result = $(this).closest("tr").find(".response");
 
                     $.ajax({
-                        url: "https://sales.motasaindonesia.co.id/api/order/execRekapCallTool",
+                        url: "http://sales.motasaindonesia.co.id/api/order/execRekapCallTool",
                         type: "POST",
 
                         data: {

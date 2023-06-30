@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class MasterRuteDetailOutlet extends Model
 {
     protected $table = 'master_rute_detail_outlet';
-    protected $fillable = ['alamat'];
+    // protected $fillable = ['survey_pasar_id', 'alamat'];
     public $timestamps = false;
 
     public function mr()

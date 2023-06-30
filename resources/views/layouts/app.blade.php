@@ -22,9 +22,14 @@
         integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
 
-    {{-- SELECT2 --}}
-    <link href="{{ asset('css/select2.min.css') }}" rel="stylesheet" />
+    {{-- CSS --}}
     <link href="{{ asset('css/style.css') }}" rel="stylesheet" />
+
+    {{-- SELECT2 --}}
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link
+        href="https://cdnjs.cloudflare.com/ajax/libs/select2-bootstrap-5-theme/1.3.0/select2-bootstrap-5-theme.min.css"
+        rel="stylesheet" />
 
     {{-- DATATABLE --}}
     <link href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" rel="stylesheet">
@@ -40,6 +45,45 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" />
 
     <style>
+        html,
+        body {
+            height: 100%;
+            width: 100%;
+            margin: 0;
+            padding: 0;
+            color: #224;
+            background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.6)), url(https://source.unsplash.com/E8Ufcyxz514/1280x720);
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+
+        .container-fluid {
+            padding: 5rem 1rem 1rem 1rem;
+        }
+
+        .scroll::-webkit-scrollbar-track {
+            -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+            background-color: #212529;
+            border-radius: 10px;
+        }
+
+        .scroll::-webkit-scrollbar {
+            width: 10px;
+            background-color: #212529;
+        }
+
+        .scroll::-webkit-scrollbar-thumb {
+            border-radius: 10px;
+            background-image: -webkit-gradient(linear,
+                    left bottom,
+                    left top,
+                    color-stop(0.44, rgb(174, 122, 217)),
+                    color-stop(0.72, rgb(73, 90, 189)),
+                    color-stop(0.86, rgb(28, 58, 148)));
+        }
+
         .overlay {
             position: fixed;
             z-index: 999999;
@@ -71,6 +115,10 @@
     </style>
 
     <style>
+        p {
+            margin: 0;
+        }
+
         .navbar-dark .navbar-nav {
             color: #fff;
         }
@@ -88,6 +136,16 @@
             color: #fff;
         }
 
+        .navbar-dark .navbar-nav .nav-item {
+            padding-bottom: 0.2rem;
+            padding-top: 0.2rem;
+        }
+
+        table.dataTable tbody th,
+        table.dataTable tbody td {
+            padding: 0 5px;
+        }
+
         .myTable,
         .TableOrder,
         .TableKandidat {
@@ -101,6 +159,18 @@
         .TableKandidat input {
             font-size: 8pt;
             padding: 2px;
+        }
+
+        .dataTables_wrapper .dataTables_length select,
+        .dataTables_wrapper .dataTables_filter input,
+        .dataTables_wrapper .dataTables_paginate .paginate_button.disabled,
+        .dataTables_wrapper .dataTables_paginate .paginate_button.disabled:hover,
+        .dataTables_wrapper .dataTables_paginate .paginate_button.disabled:active {
+            color: #fff !important;
+        }
+
+        .dataTables_wrapper .dataTables_length select option {
+            background-color: transparent;
         }
 
         /* menghapus style button.dt-button */
@@ -126,113 +196,179 @@
             background-color: #0069d9;
             border-color: #0062cc;
         }
+
+        .select2-results__option {
+            font-size: 8pt !important;
+        }
+
+        .select2-search__field {
+            height: 25px;
+            font-size: 8pt;
+        }
+
+        .btn-close {
+            background-color: #fff
+        }
     </style>
     <style>
         .dark {
-            background-color: #37383a;
+            background-color: rgba(22, 11, 85, 0.3);
+        }
+
+        .card {
+            background-color: rgba(2, 16, 32, 0.6);
+            box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(20px);
+            color: #fff;
         }
 
         .card-body-custom {
             font-size: smaller;
         }
 
+        .form-control,
+        .form-control::placeholder,
+        .form-control:-webkit-autofill,
+        .form-select,
+        .form-control:focus {
+            background-color: transparent;
+            color: #fff;
+        }
+
+        select.form-select::after {
+            font-weight: bold;
+        }
+
+        .form-select option {
+            background-color: #02102099;
+            color: #fff;
+        }
+
+        .select2-container--bootstrap-5 .select2-selection--single .select2-selection__rendered,
+        .select2-container--bootstrap-5 .select2-selection--single .select2-selection__rendered .select2-selection__placeholder {
+            color: #fff;
+        }
+
+        .input-group>.input-group-text~.select2-container--bootstrap-5 .select2-selection {
+            background-color: transparent;
+        }
+
+        .select2-container--bootstrap-5 .select2-dropdown .select2-results__options .select2-results__option {
+            color: white;
+            background-color: #02102099;
+        }
+
+        .select2-container--bootstrap-5 .select2-dropdown .select2-results__options .select2-results__option.select2-results__option--disabled,
+        .select2-container--bootstrap-5 .select2-dropdown .select2-results__options .select2-results__option[aria-disabled=true] {
+            color: #fff
+        }
+
+        .select2-container--bootstrap-5 .select2-dropdown .select2-results__options .select2-results__option.select2-results__message {
+            color: #fff
+        }
+
         .btn-sm {
             font-size: 8pt;
         }
 
-        .table>tbody>tr>td {
+        /* .table>tbody>tr>td {
             padding: 2px;
-        }
+        } */
     </style>
 </head>
 
-
-
-<body class="dark">
+<body class="scroll">
     {{-- LOADING OVERLAY --}}
     <div class="overlay">
         <i class="fa-brands fa-instalod"></i>
     </div>
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark bg-gradient shadow-sm fixed-top p-0">
+        <div class="container">
+            <a class="navbar-brand" href="{{ url('/') }}">
+                {{-- {{ config('app.name', 'Laravel') }} --}}
+                <img src="{{ asset('img/logo.ico') }}" alt="Logo"> SE - TOOLS
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="{{ __('Toggle navigation') }}">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-    <div class="container-fluid pt-5">
-        <nav class="navbar navbar-expand-md navbar-dark bg-dark shadow-sm fixed-top p-0">
-            <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
-                    {{-- {{ config('app.name', 'Laravel') }} --}}
-                    <img src="{{ asset('img/logo.ico') }}" alt="Logo"> SE - TOOLS
-                </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <!-- Left Side Of Navbar -->
+                <ul class="navbar-nav me-auto">
 
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <!-- Left Side Of Navbar -->
-                    <ul class="navbar-nav me-auto">
+                </ul>
 
-                    </ul>
-
-                    <!-- Right Side Of Navbar -->
-                    <ul class="navbar-nav ms-auto">
-                        <!-- Authentication Links -->
-                        @guest
-                            @if (Route::has('login'))
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
-                                </li>
-                            @endif
-
-                            @if (Route::has('register'))
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
-                                </li>
-                            @endif
-                            <li class="nav-item px-3">
-                                <a class="btn btn-info" href="{{ route('RuteId.index') }}"><i
-                                        class="bi bi-sign-turn-slight-right-fill"></i> {{ __('Rute Id') }}</a>
+                <!-- Right Side Of Navbar -->
+                <ul class="navbar-nav ms-auto">
+                    <!-- Authentication Links -->
+                    @guest
+                        @if (Route::has('login'))
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
                             </li>
-                            <li class="nav-item px-3">
-                                <a class="btn btn-info" href="{{ route('KodeCustomer.index') }}"><i
-                                        class="bi bi-qr-code"></i>
-                                    {{ __('Kode Customer') }}</a>
+                        @endif
+
+                        @if (Route::has('register'))
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
                             </li>
-                            <li class="nav-item px-3">
-                                <a class="btn btn-info" href="{{ route('ExecRekap.index') }}"><i
-                                        class="bi bi-ui-checks"></i>
-                                    {{ __('Exec Rekap') }}</a>
-                            </li>
-                            <li class="nav-item px-3">
-                                <a class="btn btn-info" href="{{ route('PindahOutlet.index') }}"><i
-                                        class="bi bi-sign-intersection-y-fill"></i>
-                                    {{ __('Pindah Outlet') }}</a>
-                            </li>
-                        @else
-                            <li class="nav-item dropdown">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
-                                    data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    {{ Auth::user()->name }}
+                        @endif
+                        <li class="nav-item px-3">
+                            <a class="btn btn-info" href="{{ route('RuteId.index') }}"><i
+                                    class="bi bi-sign-turn-slight-right-fill"></i> {{ __('Rute Id') }}</a>
+                        </li>
+                        <li class="nav-item px-3">
+                            <a class="btn btn-info" href="{{ route('KodeCustomer.index') }}"><i class="bi bi-qr-code"></i>
+                                {{ __('Kode Customer') }}</a>
+                        </li>
+                        <li class="nav-item px-3">
+                            <a class="btn btn-info" href="{{ route('PindahOutlet.index') }}"><i
+                                    class="bi bi-sign-intersection-y-fill"></i>
+                                {{ __('Pindah Outlet') }}</a>
+                        </li>
+                        <li class="nav-item px-3">
+                            <a class="btn btn-info" href="{{ route('ListRute.index') }}"><i
+                                    class="bi bi-sign-intersection-y-fill"></i>
+                                {{ __('List Rute') }}</a>
+                        </li>
+                        <li class="nav-item px-3">
+                            <a class="btn btn-info" href="{{ route('ExecRekap.index') }}"><i class="bi bi-ui-checks"></i>
+                                {{ __('Exec Rekap') }}</a>
+                        </li>
+                        {{-- <li class="nav-item px-3">
+                            <a class="btn btn-info" href="{{ route('FaceRecognition.index') }}"><i
+                                    class="bi bi-sign-intersection-y-fill"></i>
+                                {{ __('Face Recognition') }}</a>
+                        </li> --}}
+                    @else
+                        <li class="nav-item dropdown">
+                            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
+                                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                {{ Auth::user()->name }}
+                            </a>
+
+                            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="{{ route('logout') }}"
+                                    onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                                    {{ __('Logout') }}
                                 </a>
 
-                                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ route('logout') }}"
-                                        onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                        {{ __('Logout') }}
-                                    </a>
-
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                        @csrf
-                                    </form>
-                                </div>
-                            </li>
-                        @endguest
-                    </ul>
-                </div>
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                    @csrf
+                                </form>
+                            </div>
+                        </li>
+                    @endguest
+                </ul>
             </div>
-        </nav>
+        </div>
+    </nav>
 
-        <main class="p-5">
+    <div class="container-fluid">
+        <main>
             @yield('content')
             @include('modals.loading-modal')
             @include('modals.success-modal')
@@ -245,7 +381,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.min.js"
         integrity="sha384-heAjqF+bCxXpCWLa6Zhcp4fu20XoNIA98ecBC1YkdXhszjoejr5y9Q77hIrv8R9i" crossorigin="anonymous">
     </script>
-    <script src="{{ asset('js/select2.min.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/2.3.6/js/dataTables.buttons.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
@@ -265,11 +401,12 @@
         });
 
         $(document).ready(function() {
-            $('.overlay').fadeIn(200);
+            // $('.overlay').fadeIn(200);
 
-            $(window).on('load', function() {
-                $('.overlay').fadeOut(200);
-            });
+
+            // $(window).on('load', function() {
+            $('.overlay').fadeOut(200);
+            // });
         });
 
         $('.form-control').on('paste', function(event) {

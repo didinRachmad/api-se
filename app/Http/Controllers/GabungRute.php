@@ -13,12 +13,15 @@ class GabungRute extends Controller
     public function getSalesman(Request $request)
     {
         $term = $request->input('q');
+        $page = $request->input('page', 1);
+        $perPage = 10;
 
-        $salesman =
+        $query =
             MasterRute::select('salesman', 'id_wilayah')->with('w', 'kr')
             ->where('salesman', 'LIKE', '%' . $term . '%')
-            ->groupBy('salesman', 'id_wilayah')
-            ->get();
+            ->groupBy('salesman', 'id_wilayah');
+
+        $salesman = $query->paginate($perPage, ['*'], 'page', $page);
 
         $results = [];
 
@@ -34,7 +37,14 @@ class GabungRute extends Controller
             ];
         }
 
-        return response()->json(['results' => $results]);
+        $response = [
+            'results' => $results,
+            'pagination' => [
+                'more' => $salesman->hasMorePages(), // Check if there are more pages
+            ],
+        ];
+
+        return response()->json($response);
     }
 
     public function getRute(Request $request)

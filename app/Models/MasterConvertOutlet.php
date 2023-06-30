@@ -15,4 +15,8 @@ class MasterConvertOutlet extends Model
     {
         return $this->hasMany(MasterRuteDetailOutlet::class, 'survey_pasar_id', 'id_outlet_mas');
     }
+    public function sp()
+    {
+        return $this->hasOne(SurveyPasar::class, 'id', 'id_outlet_mas');
+    }
 }

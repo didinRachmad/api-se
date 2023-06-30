@@ -11,27 +11,9 @@
         .btn-sm {
             font-size: 8pt;
         }
-
-        .select2-results__option {
-            font-size: 8pt;
-        }
-
-        .select2-search__field {
-            height: 25px;
-            font-size: 8pt;
-        }
-
-        p {
-            margin: 0;
-        }
-
-        table.dataTable tbody th,
-        table.dataTable tbody td {
-            padding: 0 5px;
-        }
     </style>
 
-    <div class="card shadow-sm">
+    <div class="card">
         <div class="card-header">PENGGABUNGAN RUTE</div>
         <div class="card-body card-body-custom">
             <form class="form" method="POST" action="{{ route('GabungRute.prosesGabungRute') }}">
@@ -39,8 +21,9 @@
                 <div class="row">
                     <div class="col-lg-3">
                         <label for="salesman" class="sr-only">Salesman</label>
-                        <select class="form-control select2-salesman w-100" name="salesman" id="salesman" required
-                            oninvalid="this.setCustomValidity('Harap Pilih Salesman')" oninput="setCustomValidity('')">
+                        <select class="form-select form-select-sm select2-salesman w-100" name="salesman" id="salesman"
+                            required oninvalid="this.setCustomValidity('Harap Pilih Salesman')"
+                            oninput="setCustomValidity('')">
                             <option value="{{ old('salesman', $salesman ?? '') }}">
                                 {{ old('salesman', $salesman ?? '') }}</option>
                         </select>
@@ -49,7 +32,7 @@
                     </div>
                     <div class="col-lg-3">
                         <label for="rute_id" class="sr-only">Rute</label>
-                        <select class="form-control select2-rute w-100" name="rute_id" id="rute_id">
+                        <select class="form-select form-select-sm select2-rute w-100" name="rute_id" id="rute_id">
                             <option value="{{ old('rute_id', $rute_id ?? '') }}">
                                 {{ old('rute', $rute ?? '') }}</option>
                         </select>
@@ -73,18 +56,26 @@
         $(document).ready(function() {
             var id_salesman = 'tes';
             $('.select2-salesman').select2({
+                theme: 'bootstrap-5',
                 ajax: {
                     url: "{{ route('GabungRute.getSalesman') }}",
                     dataType: 'json',
                     delay: 250,
                     data: function(params) {
                         return {
-                            q: params.term
+                            q: params.term,
+                            page: params.page ||
+                                1, // Menambahkan parameter 'page' saat melakukan permintaan ke server
                         };
                     },
-                    processResults: function(data) {
+                    processResults: function(data, params) {
+                        params.page = params.page || 1; // Menyimpan nilai halaman saat ini
+
                         return {
-                            results: data.results
+                            results: data.results,
+                            pagination: {
+                                more: data.pagination.more // Mengambil nilai 'more' dari respons server
+                            }
                         };
                     },
                     cache: true
@@ -107,6 +98,7 @@
             });
 
             $('.select2-rute').select2({
+                theme: 'bootstrap-5',
                 ajax: {
                     url: "{{ route('GabungRute.getRute') }}",
                     dataType: 'json',
@@ -114,12 +106,19 @@
                     data: function(params) {
                         return {
                             q: params.term,
+                            page: params.page ||
+                                1, // Menambahkan parameter 'page' saat melakukan permintaan ke server
                             salesman: $('#salesman').val()
                         };
                     },
-                    processResults: function(data) {
+                    processResults: function(data, params) {
+                        params.page = params.page || 1; // Menyimpan nilai halaman saat ini
+
                         return {
-                            results: data.results
+                            results: data.results,
+                            pagination: {
+                                more: data.pagination.more // Mengambil nilai 'more' dari respons server
+                            }
                         };
                     },
                     cache: true
