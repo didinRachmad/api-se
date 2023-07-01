@@ -271,9 +271,36 @@
             font-size: 8pt;
         }
 
-        /* .table>tbody>tr>td {
-            padding: 2px;
-        } */
+        .ui-autocomplete {
+            max-height: 120px;
+            font-size: 8pt;
+            overflow-y: scroll;
+            /* Gunakan "scroll" daripada "auto" */
+            overflow-x: hidden;
+            background-color: rgba(1, 9, 19, 0.9);
+            color: #fff;
+            border-radius: 0 0 10px 10px;
+        }
+
+        /* Menghilangkan scrollbar untuk WebKit (Chrome, Safari, Opera) */
+        .ui-autocomplete::-webkit-scrollbar {
+            width: 0.5em;
+            /* Atur lebar scrollbar */
+        }
+
+        .ui-autocomplete::-webkit-scrollbar-thumb {
+            background-color: rgba(0, 0, 0, 0.5);
+            /* Atur warna thumb scrollbar */
+        }
+
+        .ui-autocomplete::-webkit-scrollbar-track {
+            background-color: transparent;
+            /* Atur warna track scrollbar */
+        }
+
+        .ui-autocomplete.ui-menu .ui-menu-item {
+            padding: 5px;
+        }
     </style>
 </head>
 

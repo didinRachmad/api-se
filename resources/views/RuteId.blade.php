@@ -270,14 +270,14 @@
                             <input type="hidden" id="index-ALAMAT" name="index-ALAMAT" readonly>
                             <input type="hidden" id="survey_pasar_id-ALAMAT" name="survey_pasar_id-ALAMAT" readonly>
                             <input type="hidden" id="id_mco-ALAMAT" name="id_mco-ALAMAT" readonly>
-                            <label for="alamat-baru">Alamat</label>
-                            <input type="text" class="form-control modal-input" id="alamat-baru" name="alamat-baru">
-                        </div>
-                        <!-- Kolom input field untuk alamat yang akan diupdate -->
-                        <div class="form-group">
                             <label for="alamat-baru">Nama Toko</label>
                             <input type="text" class="form-control modal-input" id="nama_toko-baru"
                                 name="nama_toko-baru">
+                        </div>
+                        <!-- Kolom input field untuk alamat yang akan diupdate -->
+                        <div class="form-group">
+                            <label for="alamat-baru">Alamat</label>
+                            <input type="text" class="form-control modal-input" id="alamat-baru" name="alamat-baru">
                         </div>
                     </form>
                 </div>

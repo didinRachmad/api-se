@@ -48,6 +48,7 @@ Route::prefix('KodeCustomer')->group(function () {
     Route::get('/', function () {
         return view('KodeCustomer');
     })->name('KodeCustomer.index');
+    Route::post('/autocomplete', [KodeCustomer::class, 'autocomplete'])->middleware('web')->name('KodeCustomer.autocomplete');
     Route::post('/getOrder', [KodeCustomer::class, 'getOrder'])->middleware('web')->name('KodeCustomer.getOrder');
     Route::post('/getDataByKodeCustomer', [KodeCustomer::class, 'getDataByKodeCustomer'])->middleware('web')->name('KodeCustomer.getDataByKodeCustomer');
     Route::post('/update-alamat', [KodeCustomer::class, 'updateAlamat'])->middleware('web')->name('KodeCustomer.updateAlamat');

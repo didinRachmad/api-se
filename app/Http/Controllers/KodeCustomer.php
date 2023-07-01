@@ -33,6 +33,26 @@ class KodeCustomer extends Controller
         return view('KodeCustomer', compact('data', 'kode_customer'));
     }
 
+    public function autocomplete(Request $request)
+    {
+        $term = $request->input('term');
+
+        $data = MasterConvertOutlet::select('kode_customer')
+            ->where('kode_customer', 'LIKE', '%' . $term . '%')
+            ->groupBy('kode_customer')
+            ->get();
+
+        $results = [];
+
+        foreach ($data as $item) {
+            $results[] = [
+                'value' => $item->kode_customer,
+            ];
+        }
+
+        return response()->json($results);
+    }
+
     public function getOrder(Request $request)
     {
         $kode_customer = strtoupper($request->input('kode_customer'));

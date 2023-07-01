@@ -204,14 +204,14 @@
                             <input type="hidden" id="index-ALAMAT" name="index-ALAMAT" readonly>
                             <input type="hidden" id="survey_pasar_id-ALAMAT" name="survey_pasar_id-ALAMAT" readonly>
                             <input type="hidden" id="id_mco-ALAMAT" name="id_mco-ALAMAT" readonly>
-                            <label for="alamat-baru">Alamat</label>
-                            <input type="text" class="form-control modal-input" id="alamat-baru" name="alamat-baru">
-                        </div>
-                        <!-- Kolom input field untuk alamat yang akan diupdate -->
-                        <div class="form-group">
                             <label for="alamat-baru">Nama Toko</label>
                             <input type="text" class="form-control modal-input" id="nama_toko-baru"
                                 name="nama_toko-baru">
+                        </div>
+                        <!-- Kolom input field untuk alamat yang akan diupdate -->
+                        <div class="form-group">
+                            <label for="alamat-baru">Alamat</label>
+                            <input type="text" class="form-control modal-input" id="alamat-baru" name="alamat-baru">
                         </div>
                     </form>
                 </div>
@@ -302,6 +302,23 @@
 
     <script>
         $(document).ready(function() {
+            $('#kode_customer').autocomplete({
+                source: function(request, response) {
+                    $.ajax({
+                        url: "{{ route('KodeCustomer.autocomplete') }}",
+                        type: "POST",
+                        dataType: "json",
+                        data: {
+                            term: request.term
+                        },
+                        success: function(data) {
+                            response(data);
+                        }
+                    });
+                },
+                minLength: 3
+            });
+
             $('.myTable').DataTable({
                 dom: "<'row'<'col-sm-12 col-md-2'l><'col-sm-12 col-md-5'B><'col-sm-12 col-md-5 text-right'f>>" +
                     "<'row'<'col-sm-12'tr>>" +
@@ -866,8 +883,8 @@
                 var ruteId = $(this).find('.rute_id').text();
                 var rute = $(this).find('.rute');
 
-                console.log(ruteId);
-                console.log(rute);
+                // console.log(ruteId);
+                // console.log(rute);
 
                 var nama_sales = $(this).find('.salesman').text().replace(/\s*\([^)]*\)\s*$/, '').trim();
                 var iddepo = $(this).find('.nama_wilayah').text().match(/\(([^()]+)\)[^(]*$/)[1];
