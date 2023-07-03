@@ -81,6 +81,7 @@ Route::prefix('PindahOutlet')->group(function () {
     Route::post('/', [PindahOutlet::class, 'getDataByRuteId'])->middleware('web')->name('PindahOutlet.getDataByRuteId');
     Route::post('/pindah', [PindahOutlet::class, 'pindah'])->middleware('web')->name('PindahOutlet.pindah');
     Route::post('/pindahPasar', [PindahOutlet::class, 'pindahPasar'])->middleware('web')->name('PindahOutlet.pindahPasar');
+    Route::post('/pindahLokasi', [PindahOutlet::class, 'pindahLokasi'])->middleware('web')->name('PindahOutlet.pindahLokasi');
 });
 
 Route::prefix('ListRute')->group(function () {

@@ -36,7 +36,7 @@
                                 value="{{ old('rute_awal', $rute_awal ?? '') }}">
                         </div>
                     </div>
-                    <div class="col-lg-2 text-center my-auto">
+                    <div class="col-lg-1 text-center my-auto">
                         <button type="submit" class="btn btn-primary btn-sm">Search <span><i
                                     class="bi bi-search"></i></span></button>
                     </div>
@@ -53,10 +53,12 @@
                                 id="rute_id_akhir"></select>
                         </div>
                     </div>
-                    <div class="col-lg-2 text-center my-auto">
+                    <div class="col-lg-3 text-center my-auto">
                         <button type="button" class="btn btn-warning btn-sm" id="btnPindah">Pindah <span><i
                                     class="bi bi-sign-intersection-y-fill"></i></span></button>
                         <button type="button" class="btn btn-info btn-sm" id="btnPindahPasar">Pindah Pasar <span><i
+                                    class="bi bi-sign-intersection-y-fill"></i></span></button>
+                        <button type="button" class="btn btn-success btn-sm" id="btnPindahLokasi">Pindah Lokasi <span><i
                                     class="bi bi-sign-intersection-y-fill"></i></span></button>
                     </div>
 
@@ -136,7 +138,7 @@
                                         </td>
                                         <td>{{ $mrdo->nama_toko }}</td>
                                         <td id="alamat{{ $no }}">{{ $mrdo->alamat }}</td>
-                                        <td>{{ $mco->id }}</td>
+                                        <td class="id_qr_outlet">{{ $mco->id }}</td>
                                         <td>{{ $mrdo->mrd->id_pasar ?? '' }}</td>
                                         <td>{{ $mrdo->mrd->nama_pasar ?? '' }}</td>
                                         <td>{{ $mrdo->mp->nama_pasar ?? '' }}</td>
@@ -182,6 +184,35 @@
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
                         aria-label="Close">Batal</button>
                     <button type="button" class="btn btn-primary" id="savePindahPasar">Simpan</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Pindah Lokasi -->
+    <div class="modal fade" id="PindahLokasiModal" tabindex="-1" role="dialog"
+        aria-labelledby="PindahLokasiModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content card">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="PindahLokasiModalLabel">Pindah Lokasi</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <div class="input-group input-group-sm flex-nowrap mb-3">
+                            <span class="input-group-text">Lokasi</span>
+                            <select class="form-select form-select-sm w-100" id="lokasi">
+                                <option value="Mainroad">Mainroad</option>
+                                <option value="Pasar">Pasar</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                        aria-label="Close">Batal</button>
+                    <button type="button" class="btn btn-primary" id="savePindahLokasi">Simpan</button>
                 </div>
             </div>
         </div>
@@ -528,6 +559,13 @@
                 $('#PindahPasarModal').modal('show');
             });
 
+            // INIT PINDAH PASAR
+            $(document).on('click', "#btnPindahLokasi", function(e) {
+                e.preventDefault();
+                // Tampilkan modal edit
+                $('#PindahLokasiModal').modal('show');
+            });
+
             $('#btnPindah').click(function(e) {
                 e.preventDefault();
 
@@ -618,6 +656,83 @@
                             $('#successModal').modal('hide');
                             location.reload();
                         }, 3000);
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(error);
+                        $('#errorModal #message').text(xhr.responseJSON.message);
+                        $('#errorModal').modal('show');
+                    },
+                    complete: function() {
+                        $('.loading-overlay').hide();
+                    }
+                });
+            });
+
+            // PINDAH LOKASI
+            $('#savePindahLokasi').click(function(e) {
+                e.preventDefault();
+
+                var selectedRows = [];
+                $('.check:checked').each(function(index) {
+                    var id_survey_pasar = $(this).closest('tr').data('id_survey_pasar');
+                    var id_wilayah = $('#nama_wilayah').text().match(/\(([^()]+)\)[^(]*$/)[1];
+                    var lokasi = $('#lokasi').val();
+
+                    var dataObject = {};
+                    dataObject['id_wilayah'] = id_wilayah;
+                    dataObject['survey_pasar_id'] = id_survey_pasar;
+                    dataObject['id_qr_outlet'] = id_survey_pasar;
+                    dataObject['rute'] = id_survey_pasar;
+                    dataObject['hari'] = id_survey_pasar;
+                    dataObject['lokasi'] = lokasi;
+
+                    var data = [];
+                    data.push('CUST-220426');
+                    data.push('CUST-220426');
+                    data.push('CUST-220426');
+                    data.push(lokasi);
+                    data.push('CUST-220426');
+                    data[5] = dataObject;
+                    selectedRows.push(data);
+                });
+
+                console.log(selectedRows);
+
+                // var requestData = {};
+
+                // for (var i = 0; i < selectedRows.length; i++) {
+                //     var dataKey = 'data[' + i + '][]';
+
+                //     for (var j = 0; j < Object.keys(selectedRows[i]).length; j++) {
+                //         var objectKey = Object.keys(selectedRows[i])[j];
+                //         var objectValue = selectedRows[i][objectKey];
+
+                //         var nestedKey = dataKey + '[' + j + ']';
+
+                //         requestData[nestedKey] = objectValue;
+                //     }
+                // }
+                // console.log(selectedRows);
+                $.ajax({
+                    type: 'post',
+                    url: "http://10.11.1.37/api/tool/outletkandidat/saveeditcustomer",
+                    dataType: 'json',
+                    encode: true,
+                    data: {
+                        data: selectedRows
+                    },
+                    beforeSend: function() {
+                        $('.loading-overlay').show();
+                    },
+                    success: function(response) {
+                        console.log(response.message);
+                        $('#successModal #message').text(response.message);
+                        $('#successModal').modal('show');
+                        // $('#lokasi').val(null);
+                        // setTimeout(function() {
+                        //     $('#successModal').modal('hide');
+                        //     location.reload();
+                        // }, 3000);
                     },
                     error: function(xhr, status, error) {
                         console.error(error);

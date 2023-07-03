@@ -311,4 +311,34 @@ class PindahOutlet extends Controller
             return response()->json(['message' => 'Terjadi kesalahan: ' . $e->getMessage()], 500);
         }
     }
+    public function pindahLokasi(Request $request)
+    {
+        set_time_limit(240);
+        $detail = $request->input('detail');
+
+        DB::beginTransaction();
+
+        try {
+            if ($detail == null) {
+                throw new \Exception('Harap pilih lokasi tujuan');
+            }
+            foreach ($detail as $row) {
+                $sp = SurveyPasar::findOrFail($row['id_survey_pasar']);
+                if ($sp != null) {
+                    $sp->location_type = $row['lokasi'];
+                    $sp->save();
+                } else {
+                    throw new \Exception('Survey Pasar kosong');
+                }
+            }
+
+            DB::commit();
+
+            return response()->json(['message' => 'Outlet Berhasil Dipindah']);
+        } catch (\Exception $e) {
+            DB::rollback();
+
+            return response()->json(['message' => 'Terjadi kesalahan: ' . $e->getMessage()], 500);
+        }
+    }
 }

@@ -289,7 +289,7 @@
         }
 
         .ui-autocomplete::-webkit-scrollbar-thumb {
-            background-color: rgba(0, 0, 0, 0.5);
+            background-color: transparent;
             /* Atur warna thumb scrollbar */
         }
 
@@ -357,7 +357,7 @@
                         </li>
                         <li class="nav-item px-3">
                             <a class="btn btn-info" href="{{ route('ListRute.index') }}"><i
-                                    class="bi bi-sign-intersection-y-fill"></i>
+                                    class="bi bi-signpost-split-fill"></i>
                                 {{ __('List Rute') }}</a>
                         </li>
                         <li class="nav-item px-3">
