@@ -54,7 +54,7 @@
                         <th>rute</th>
                         <th>hari</th>
                         <th>rute id</th>
-                        <th>rute detail id</th>
+                        <th>mrdo id</th>
                         <th>survey pasar id</th>
                         <th>Kode Customer</th>
                         <th>Nama Toko</th>
@@ -75,60 +75,46 @@
                                 @php
                                     $no += 1;
                                 @endphp
-                                <tr class="warnaBaris">
+                                <tr class="warnaBaris" data-rute_detail_id="{{ $mrdo->rute_detail_id }}">
                                     <td class="nama_wilayah">
-                                        {{ $mrdo->mr?->w?->nama_wilayah . ' (' . $mrdo->mr?->w?->id_wilayah . ') ' }}
+                                        {{ $mrdo->mr?->w?->nama_wilayah }} ({{ $mrdo->mr?->w?->id_wilayah }})
                                     </td>
                                     <td class="salesman">{{ $mrdo->mr?->salesman }}
                                         ({{ $mrdo->mr?->kr?->id_salesman_mss ?? '' }})
                                     </td>
                                     <td class="rute">{{ $mrdo->mr?->rute }}</td>
-                                    <td>{{ $mrdo->mr?->hari }}</td>
+                                    <td class="hari">{{ $mrdo->mr?->hari }}</td>
                                     <td class="rute_id" id="rute_id{{ $no }}">{{ $mrdo->rute_id }}</td>
-                                    <td>{{ $mrdo->rute_detail_id }}</td>
-                                    <td>{{ $mco->sp->id }}</td>
-                                    <td class="text-primary fw-bold" id="kode{{ $no }}">
+                                    <td class="id_mrdo">{{ $mrdo->id }}</td>
+                                    <td class="id_survey_pasar">{{ $mco->sp->id }}</td>
+                                    <td class="text-primary fw-bold kode_customer">
                                         {{ $mco->kode_customer }}</td>
-                                    <td id="nama_toko{{ $no }}">{{ $mrdo->nama_toko }}</td>
-                                    <td id="alamat{{ $no }}">{{ $mrdo->alamat }}</td>
-                                    <td>{{ $mco->id }}</td>
-                                    <td id="id_pasar_mrd{{ $no }}">{{ $mrdo->mrd?->id_pasar }}</td>
+                                    <td class="nama_toko">{{ $mrdo->nama_toko }}</td>
+                                    <td class="alamat">{{ $mrdo->alamat }}</td>
+                                    <td class="id_mco">{{ $mco->id }}</td>
+                                    <td class="id_pasar">{{ $mrdo->mrd?->id_pasar }}</td>
                                     <td>{{ $mrdo->mrd?->nama_pasar }}</td>
                                     <td>{{ $mrdo->mp->nama_pasar ?? '' }}</td>
-                                    <td id="tipe_outlet{{ $no }}">{{ $mrdo->tipe_outlet ?? 'RETAIL' }}
+                                    <td class="tipe_outlet">{{ $mrdo->tipe_outlet ?? 'RETAIL' }}
+                                        - {{ $mco->sp->location_type ?? '' }} - {{ $mco->sp->source_type ?? '' }}
                                     </td>
                                     <td>
                                         <div class="row px-2 py-1">
                                             <div class="col-6 px-0">
-                                                <button type="button" class="btn btn-sm p-1 btn-warning editAlamat w-100"
-                                                    data-row-index="{{ $no }}"
-                                                    data-alamat-awal="{{ $mrdo->alamat }}"
-                                                    data-survey_pasar_id="{{ $mco->sp->id }}"
-                                                    data-id_mco="{{ $mco->id }}">Edit</button>
-                                            </div>
-                                            <div class="col-6 px-0">
-                                                <button type="button" class="btn btn-sm p-1 btn-primary btnEditKode w-100"
-                                                    data-row-index="{{ $no }}"
-                                                    data-kode-awal="{{ $mco->kode_customer }}"
-                                                    data-id_mco="{{ $mco->id }}"
-                                                    data-survey_pasar_id="{{ $mco->sp->id }}">Kode</button>
+                                                <button type="button"
+                                                    class="btn btn-sm p-1 btn-warning btnEdit w-100">Edit</button>
                                             </div>
                                             <div class="col-6 px-0">
                                                 <button type="button"
-                                                    class="btn btn-sm p-1 btn-secondary w-100 pindahOutlet"
-                                                    data-row-index="{{ $no }}"
-                                                    data-id_mrdo="{{ $mrdo->id }}"
-                                                    data-id_survey_pasar="{{ $mco->sp->id }}">Pindah</button>
+                                                    class="btn btn-sm p-1 btn-secondary w-100 btnPindah">Pindah</button>
                                             </div>
                                             <div class="col-6 px-0">
-                                                <button type="button" class="btn btn-sm p-1 btn-info w-100 setRetail"
-                                                    data-row-index="{{ $no }}"
+                                                <button type="button" class="btn btn-sm p-1 btn-info w-100 btnSetRetail"
                                                     data-id_mrdo="{{ $mrdo->id }}" data-id_mco="{{ $mco->id }}"
                                                     data-set={{ null }}>Retail</button>
                                             </div>
                                             <div class="col-6 px-0">
-                                                <button type="button" class="btn btn-sm p-1 btn-success w-100 setGrosir"
-                                                    data-row-index="{{ $no }}"
+                                                <button type="button" class="btn btn-sm p-1 btn-success w-100 btnSetGrosir"
                                                     data-id_mrdo="{{ $mrdo->id }}" data-id_mco="{{ $mco->id }}"
                                                     data-set="TPOUT_WHSL">Grosir</button>
                                             </div>
@@ -187,13 +173,13 @@
         </div>
     </div>
 
-    <!-- Modal Edit Alamat -->
-    <div class="modal fade" id="editAlamatModal" tabindex="-1" role="dialog" aria-labelledby="editAlamatModalLabel"
+    <!-- Modal Edit -->
+    <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel"
         aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content card">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="editAlamatModalLabel">Edit Alamat</h5>
+                    <h5 class="modal-title" id="editModalLabel">Edit Alamat</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -201,84 +187,46 @@
                         @csrf
                         <!-- Tambahkan kolom baru -->
                         <div class="form-group">
-                            <input type="hidden" id="index-ALAMAT" name="index-ALAMAT" readonly>
-                            <input type="hidden" id="survey_pasar_id-ALAMAT" name="survey_pasar_id-ALAMAT" readonly>
-                            <input type="hidden" id="id_mco-ALAMAT" name="id_mco-ALAMAT" readonly>
-                            <label for="alamat-baru">Nama Toko</label>
-                            <input type="text" class="form-control modal-input" id="nama_toko-baru"
-                                name="nama_toko-baru">
+                            <label for="nama_toko-baru">Nama Toko</label>
+                            <input type="text" autocomplete="off" class="form-control modal-input"
+                                id="nama_toko-baru" name="nama_toko-baru">
                         </div>
                         <!-- Kolom input field untuk alamat yang akan diupdate -->
                         <div class="form-group">
                             <label for="alamat-baru">Alamat</label>
-                            <input type="text" class="form-control modal-input" id="alamat-baru" name="alamat-baru">
+                            <input type="text" autocomplete="off" class="form-control modal-input" id="alamat-baru"
+                                name="alamat-baru">
+                        </div>
+                        <div class="form-group">
+                            <label for="kode_customer-baru">Kode Customer</label>
+                            <input type="text" autocomplete="off" class="form-control modal-input"
+                                id="kode_customer-baru" name="kode_customer-baru">
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
                         aria-label="Close">Batal</button>
-                    <button type="button" class="btn btn-primary" id="saveEditAlamat">Simpan</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal Edit Kode Customer -->
-    <div class="modal fade" id="editKodeModal" tabindex="-1" role="dialog" aria-labelledby="editKodeModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content card">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="editKodeModalLabel">Edit Kode Customer</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form id="editKode">
-                        @csrf
-                        <!-- Tambahkan kolom baru -->
-                        <div class="form-group">
-                            <input type="hidden" id="index-KODE" name="index-KODE" readonly>
-                            <input type="hidden" id="id_mco-KODE" name="id_mco-KODE" readonly>
-                            <input type="hidden" id="survey_pasar_id-KODE" name="survey_pasar_id-KODE" readonly>
-                            <label for="kode-awal">Kode Customer Awal</label>
-                            <input type="text" class="form-control modal-input" id="kode-awal" name="kode-awal"
-                                readonly>
-                        </div>
-                        <!-- Kolom input field untuk alamat yang akan diupdate -->
-                        <div class="form-group">
-                            <label for="kode-baru">Kode Customer Baru</label>
-                            <input type="text" class="form-control modal-input" id="kode-baru" name="kode-baru">
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
-                        aria-label="Close">Batal</button>
-                    <button type="button" class="btn btn-primary" id="saveEditKode">Simpan</button>
+                    <button type="button" class="btn btn-primary" id="saveEdit">Simpan</button>
                 </div>
             </div>
         </div>
     </div>
 
     <!-- Modal Pindah Outlet -->
-    <div class="modal fade" id="PindahOutletModal" tabindex="-1" role="dialog"
-        aria-labelledby="PindahOutletModalLabel" aria-hidden="true">
+    <div class="modal fade" id="PindahRuteModal" tabindex="-1" role="dialog" aria-labelledby="PindahRuteModalLabel"
+        aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content card">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="PindahOutletModalLabel">Pindah Outlet</h5>
+                    <h5 class="modal-title" id="PindahRuteModalLabel">Pindah Outlet</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <input type="hidden" id="id_mrdo-PINDAH" readonly>
-                        <input type="hidden" id="id_pasar_awal-PINDAH" readonly>
-                        <input type="hidden" id="id_survey_pasar-PINDAH" readonly>
                         <div class="input-group input-group-sm flex-nowrap mb-3">
                             <span class="input-group-text">Salesman</span>
-                            <select class="form-select form-select-sm select2-salesman_akhir w-100"
-                                id="salesman_akhir-PINDAH">
+                            <select class="form-select form-select-sm select2-salesman_akhir w-100" id="salesman_akhir">
                             </select>
                         </div>
                     </div>
@@ -287,14 +235,14 @@
                         <div class="input-group input-group-sm flex-nowrap mb-3">
                             <span class="input-group-text">Rute</span>
                             <select class="form-select form-select-sm select2-rute-akhir w-100"
-                                id="rute_id_akhir-PINDAH"></select>
+                                id="rute_id_akhir"></select>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
                         aria-label="Close">Batal</button>
-                    <button type="button" class="btn btn-primary" id="savePindahOutlet">Simpan</button>
+                    <button type="button" class="btn btn-primary" id="savePindahRute">Simpan</button>
                 </div>
             </div>
         </div>
@@ -513,158 +461,157 @@
                 $('#orderModal').modal('show');
             });
 
-            // INIT EDIT ALAMAT
-            $(document).on('click', ".editAlamat", function() {
-                var index = $(this).data('row-index');
-                var survey_pasar_id = $(this).data('survey_pasar_id');
-                var id_mco = $(this).data('id_mco');
-                var alamat = $('#alamat' + index).text().trim();
-                var nama_toko = $('#nama_toko' + index).text().trim();
+            // // EDIT ALAMAT
+            // $(document).on('click', "#saveEditAlamat", function() {
+            //     // Ambil nilai kolom input field
+            //     var survey_pasar_id = $('#survey_pasar_id-ALAMAT').val();
+            //     var id_mco = $('#id_mco-ALAMAT').val();
+            //     var nama_tokoBaru = $('#nama_toko-baru').val();
+            //     var alamatBaru = $('#alamat-baru').val();
 
-                $('#index-ALAMAT').val(index);
-                $('#survey_pasar_id-ALAMAT').val(survey_pasar_id);
-                $('#id_mco-ALAMAT').val(id_mco);
-                $('#alamat-baru').val(alamat);
-                $('#nama_toko-baru').val(nama_toko);
+            //     // Ambil urutan baris tabel terkait dengan modal edit
+            //     var index = $('#index-ALAMAT').val();
 
-                // Tampilkan modal edit
-                $('#editAlamatModal').modal('show');
-            });
+            //     if (alamatBaru === '' || alamatBaru == null) {
+            //         $('#alamat-baru').get(0).setCustomValidity('Harap isi Alamat');
+            //         $('#alamat-baru').get(0).reportValidity(); // Menampilkan pesan kesalahan
+            //         return;
+            //     }
+            //     if (nama_tokoBaru === '' || nama_tokoBaru == null) {
+            //         $('#nama_toko-baru').get(0).setCustomValidity('Harap isi Nama Toko');
+            //         $('#nama_toko-baru').get(0).reportValidity(); // Menampilkan pesan kesalahan
+            //         return;
+            //     }
 
-            // INIT EDIT KODE
-            $(document).on('click', ".btnEditKode", function() {
-                var index = $(this).data('row-index');
-                var id_mco = $(this).data('id_mco');
-                var survey_pasar_id = $(this).data('survey_pasar_id');
-                var kodeAwal = $('#kode' + index).text().trim();
+            //     // Lakukan update pada data di database
+            //     $.ajax({
+            //         type: 'post',
+            //         url: "{{ route('KodeCustomer.updateAlamat') }}",
+            //         dataType: 'json',
+            //         encode: true,
+            //         data: {
+            //             survey_pasar_id: survey_pasar_id,
+            //             id_mco: id_mco,
+            //             nama_toko: nama_tokoBaru,
+            //             alamat: alamatBaru,
+            //         },
+            //         beforeSend: function() {
+            //             $('.loading-overlay').show();
+            //         },
+            //         success: function(response) {
+            //             $('#alamat' + index).text(response.alamat);
+            //             $('#nama_toko' + index).text(response.nama_toko);
+            //             $('#editAlamatModal').modal('hide');
+            //             $('.modal-input').val('');
+            //             $('#successModal').modal('show');
+            //             $('#alamat-baru').val('');
+            //             $('#nama_toko-baru').val('');
+            //         },
+            //         error: function(xhr, status, error) {
+            //             // console.error(error);
+            //             $('#errorModal #message').text(xhr.responseJSON.message);
+            //             $('#errorModal').modal('show');
+            //         },
+            //         complete: function() {
+            //             $('.loading-overlay').hide();
+            //         }
+            //     });
+            // });
 
-                $('#index-KODE').val(index);
-                $('#id_mco-KODE').val(id_mco);
-                $('#survey_pasar_id-KODE').val(survey_pasar_id);
-                $('#kode-awal').val(kodeAwal);
+            // // EDIT KODE
+            // $(document).on('click', '#saveEditKode', function() {
+            //     var id_mco = $('#id_mco-KODE').val();
+            //     var survey_pasar_id = $('#survey_pasar_id-KODE').val();
+            //     var kodeBaru = $('#kode-baru').val();
 
-                // Tampilkan modal edit
-                $('#editKodeModal').modal('show');
-            });
+            //     // Ambil urutan baris tabel terkait dengan modal edit
+            //     var index = $('#index-KODE').val();
 
-            // INIT PINDAH OUTLET
-            $(document).on('click', ".pindahOutlet", function() {
-                var index = $(this).data('row-index');
-                var id_mrdo = $(this).data('id_mrdo');
-                var id_survey_pasar = $(this).data('id_survey_pasar');
-                var rute_id = $('#rute_id' + index).text().trim();
-                var id_pasar_awal = $('#id_pasar_mrd' + index).text().trim();
+            //     $.ajax({
+            //         type: 'POST',
+            //         url: "{{ route('KodeCustomer.updateKode') }}",
+            //         dataType: 'json',
+            //         encode: true,
+            //         data: {
+            //             // _token: "{{ csrf_token() }}",
+            //             id_mco: id_mco,
+            //             survey_pasar_id: survey_pasar_id,
+            //             kodeBaru: kodeBaru
+            //         },
+            //         beforeSend: function() {
+            //             $('.loading-overlay').show();
+            //         },
+            //         success: function(response) {
+            //             $('#kode' + index).text(response.kode_customer);
+            //             $('#editKodeModal').modal('hide');
+            //             $('.modal-input').val('');
+            //             $('#successModal').modal('show');
+            //         },
+            //         error: function(xhr, status, error) {
+            //             console.error(error);
+            //             $('#errorModal #message').text(xhr.responseJSON.message);
+            //             $('#errorModal').modal('show');
+            //         },
+            //         complete: function() {
+            //             $('.loading-overlay').hide();
+            //         }
+            //     });
+            // });
 
-                $('#id_mrdo-PINDAH').val(id_mrdo);
-                $('#id_pasar_awal-PINDAH').val(id_pasar_awal);
-                $('#id_survey_pasar-PINDAH').val(id_survey_pasar);
+            // PINDAH OUTLET
+            // $(document).on('click', '#savePindahRute', function() {
+            //     var id = $('#id_mrdo').val();
+            //     var id_pasar_awal = $('#id_pasar_awal').val();
+            //     var rute_id_akhir = $('#rute_id_akhir').val();
+            //     var id_survey_pasar = $('#id_survey_pasar').val();
 
-                // Tampilkan modal edit
-                $('#PindahOutletModal').modal('show');
-            });
+            //     if (rute_id_akhir === '' || rute_id_akhir == null) {
+            //         $('#rute_id_akhir').get(0).setCustomValidity('Harap isi Rute tujuan');
+            //         $('#rute_id_akhir').get(0).reportValidity(); // Menampilkan pesan kesalahan
+            //         return;
+            //     }
 
-            // EDIT ALAMAT
-            $(document).on('click', "#saveEditAlamat", function() {
-                // Ambil nilai kolom input field
-                var survey_pasar_id = $('#survey_pasar_id-ALAMAT').val();
-                var id_mco = $('#id_mco-ALAMAT').val();
-                var nama_tokoBaru = $('#nama_toko-baru').val();
-                var alamatBaru = $('#alamat-baru').val();
-
-                // Ambil urutan baris tabel terkait dengan modal edit
-                var index = $('#index-ALAMAT').val();
-
-                if (alamatBaru === '' || alamatBaru == null) {
-                    $('#alamat-baru').get(0).setCustomValidity('Harap isi Alamat');
-                    $('#alamat-baru').get(0).reportValidity(); // Menampilkan pesan kesalahan
-                    return;
-                }
-                if (nama_tokoBaru === '' || nama_tokoBaru == null) {
-                    $('#nama_toko-baru').get(0).setCustomValidity('Harap isi Nama Toko');
-                    $('#nama_toko-baru').get(0).reportValidity(); // Menampilkan pesan kesalahan
-                    return;
-                }
-
-                // Lakukan update pada data di database
-                $.ajax({
-                    type: 'post',
-                    url: "{{ route('KodeCustomer.updateAlamat') }}",
-                    dataType: 'json',
-                    encode: true,
-                    data: {
-                        survey_pasar_id: survey_pasar_id,
-                        id_mco: id_mco,
-                        nama_toko: nama_tokoBaru,
-                        alamat: alamatBaru,
-                    },
-                    beforeSend: function() {
-                        $('.loading-overlay').show();
-                    },
-                    success: function(response) {
-                        $('#alamat' + index).text(response.alamat);
-                        $('#nama_toko' + index).text(response.nama_toko);
-                        $('#editAlamatModal').modal('hide');
-                        $('.modal-input').val('');
-                        $('#successModal').modal('show');
-                        $('#alamat-baru').val('');
-                        $('#nama_toko-baru').val('');
-                    },
-                    error: function(xhr, status, error) {
-                        // console.error(error);
-                        $('#errorModal #message').text(xhr.responseJSON.message);
-                        $('#errorModal').modal('show');
-                    },
-                    complete: function() {
-                        $('.loading-overlay').hide();
-                    }
-                });
-            });
-
-            // EDIT KODE
-            $(document).on('click', '#saveEditKode', function() {
-                var id_mco = $('#id_mco-KODE').val();
-                var survey_pasar_id = $('#survey_pasar_id-KODE').val();
-                var kodeBaru = $('#kode-baru').val();
-
-                // Ambil urutan baris tabel terkait dengan modal edit
-                var index = $('#index-KODE').val();
-
-                $.ajax({
-                    type: 'POST',
-                    url: "{{ route('KodeCustomer.updateKode') }}",
-                    dataType: 'json',
-                    encode: true,
-                    data: {
-                        // _token: "{{ csrf_token() }}",
-                        id_mco: id_mco,
-                        survey_pasar_id: survey_pasar_id,
-                        kodeBaru: kodeBaru
-                    },
-                    beforeSend: function() {
-                        $('.loading-overlay').show();
-                    },
-                    success: function(response) {
-                        $('#kode' + index).text(response.kode_customer);
-                        $('#editKodeModal').modal('hide');
-                        $('.modal-input').val('');
-                        $('#successModal').modal('show');
-                    },
-                    error: function(xhr, status, error) {
-                        console.error(error);
-                        $('#errorModal #message').text(xhr.responseJSON.message);
-                        $('#errorModal').modal('show');
-                    },
-                    complete: function() {
-                        $('.loading-overlay').hide();
-                    }
-                });
-            });
+            //     $.ajax({
+            //         type: 'POST',
+            //         url: "{{ route('KodeCustomer.pindah') }}",
+            //         dataType: 'json',
+            //         encode: true,
+            //         data: {
+            //             id: id,
+            //             id_pasar_awal: id_pasar_awal,
+            //             rute_id_akhir: rute_id_akhir,
+            //             id_survey_pasar: id_survey_pasar
+            //         },
+            //         beforeSend: function() {
+            //             $('.loading-overlay').show();
+            //         },
+            //         success: function(response) {
+            //             // console.log(response.message);
+            //             $('#PindahRuteModal').modal('hide');
+            //             $('#successModal #message').text(response.message);
+            //             $('.modal-input').val('');
+            //             $('#successModal').modal('show');
+            //             setTimeout(function() {
+            //                 $('#successModal').modal('hide');
+            //                 location.reload();
+            //             }, 3000);
+            //         },
+            //         error: function(xhr, status, error) {
+            //             console.error(error);
+            //             $('#errorModal #message').text(xhr.responseJSON.message);
+            //             $('#errorModal').modal('show');
+            //         },
+            //         complete: function() {
+            //             $('.loading-overlay').hide();
+            //         }
+            //     });
+            // });
 
             $('.select2-salesman_akhir').select2({
-                dropdownParent: $('#PindahOutletModal'),
+                dropdownParent: $('#PindahRuteModal'),
                 theme: 'bootstrap-5',
                 ajax: {
-                    url: "{{ route('PindahOutlet.getSalesman') }}",
+                    url: "{{ route('KodeCustomer.getSalesman') }}",
                     dataType: 'json',
                     // delay: 250,
                     data: function(params) {
@@ -702,16 +649,16 @@
             });
 
             $('.select2-rute-akhir').select2({
-                dropdownParent: $('#PindahOutletModal'),
+                dropdownParent: $('#PindahRuteModal'),
                 theme: 'bootstrap-5',
                 ajax: {
-                    url: "{{ route('PindahOutlet.getRute') }}",
+                    url: "{{ route('KodeCustomer.getRute') }}",
                     dataType: 'json',
                     // delay: 250,
                     data: function(params) {
                         return {
                             q: params.term,
-                            salesman: $('#salesman_akhir-PINDAH').val()
+                            salesman: $('#salesman_akhir').val()
                         };
                     },
                     processResults: function(data) {
@@ -733,61 +680,196 @@
                 }
             });
 
-            // PINDAH OUTLET
-            $(document).on('click', '#savePindahOutlet', function() {
-                var id = $('#id_mrdo-PINDAH').val();
-                var id_pasar_awal = $('#id_pasar_awal-PINDAH').val();
-                var rute_id_akhir = $('#rute_id_akhir-PINDAH').val();
-                var id_survey_pasar = $('#id_survey_pasar-PINDAH').val();
+            // EDIT OUTLET
+            $(document).on('click', ".btnEdit", function() {
+                var nama_toko = $(this).closest('tr').find('.nama_toko').text();
+                var alamat = $(this).closest('tr').find('.alamat').text();
+                var kode_customer = $(this).closest('tr').find('.kode_customer').text().trim();
 
-                if (rute_id_akhir === '' || rute_id_akhir == null) {
-                    $('#rute_id_akhir-PINDAH').get(0).setCustomValidity('Harap isi Rute tujuan');
-                    $('#rute_id_akhir-PINDAH').get(0).reportValidity(); // Menampilkan pesan kesalahan
-                    return;
-                }
+                $('#alamat-baru').val(alamat);
+                $('#nama_toko-baru').val(nama_toko);
+                $('#kode_customer-baru').val(kode_customer);
+                // var index = $(".btnEdit").index(this);
 
-                $.ajax({
-                    type: 'POST',
-                    url: "{{ route('KodeCustomer.pindah') }}",
-                    dataType: 'json',
-                    encode: true,
-                    data: {
-                        id: id,
-                        id_pasar_awal: id_pasar_awal,
-                        rute_id_akhir: rute_id_akhir,
-                        id_survey_pasar: id_survey_pasar
-                    },
-                    beforeSend: function() {
-                        $('.loading-overlay').show();
-                    },
-                    success: function(response) {
-                        // console.log(response.message);
-                        $('#PindahOutletModal').modal('hide');
-                        $('#successModal #message').text(response.message);
-                        $('.modal-input').val('');
-                        $('#successModal').modal('show');
-                        setTimeout(function() {
-                            $('#successModal').modal('hide');
-                            location.reload();
-                        }, 3000);
-                    },
-                    error: function(xhr, status, error) {
-                        console.error(error);
-                        $('#errorModal #message').text(xhr.responseJSON.message);
-                        $('#errorModal').modal('show');
-                    },
-                    complete: function() {
-                        $('.loading-overlay').hide();
-                    }
+                // Tampilkan modal edit
+                $('#editModal').modal('show');
+
+                var selectedRows = [];
+
+                var id_wilayah = $(this).closest('tr').find('.nama_wilayah').text().match(
+                    /\(([^()]+)\)[^(]*$/)[1];
+                var id_survey_pasar = $(this).closest('tr').find('.id_survey_pasar').text();
+                var id_qr_outlet = $(this).closest('tr').find('.id_mco').text();
+                var mrdo_id = $(this).closest('tr').find('.id_mrdo').text();
+                var id = $(this).closest('tr').find('.rute_id').text();
+                var rute = $(this).closest('tr').find('.rute').text();
+                var hari = $(this).closest('tr').find('.hari').text();
+                var nama_toko = $(this).closest('tr').find('.nama_toko').text();
+                var alamat = $(this).closest('tr').find('.alamat').text();
+                var kode_customer = $(this).closest('tr').find('.kode_customer').text().trim();
+                var nama_wilayah = $(this).closest('tr').find('.nama_wilayah').text().trim().replace(
+                    /\s*\([^)]*\)$/, '');
+                var salesman = $(this).closest('tr').find('.salesman').text().trim().replace(
+                    /\s*\([^)]*\)$/, '');
+                var id_pasar = $(this).closest('tr').find('.id_pasar').text();
+                var location_type = $(this).closest('tr').find('.tipe_outlet').text().split(
+                    ' - ')[1].trim();
+                var source_type = $(this).closest('tr').find('.tipe_outlet').text().split(
+                    ' - ')[2].trim();
+
+                var dataObject = {};
+                dataObject['id_wilayah'] = id_wilayah;
+                dataObject['survey_pasar_id'] = id_survey_pasar;
+                dataObject['id_qr_outlet'] = id_qr_outlet;
+                dataObject['mrdo_id'] = mrdo_id;
+                dataObject['id'] = id;
+                dataObject['rute'] = rute;
+                dataObject['hari'] = hari;
+                dataObject['nama_toko'] = nama_toko;
+                dataObject['kode_customer'] = kode_customer;
+                dataObject['nama_wilayah'] = nama_wilayah;
+                dataObject['salesman'] = salesman;
+                dataObject['id_pasar'] = id_pasar;
+                dataObject['location_type'] = location_type;
+
+                $('#saveEdit').click(function(e) {
+                    e.preventDefault();
+                    var nama_toko_baru = $('#nama_toko-baru').val();
+                    var alamat_baru = $('#alamat-baru').val();
+                    var kode_customer_baru = $('#kode_customer-baru').val();
+
+                    var data = [];
+                    data.push(kode_customer_baru);
+                    data.push(nama_toko_baru);
+                    data.push(alamat_baru);
+                    data.push(location_type);
+                    data.push(id_pasar);
+                    data[5] = dataObject;
+                    selectedRows.push(data);
+
+                    $.ajax({
+                        type: 'post',
+                        url: "http://10.11.1.37/api/tool/outletkandidat/saveeditcustomer",
+                        dataType: 'json',
+                        encode: true,
+                        data: {
+                            data: selectedRows
+                        },
+                        beforeSend: function() {
+                            $('.loading-overlay').show();
+                        },
+                        success: function(response) {
+                            $('#successModal #message').text(response.message);
+                            $('#successModal').modal('show');
+                            setTimeout(function() {
+                                $('#successModal').modal('hide');
+                                location.reload();
+                            }, 3000);
+                        },
+                        error: function(xhr, status, error) {
+                            console.error(error);
+                            $('#errorModal #message').text(xhr.responseJSON.message);
+                            $('#errorModal').modal('show');
+                        },
+                        complete: function() {
+                            $('.loading-overlay').hide();
+                        }
+                    });
                 });
             });
 
-            // SET RETAIL/GROSIR
-            $(document).on('click', '.setRetail, .setGrosir', function() {
-                var index = $(this).data('row-index');
+            // PINDAH RUTE
+            $('.btnPindah').click(function(e) {
+                e.preventDefault();
+
+                $('#PindahRuteModal').modal('show');
+
+                var selectedRows = [];
+                var id_mrdo = $(this).closest('tr').find('.id_mrdo').text();
+                var rute_id = $(this).closest('tr').find('.rute_id').text();
+                var rute_detail_id = $(this).closest('tr').data('rute_detail_id');
+                var id_pasar = $(this).closest('tr').find('.id_pasar').text();
+                var id_survey_pasar = $(this).closest('tr').find('.id_survey_pasar').text();
+                var kode_customer = $(this).closest('tr').find('.kode_customer').text().trim();
+                var wilayah = $(this).closest('tr').find('.nama_wilayah').text().trim().replace(
+                    /\s*\([^)]*\)$/, '');
+                var salesman = $(this).closest('tr').find('.salesman').text().trim().replace(
+                    /\s*\([^)]*\)$/, '');
+                var location_type = $(this).closest('tr').find('.tipe_outlet').text().split(
+                    ' - ')[1];
+                var toko = $(this).closest('tr').find('.nama_toko').text();
+
+                var dataObject = {};
+                dataObject['id_mrdo'] = id_mrdo;
+                dataObject['rute_id'] = rute_id;
+                dataObject['rute_detail_id'] = rute_detail_id;
+                dataObject['id_pasar'] = id_pasar;
+                dataObject['survey_pasar_id'] = id_survey_pasar;
+                dataObject['kode_customer'] = kode_customer;
+                dataObject['wilayah'] = wilayah;
+                dataObject['salesman'] = salesman;
+                dataObject['location_type'] = location_type;
+                dataObject['toko'] = toko;
+
+                selectedRows.push(dataObject);
+
+                $('#savePindahRute').click(function(e) {
+                    e.preventDefault();
+
+                    var salesman_akhir = $('#salesman_akhir').val();
+                    var hari = $('#rute_id_akhir').text().split(' ')[0];
+                    var rute = $('#rute_id_akhir').val();
+
+                    if (rute === '' || rute == null) {
+                        $('#rute_id_akhir').get(0).setCustomValidity('Harap isi Rute tujuan');
+                        $('#rute_id_akhir').get(0).reportValidity(); // Menampilkan pesan kesalahan
+                        return;
+                    }
+
+                    $.ajax({
+                        type: 'post',
+                        url: "http://10.11.1.37/api/tool/outletkandidat/pindahoutlet",
+                        dataType: 'json',
+                        encode: true,
+                        data: {
+                            salesman: salesman_akhir,
+                            hari: hari,
+                            rute: rute,
+                            data_all: selectedRows
+                        },
+                        beforeSend: function() {
+                            $('.loading-overlay').show();
+                        },
+                        success: function(response) {
+                            if (response.is_valid) {
+                                $('#successModal').modal('show');
+                                setTimeout(function() {
+                                    $('#successModal').modal('hide');
+                                    location.reload();
+                                }, 3000);
+                            } else {
+                                $('#errorModal #message').text(response.message);
+                                $('#errorModal').modal('show');
+                            }
+                        },
+                        error: function(xhr, status, error) {
+                            console.error(error);
+                            $('#errorModal #message').text(xhr.responseJSON.message);
+                            $('#errorModal').modal('show');
+                        },
+                        complete: function() {
+                            $('.loading-overlay').hide();
+                        }
+                    });
+                });
+            });
+
+            // SET RETAIL
+            $(document).on('click', '.btnSetRetail, .btnSetGrosir', function() {
                 var id_mrdo = $(this).data('id_mrdo');
                 var id_mco = $(this).data('id_mco');
                 var set = $(this).data('set');
+                var tipe_outlet = $(this).closest('tr').find('.tipe_outlet');
 
                 $.ajax({
                     type: 'POST',
@@ -804,8 +886,11 @@
                         $('.loading-overlay').show();
                     },
                     success: function(response) {
-                        $('#tipe_outlet' + index).text(response.tipe_outlet ?? "RETAIL");
-
+                        var tipe_outlet_all = tipe_outlet.text().trim();
+                        var tipe_outlet_parts = tipe_outlet_all.split(' - ');
+                        tipe_outlet_parts[0] = response.tipe_outlet ?? "RETAIL";
+                        var tipe_outlet_modified = tipe_outlet_parts.join(' - ');
+                        tipe_outlet.html(tipe_outlet_modified);
                         $('.modal-input').val('');
                         $('#successModal').modal('show');
                     },
@@ -822,6 +907,7 @@
             // BYPASS QR
             $(document).on('click', '.bypassQR', function() {
                 var survey_pasar_id = $(this).data('survey_pasar_id');
+                var encodedData = btoa(JSON.stringify(survey_pasar_id));
                 $.ajax({
                     type: 'POST',
                     url: "http://10.11.1.37/api/tool/outletkandidat/bypassqr",
@@ -829,7 +915,7 @@
                     encode: true,
                     data: {
                         // _token: "{{ csrf_token() }}",
-                        survey_pasar: survey_pasar_id
+                        survey_pasar: encodedData
                     },
                     beforeSend: function() {
                         $('.loading-overlay').show();

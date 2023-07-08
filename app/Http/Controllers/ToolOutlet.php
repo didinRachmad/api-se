@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\DataTables;
 use Illuminate\Http\Request;
 
-class PindahOutlet extends Controller
+class ToolOutlet extends Controller
 {
     public function getSalesman(Request $request)
     {
@@ -137,11 +137,45 @@ class PindahOutlet extends Controller
                 $query->select('id_pasar', 'nama_pasar');
             }, 'mrdo.mco' => function ($query) {
                 $query->select('id', 'id_outlet_mas', 'kode_customer');
+            }, 'mrdo.mco.sp' => function ($query) {
+                $query->select('id', 'location_type', 'source_type');
             }, 'kr'])->where('salesman', $salesman_awal)->when($rute_id_awal, function ($query, $rute_id_awal) {
                 return $query->where('id', $rute_id_awal);
             })->get();
 
-        return view('PindahOutlet', compact('data', 'salesman_awal', 'id_salesman_awal', 'rute_id_awal', 'rute_awal'));
+        return view('ToolOutlet', compact('data', 'salesman_awal', 'id_salesman_awal', 'rute_id_awal', 'rute_awal'));
+    }
+
+    public function getOrder(Request $request)
+    {
+        $id_salesman = $request->input('id_salesman');
+        $tgl_transaksi = $request->input('tgl_transaksi');
+
+        $data = Order::select('id', 'nama_wilayah', 'no_order', 'id_salesman', 'nama_salesman', 'nama_toko', 'id_survey_pasar', 'total_rp', 'total_qty', 'total_transaksi', 'tgl_transaksi', 'document', 'closed_order', 'platform')->selectRaw('CASE WHEN (order.total_rp = 0) THEN "KUNJUNGAN" ELSE "ORDER" END AS status')
+            ->with(['art' => function ($query) {
+                $query->select('dataar', 'document');
+                $query->with(['ar' => function ($query) {
+                    $query->select('id', 'kode_customer', 'id_qr_outlet');
+                }]);
+            }])->where('id_salesman', $id_salesman)->where('tgl_transaksi', $tgl_transaksi)->get();
+
+        return DataTables::make($data)->addColumn('id_qr_outlet', function ($data) {
+            return $data->art->ar->id_qr_outlet;
+        })->addColumn('kode_customer', function ($data) {
+            return $data->art->ar->kode_customer;
+        })->toJson();
+    }
+
+    public function getKandidat(Request $request)
+    {
+        $id_salesman = $request->input('id_salesman');
+        $tgl_visit = $request->input('tgl_visit');
+
+        $data = VisitKandidat::select('nama_toko', 'nama_wilayah', 'status', 'reason', 'kode_customer', 'tgl_visit', 'lama_visit', 'nama_distributor', 'id_salesman', 'nama_salesman', 'updated_at')->where('id_salesman', $id_salesman)->where('tgl_visit', $tgl_visit)->get();
+
+        return DataTables::make($data)->addColumn('updated_at', function ($row) {
+            return date('Y-m-d H:i:s', strtotime($row->updated_at));
+        })->toJson();
     }
 
     public function pindah(Request $request)
@@ -340,5 +374,20 @@ class PindahOutlet extends Controller
 
             return response()->json(['message' => 'Terjadi kesalahan: ' . $e->getMessage()], 500);
         }
+    }
+
+    public function setOutlet(Request $request)
+    {
+        $mrdo = MasterRuteDetailOutlet::find($request->id_mrdo);
+        if ($mrdo != null) {
+            $mrdo->tipe_outlet = $request->set;
+            $mrdo->save();
+        }
+
+        Dataar::where('id_qr_outlet', $request->id_mco)->update(['tipe_outlet' => $request->set]);
+
+        return response()->json([
+            'tipe_outlet' => $mrdo->tipe_outlet
+        ]);
     }
 }

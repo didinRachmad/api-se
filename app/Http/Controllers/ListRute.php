@@ -47,4 +47,33 @@ class ListRute extends Controller
 
         return response()->json($response);
     }
+
+    public function getListRute(Request $request)
+    {
+        $salesman = $request->input('salesman');
+        $id_salesman = $request->input('id_salesman');
+
+        $request = [
+            'id_salesman' => $id_salesman
+        ];
+
+        $options = [
+            'http' => [
+                'method' => 'POST',
+                'header' => 'Content-Type: application/x-www-form-urlencoded',
+                'content' => http_build_query($request)
+            ]
+        ];
+
+        $context = stream_context_create($options);
+        $response = file_get_contents('http://10.11.1.37/api/downloadrute/getListRute', false, $context);
+        $data = json_decode($response, true);
+
+        if ($response !== false && isset($data['is_valid']) && $data['is_valid']) {
+            $data = $data['data'];
+        } else {
+            $data = [];
+        }
+        return view('ListRute', compact('data', 'salesman', 'id_salesman'));
+    }
 }

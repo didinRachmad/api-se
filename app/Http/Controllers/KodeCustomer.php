@@ -25,7 +25,7 @@ class KodeCustomer extends Controller
         $data = MasterConvertOutlet::with(['mrdo.mr.w', 'mrdo.mr.kr', 'mrdo.mrd' => function ($query) {
             $query->select('id', 'id_pasar', 'nama_pasar');
         }, 'sp' => function ($query) {
-            $query->select('id');
+            $query->select('id', 'location_type', 'source_type');
         }])->select('id', 'kode_customer', 'id_outlet_mas')->where('kode_customer', $kode_customer)->get();
 
         // return response()->json(['data' => $data]);
@@ -209,15 +209,15 @@ class KodeCustomer extends Controller
         $term = $request->input('q');
         $salesman = $request->input('salesman');
 
-        $rute = MasterRute::where('rute', 'LIKE', '%' . $term . '%')->where('salesman', $salesman)
+        $rute = MasterRute::where('rute', 'LIKE', '%' . $term . '%')->where('salesman', $salesman)->orderByDesc('rute')
             ->pluck('rute', 'id');
 
         $results = [];
 
-        foreach ($rute as $id => $rute) {
+        foreach ($rute as $id => $text) {
             $results[] = [
                 'id' => $id,
-                'text' => $rute,
+                'text' => $text,
             ];
         }
 

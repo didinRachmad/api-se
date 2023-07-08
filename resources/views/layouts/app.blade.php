@@ -141,7 +141,14 @@
             padding-top: 0.2rem;
         }
 
-        table.dataTable tbody th,
+        table.dataTable thead>tr>th.sorting {
+            padding: 5px;
+        }
+
+        table.dataTable thead th {
+            padding: 5px, 0;
+        }
+
         table.dataTable tbody td {
             padding: 0 5px;
         }
@@ -209,6 +216,10 @@
         .btn-close {
             background-color: #fff
         }
+
+        #action {
+            min-width: 70px;
+        }
     </style>
     <style>
         .dark {
@@ -231,8 +242,8 @@
         .form-control:-webkit-autofill,
         .form-select,
         .form-control:focus {
-            background-color: transparent;
-            color: #fff;
+            background-color: transparent !important;
+            color: #fff !important;
         }
 
         select.form-select::after {
@@ -342,18 +353,17 @@
                                 <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
                             </li>
                         @endif
-                        <li class="nav-item px-3">
+                        {{-- <li class="nav-item px-3">
                             <a class="btn btn-info" href="{{ route('RuteId.index') }}"><i
                                     class="bi bi-sign-turn-slight-right-fill"></i> {{ __('Rute Id') }}</a>
-                        </li>
+                        </li> --}}
                         <li class="nav-item px-3">
                             <a class="btn btn-info" href="{{ route('KodeCustomer.index') }}"><i class="bi bi-qr-code"></i>
                                 {{ __('Kode Customer') }}</a>
                         </li>
                         <li class="nav-item px-3">
-                            <a class="btn btn-info" href="{{ route('PindahOutlet.index') }}"><i
-                                    class="bi bi-sign-intersection-y-fill"></i>
-                                {{ __('Pindah Outlet') }}</a>
+                            <a class="btn btn-info" href="{{ route('ToolOutlet.index') }}"><i class="bi bi-gear-fill"></i>
+                                {{ __('Tool Outlet') }}</a>
                         </li>
                         <li class="nav-item px-3">
                             <a class="btn btn-info" href="{{ route('ListRute.index') }}"><i

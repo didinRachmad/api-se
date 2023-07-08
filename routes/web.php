@@ -9,7 +9,7 @@ use App\Http\Controllers\KodeCustomer;
 use App\Http\Controllers\GabungRute;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ListRute;
-use App\Http\Controllers\PindahOutlet;
+use App\Http\Controllers\ToolOutlet;
 use Illuminate\Support\Facades\Auth;
 
 
@@ -48,9 +48,11 @@ Route::prefix('KodeCustomer')->group(function () {
     Route::get('/', function () {
         return view('KodeCustomer');
     })->name('KodeCustomer.index');
+    Route::post('/getDataByKodeCustomer', [KodeCustomer::class, 'getDataByKodeCustomer'])->middleware('web')->name('KodeCustomer.getDataByKodeCustomer');
     Route::post('/autocomplete', [KodeCustomer::class, 'autocomplete'])->middleware('web')->name('KodeCustomer.autocomplete');
     Route::post('/getOrder', [KodeCustomer::class, 'getOrder'])->middleware('web')->name('KodeCustomer.getOrder');
-    Route::post('/getDataByKodeCustomer', [KodeCustomer::class, 'getDataByKodeCustomer'])->middleware('web')->name('KodeCustomer.getDataByKodeCustomer');
+    Route::get('/getSalesman', [KodeCustomer::class, 'getSalesman'])->middleware('web')->name('KodeCustomer.getSalesman');
+    Route::get('/getRute', [KodeCustomer::class, 'getRute'])->middleware('web')->name('KodeCustomer.getRute');
     Route::post('/update-alamat', [KodeCustomer::class, 'updateAlamat'])->middleware('web')->name('KodeCustomer.updateAlamat');
     Route::post('/update-kode', [KodeCustomer::class, 'updateKode'])->middleware('web')->name('KodeCustomer.updateKode');
     Route::post('/pindah', [KodeCustomer::class, 'pindah'])->middleware('web')->name('KodeCustomer.pindah');
@@ -71,17 +73,20 @@ Route::prefix('ExecRekap')->group(function () {
     Route::get('/', [ExecRekap::class, 'index'])->name('ExecRekap.index');
 });
 
-Route::prefix('PindahOutlet')->group(function () {
+Route::prefix('ToolOutlet')->group(function () {
     Route::get('/', function () {
-        return view('PindahOutlet');
-    })->name('PindahOutlet.index');
-    Route::get('/getSalesman', [PindahOutlet::class, 'getSalesman'])->name('PindahOutlet.getSalesman');
-    Route::get('/getRute', [PindahOutlet::class, 'getRute'])->name('PindahOutlet.getRute');
-    Route::get('/getPasar', [PindahOutlet::class, 'getPasar'])->name('PindahOutlet.getPasar');
-    Route::post('/', [PindahOutlet::class, 'getDataByRuteId'])->middleware('web')->name('PindahOutlet.getDataByRuteId');
-    Route::post('/pindah', [PindahOutlet::class, 'pindah'])->middleware('web')->name('PindahOutlet.pindah');
-    Route::post('/pindahPasar', [PindahOutlet::class, 'pindahPasar'])->middleware('web')->name('PindahOutlet.pindahPasar');
-    Route::post('/pindahLokasi', [PindahOutlet::class, 'pindahLokasi'])->middleware('web')->name('PindahOutlet.pindahLokasi');
+        return view('ToolOutlet');
+    })->name('ToolOutlet.index');
+    Route::get('/getSalesman', [ToolOutlet::class, 'getSalesman'])->name('ToolOutlet.getSalesman');
+    Route::get('/getRute', [ToolOutlet::class, 'getRute'])->name('ToolOutlet.getRute');
+    Route::get('/getPasar', [ToolOutlet::class, 'getPasar'])->name('ToolOutlet.getPasar');
+    Route::post('/getOrder', [ToolOutlet::class, 'getOrder'])->name('ToolOutlet.getOrder');
+    Route::post('/getKandidat', [ToolOutlet::class, 'getKandidat'])->name('ToolOutlet.getKandidat');
+    Route::post('/', [ToolOutlet::class, 'getDataByRuteId'])->middleware('web')->name('ToolOutlet.getDataByRuteId');
+    Route::post('/pindah', [ToolOutlet::class, 'pindah'])->middleware('web')->name('ToolOutlet.pindah');
+    Route::post('/pindahPasar', [ToolOutlet::class, 'pindahPasar'])->middleware('web')->name('ToolOutlet.pindahPasar');
+    Route::post('/pindahLokasi', [ToolOutlet::class, 'pindahLokasi'])->middleware('web')->name('ToolOutlet.pindahLokasi');
+    Route::post('/setOutlet', [ToolOutlet::class, 'setOutlet'])->middleware('web')->name('ToolOutlet.setOutlet');
 });
 
 Route::prefix('ListRute')->group(function () {
@@ -89,6 +94,7 @@ Route::prefix('ListRute')->group(function () {
         return view('ListRute');
     })->name('ListRute.index');
     Route::get('/getSalesman', [ListRute::class, 'getSalesman'])->name('ListRute.getSalesman');
+    Route::post('/getListRute', [ListRute::class, 'getListRute'])->name('ListRute.getListRute');
 });
 
 Route::prefix('FaceRecognition')->group(function () {

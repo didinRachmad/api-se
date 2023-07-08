@@ -9,251 +9,82 @@
     <div class="card">
         <div class="card-header">List Rute</div>
         <div class="card-body card-body-custom">
-            <div class="row">
-                <div class="col-lg-4">
-                    <div class="input-group input-group-sm flex-nowrap mb-3">
-                        <span class="input-group-text">Salesman</span>
-                        <select class="form-select form-select-sm select2-salesman w-100" name="salesman" id="salesman"
-                            required oninvalid="this.setCustomValidity('Harap Pilih Salesman')"
-                            oninput="setCustomValidity('')">
-                        </select>
+            <form class="form" method="POST" action="{{ route('ListRute.getListRute') }}">
+                @csrf
+                <div class="row">
+                    <div class="col-lg-4">
+                        <div class="input-group input-group-sm flex-nowrap mb-3">
+                            <span class="input-group-text">Salesman</span>
+                            <select class="form-select form-select-sm select2-salesman w-100" name="salesman" id="salesman"
+                                required oninvalid="this.setCustomValidity('Harap Pilih Salesman')"
+                                oninput="setCustomValidity('')">
+                                <option value="{{ old('salesman', $salesman ?? '') }}">
+                                    {{ old('salesman', $salesman ?? '') }}
+                                </option>
+                            </select>
+                        </div>
+                        <input type="hidden" name="id_salesman" id="id_salesman"
+                            value="{{ old('id_salesman', $id_salesman ?? '') }}">
                     </div>
-                    <input type="hidden" name="id_salesman" id="id_salesman">
-                </div>
-                <div class="col-lg-4">
-                    <button type="button" class="btn btn-primary btn-sm" id="btnSearch">Search <span> <i
-                                class="bi bi-search"></i></span></button>
-                    {{-- <button type="button" class="btn btn-info btn-sm btnOrder">Order <span> <i
+                    <div class="col-lg-4">
+                        <button type="submit" class="btn btn-primary btn-sm" id="btnSearch">Search <span> <i
+                                    class="bi bi-search"></i></span></button>
+                        {{-- <button type="button" class="btn btn-info btn-sm btnOrder">Order <span> <i
                                 class="bi bi-journal-text"></i></span></button>
                     <button type="button" class="btn btn-warning btn-sm btnKandidat">Kandidat <span> <i
                                 class="bi bi-journal-text"></i></span></button> --}}
+                    </div>
                 </div>
-            </div>
+            </form>
             {{-- <textarea name="tes" id="tes" class="form-control w-100" cols="30" rows="10"></textarea> --}}
             <div class="table-responsive pt-3">
                 <table class="table table-sm table-dark table-striped table-bordered align-middle myTable">
                     <thead class="text-center">
                         <th>no</th>
-                        <th>nik_user</th>
-                        <th>alamat_toko</th>
-                        <th>kode_toko</th>
-                        <th>nama_toko</th>
-                        <th>nama_pemilik</th>
-                        <th>no_telp</th>
-                        <th>nama_wilayah</th>
-                        <th>id_pasar</th>
-                        <th>nama_pasar</th>
+                        <th>nama wilayah</th>
+                        <th>id_salesman</th>
+                        <th>salesman</th>
                         <th>id_survey_pasar</th>
-                        <th>id_sales_ekslusif</th>
-                        <th>nama_sales_ekslusif</th>
+                        <th>kode customer</th>
+                        <th>nama toko</th>
+                        <th>alamat</th>
+                        <th>pemilik</th>
+                        <th>id_pasar</th>
+                        <th>nama pasar</th>
                         <th>id_qrcode</th>
                         <th>latitude</th>
                         <th>longitude</th>
                     </thead>
                     <tbody id="bodyTabelRute">
+                        @php
+                            $no = 0;
+                        @endphp
+                        @foreach ($data as $mr)
+                            @php
+                                $no += 1;
+                            @endphp
+                            <tr class="warnaBaris">
+                                <td></td>
+                                <td>{{ $mr['nama_wilayah'] }}</td>
+                                <td>{{ $mr['id_sales_ekslusif'] }}</td>
+                                <td>{{ $mr['nama_sales_ekslusif'] }}</td>
+                                <td>{{ $mr['id_survey_pasar'] }}</td>
+                                <td class="text-primary fw-bold">{{ $mr['kode_toko'] }}</td>
+                                <td>{{ $mr['nama_toko'] }}</td>
+                                <td>{{ $mr['alamat_toko'] }}</td>
+                                <td>{{ $mr['nama_pemilik'] }}</td>
+                                <td>{{ $mr['id_pasar'] }}</td>
+                                <td>{{ $mr['nama_pasar'] }}</td>
+                                <td>{{ $mr['id_qrcode'] }}</td>
+                                <td>{{ $mr['latitude'] }}</td>
+                                <td>{{ $mr['longitude'] }}</td>
+                            </tr>
+                        @endforeach
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
-
-    <!-- Modal Order -->
-    <div class="modal fade" id="orderModal" tabindex="-1" role="dialog" aria-labelledby="orderModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog modal-xl" role="document">
-            <div class="modal-content card">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="orderModalLabel">Data Order</h5>
-                    <input type='date' class='form-control form-control-sm date' id='tgl_transaksi' name='tanggal'
-                        value='<?= date('Y-m-d') ?>'>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="table-responsive">
-                        <table class="table table-sm table-dark  table-striped table-bordered TableOrder">
-                            <thead class="text-center">
-                                <th>no</th>
-                                <th>id</th>
-                                <th>wilayah</th>
-                                <th>no_order</th>
-                                <th>nama_salesman</th>
-                                <th>nama_toko</th>
-                                <th>id_survey_pasar</th>
-                                <th>status</th>
-                                <th>total_rp</th>
-                                <th>total_qty</th>
-                                <th>total_transaksi</th>
-                                <th>tgl_transaksi</th>
-                                <th>document</th>
-                                <th>closed_order</th>
-                                <th>platform</th>
-                                <th>id_qr_outlet</th>
-                                <th>kode_customer</th>
-                            </thead>
-                            <tbody id="bodyTabelOrder">
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal Kandidat -->
-    <div class="modal fade" id="KandidatModal" tabindex="-1" role="dialog" aria-labelledby="KandidatModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog modal-xl" role="document">
-            <div class="modal-content card">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="KandidatModalLabel">Data Kandidat</h5>
-                    <input type='date' class='form-control form-control-sm date' id='tgl_visit' name='tanggal'
-                        value='<?= date('Y-m-d') ?>'>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="table-responsive">
-                        <table class="table table-sm table-dark table-striped table-bordered TableKandidat w-100">
-                            <thead class="text-center">
-                                <th>No</th>
-                                <th>Distributor</th>
-                                <th>Wilayah</th>
-                                <th>id_salesman</th>
-                                <th>Salesman</th>
-                                <th>Nama Toko</th>
-                                <th>Status</th>
-                                <th>Reason</th>
-                                <th>Kode Customer</th>
-                                <th>Tgl Visit</th>
-                                <th>Lama Visit</th>
-                                <th>Jam Masuk</th>
-                            </thead>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal Edit Alamat -->
-    <div class="modal fade" id="editAlamatModal" tabindex="-1" role="dialog" aria-labelledby="editAlamatModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content card">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="editAlamatModalLabel">Edit Alamat</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form id="editAlamat">
-                        @csrf
-                        <!-- Tambahkan kolom baru -->
-                        <div class="form-group">
-                            <input type="hidden" id="index-ALAMAT" name="index-ALAMAT" readonly>
-                            <input type="hidden" id="survey_pasar_id-ALAMAT" name="survey_pasar_id-ALAMAT" readonly>
-                            <input type="hidden" id="id_mco-ALAMAT" name="id_mco-ALAMAT" readonly>
-                            <label for="alamat-baru">Alamat</label>
-                            <input type="text" class="form-control modal-input" id="alamat-baru" name="alamat-baru">
-                        </div>
-                        <!-- Kolom input field untuk alamat yang akan diupdate -->
-                        <div class="form-group">
-                            <label for="alamat-baru">Nama Toko</label>
-                            <input type="text" class="form-control modal-input" id="nama_toko-baru"
-                                name="nama_toko-baru">
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
-                        aria-label="Close">Batal</button>
-                    <button type="button" class="btn btn-primary" id="saveEditAlamat">Simpan</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal Edit Kode Customer -->
-    <div class="modal fade" id="editKodeModal" tabindex="-1" role="dialog" aria-labelledby="editKodeModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content card">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="editKodeModalLabel">Edit Kode Customer</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form id="editKode">
-                        @csrf
-                        <!-- Tambahkan kolom baru -->
-                        <div class="form-group">
-                            <input type="hidden" id="index-KODE" name="index-KODE" readonly>
-                            <input type="hidden" id="id_mco-KODE" name="id_mco-KODE" readonly>
-                            <input type="hidden" id="survey_pasar_id-KODE" name="survey_pasar_id-KODE" readonly>
-                            <label for="kode-awal">Kode Customer Awal</label>
-                            <input type="text" class="form-control modal-input" id="kode-awal" name="kode-awal"
-                                readonly>
-                        </div>
-                        <!-- Kolom input field untuk alamat yang akan diupdate -->
-                        <div class="form-group">
-                            <label for="kode-baru">Kode Customer Baru</label>
-                            <input type="text" class="form-control modal-input" id="kode-baru" name="kode-baru">
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
-                        aria-label="Close">Batal</button>
-                    <button type="button" class="btn btn-primary" id="saveEditKode">Simpan</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal Pindah Pasar -->
-    <div class="modal fade" id="PindahPasarModal" tabindex="-1" role="dialog" aria-labelledby="PindahPasarModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content card">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="PindahPasarModalLabel">Pindah Pasar</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="form-group">
-                        <div class="input-group input-group-sm flex-nowrap mb-3">
-                            <span class="input-group-text">Pasar</span>
-                            <select class="form-select form-select-sm select2-pasar_akhir w-100" id="pasar_akhir">
-                            </select>
-                        </div>
-                        <input type="hidden" id="id_mrdo-PASAR" readonly>
-                        <input type="hidden" id="id_mco-PASAR" readonly>
-                        <input type="hidden" id="survey_pasar_id-PASAR" readonly>
-                        <input type="hidden" id="rute_id-PASAR" readonly>
-                        <input type="hidden" id="id_pasar-PASAR" readonly>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
-                        aria-label="Close">Batal</button>
-                    <button type="button" class="btn btn-primary" id="savePindahPasar">Simpan</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    {{-- TOAST SALIN KODE --}}
-    <div class="toast-container position-fixed top-0 end-0 p-5">
-        <div class="toast align-items-center text-bg-success border-0" id="toastSalinKode" role="alert"
-            aria-live="assertive" aria-atomic="true">
-            <div class="d-flex">
-                <div class="toast-body">
-                    Data berhasil disalin
-                </div>
-                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
-                    aria-label="Close"></button>
-            </div>
-        </div>
-    </div>
-
 
     <script>
         $(document).ready(function() {
@@ -303,124 +134,94 @@
             });
 
             var table = $('.myTable').DataTable({
-                processing: true,
-                serverSide: true,
-                dom: "<'row'<'col-sm-12 col-md-12'B>> " +
+                "dom": "<'row'<'col-sm-12 col-md-2 filter-survey_pasar'><'col-sm-12 col-md-2 filter-KodeCustomer'><'col-sm-12 col-md-3 filter-NamaToko'><'col-sm-12 col-md-3 filter-jenis_outlet'B><'col-sm-12 col-md-2 text-right'f>>" +
                     "<'row'<'col-sm-12'tr>>" +
                     "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
-                // scrollY: 260,
-                // "lengthMenu": [10, 25, 50, 75, 100, 500],
-                // "pageLength": 100,
                 "paging": false,
                 buttons: [{
                     extend: 'copy',
-                    title: 'Data ' + $('#nama-salesman').text() + " - " + $('#nama-distributor')
-                        .text() + " - " +
-                        $('#nama-wilayah').text(),
-                    exportOptions: {
-                        columns: ':not(.no-export)'
-                    }
+                    title: 'Data ' + $('#nama-salesman').text() + " - " + $('#id_salesman')
+                        .text(),
                 }, 'csv', {
                     extend: 'excel',
-                    title: 'Data ' + $('#nama-salesman').text() + " - " + $('#nama-distributor')
-                        .text() + " - " +
-                        $('#nama-wilayah').text(),
-                    exportOptions: {
-                        columns: ':not(.no-export)'
-                    }
+                    title: 'Data ' + $('#nama-salesman').text() + " - " + $('#id_salesman')
+                        .text(),
                 }, 'pdf', 'print'],
-                ajax: {
-                    url: "http://sales.motasaindonesia.co.id/api/downloadrute/getListRute",
-                    type: 'POST',
-                    data: function(d) {
-                        d.id_salesman = $('#id_salesman').val();
-                    },
-                },
-                order: [
-                    [11, 'asc'],
-                    [2, 'asc'],
-                    [4, 'asc']
-                ],
-                columnDefs: [{
-                    targets: [1, 6, 12, 13, 15, 14],
-                    className: 'no-export' // kelas no-export
+                "columnDefs": [{
+                    "orderable": false,
+                    "targets": [0],
                 }],
-                columns: [{
-                        "title": "no",
-                        "orderable": false,
-                        "searchable": false,
-                        "width": "30px",
-                        "className": "dt-center",
-                        'render': function(data, type, full, meta) {
-                            return meta.row + 1;
-                        },
-                        "name": "no"
-                    }, {
-                        data: "nik_user",
-                        name: "nik_user"
-                    },
-                    {
-                        data: "alamat_toko",
-                        name: "alamat_toko"
-                    },
-                    {
-                        data: "kode_toko",
-                        name: "kode_toko"
-                    },
-                    {
-                        data: "nama_toko",
-                        name: "nama_toko"
-                    },
-                    {
-                        data: "nama_pemilik",
-                        name: "nama_pemilik"
-                    },
-                    {
-                        data: "no_telp",
-                        name: "no_telp"
-                    },
-                    {
-                        data: "nama_wilayah",
-                        name: "nama_wilayah"
-                    },
-                    {
-                        data: "id_pasar",
-                        name: "id_pasar"
-                    },
-                    {
-                        data: "nama_pasar",
-                        name: "nama_pasar"
-                    },
-                    {
-                        data: "id_survey_pasar",
-                        name: "id_survey_pasar"
-                    },
-                    {
-                        data: "id_sales_ekslusif",
-                        name: "id_sales_ekslusif"
-                    },
-                    {
-                        data: "nama_sales_ekslusif",
-                        name: "nama_sales_ekslusif"
-                    },
-                    {
-                        data: "id_qrcode",
-                        name: "id_qrcode"
-                    },
-                    {
-                        data: "latitude",
-                        name: "latitude"
-                    },
-                    {
-                        data: "longitude",
-                        name: "longitude"
-                    },
+                "order": [
+                    [1, 'asc'],
+                    [6, 'desc'],
+                    [11, 'asc']
                 ],
-            });
+                "initComplete": function(settings, json) {
+                    $(`<select class="form-select form-select-sm w-50">
+                        <option value="">Semua</option>
+                        <option value="KANDIDAT">Kandidat</option>
+                        <option value="RO">RO</option>
+                        </select>`)
+                        .appendTo('.filter-jenis_outlet')
+                        .on('change', function() {
+                            var val = $.fn.dataTable.util.escapeRegex(
+                                $(this).val()
+                            );
+                            if (val === '') {
+                                table.columns(3).search('').draw();
+                            } else if (val ===
+                                'KANDIDAT') {
+                                table.columns(3).search('^(0|null|)$', true, false).draw();
+                            } else if (val === 'RO') {
+                                table.columns(3).search('^(?!0|!|!null).+$', true, false).draw();
+                            }
+                        });
 
-            $(document).on('click', "#btnSearch", function() {
-                table.draw();
+                    // FILTER SURVEY_PASAR
+                    $(`<textarea id="filterSurveyPasar" class="form-control" rows="2" placeholder="Filter Survey Pasar"></textarea>`)
+                        .appendTo('.filter-survey_pasar')
+                        .on('input', function() {
+                            var filterSurveyPasar = $(this).val().trim().split('\n').map(function(
+                                item) {
+                                return '^' + item.trim() + '$';
+                            }).join('|');
+
+                            table.column(5).search(filterSurveyPasar, true, false).draw();
+                        });
+
+                    // FILTER KODE CUSTOMER
+                    $(`<textarea id="filterKodeCustomer" class="form-control" rows="2" placeholder="Filter Kode Customer"></textarea>`)
+                        .appendTo('.filter-KodeCustomer')
+                        .on('input', function() {
+                            var filterKodeCustomer = $(this).val().trim().split('\n').map(function(
+                                item) {
+                                return '^' + item.trim() + '$';
+                            }).join('|');
+
+                            table.column(6).search(filterKodeCustomer, true, false).draw();
+                        });
+
+                    // FILTER NAMA TOKO
+                    $(`<textarea id="filterNamaToko" class="form-control" rows="2" placeholder="Filter Nama Toko"></textarea>`)
+                        .appendTo('.filter-NamaToko')
+                        .on('input', function() {
+                            var filterNamaToko = $(this).val().trim().split('\n').map(function(
+                                item) {
+                                return item.trim();
+                            }).join('|');
+
+                            table.column(7).search(filterNamaToko, true, false).draw();
+                        });
+                }
             });
+            table.on('order.dt search.dt', function() {
+                table.column(0, {
+                    search: 'applied',
+                    order: 'applied'
+                }).nodes().each(function(cell, i) {
+                    cell.innerHTML = i + 1;
+                });
+            }).draw();
         });
     </script>
 @endsection
