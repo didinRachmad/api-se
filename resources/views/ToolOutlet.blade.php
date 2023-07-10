@@ -61,138 +61,134 @@
                         <button type="button" class="btn btn-success btn-sm" id="btnPindahLokasi">Pindah Lokasi <span><i
                                     class="bi bi-sign-intersection-y-fill"></i></span></button>
                     </div>
-
-                    @if (!isset($data))
-                        @php
-                            $data = collect();
-                        @endphp
-                        <div class="row py-3"></div>
-                    @else
-                        <div class="row py-3">
-                            <div class="col-lg-12">
-                                <p class="d-inline-block pe-3">Distributor : <span class="fw-bold"
-                                        id="nama-distributor">{{ $data->first()->d->nama_distributor ?? '' }}
-                                        ({{ $data->first()->d->id_distributor ?? '' }})</span>
-                                </p>
-                                <p class="d-inline-block pe-3">Wilayah : <span class="fw-bold"
-                                        id="nama_wilayah">{{ $data->first()->w->nama_wilayah ?? '' }}
-                                        ({{ $data->first()->w->id_wilayah ?? '' }})</span>
-                                </p>
-                                <p class="d-inline-block pe-3">Nama Salesman : <span class="fw-bold"
-                                        id="nama-salesman">{{ $data->first()->salesman ?? '' }}
-                                        ({{ $data->first()->kr->id_salesman_mss ?? '' }})</span>
-                                </p>
-                                <button type="button" class="btn btn-info btn-sm btnOrder">Order <span> <i
-                                            class="bi bi-journal-text"></i></span></button>
-                                <button type="button" class="btn btn-warning btn-sm btnKandidat">Kandidat <span> <i
-                                            class="bi bi-journal-text"></i></span></button>
-                            </div>
-                        </div>
-                    @endif
-                </div>
             </form>
-            <div class="table-responsive">
-                <table class="table table-sm table-dark table-striped table-bordered align-middle myTable" id="myTable">
-                    <thead class="text-center">
-                        <th>no</th>
-                        <th>rute</th>
-                        <th>hari</th>
-                        <th>rute id</th>
-                        <th>id mrdo</th>
-                        <th>survey pasar id</th>
-                        <th>Kode Customer <button type="button" class="btn btn-sm btn-secondary"
-                                id="salinKode">Salin</button></th>
-                        <th>Nama Toko <button type="button" class="btn btn-sm btn-secondary"
-                                id="salinNamaToko">Salin</button></th>
-                        <th>Alamat</th>
-                        <th>id mco</th>
-                        <th>id pasar mrd</th>
-                        <th>nama pasar mrd</th>
-                        <th>nama pasar mp</th>
-                        <th>Tipe Outlet</th>
-                        <th class="text-center" id="action">Action</th>
-                        <th class="text-center">
-                            <input type="checkbox" class="btn-check check-all" id="check-all" autocomplete="off">
-                            <label class="btn btn-sm btn-outline-success" for="check-all">All</label>
-                        </th>
-                    </thead>
-                    <tbody>
-                        @php
-                            $no = 0;
-                        @endphp
-                        @foreach ($data as $mr)
-                            @foreach ($mr->mrdo as $mrdo)
-                                @foreach ($mrdo->mco as $mco)
-                                    @php
-                                        $no += 1;
-                                    @endphp
-                                    <tr class="warnaBaris" data-id="{{ $mrdo->id }}" data-id_mco="{{ $mco->id }}"
-                                        data-id_pasar_awal="{{ $mrdo->id_pasar }}"
-                                        data-rute_id_awal="{{ $mrdo->rute_id }}"
-                                        data-id_survey_pasar="{{ $mrdo->survey_pasar_id }}"
-                                        data-rute_detail_id="{{ $mrdo->rute_detail_id }}">
-                                        <td></td>
-                                        <td class="rute">{{ $mr->rute }}</td>
-                                        <td class="hari">{{ $mr->hari }}</td>
-                                        <td class="rute_id">{{ $mrdo->rute_id }}</td>
-                                        <td class="id_mrdo">{{ $mrdo->id }}</td>
-                                        <td class="survey_pasar_id">{{ $mrdo->survey_pasar_id }}</td>
-                                        <td class="text-primary fw-bold kode_customer">{{ $mco->kode_customer }}</td>
-                                        <td class="nama_toko">{{ $mrdo->nama_toko }}</td>
-                                        <td class="alamat" id="alamat{{ $no }}">{{ $mrdo->alamat }}</td>
-                                        <td class="id_mco">{{ $mco->id }}</td>
-                                        <td class="id_pasar">{{ $mrdo->mrd->id_pasar ?? '' }}</td>
-                                        <td class="nama_pasar">{{ $mrdo->mrd->nama_pasar ?? '' }}</td>
-                                        <td>{{ $mrdo->mp->nama_pasar ?? '' }}</td>
-                                        <td class="tipe_outlet">{{ $mrdo->tipe_outlet ?? 'RETAIL' }}
-                                            - {{ $mco->sp->location_type ?? '' }} - {{ $mco->sp->source_type ?? '' }}
-                                        </td>
-                                        <td>
-                                            <div class="row px-2 py-1">
-                                                <div class="col-6 px-0">
-                                                    <button type="button"
-                                                        class="btn btn-sm p-1 btn-warning btnEdit w-100">Edit</button>
-                                                </div>
-                                                <div class="col-6 px-0">
-                                                    <button type="button"
-                                                        class="btn btn-sm p-1 btn-info w-100 btnSetRetail"
-                                                        data-row-index="{{ $no }}"
-                                                        data-id_mrdo="{{ $mrdo->id }}"
-                                                        data-id_mco="{{ $mco->id }}"
-                                                        data-set={{ null }}>Retail</button>
-                                                </div>
-                                                <div class="col-6 px-0">
-                                                    <button type="button"
-                                                        class="btn btn-sm p-1 btn-success w-100 btnSetGrosir"
-                                                        data-row-index="{{ $no }}"
-                                                        data-id_mrdo="{{ $mrdo->id }}"
-                                                        data-id_mco="{{ $mco->id }}"
-                                                        data-set="TPOUT_WHSL">Grosir</button>
-                                                </div>
-                                                <div class="col-6 px-0">
-                                                    <button type="button" class="btn btn-sm p-1 btn-light w-100 bypassQR"
-                                                        data-survey_pasar_id="{{ $mco->sp->id }}">QR</button>
-                                                </div>
-                                                {{-- <div class="col-6 px-0">
+
+            @if (!isset($data))
+                @php
+                    $data = collect();
+                @endphp
+                <div class="row py-3"></div>
+            @else
+                <div class="row py-3">
+                    <div class="col-lg-12">
+                        <p class="d-inline-block pe-3">Distributor : <span class="fw-bold"
+                                id="nama-distributor">{{ $data->first()->d->nama_distributor ?? '' }}
+                                ({{ $data->first()->d->id_distributor ?? '' }})</span>
+                        </p>
+                        <p class="d-inline-block pe-3">Wilayah : <span class="fw-bold"
+                                id="nama_wilayah">{{ $data->first()->w->nama_wilayah ?? '' }}
+                                ({{ $data->first()->w->id_wilayah ?? '' }})</span>
+                        </p>
+                        <p class="d-inline-block pe-3">Nama Salesman : <span class="fw-bold"
+                                id="nama-salesman">{{ $data->first()->salesman ?? '' }}
+                                ({{ $data->first()->kr->id_salesman_mss ?? '' }})</span>
+                        </p>
+                        <button type="button" class="btn btn-info btn-sm btnOrder">Order <span> <i
+                                    class="bi bi-journal-text"></i></span></button>
+                        <button type="button" class="btn btn-warning btn-sm btnKandidat">Kandidat <span> <i
+                                    class="bi bi-journal-text"></i></span></button>
+                    </div>
+                </div>
+            @endif
+        </div>
+        <div class="table-responsive">
+            <table class="table table-sm table-dark table-striped table-bordered align-middle myTable" id="myTable">
+                <thead class="text-center">
+                    <th>no</th>
+                    <th>rute</th>
+                    <th>hari</th>
+                    <th>rute id</th>
+                    <th>id mrdo</th>
+                    <th>survey pasar id</th>
+                    <th>Kode Customer <button type="button" class="btn btn-sm btn-secondary" id="salinKode">Salin</button>
+                    </th>
+                    <th>Nama Toko <button type="button" class="btn btn-sm btn-secondary" id="salinNamaToko">Salin</button>
+                    </th>
+                    <th>Alamat</th>
+                    <th>id mco</th>
+                    <th>id pasar mrd</th>
+                    <th>nama pasar mrd</th>
+                    <th>nama pasar mp</th>
+                    <th>Tipe Outlet</th>
+                    <th class="text-center" id="action">Action</th>
+                    <th class="text-center">
+                        <input type="checkbox" class="btn-check check-all" id="check-all" autocomplete="off">
+                        <label class="btn btn-sm btn-outline-success" for="check-all">All</label>
+                    </th>
+                </thead>
+                <tbody>
+                    @php
+                        $no = 0;
+                    @endphp
+                    @foreach ($data as $mr)
+                        @foreach ($mr->mrdo as $mrdo)
+                            @foreach ($mrdo->mco as $mco)
+                                @php
+                                    $no += 1;
+                                @endphp
+                                <tr class="warnaBaris" data-id="{{ $mrdo->id }}" data-id_mco="{{ $mco->id }}"
+                                    data-id_pasar_awal="{{ $mrdo->id_pasar }}" data-rute_id_awal="{{ $mrdo->rute_id }}"
+                                    data-id_survey_pasar="{{ $mrdo->survey_pasar_id }}"
+                                    data-rute_detail_id="{{ $mrdo->rute_detail_id }}">
+                                    <td></td>
+                                    <td class="rute">{{ $mr->rute }}</td>
+                                    <td class="hari">{{ $mr->hari }}</td>
+                                    <td class="rute_id">{{ $mrdo->rute_id }}</td>
+                                    <td class="id_mrdo">{{ $mrdo->id }}</td>
+                                    <td class="survey_pasar_id">{{ $mrdo->survey_pasar_id }}</td>
+                                    <td class="text-primary fw-bold kode_customer">{{ $mco->kode_customer }}</td>
+                                    <td class="nama_toko">{{ $mrdo->nama_toko }}</td>
+                                    <td class="alamat" id="alamat{{ $no }}">{{ $mrdo->alamat }}</td>
+                                    <td class="id_mco">{{ $mco->id }}</td>
+                                    <td class="id_pasar">{{ $mrdo->mrd->id_pasar ?? '' }}</td>
+                                    <td class="nama_pasar">{{ $mrdo->mrd->nama_pasar ?? '' }}</td>
+                                    <td>{{ $mrdo->mp->nama_pasar ?? '' }}</td>
+                                    <td class="tipe_outlet">{{ $mrdo->tipe_outlet ?? 'RETAIL' }}
+                                        - {{ $mco->sp->location_type ?? '' }} - {{ $mco->sp->source_type ?? '' }}
+                                    </td>
+                                    <td>
+                                        <div class="row px-2 py-1">
+                                            <div class="col-6 px-0">
+                                                <button type="button"
+                                                    class="btn btn-sm p-1 btn-warning btnEdit w-100">Edit</button>
+                                            </div>
+                                            <div class="col-6 px-0">
+                                                <button type="button" class="btn btn-sm p-1 btn-info w-100 btnSetRetail"
+                                                    data-row-index="{{ $no }}"
+                                                    data-id_mrdo="{{ $mrdo->id }}" data-id_mco="{{ $mco->id }}"
+                                                    data-set={{ null }}>Retail</button>
+                                            </div>
+                                            <div class="col-6 px-0">
+                                                <button type="button"
+                                                    class="btn btn-sm p-1 btn-success w-100 btnSetGrosir"
+                                                    data-row-index="{{ $no }}"
+                                                    data-id_mrdo="{{ $mrdo->id }}" data-id_mco="{{ $mco->id }}"
+                                                    data-set="TPOUT_WHSL">Grosir</button>
+                                            </div>
+                                            <div class="col-6 px-0">
+                                                <button type="button" class="btn btn-sm p-1 btn-light w-100 bypassQR"
+                                                    data-survey_pasar_id="{{ $mco->sp->id }}">QR</button>
+                                            </div>
+                                            {{-- <div class="col-6 px-0">
                                                     <button type="button"
                                                         class="btn btn-sm p-1 btn-danger w-100 btnHapus">Hapus</button>
                                                 </div> --}}
-                                            </div>
-                                        </td>
-                                        <td class="text-center">
-                                            <input type="checkbox" class="btn-check check" id="check{{ $no }}"
-                                                autocomplete="off">
-                                            <label class="btn btn-sm btn-outline-success"
-                                                for="check{{ $no }}">Pilih</label>
-                                        </td>
-                                    </tr>
-                                @endforeach
+                                        </div>
+                                    </td>
+                                    <td class="text-center">
+                                        <input type="checkbox" class="btn-check check" id="check{{ $no }}"
+                                            autocomplete="off">
+                                        <label class="btn btn-sm btn-outline-success"
+                                            for="check{{ $no }}">Pilih</label>
+                                    </td>
+                                </tr>
                             @endforeach
                         @endforeach
-                    </tbody>
-                </table>
-            </div>
+                    @endforeach
+                </tbody>
+            </table>
         </div>
+    </div>
     </div>
 
     <!-- Modal Order -->
@@ -386,6 +382,13 @@
 
     <script>
         $(document).ready(function() {
+
+            $('form').submit(function() {
+                // Nonaktifkan validasi ketika form di-submit
+                isValidationEnabled = false;
+                $('#rute_id_akhir').get(0).setCustomValidity(''); // Menghapus validasi pada rute_id_akhir
+            });
+
             $('.select2-salesman_awal').select2({
                 theme: 'bootstrap-5',
                 ajax: {

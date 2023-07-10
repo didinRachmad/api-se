@@ -56,6 +56,11 @@
                         <th>longitude</th>
                     </thead>
                     <tbody id="bodyTabelRute">
+                        @if (!isset($data))
+                            @php
+                                $data = [];
+                            @endphp
+                        @endif
                         @php
                             $no = 0;
                         @endphp
@@ -152,9 +157,7 @@
                     "targets": [0],
                 }],
                 "order": [
-                    [1, 'asc'],
-                    [6, 'desc'],
-                    [11, 'asc']
+                    [5, 'desc']
                 ],
                 "initComplete": function(settings, json) {
                     $(`<select class="form-select form-select-sm w-50">
