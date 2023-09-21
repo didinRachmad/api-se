@@ -139,6 +139,7 @@
                         <th>nama pasar mrd</th>
                         <th>nama pasar mp</th>
                         <th>Tipe Outlet</th>
+                        <th>salesman</th>
                         <th class="text-center" id="action">Action</th>
                         <th class="text-center">
                             <input type="checkbox" class="btn-check check-all" id="check-all" autocomplete="off">
@@ -177,6 +178,7 @@
                                         {{ $mrdo->tipe_outlet ?? 'RETAIL' }} - {{ $mrdo->mco->sp->location_type ?? '' }} -
                                         {{ $mrdo->mco->sp->source_type ?? '' }}
                                     </td>
+                                    <td class="salesman">{{ $mr->salesman }}</td>
                                     <td>
                                         <div class="row px-2 py-1">
                                             <div class="col-12 px-0">
@@ -646,8 +648,11 @@
                 }, 'print'],
                 "columnDefs": [{
                     "orderable": false,
-                    "targets": [0, 14, 15],
+                    "targets": [0, 15, 16],
                     "className": 'no-export'
+                }, {
+                    "targets": [14],
+                    "visible": false,
                 }],
                 "order": [
                     [1, 'asc'],
@@ -747,6 +752,7 @@
                         });
                 }
             });
+            table.column(14).search($('#salesman_awal').val()).draw();
             table.column(3).search($('#rute_id_awal').val()).draw();
             table.on('order.dt search.dt', function() {
                 table.column(0, {
@@ -903,7 +909,7 @@
                             [4, 'asc']
                         ],
                         columnDefs: [{
-                            targets: [1, 13, 14, 16],
+                            targets: [1, 13, 14, 15, 16],
                             className: 'no-export' // kelas no-export
                         }],
                         columns: [{
@@ -1331,6 +1337,8 @@
                                     hari_akhir;
                                 rowData[3] =
                                     rute_id_akhir;
+                                rowData[14] =
+                                    salesman_akhir;
 
                                 table.row('[data-id="' +
                                     mrdo_id + '"]').data(

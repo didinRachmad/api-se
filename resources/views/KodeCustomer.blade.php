@@ -136,8 +136,17 @@
                                                     class="btn btn-sm p-1 btn-warning btn-block w-100 btnEdit">Edit</button>
                                             </div>
                                             <div class="col-6 px-0">
-                                                <button type="button"
-                                                    class="btn btn-sm p-1 btn-danger btn-block w-100 btnHapus">Hapus</button>
+                                                <div class="btn-group btn-block w-100">
+                                                    <button class="btn btn-danger btn-sm btn-block w-100 dropdown-toggle"
+                                                        type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                        Hapus
+                                                    </button>
+                                                    <ul class="dropdown-menu">
+                                                        <li><a class="dropdown-item btnHapus" href="#">Biasa</a></li>
+                                                        <li><a class="dropdown-item btnHapus" href="#">Permanent</a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
                                             </div>
                                             {{-- <div class="col-6 px-0">
                                                 <button type="button" class="btn btn-sm p-1 btn-light w-100 bypassQR"
@@ -295,6 +304,37 @@
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
                         aria-label="Close">Batal</button>
                     <button type="button" class="btn btn-primary" id="savePindahPasar">Simpan</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Hapus -->
+    <div class="modal fade" id="HapusModal" tabindex="-1" role="dialog" aria-labelledby="HapusModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content card">
+                <div class="modal-body text-center">
+                    <div class="swal2-icon swal2-error swal2-animate-error-icon" style="display: flex; font-size: 8px;">
+                        <span class="swal2-x-mark"><span class="swal2-x-mark-line-left"></span>
+                            <span class="swal2-x-mark-line-right"></span></span>
+                    </div>
+                    <b>Informasi</b><br>
+                    <label>Tidak dapat dihapus, terdapat transaksi berikut :</label><br>
+                    <table class="table table-sm table-dark  table-striped table-bordered tableOrderHapus">
+                        <tbody id="detailOrderHapus">
+                        </tbody>
+                    </table>
+                    <div class="form-group">
+                        <label for="keterangan">Keterangan</label>
+                        <input type="text" autocomplete="off" class="form-control modal-input" id="keterangan"
+                            name="keterangan">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                        aria-label="Close">Batal</button>
+                    <button type="button" class="btn btn-danger" id="saveHapus">Hapus</button>
                 </div>
             </div>
         </div>
@@ -1226,6 +1266,104 @@
                 });
             });
 
+            // HAPUS OUTLET
+            $(document).on('click', ".btnHapus", function() {
+                var mrdo_id = $(this).closest('tr').find('.id_mrdo').text().trim();
+                var iddepo = $(this).closest('tr').find('.nama_wilayah').text().match(
+                    /\(([^()]+)\)[^(]*$/)[1].trim();
+                var kode_customer = $(this).closest('tr').find('.kode_customer').text().trim();
+                var keterangan = $('#keterangan').val();
+                var tipe = $(this).text().trim();
+
+                $.ajax({
+                    type: 'POST',
+                    url: "http://10.11.1.37/api/tool/rute/hapusOutlet",
+                    dataType: 'json',
+                    encode: true,
+                    data: {
+                        mrdo_id: mrdo_id,
+                        iddepo: iddepo,
+                        kode_customer: kode_customer,
+                        tipe: tipe,
+                    },
+                    beforeSend: function() {
+                        $('.loading-overlay').show();
+                    },
+                    success: function(response) {
+                        if (response.is_valid) {
+                            $('#successModal').modal('show');
+                            setTimeout(function() {
+                                $('#successModal').modal('hide');
+                                location.reload();
+                            }, 1000);
+                        } else {
+                            var html = "";
+                            for (var i = 0; i < response.data.length; i++) {
+                                var data = response.data[i];
+                                html += "<tr>";
+                                html += "<td>" + data.no_order + "</td>";
+                                html += "<td>" + data.tgl_transaksi + "</td>";
+                                html += "<td>" + data.nama_toko + "</td>";
+                                html += "<td>" + data.total_rp + "</td>";
+                                html += "</tr>";
+                            }
+                            $('#detailOrderHapus').html(html);
+                            $('#HapusModal').modal('show');
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(error);
+                        $('#errorModal').modal('show');
+                    },
+                    complete: function() {
+                        $('.loading-overlay').hide();
+                    }
+                });
+
+                // SAVE HAPUS OUTLET
+                $('#saveHapus').off('click').on('click', function(e) {
+                    e.preventDefault();
+                    var keterangan = $('#keterangan').val();
+
+                    $.ajax({
+                        type: 'POST',
+                        url: "http://10.11.1.37/api/tool/rute/hapusOutlet",
+                        dataType: 'json',
+                        encode: true,
+                        data: {
+                            mrdo_id: mrdo_id,
+                            iddepo: iddepo,
+                            kode_customer: kode_customer,
+                            keterangan: keterangan,
+                            tipe: tipe,
+                        },
+                        beforeSend: function() {
+                            $('.loading-overlay').show();
+                        },
+                        success: function(response) {
+                            if (response.is_valid) {
+                                $('#successModal').modal('show');
+                                $('#HapusModal').modal('hide');
+                                setTimeout(function() {
+                                    $('#successModal').modal('hide');
+                                    location.reload();
+                                }, 1000);
+                            } else {
+                                $('#errorModal #message').text(response.message);
+                                $('#errorModal').modal('show');
+                            }
+                        },
+                        error: function(xhr, status, error) {
+                            console.error(error);
+                            $('#errorModal').modal('show');
+                        },
+                        complete: function() {
+                            $('.loading-overlay').hide();
+                        }
+                    });
+                });
+            });
+
             // // SET RETAIL
             // $(document).on('click', '.btnSetRetail, .btnSetGrosir', function() {
             //     var id_mrdo = $(this).data('id_mrdo');
@@ -1299,35 +1437,35 @@
                 });
             });
 
-            // UPDATE DATAAR
-            $(document).on('click', '.updateDataar', function() {
-                var id_survey_pasar = $('#id_survey_pasar').val();
+            // // UPDATE DATAAR
+            // $(document).on('click', '.updateDataar', function() {
+            //     var id_survey_pasar = $('#id_survey_pasar').val();
 
-                $.ajax({
-                    type: 'POST',
-                    url: "{{ route('KodeCustomer.updateDataar') }}",
-                    dataType: 'json',
-                    encode: true,
-                    data: {
-                        id_survey_pasar: id_survey_pasar
-                    },
-                    beforeSend: function() {
-                        $('.loading-overlay').show();
-                    },
-                    success: function(response) {
-                        $('#successModal #message').text(response.message);
-                        $('#successModal').modal('show');
-                    },
-                    error: function(xhr, status, error) {
-                        console.error(error);
-                        $('#errorModal #message').text(xhr.responseJSON.message);
-                        $('#errorModal').modal('show');
-                    },
-                    complete: function() {
-                        $('.loading-overlay').hide();
-                    }
-                });
-            });
+            //     $.ajax({
+            //         type: 'POST',
+            //         url: "{{ route('KodeCustomer.updateDataar') }}",
+            //         dataType: 'json',
+            //         encode: true,
+            //         data: {
+            //             id_survey_pasar: id_survey_pasar
+            //         },
+            //         beforeSend: function() {
+            //             $('.loading-overlay').show();
+            //         },
+            //         success: function(response) {
+            //             $('#successModal #message').text(response.message);
+            //             $('#successModal').modal('show');
+            //         },
+            //         error: function(xhr, status, error) {
+            //             console.error(error);
+            //             $('#errorModal #message').text(xhr.responseJSON.message);
+            //             $('#errorModal').modal('show');
+            //         },
+            //         complete: function() {
+            //             $('.loading-overlay').hide();
+            //         }
+            //     });
+            // });
 
             // CEK RUTE AKTIF
             $('.warnaBaris').each(function() {

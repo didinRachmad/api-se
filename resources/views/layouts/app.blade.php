@@ -161,10 +161,11 @@
 
         .myTable,
         .TableOrder,
-        .TableKandidat {
+        .TableKandidat,
+        .tableOrderHapus {
             font-size: 8pt;
             font-weight: 600;
-            padding: 5px 0;
+            padding: 5px;
         }
 
         .myTable input,
