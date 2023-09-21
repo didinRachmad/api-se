@@ -26,13 +26,17 @@
                         <input type="hidden" name="id_salesman" id="id_salesman"
                             value="{{ old('id_salesman', $id_salesman ?? '') }}">
                     </div>
-                    <div class="col-lg-4">
+                    <div class="col-lg-2">
                         <button type="submit" class="btn btn-primary btn-sm" id="btnSearch">Search <span> <i
                                     class="bi bi-search"></i></span></button>
-                        {{-- <button type="button" class="btn btn-info btn-sm btnOrder">Order <span> <i
-                                class="bi bi-journal-text"></i></span></button>
-                    <button type="button" class="btn btn-warning btn-sm btnKandidat">Kandidat <span> <i
-                                class="bi bi-journal-text"></i></span></button> --}}
+                    </div>
+
+                    <div class="col-lg-6">
+                        @if (isset($total))
+                            <p class="d-inline-block pe-3">Total : <span class="fw-bold">({{ $total ?? '' }})</span></p>
+                            <p class="d-inline-block pe-3">RO : <span class="fw-bold">({{ $ro ?? '' }})</span></p>
+                            <p class="d-inline-block pe-3">OC : <span class="fw-bold">({{ $kandidat ?? '' }})</span></p>
+                        @endif
                     </div>
                 </div>
             </form>
@@ -42,18 +46,22 @@
                     <thead class="text-center">
                         <th>no</th>
                         <th>nama wilayah</th>
-                        <th>id_salesman</th>
                         <th>salesman</th>
-                        <th>id_survey_pasar</th>
+                        <th>rute id</th>
+                        <th>id mrdo</th>
+                        <th>survey pasar id</th>
                         <th>kode customer</th>
                         <th>nama toko</th>
                         <th>alamat</th>
-                        <th>pemilik</th>
-                        <th>id_pasar</th>
+                        <th>id mco <button type="button" class="btn btn-sm btn-secondary" id="salinID_MCO">Salin</button>
+                        </th>
+                        <th>id dataar</th>
+                        <th>id pasar</th>
                         <th>nama pasar</th>
-                        <th>id_qrcode</th>
+                        <th>lokasi</th>
                         <th>latitude</th>
                         <th>longitude</th>
+                        <th>visited</th>
                     </thead>
                     <tbody id="bodyTabelRute">
                         @if (!isset($data))
@@ -70,23 +78,46 @@
                             @endphp
                             <tr class="warnaBaris">
                                 <td></td>
-                                <td>{{ $mr['nama_wilayah'] }}</td>
-                                <td>{{ $mr['id_sales_ekslusif'] }}</td>
+                                <td>{{ $mr['nama_wilayah'] }} ({{ $mr['iddepo'] }})</td>
                                 <td>{{ $mr['nama_sales_ekslusif'] }}</td>
+                                <td>{{ $mr['rute_id'] }}</td>
+                                <td>{{ $mr['rute_outlet_id'] }}</td>
                                 <td>{{ $mr['id_survey_pasar'] }}</td>
-                                <td class="text-primary fw-bold">{{ $mr['kode_toko'] }}</td>
+                                <td class="text-primary fw-bold kode_customer">{{ $mr['kode_toko'] }}</td>
                                 <td>{{ $mr['nama_toko'] }}</td>
                                 <td>{{ $mr['alamat_toko'] }}</td>
-                                <td>{{ $mr['nama_pemilik'] }}</td>
+                                <td class="id_mco">{{ $mr['id'] }}</td>
+                                <td>{{ $mr['dataar'] }}</td>
                                 <td>{{ $mr['id_pasar'] }}</td>
                                 <td>{{ $mr['nama_pasar'] }}</td>
-                                <td>{{ $mr['id_qrcode'] }}</td>
+                                <td>{{ $mr['location_type'] ?? '' }}</td>
                                 <td>{{ $mr['latitude'] }}</td>
                                 <td>{{ $mr['longitude'] }}</td>
+                                <td>{{ $mr['is_visited'] }}
+                                    @if ($mr['is_visited'])
+                                        <i class="bi bi-check-square-fill text-success"></i>
+                                    @else
+                                        <i class="bi bi-x-square-fill text-danger"></i>
+                                    @endif
+                                </td>
                             </tr>
                         @endforeach
                     </tbody>
                 </table>
+            </div>
+        </div>
+    </div>
+
+    {{-- TOAST SALIN KODE --}}
+    <div class="toast-container position-fixed top-0 end-0 p-5">
+        <div class="toast align-items-center text-bg-success border-0" id="toastSalin" role="alert" aria-live="assertive"
+            aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body">
+                    Data berhasil disalin
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
+                    aria-label="Close"></button>
             </div>
         </div>
     </div>
@@ -127,8 +158,7 @@
                         return data.text;
                     }
                     return $('<span>').text(data.text).addClass('pull-right').append($('<b>').text(
-                        ' - ' +
-                        data.nama_wilayah));
+                        ' (' + data.id_salesman + ') ' + ' - ' + data.nama_wilayah));
                 }
             }).on('select2:select', function(e) {
                 var data = e.params.data;
@@ -145,19 +175,19 @@
                 "paging": false,
                 buttons: [{
                     extend: 'copy',
-                    title: 'Data ' + $('#nama-salesman').text() + " - " + $('#id_salesman')
-                        .text(),
+                    title: 'Data ' + $('#salesman').val() + " - " + $('#id_salesman')
+                        .val(),
                 }, 'csv', {
                     extend: 'excel',
-                    title: 'Data ' + $('#nama-salesman').text() + " - " + $('#id_salesman')
-                        .text(),
+                    title: 'Data ' + $('#salesman').val() + " - " + $('#id_salesman')
+                        .val(),
                 }, 'pdf', 'print'],
                 "columnDefs": [{
                     "orderable": false,
                     "targets": [0],
                 }],
                 "order": [
-                    [5, 'desc']
+                    [6, 'desc']
                 ],
                 "initComplete": function(settings, json) {
                     $(`<select class="form-select form-select-sm w-50">
@@ -167,16 +197,13 @@
                         </select>`)
                         .appendTo('.filter-jenis_outlet')
                         .on('change', function() {
-                            var val = $.fn.dataTable.util.escapeRegex(
-                                $(this).val()
-                            );
+                            var val = $(this).val();
                             if (val === '') {
-                                table.columns(3).search('').draw();
-                            } else if (val ===
-                                'KANDIDAT') {
-                                table.columns(3).search('^(0|null|)$', true, false).draw();
+                                table.column(6).search('').draw();
+                            } else if (val === 'KANDIDAT') {
+                                table.column(6).search('^(0|null|)$', true, false).draw();
                             } else if (val === 'RO') {
-                                table.columns(3).search('^(?!0|!|!null).+$', true, false).draw();
+                                table.column(6).search('^(?!0$|null$).+$', true, false).draw();
                             }
                         });
 
@@ -225,6 +252,27 @@
                     cell.innerHTML = i + 1;
                 });
             }).draw();
+
+            $('#salinID_MCO').click(function() {
+                // Mengambil data kolom dengan filter yang aktif
+                var filteredData = table.column(9, {
+                    search: 'applied'
+                }).data().toArray();
+
+                var textToCopy = filteredData.join('\n');
+                var tempInput = document.createElement('textarea');
+                tempInput.value = textToCopy;
+                document.body.appendChild(tempInput);
+                tempInput.select();
+                document.execCommand('copy');
+                document.body.removeChild(tempInput);
+
+                var toast = $('#toastSalin');
+                toast.show();
+                setTimeout(function() {
+                    toast.hide();
+                }, 2000);
+            });
         });
     </script>
 @endsection

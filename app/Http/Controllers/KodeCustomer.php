@@ -22,7 +22,7 @@ class KodeCustomer extends Controller
     {
         $kode_customer = strtoupper($request->input('kode_customer'));
 
-        $data = MasterConvertOutlet::with(['mrdo.mr.w', 'mrdo.mr.kr', 'mrdo.mrd' => function ($query) {
+        $data = MasterConvertOutlet::with(['mrdo.mr.w', 'mrdo.mr.d', 'mrdo.mr.kr', 'mrdo.mrd' => function ($query) {
             $query->select('id', 'id_pasar', 'nama_pasar');
         }, 'sp' => function ($query) {
             $query->select('id', 'location_type', 'source_type');
@@ -40,6 +40,7 @@ class KodeCustomer extends Controller
         $data = MasterConvertOutlet::select('kode_customer')
             ->where('kode_customer', 'LIKE', '%' . $term . '%')
             ->groupBy('kode_customer')
+            ->orderBy('kode_customer')
             ->get();
 
         $results = [];
@@ -57,20 +58,17 @@ class KodeCustomer extends Controller
     {
         $kode_customer = strtoupper($request->input('kode_customer'));
 
-        $threeMonthsAgo = Carbon::now()->subMonths(3)->startOfMonth()->toDateString();
-        // dd($threeMonthsAgo);
+        $threeMonthsAgo = Carbon::now()->subMonths(4)->startOfMonth()->toDateString();
 
-        $data = Order::select('id', 'nama_wilayah', 'no_order', 'id_salesman', 'nama_salesman', 'nama_toko', 'id_survey_pasar', 'total_rp', 'total_qty', 'total_transaksi', 'tgl_transaksi', 'document', 'closed_order', 'platform')
+        $data = Order::select('id', 'nama_wilayah', 'no_order', 'id_salesman', 'nama_salesman', 'nama_toko', 'id_survey_pasar', 'total_rp', 'total_qty', 'total_transaksi', 'tgl_transaksi', 'document', 'platform', 'is_exported', 'kode_customer', 'is_call', 'tipe_order')
             ->selectRaw('CASE WHEN (total_rp = 0) THEN "KUNJUNGAN" ELSE "ORDER" END AS status')
-            ->with(['art.ar' => function ($query) use ($kode_customer) {
-                $query->select('id', 'kode_customer', 'id_qr_outlet')
-                    ->where('kode_customer', $kode_customer);
-            }])
-            ->where('kode_customer', $kode_customer)
-            ->orWhereHas('art.ar', function ($query) use ($kode_customer) {
-                $query->where('kode_customer', $kode_customer);
-            })
             ->whereDate('tgl_transaksi', '>=', $threeMonthsAgo)
+            ->where(function ($query) use ($kode_customer) {
+                $query->where('kode_customer', $kode_customer)
+                    ->orWhereHas('art.ar', function ($query) use ($kode_customer) {
+                        $query->select('id', 'kode_customer', 'id_qr_outlet')->where('kode_customer', $kode_customer);
+                    });
+            })
             ->orderBy('tgl_transaksi')
             ->orderBy('id_salesman')
             ->get();
@@ -78,87 +76,7 @@ class KodeCustomer extends Controller
         // return response()->json(['data' => $data]);
         return DataTables::make($data)->addColumn('id_qr_outlet', function ($data) {
             return $data->art->ar->id_qr_outlet ?? "";
-        })->addColumn('kode_customer', function ($data) {
-            return $data->art->ar->kode_customer ?? "";
         })->toJson();
-    }
-
-
-    public function updateAlamat(Request $request)
-    {
-        try {
-            DB::beginTransaction();
-
-            $mrdo = MasterRuteDetailOutlet::where('survey_pasar_id', $request->survey_pasar_id)->update(['alamat' => $request->alamat, 'nama_toko' => $request->nama_toko]);
-            if ($mrdo == null) {
-                throw new \Exception('No Master Rute Detail Outlet Updated');
-            }
-
-            $sp = SurveyPasar::find($request->survey_pasar_id);
-            if ($sp != null) {
-                $sp->alamat = $request->alamat;
-                $sp->nama_toko = $request->nama_toko;
-                $sp->save();
-            } else {
-                throw new \Exception('Survey Pasar kosong');
-            }
-
-            $ar = Dataar::where('id_qr_outlet', $request->id_mco)->orWhere('survey_pasar_id', $request->survey_pasar_id)->update(['alamat_toko' => $request->alamat, 'nama_toko' => $request->nama_toko, 'nama_customer' => $request->nama_toko]);
-            if ($ar == null) {
-                throw new \Exception('Dataar kosong');
-            }
-
-            DB::commit();
-
-            return response()->json([
-                'alamat' => $request->alamat,
-                'nama_toko' => $request->nama_toko
-            ]);
-        } catch (\Exception $e) {
-            DB::rollback();
-
-            return response()->json(['message' => 'Terjadi kesalahan: ' . $e->getMessage()], 500);
-        }
-    }
-
-    public function updateKode(Request $request)
-    {
-        try {
-            DB::beginTransaction();
-
-            $mco = MasterConvertOutlet::find($request->id_mco);
-            if ($mco != null) {
-                $mco->kode_customer = strtoupper($request->kodeBaru);
-                $mco->save();
-            } else {
-                throw new \Exception('MCO kosong');
-            }
-
-            $sp = SurveyPasar::find($request->survey_pasar_id);
-            if ($sp != null) {
-                $sp->kode_customer = strtoupper($request->kodeBaru);
-                $sp->save();
-            } else {
-                throw new \Exception('Survey Pasar kosong');
-            }
-
-            $ar = Dataar::where('id_qr_outlet', $request->id_mco)->orWhere('survey_pasar_id', $request->survey_pasar_id)->update(['kode_customer' => strtoupper($request->kodeBaru)]);
-            if ($ar == null) {
-                throw new \Exception('Dataar kosong');
-            }
-
-            // Order::where('id_survey_pasar', $request->survey_pasar_id)->update(['kode_customer' => strtoupper($request->kodeBaru)]);
-
-            DB::commit();
-
-            return response()->json([
-                'kode_customer' => $mco->kode_customer
-            ]);
-        } catch (\Exception $e) {
-            DB::rollback();
-
-            return response()->json(['message' => 'Terjadi kesalahan: ' . $e->getMessage()], 500);
-        }
     }
 
     public function getSalesman(Request $request)
@@ -203,25 +121,122 @@ class KodeCustomer extends Controller
         return response()->json($response);
     }
 
-
     public function getRute(Request $request)
     {
         $term = $request->input('q');
         $salesman = $request->input('salesman');
 
-        $rute = MasterRute::where('rute', 'LIKE', '%' . $term . '%')->where('salesman', $salesman)->orderByDesc('rute')
-            ->pluck('rute', 'id');
+        $ruteData = MasterRute::where('rute', 'LIKE', '%' . $term . '%')
+            ->where('salesman', $salesman)
+            ->orderByDesc('rute')
+            ->get(['id', 'rute', 'id_wilayah']);
 
         $results = [];
 
-        foreach ($rute as $id => $text) {
+        foreach ($ruteData as $rute) {
             $results[] = [
-                'id' => $id,
-                'text' => $text,
+                'id' => $rute->id,
+                'text' => $rute->rute,
+                'id_wilayah' => $rute->id_wilayah
             ];
         }
 
         return response()->json(['results' => $results]);
+    }
+
+    public function getPasar(Request $request)
+    {
+        $term = $request->input('q');
+        $page = $request->input('page', 1);
+        $perPage = 10;
+
+        $query = MasterPasar::select('master_pasar.id_pasar as id_pasar', 'master_pasar.nama_pasar as nama_pasar', 'wilayah.nama_wilayah as nama_wilayah')
+            ->join('wilayah', 'master_pasar.id_wilayah', '=', 'wilayah.id_wilayah')
+            // ->where('master_pasar.id_wilayah', '=', $id_wilayah)
+            ->Where(function ($query) use ($term) {
+                $query->where('master_pasar.nama_pasar', 'LIKE', '%' . $term . '%')
+                    ->orWhere('master_pasar.id_pasar', 'LIKE', '%' . $term . '%');
+            })
+            ->orderBy('master_pasar.id_pasar')
+            ->groupBy('master_pasar.id_pasar', 'master_pasar.nama_pasar', 'wilayah.nama_wilayah');
+
+        $mp = $query->paginate($perPage, ['*'], 'page', $page);
+
+        $results = [];
+
+        foreach ($mp as $pasar) {
+            $results[] = [
+                'id' => $pasar->id_pasar,
+                'text' => $pasar->nama_pasar,
+                'id_pasar' => $pasar->id_pasar,
+                'nama_wilayah' => $pasar->nama_wilayah,
+            ];
+        }
+
+        $response = [
+            'results' => $results,
+            'pagination' => [
+                'more' => $mp->hasMorePages(), // Check if there are more pages
+            ],
+        ];
+
+        return response()->json($response);
+    }
+
+    public function editOutlet(Request $request)
+    {
+        try {
+            DB::beginTransaction();
+
+            $mrdo = MasterRuteDetailOutlet::where('survey_pasar_id', $request->survey_pasar_id)->lockForUpdate()->update(['alamat' => $request->alamat, 'nama_toko' => $request->nama_toko]);
+            if ($mrdo === null) {
+                throw new \Exception('No Master Rute Detail Outlet Updated');
+            }
+
+            $mco = MasterConvertOutlet::where('id', $request->id_mco)->lockForUpdate()->firstOrFail();
+            if ($mco === null) {
+                throw new \Exception('MCO kosong');
+            }
+
+            // $sp = SurveyPasar::where('id', $request->survey_pasar_id)->lockForUpdate()->firstOrFail();
+            // if ($sp === null) {
+            //     throw new \Exception('Survey Pasar kosong');
+            // }
+
+            $ar = Dataar::where('id_qr_outlet', $request->id_mco)->orWhere('survey_pasar_id', $request->survey_pasar_id)->lockForUpdate()->update(['alamat_toko' => $request->alamat, 'nama_toko' => $request->nama_toko, 'nama_customer' => $request->nama_toko, 'kode_customer' => $request->kode_customer]);
+            if ($ar === null) {
+                throw new \Exception('Dataar kosong');
+            }
+
+            // $o = Order::where('id_survey_pasar', $request->survey_pasar_id)->where('id_salesman', $request->id_salesman)->lockForUpdate()->update(['kode_customer' => $request->kode_customer, 'nama_toko' => $request->nama_toko]);
+            // if ($o === null) {
+            //     throw new \Exception('No Order Updated');
+            // }
+
+            // UPDATE MCO
+            $mco->kode_customer = strtoupper($request->kode_customer);
+            $mco->nama_outlet_mas = $request->nama_toko;
+            $mco->nama_customer = $request->nama_toko;
+            $mco->save();
+
+            // UPDATE SP
+            // $sp->alamat = $request->alamat;
+            // $sp->nama_toko = $request->nama_toko;
+            // $sp->kode_customer = $request->kode_customer;
+            // $sp->save();
+
+            DB::commit();
+
+            return response()->json([
+                'alamat' => $request->alamat,
+                'nama_toko' => $request->nama_toko,
+                'kode_customer' => $request->kode_customer
+            ]);
+        } catch (\Exception $e) {
+            DB::rollback();
+
+            return response()->json(['message' => 'Terjadi kesalahan: ' . $e->getMessage()], 422);
+        }
     }
 
     public function pindah(Request $request)
@@ -241,6 +256,7 @@ class KodeCustomer extends Controller
             // CEK APAKAH DATA OUTLET PADA RUTE TUJUAN SUDAH ADA
             $existingOutlet = MasterRuteDetailOutlet::where('rute_id', $rute_id_akhir)
                 ->where('survey_pasar_id', $id_survey_pasar)
+                ->lockForUpdate()
                 ->first();
 
             if ($existingOutlet) {
@@ -255,6 +271,7 @@ class KodeCustomer extends Controller
                 // Mencari data MRD berdasarkan id_pasar dan rute_id
                 $mrd = MasterRuteDetail::where('id_pasar', $id_pasar_awal)
                     ->where('rute_id', $rute_id_akhir)
+                    ->lockForUpdate()
                     ->first();
 
                 if ($mrd) {
@@ -290,23 +307,32 @@ class KodeCustomer extends Controller
         } catch (\Exception $e) {
             DB::rollback();
 
-            return response()->json(['message' => 'Terjadi kesalahan: ' . $e->getMessage()], 500);
+            return response()->json(['message' => 'Terjadi kesalahan: ' . $e->getMessage()], 422);
         }
     }
 
     public function setOutlet(Request $request)
     {
-        $mrdo = MasterRuteDetailOutlet::find($request->id_mrdo);
-        if ($mrdo != null) {
-            $mrdo->tipe_outlet = $request->set;
-            $mrdo->save();
+        DB::beginTransaction();
+
+        try {
+            $mrdo = MasterRuteDetailOutlet::where('id', $request->id_mrdo)->lockForUpdate()->firstOrFail();
+            if ($mrdo) {
+                $mrdo->tipe_outlet = $request->set;
+                $mrdo->save();
+            }
+
+            Dataar::where('id_qr_outlet', $request->id_mco)->lockForUpdate()->update(['tipe_outlet' => $request->set]);
+
+            DB::commit();
+            return response()->json([
+                'tipe_outlet' => $mrdo->tipe_outlet
+            ]);
+        } catch (\Exception $e) {
+            DB::rollback();
+
+            return response()->json(['message' => 'Terjadi kesalahan: ' . $e->getMessage()], 422);
         }
-
-        Dataar::where('id_qr_outlet', $request->id_mco)->update(['tipe_outlet' => $request->set]);
-
-        return response()->json([
-            'tipe_outlet' => $mrdo->tipe_outlet
-        ]);
     }
 
     public function updateDataar(Request $request)
@@ -349,7 +375,7 @@ class KodeCustomer extends Controller
         } catch (\Exception $e) {
             DB::rollback();
 
-            return response()->json(['message' => 'Terjadi kesalahan: ' . $e->getMessage()], 500);
+            return response()->json(['message' => 'Terjadi kesalahan: ' . $e->getMessage()], 422);
         }
     }
 }

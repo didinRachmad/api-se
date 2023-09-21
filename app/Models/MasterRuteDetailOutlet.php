@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class MasterRuteDetailOutlet extends Model
 {
     protected $table = 'master_rute_detail_outlet';
-    // protected $fillable = ['survey_pasar_id', 'alamat'];
     public $timestamps = false;
 
     public function mr()
@@ -23,7 +22,7 @@ class MasterRuteDetailOutlet extends Model
 
     public function mco()
     {
-        return $this->hasMany(MasterConvertOutlet::class, 'id_outlet_mas', 'survey_pasar_id');
+        return $this->hasOne(MasterConvertOutlet::class, 'id_outlet_mas', 'survey_pasar_id');
     }
     public function mp()
     {

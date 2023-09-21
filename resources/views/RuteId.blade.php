@@ -95,79 +95,73 @@
                         @endphp
                         @foreach ($data as $mr)
                             @foreach ($mr->mrdo as $mrdo)
-                                @foreach ($mrdo->mco as $mco)
-                                    @php
-                                        $no += 1;
-                                    @endphp
-                                    <tr class="warnaBaris">
-                                        <td></td>
-                                        <td class="rute">{{ $mr->rute }}</td>
-                                        <td>{{ $mr->hari }}</td>
-                                        <td class="rute_id">{{ $mrdo->rute_id }}</td>
-                                        <td>{{ $mrdo->rute_detail_id }}</td>
-                                        <td>{{ $mrdo->survey_pasar_id }}</td>
-                                        <td class="text-primary fw-bold" id="kode{{ $no }}">
-                                            {{ $mco->kode_customer }}
-                                            {{-- <input type="hidden" class="form-control" value="{{ $mco->id }}"> --}}
-                                        </td>
-                                        <td id="nama_toko{{ $no }}">{{ $mrdo->nama_toko }}</td>
-                                        <td id="alamat{{ $no }}">{{ $mrdo->alamat }}</td>
-                                        <td>{{ $mco->id }}</td>
-                                        <td>{{ $mrdo->mrd->id_pasar }}</td>
-                                        <td>{{ $mrdo->mrd->nama_pasar }}</td>
-                                        <td>{{ $mrdo->mp->nama_pasar ?? '' }}</td>
-                                        <td id="tipe_outlet{{ $no }}">{{ $mrdo->tipe_outlet ?? 'RETAIL' }}
-                                        </td>
-                                        <td>
-                                            <div class="row px-2 py-1">
-                                                <div class="col-6 px-0">
-                                                    <button type="button"
-                                                        class="btn btn-sm p-1 btn-warning btnEditAlamat w-100"
-                                                        data-row-index="{{ $no }}"
-                                                        data-alamat-awal="{{ $mrdo->alamat }}"
-                                                        data-survey_pasar_id="{{ $mrdo->survey_pasar_id }}"
-                                                        data-id_mco="{{ $mco->id }}">Edit</button>
-                                                </div>
-                                                <div class="col-6 px-0">
-                                                    <button type="button"
-                                                        class="btn btn-sm p-1 btn-primary btnEditKode w-100"
-                                                        data-row-index="{{ $no }}"
-                                                        data-kode-awal="{{ $mco->kode_customer }}"
-                                                        data-id_mco="{{ $mco->id }}"
-                                                        data-survey_pasar_id="{{ $mrdo->survey_pasar_id }}">Kode</button>
-                                                </div>
-                                                <div class="col-6 px-0">
-                                                    <button type="button"
-                                                        class="btn btn-sm p-1 btn-secondary btnPindahPasar w-100"
-                                                        data-id="{{ $mrdo->id }}" data-id_mco="{{ $mco->id }}"
-                                                        data-id_pasar_awal="{{ $mrdo->id_pasar }}"
-                                                        data-rute_id_awal="{{ $mrdo->rute_id }}"
-                                                        data-id_survey_pasar="{{ $mrdo->survey_pasar_id }}">Pasar</button>
-                                                </div>
-                                                <div class="col-6 px-0">
-                                                    <button type="button"
-                                                        class="btn btn-sm p-1 btn-info w-100 btnSetRetail"
-                                                        data-row-index="{{ $no }}"
-                                                        data-id_mrdo="{{ $mrdo->id }}"
-                                                        data-id_mco="{{ $mco->id }}"
-                                                        data-set={{ null }}>Retail</button>
-                                                </div>
-                                                <div class="col-6 px-0">
-                                                    <button type="button"
-                                                        class="btn btn-sm p-1 btn-success w-100 btnSetGrosir"
-                                                        data-row-index="{{ $no }}"
-                                                        data-id_mrdo="{{ $mrdo->id }}"
-                                                        data-id_mco="{{ $mco->id }}"
-                                                        data-set="TPOUT_WHSL">Grosir</button>
-                                                </div>
-                                                <div class="col-6 px-0">
-                                                    <button type="button" class="btn btn-sm p-1 btn-light w-100 bypassQR"
-                                                        data-survey_pasar_id="{{ $mco->sp->id }}">QR</button>
-                                                </div>
+                                @php
+                                    $no += 1;
+                                @endphp
+                                <tr class="warnaBaris">
+                                    <td></td>
+                                    <td class="rute">{{ $mr->rute }}</td>
+                                    <td>{{ $mr->hari }}</td>
+                                    <td class="rute_id">{{ $mrdo->rute_id }}</td>
+                                    <td>{{ $mrdo->rute_detail_id }}</td>
+                                    <td>{{ $mrdo->survey_pasar_id }}</td>
+                                    <td class="text-primary fw-bold" id="kode{{ $no }}">
+                                        {{ $mrdo->mco->kode_customer }}
+                                        {{-- <input type="hidden" class="form-control" value="{{ $mrdo->mco->id }}"> --}}
+                                    </td>
+                                    <td id="nama_toko{{ $no }}">{{ $mrdo->nama_toko }}</td>
+                                    <td id="alamat{{ $no }}">{{ $mrdo->alamat }}</td>
+                                    <td>{{ $mrdo->mco->id }}</td>
+                                    <td>{{ $mrdo->mrd->id_pasar }}</td>
+                                    <td>{{ $mrdo->mrd->nama_pasar }}</td>
+                                    <td>{{ $mrdo->mp->nama_pasar ?? '' }}</td>
+                                    <td id="tipe_outlet{{ $no }}">{{ $mrdo->tipe_outlet ?? 'RETAIL' }}
+                                    </td>
+                                    <td>
+                                        <div class="row px-2 py-1">
+                                            <div class="col-6 px-0">
+                                                <button type="button"
+                                                    class="btn btn-sm p-1 btn-warning btnEditAlamat w-100"
+                                                    data-row-index="{{ $no }}"
+                                                    data-alamat-awal="{{ $mrdo->alamat }}"
+                                                    data-survey_pasar_id="{{ $mrdo->survey_pasar_id }}"
+                                                    data-id_mco="{{ $mrdo->mco->id }}">Edit</button>
                                             </div>
-                                        </td>
-                                    </tr>
-                                @endforeach
+                                            <div class="col-6 px-0">
+                                                <button type="button" class="btn btn-sm p-1 btn-primary btnEditKode w-100"
+                                                    data-row-index="{{ $no }}"
+                                                    data-kode-awal="{{ $mrdo->mco->kode_customer }}"
+                                                    data-id_mco="{{ $mrdo->mco->id }}"
+                                                    data-survey_pasar_id="{{ $mrdo->survey_pasar_id }}">Kode</button>
+                                            </div>
+                                            <div class="col-6 px-0">
+                                                <button type="button"
+                                                    class="btn btn-sm p-1 btn-secondary btnPindahPasar w-100"
+                                                    data-id="{{ $mrdo->id }}" data-id_mco="{{ $mrdo->mco->id }}"
+                                                    data-id_pasar_awal="{{ $mrdo->id_pasar }}"
+                                                    data-rute_id_awal="{{ $mrdo->rute_id }}"
+                                                    data-id_survey_pasar="{{ $mrdo->survey_pasar_id }}">Pasar</button>
+                                            </div>
+                                            <div class="col-6 px-0">
+                                                <button type="button" class="btn btn-sm p-1 btn-info w-100 btnSetRetail"
+                                                    data-row-index="{{ $no }}"
+                                                    data-id_mrdo="{{ $mrdo->id }}" data-id_mco="{{ $mrdo->mco->id }}"
+                                                    data-set={{ null }}>Retail</button>
+                                            </div>
+                                            <div class="col-6 px-0">
+                                                <button type="button" class="btn btn-sm p-1 btn-success w-100 btnSetGrosir"
+                                                    data-row-index="{{ $no }}"
+                                                    data-id_mrdo="{{ $mrdo->id }}"
+                                                    data-id_mco="{{ $mrdo->mco->id }}"
+                                                    data-set="TPOUT_WHSL">Grosir</button>
+                                            </div>
+                                            <div class="col-6 px-0">
+                                                <button type="button" class="btn btn-sm p-1 btn-light w-100 bypassQR"
+                                                    data-survey_pasar_id="{{ $mrdo->mco->sp->id }}">QR</button>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
                             @endforeach
                         @endforeach
                     </tbody>
@@ -1102,7 +1096,7 @@
                         setTimeout(function() {
                             $('#successModal').modal('hide');
                             location.reload();
-                        }, 3000);
+                        }, 2000);
                     },
                     error: function(xhr, status, error) {
                         console.error(error);

@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Dataar;
 use App\Models\MasterRute;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ListRute extends Controller
 {
@@ -66,14 +68,26 @@ class ListRute extends Controller
         ];
 
         $context = stream_context_create($options);
-        $response = file_get_contents('http://10.11.1.37/api/downloadrute/getListRute', false, $context);
-        $data = json_decode($response, true);
 
-        if ($response !== false && isset($data['is_valid']) && $data['is_valid']) {
-            $data = $data['data'];
-        } else {
+        try {
+            $response = file_get_contents('http://10.11.1.37/api/downloadrute/getListRute', false, $context);
+
+            $res = json_decode($response, true);
+
+            if (isset($res['is_valid']) && $res['is_valid']) {
+                $data = $res['data'];
+                $total = $res['total'];
+                $ro = $res['total_ro'];
+                $kandidat = intval($res['total']) - intval($res['total_ro']);
+            } else {
+                $data = [];
+            }
+
+            return view('ListRute', compact('data', 'salesman', 'id_salesman', 'total', 'ro', 'kandidat'));
+        } catch (\Exception $e) {
+            // Tangani kesalahan jika ada
             $data = [];
+            return view('ListRute', compact('data', 'salesman', 'id_salesman'));
         }
-        return view('ListRute', compact('data', 'salesman', 'id_salesman'));
     }
 }

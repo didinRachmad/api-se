@@ -4,6 +4,10 @@
         .input-group-text {
             width: 120px;
         }
+
+        .action {
+            min-width: 80px;
+        }
     </style>
     <div class="card">
         <div class="card-header">Search Data by Kode Customer</div>
@@ -49,8 +53,8 @@
             <div class="table-responsive">
                 <table class="table table-sm table-dark table-striped align-middle table-bordered myTable">
                     <thead class="text-center">
-                        <th>Wilayah</th>
-                        <th>Salesman</th>
+                        <th id="filter-wilayah">Wilayah</th>
+                        <th id="filter-salesman">Salesman</th>
                         <th>rute</th>
                         <th>hari</th>
                         <th>rute id</th>
@@ -64,7 +68,7 @@
                         <th>nama pasar mrd</th>
                         <th>nama pasar mp</th>
                         <th>Tipe Outlet</th>
-                        <th>Action</th>
+                        <th class="action">Action</th>
                     </thead>
                     <tbody>
                         @php
@@ -75,12 +79,16 @@
                                 @php
                                     $no += 1;
                                 @endphp
-                                <tr class="warnaBaris" data-rute_detail_id="{{ $mrdo->rute_detail_id }}">
+                                <tr class="warnaBaris" data-id="{{ $mrdo->id }}"
+                                    data-rute_detail_id="{{ $mrdo->rute_detail_id }}"
+                                    data-id_distributor="{{ $mrdo->mr->d->id_distributor ?? '' }}"
+                                    data-nama_distributor="{{ $mrdo->mr->d->nama_distributor ?? '' }}"
+                                    data-rute_detail_id="{{ $mrdo->rute_detail_id }}">
                                     <td class="nama_wilayah">
                                         {{ $mrdo->mr?->w?->nama_wilayah }} ({{ $mrdo->mr?->w?->id_wilayah }})
                                     </td>
-                                    <td class="salesman">{{ $mrdo->mr?->salesman }}
-                                        ({{ $mrdo->mr?->kr?->id_salesman_mss ?? '' }})
+                                    <td class="salesman">
+                                        {{ $mrdo->mr?->salesman }} ({{ $mrdo->mr?->kr?->id_salesman_mss ?? '' }})
                                     </td>
                                     <td class="rute">{{ $mrdo->mr?->rute }}</td>
                                     <td class="hari">{{ $mrdo->mr?->hari }}</td>
@@ -94,34 +102,47 @@
                                     <td class="id_mco">{{ $mco->id }}</td>
                                     <td class="id_pasar">{{ $mrdo->mrd?->id_pasar }}</td>
                                     <td>{{ $mrdo->mrd?->nama_pasar }}</td>
-                                    <td>{{ $mrdo->mp->nama_pasar ?? '' }}</td>
-                                    <td class="tipe_outlet">{{ $mrdo->tipe_outlet ?? 'RETAIL' }}
-                                        - {{ $mco->sp->location_type ?? '' }} - {{ $mco->sp->source_type ?? '' }}
+                                    <td class="nama_pasar">{{ $mrdo->mp->nama_pasar ?? '' }}</td>
+                                    <td class="tipe_outlet">
+                                        {{ $mrdo->tipe_outlet ?? 'RETAIL' }} - {{ $mco->sp->location_type ?? '' }} -
+                                        {{ $mco->sp->source_type ?? '' }}
                                     </td>
                                     <td>
-                                        <div class="row px-2 py-1">
+                                        <div class="row px-2 py-1 text-center justify-content-center">
                                             <div class="col-6 px-0">
                                                 <button type="button"
-                                                    class="btn btn-sm p-1 btn-warning btnEdit w-100">Edit</button>
+                                                    class="btn btn-sm p-1 btn-secondary btn-block w-100 btnPindah">Pindah
+                                                    Rute</button>
                                             </div>
                                             <div class="col-6 px-0">
                                                 <button type="button"
-                                                    class="btn btn-sm p-1 btn-secondary w-100 btnPindah">Pindah</button>
+                                                    class="btn btn-sm p-1 btn-dark btn-block w-100 btnPindahPasar"
+                                                    data-id_mrdo="{{ $mrdo->id }}">Pindah Pasar</button>
                                             </div>
                                             <div class="col-6 px-0">
-                                                <button type="button" class="btn btn-sm p-1 btn-info w-100 btnSetRetail"
+                                                <button type="button"
+                                                    class="btn btn-sm p-1 btn-info btn-block w-100 btnSetRetail"
                                                     data-id_mrdo="{{ $mrdo->id }}" data-id_mco="{{ $mco->id }}"
                                                     data-set={{ null }}>Retail</button>
                                             </div>
                                             <div class="col-6 px-0">
-                                                <button type="button" class="btn btn-sm p-1 btn-success w-100 btnSetGrosir"
+                                                <button type="button"
+                                                    class="btn btn-sm p-1 btn-success btn-block w-100 btnSetGrosir"
                                                     data-id_mrdo="{{ $mrdo->id }}" data-id_mco="{{ $mco->id }}"
                                                     data-set="TPOUT_WHSL">Grosir</button>
                                             </div>
                                             <div class="col-6 px-0">
+                                                <button type="button"
+                                                    class="btn btn-sm p-1 btn-warning btn-block w-100 btnEdit">Edit</button>
+                                            </div>
+                                            <div class="col-6 px-0">
+                                                <button type="button"
+                                                    class="btn btn-sm p-1 btn-danger btn-block w-100 btnHapus">Hapus</button>
+                                            </div>
+                                            {{-- <div class="col-6 px-0">
                                                 <button type="button" class="btn btn-sm p-1 btn-light w-100 bypassQR"
                                                     data-survey_pasar_id="{{ $mco->sp->id }}">QR</button>
-                                            </div>
+                                            </div> --}}
                                         </div>
                                     </td>
                                 </tr>
@@ -148,21 +169,23 @@
                             <thead class="text-center">
                                 <th>no</th>
                                 <th>id</th>
-                                <th id="filter-wilayah">wilayah</th>
+                                <th id="filter-wilayah-Order">wilayah</th>
                                 <th>no order</th>
-                                <th id="filter-salesman">salesman</th>
-                                <th>nama_toko</th>
-                                <th>id_survey_pasar</th>
+                                <th id="filter-salesman-Order">salesman</th>
+                                <th>kode customer</th>
+                                <th>nama toko</th>
+                                <th>id survey pasar</th>
                                 <th>status</th>
-                                <th>total_rp</th>
-                                <th>total_qty</th>
-                                <th>total_transaksi</th>
+                                <th>total rp</th>
+                                <th>total qty</th>
+                                <th>total transaksi</th>
                                 <th>tgl transaksi</th>
                                 <th>document</th>
-                                <th>closed_order</th>
                                 <th>platform</th>
-                                <th>id_qr_outlet</th>
-                                <th>kode customer</th>
+                                <th>tipe order</th>
+                                <th>id qr outlet</th>
+                                <th>exported</th>
+                                <th>is call</th>
                             </thead>
                             <tbody id="bodyTabelOrder">
                             </tbody>
@@ -236,6 +259,7 @@
                             <span class="input-group-text">Rute</span>
                             <select class="form-select form-select-sm select2-rute-akhir w-100"
                                 id="rute_id_akhir"></select>
+                            <input type="hidden" id="id_wilayah_akhir">
                         </div>
                     </div>
                 </div>
@@ -243,6 +267,34 @@
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
                         aria-label="Close">Batal</button>
                     <button type="button" class="btn btn-primary" id="savePindahRute">Simpan</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Pindah Pasar -->
+    <div class="modal fade" id="PindahPasarModal" tabindex="-1" role="dialog" aria-labelledby="PindahPasarModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content card">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="PindahPasarModalLabel">Pindah Pasar</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <div class="input-group input-group-sm flex-nowrap mb-3">
+                            <span class="input-group-text">Pasar</span>
+                            <select class="form-select form-select-sm select2-pasar_akhir w-100" id="pasar_akhir">
+                            </select>
+                        </div>
+                        <input type="hidden" id="nama_pasar_akhir" readonly>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                        aria-label="Close">Batal</button>
+                    <button type="button" class="btn btn-primary" id="savePindahPasar">Simpan</button>
                 </div>
             </div>
         </div>
@@ -267,7 +319,49 @@
                 minLength: 3
             });
 
-            $('.myTable').DataTable({
+            // SELECT2 PASAR
+            $('.select2-pasar_akhir').select2({
+                dropdownParent: $('#PindahPasarModal'),
+                theme: 'bootstrap-5',
+                ajax: {
+                    url: "{{ route('KodeCustomer.getPasar') }}",
+                    dataType: 'json',
+                    data: function(params) {
+                        return {
+                            q: params.term,
+                            page: params.page ||
+                                1, // Menambahkan parameter 'page' saat melakukan permintaan ke server
+                            // id_wilayah: $('#nama_wilayah').text().match(/\((.*?)\)/)[1],
+                        };
+                    },
+                    processResults: function(data, params) {
+                        params.page = params.page || 1; // Menyimpan nilai halaman saat ini
+
+                        return {
+                            results: data.results,
+                            pagination: {
+                                more: data.pagination.more // Mengambil nilai 'more' dari respons server
+                            }
+                        };
+                    },
+                    cache: true
+                },
+                placeholder: 'Pilih Pasar',
+                allowClear: true,
+                templateResult: function(data) {
+                    if (data.loading) {
+                        return data.text;
+                    }
+                    return $('<span>').text(data.id_pasar).addClass('pull-right').append($('<b>').text(
+                        ' - ' + data.text)).addClass('pull-right').append($('<b>').text(
+                        ' - ' + data.nama_wilayah));
+                }
+            }).on('select2:select', function(e) {
+                var data = e.params.data;
+                $('#nama_pasar_akhir').val(data.text);
+            });
+
+            var table = $('.myTable').DataTable({
                 dom: "<'row'<'col-sm-12 col-md-2'l><'col-sm-12 col-md-5'B><'col-sm-12 col-md-5 text-right'f>>" +
                     "<'row'<'col-sm-12'tr>>" +
                     "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
@@ -275,16 +369,14 @@
                 buttons: [
                     'copy', 'csv', {
                         extend: 'excel',
-                        title: 'Data ' + $('#nama-salesman').text() + " - " + $('#nama-distributor')
-                            .text() + " - " +
-                            $('#nama-wilayah').text(),
+                        title: 'Data - ' + $('#kode_customer').val(),
                         exportOptions: {
                             columns: ':not(.no-export)'
                         }
                     }, 'pdf', 'print'
                 ],
                 columnDefs: [{
-                    targets: [4, 5, 6, 10, 11, 12, 14],
+                    targets: [15],
                     className: 'no-export' // kelas no-export
                 }],
                 "lengthMenu": [10, 25, 50, 75, 100, 500],
@@ -294,13 +386,38 @@
                     [6, 'desc'],
                     [11, 'asc']
                 ],
+                "initComplete": function(settings, json) {
+                    var wilayahList = this.api().column(0).data().unique().sort();
+                    var wilayahSelect = $(
+                            '<select class="w-100"><option value="">All</option></select>')
+                        .appendTo('#filter-wilayah')
+                        .on('change', function() {
+                            var val = $.fn.dataTable.util.escapeRegex($(this).val());
+                            table.column(0).search(val ? '^' + val + '$' : '', true, false).draw();
+                        });
+                    wilayahList.each(function(d, j) {
+                        wilayahSelect.append('<option value="' + d + '">' + d + '</option>');
+                    });
+
+                    var salesmanList = this.api().column(1).data().unique().sort();
+                    var salesmanSelect = $(
+                            '<select class="w-100"><option value="">All</option></select>')
+                        .appendTo('#filter-salesman')
+                        .on('change', function() {
+                            var val = $.fn.dataTable.util.escapeRegex($(this).val());
+                            table.column(1).search(val ? '^' + val + '$' : '', true, false).draw();
+                        });
+                    salesmanList.each(function(d, j) {
+                        salesmanSelect.append('<option value="' + d + '">' + d + '</option>');
+                    });
+                }
             });
 
             // MODAL ORDER
-            var table;
+            var tableOrder;
             $(document).on('click', ".btnOrder", function() {
-                if (!table) {
-                    table = $('.TableOrder').DataTable({
+                if (!tableOrder) {
+                    tableOrder = $('.TableOrder').DataTable({
                         processing: true,
                         serverSide: true,
                         dom: "<'row'<'col-sm-12 col-md-2'l><'col-sm-12 col-md-5'B><'col-sm-12 col-md-5 text-right'f >> " +
@@ -321,7 +438,19 @@
                             exportOptions: {
                                 columns: ':not(.no-export)'
                             }
-                        }, 'pdf', 'print'],
+                        }, {
+                            extend: 'pdf',
+                            title: 'Data - ' + $('#kode_customer').val(),
+                            exportOptions: {
+                                columns: ':not(.no-export)'
+                            },
+                            customize: function(doc) {
+                                doc.pageOrientation =
+                                    'landscape'; // Set orientasi landscape
+                                doc.pageSize =
+                                    'LEGAL'; // Set ukuran halaman 
+                            }
+                        }, 'print'],
                         ajax: {
                             url: "{{ route('KodeCustomer.getOrder') }}",
                             type: 'POST',
@@ -330,12 +459,12 @@
                             },
                         },
                         order: [
-                            [11, 'asc'],
                             [2, 'asc'],
+                            [12, 'asc'],
                             [4, 'asc']
                         ],
                         columnDefs: [{
-                            targets: [1, 6, 12, 13, 15, 14], // kolom pertama
+                            targets: [1, 13, 14, 16], // kolom pertama
                             className: 'no-export' // kelas no-export
                         }],
                         columns: [{
@@ -363,6 +492,11 @@
                             {
                                 data: 'nama_salesman',
                                 name: 'nama_salesman',
+                                className: 'text-info'
+                            },
+                            {
+                                data: 'kode_customer',
+                                name: 'kode_customer',
                                 className: 'text-primary'
                             },
                             {
@@ -399,211 +533,209 @@
                                 name: 'document'
                             },
                             {
-                                data: 'closed_order',
-                                name: 'closed_order'
-                            },
-                            {
                                 data: 'platform',
                                 name: 'platform'
+                            },
+                            {
+                                data: 'tipe_order',
+                                name: 'tipe_order'
                             },
                             {
                                 data: 'id_qr_outlet',
                                 name: 'id_qr_outlet'
                             },
                             {
-                                data: 'kode_customer',
-                                name: 'kode_customer'
+                                data: 'is_exported',
+                                name: 'is_exported',
+                                render: function(data, type, full, meta) {
+                                    if (data === 1) {
+                                        return '<i class="bi bi-check-square-fill text-success"></i>';
+                                    } else {
+                                        return '<i class="bi bi-x-square-fill text-danger"></i>';
+                                    }
+                                }
                             },
-
+                            {
+                                data: 'is_call',
+                                name: 'is_call',
+                                render: function(data, type, full, meta) {
+                                    if (data === 1) {
+                                        return '<i class="bi bi-check-square-fill text-success"></i>';
+                                    } else {
+                                        return '<i class="bi bi-x-square-fill text-danger"></i>';
+                                    }
+                                }
+                            },
                         ],
                         "initComplete": function(settings, json) {
-                            var salesmanList = table.column('nama_salesman:name').data()
+                            var salesmanOrderList = tableOrder.column('nama_salesman:name')
+                                .data()
                                 .unique()
                                 .sort();
-                            var select = $('<select><option value=""></option></select>')
-                                .appendTo('#filter-salesman')
+                            var selectSalesmanOrder = $(
+                                    '<select class="w-100"><option value=""></option></select>')
+                                .appendTo('#filter-salesman-Order')
                                 .on('change', function() {
                                     var val = $.fn.dataTable.util.escapeRegex(
                                         $(this).val()
                                     );
-                                    table.column('nama_salesman:name').search(val ? '^' +
+                                    tableOrder.column('nama_salesman:name').search(val ?
+                                        '^' +
                                         val +
                                         '$' : '',
                                         true, false).draw();
                                 });
-                            salesmanList.each(function(d, j) {
-                                select.append('<option value="' + d + '">' + d +
+                            salesmanOrderList.each(function(d, j) {
+                                selectSalesmanOrder.append('<option value="' + d +
+                                    '">' + d +
                                     '</option>')
                             });
 
-                            var wilayahList = table.column('nama_wilayah:name').data().unique()
+                            var wilayahOrderList = tableOrder.column('nama_wilayah:name').data()
+                                .unique()
                                 .sort();
-                            var select = $('<select><option value=""></option></select>')
-                                .appendTo('#filter-wilayah')
+                            var selectWilayahOrder = $(
+                                    '<select class="w-100"><option value=""></option></select>')
+                                .appendTo('#filter-wilayah-Order')
                                 .on('change', function() {
                                     var val = $.fn.dataTable.util.escapeRegex(
                                         $(this).val()
                                     );
-                                    table.column('nama_wilayah:name').search(val ? '^' +
+                                    tableOrder.column('nama_wilayah:name').search(val ?
+                                        '^' +
                                         val +
                                         '$' : '',
                                         true, false).draw();
                                 });
-                            wilayahList.each(function(d, j) {
-                                select.append('<option value="' + d + '">' + d +
+                            wilayahOrderList.each(function(d, j) {
+                                selectWilayahOrder.append('<option value="' + d + '">' +
+                                    d +
                                     '</option>')
                             });
                         }
                     });
                 } else {
-                    table.draw();
+                    tableOrder.draw();
                 }
                 $('#orderModal').modal('show');
             });
 
-            // // EDIT ALAMAT
-            // $(document).on('click', "#saveEditAlamat", function() {
-            //     // Ambil nilai kolom input field
-            //     var survey_pasar_id = $('#survey_pasar_id-ALAMAT').val();
-            //     var id_mco = $('#id_mco-ALAMAT').val();
-            //     var nama_tokoBaru = $('#nama_toko-baru').val();
-            //     var alamatBaru = $('#alamat-baru').val();
+            // // EDIT OUTLET
+            // $(document).on('click', ".btnEdit", function() {
+            //     var nama_toko = $(this).closest('tr').find('.nama_toko').text().trim();
+            //     var alamat = $(this).closest('tr').find('.alamat').text().trim();
+            //     var kode_customer = $(this).closest('tr').find('.kode_customer').text().trim();
+            //     var id_salesman = $(this).closest('tr').find('.salesman').text().match(
+            //         /\(([^()]+)\)[^(]*$/)[1].trim();
 
-            //     // Ambil urutan baris tabel terkait dengan modal edit
-            //     var index = $('#index-ALAMAT').val();
+            //     $('#alamat-baru').val(alamat);
+            //     $('#nama_toko-baru').val(nama_toko);
+            //     $('#kode_customer-baru').val(kode_customer);
+            //     // var index = $(".btnEdit").index(this);
 
-            //     if (alamatBaru === '' || alamatBaru == null) {
-            //         $('#alamat-baru').get(0).setCustomValidity('Harap isi Alamat');
-            //         $('#alamat-baru').get(0).reportValidity(); // Menampilkan pesan kesalahan
-            //         return;
-            //     }
-            //     if (nama_tokoBaru === '' || nama_tokoBaru == null) {
-            //         $('#nama_toko-baru').get(0).setCustomValidity('Harap isi Nama Toko');
-            //         $('#nama_toko-baru').get(0).reportValidity(); // Menampilkan pesan kesalahan
-            //         return;
-            //     }
+            //     // Tampilkan modal edit
+            //     $('#editModal').modal('show');
 
-            //     // Lakukan update pada data di database
-            //     $.ajax({
-            //         type: 'post',
-            //         url: "{{ route('KodeCustomer.updateAlamat') }}",
-            //         dataType: 'json',
-            //         encode: true,
-            //         data: {
-            //             survey_pasar_id: survey_pasar_id,
-            //             id_mco: id_mco,
-            //             nama_toko: nama_tokoBaru,
-            //             alamat: alamatBaru,
-            //         },
-            //         beforeSend: function() {
-            //             $('.loading-overlay').show();
-            //         },
-            //         success: function(response) {
-            //             $('#alamat' + index).text(response.alamat);
-            //             $('#nama_toko' + index).text(response.nama_toko);
-            //             $('#editAlamatModal').modal('hide');
-            //             $('.modal-input').val('');
-            //             $('#successModal').modal('show');
-            //             $('#alamat-baru').val('');
-            //             $('#nama_toko-baru').val('');
-            //         },
-            //         error: function(xhr, status, error) {
-            //             // console.error(error);
-            //             $('#errorModal #message').text(xhr.responseJSON.message);
-            //             $('#errorModal').modal('show');
-            //         },
-            //         complete: function() {
-            //             $('.loading-overlay').hide();
-            //         }
+            //     var survey_pasar_id = $(this).closest('tr').find('.id_survey_pasar').text().trim();
+            //     var id_mco = $(this).closest('tr').find('.id_mco').text().trim();
+
+            //     $('#saveEdit').click(function(e) {
+            //         e.preventDefault();
+            //         // Ambil nilai kolom input field
+            //         var nama_tokoBaru = $('#nama_toko-baru').val();
+            //         var alamatBaru = $('#alamat-baru').val();
+            //         var kode_customerBaru = $('#kode_customer-baru').val();
+
+            //         // Lakukan update pada data di database
+            //         $.ajax({
+            //             type: 'post',
+            //             url: "{{ route('KodeCustomer.editOutlet') }}",
+            //             dataType: 'json',
+            //             encode: true,
+            //             data: {
+            //                 survey_pasar_id: survey_pasar_id,
+            //                 id_mco: id_mco,
+            //                 nama_toko: nama_tokoBaru,
+            //                 alamat: alamatBaru,
+            //                 kode_customer: kode_customerBaru,
+            //                 id_salesman: id_salesman,
+            //             },
+            //             beforeSend: function() {
+            //                 $('.loading-overlay').show();
+            //             },
+            //             success: function(response) {
+            //                 $('#successModal #message').text(response.message);
+            //                 $('#successModal').modal('show');
+            //                 setTimeout(function() {
+            //                     $('#successModal').modal('hide');
+            //                     location.reload();
+            //                 }, 1000);
+            //             },
+            //             error: function(xhr, status, error) {
+            //                 // console.error(error);
+            //                 $('#errorModal #message').text(xhr.responseJSON.message);
+            //                 $('#errorModal').modal('show');
+            //             },
+            //             complete: function() {
+            //                 $('.loading-overlay').hide();
+            //             }
+            //         });
             //     });
             // });
 
-            // // EDIT KODE
-            // $(document).on('click', '#saveEditKode', function() {
-            //     var id_mco = $('#id_mco-KODE').val();
-            //     var survey_pasar_id = $('#survey_pasar_id-KODE').val();
-            //     var kodeBaru = $('#kode-baru').val();
+            // // PINDAH OUTLET
+            // $('.btnPindah').click(function(e) {
+            //     e.preventDefault();
+            //     $('#PindahRuteModal').modal('show');
 
-            //     // Ambil urutan baris tabel terkait dengan modal edit
-            //     var index = $('#index-KODE').val();
+            //     var id = $(this).closest('tr').find('.id_mrdo').text().trim();
+            //     var id_pasar_awal = $(this).closest('tr').find('.id_pasar').text().trim();
+            //     var id_survey_pasar = $(this).closest('tr').find('.id_survey_pasar').text()
+            //         .trim();
 
-            //     $.ajax({
-            //         type: 'POST',
-            //         url: "{{ route('KodeCustomer.updateKode') }}",
-            //         dataType: 'json',
-            //         encode: true,
-            //         data: {
-            //             // _token: "{{ csrf_token() }}",
-            //             id_mco: id_mco,
-            //             survey_pasar_id: survey_pasar_id,
-            //             kodeBaru: kodeBaru
-            //         },
-            //         beforeSend: function() {
-            //             $('.loading-overlay').show();
-            //         },
-            //         success: function(response) {
-            //             $('#kode' + index).text(response.kode_customer);
-            //             $('#editKodeModal').modal('hide');
-            //             $('.modal-input').val('');
-            //             $('#successModal').modal('show');
-            //         },
-            //         error: function(xhr, status, error) {
-            //             console.error(error);
-            //             $('#errorModal #message').text(xhr.responseJSON.message);
-            //             $('#errorModal').modal('show');
-            //         },
-            //         complete: function() {
-            //             $('.loading-overlay').hide();
+            //     $(document).on('click', '#savePindahRute', function() {
+
+            //         var rute_id_akhir = $('#rute_id_akhir').val();
+
+            //         if (rute_id_akhir === '' || rute_id_akhir == null) {
+            //             $('#rute_id_akhir').get(0).setCustomValidity('Harap isi Rute tujuan');
+            //             $('#rute_id_akhir').get(0).reportValidity(); // Menampilkan pesan kesalahan
+            //             return;
             //         }
-            //     });
-            // });
 
-            // PINDAH OUTLET
-            // $(document).on('click', '#savePindahRute', function() {
-            //     var id = $('#id_mrdo').val();
-            //     var id_pasar_awal = $('#id_pasar_awal').val();
-            //     var rute_id_akhir = $('#rute_id_akhir').val();
-            //     var id_survey_pasar = $('#id_survey_pasar').val();
-
-            //     if (rute_id_akhir === '' || rute_id_akhir == null) {
-            //         $('#rute_id_akhir').get(0).setCustomValidity('Harap isi Rute tujuan');
-            //         $('#rute_id_akhir').get(0).reportValidity(); // Menampilkan pesan kesalahan
-            //         return;
-            //     }
-
-            //     $.ajax({
-            //         type: 'POST',
-            //         url: "{{ route('KodeCustomer.pindah') }}",
-            //         dataType: 'json',
-            //         encode: true,
-            //         data: {
-            //             id: id,
-            //             id_pasar_awal: id_pasar_awal,
-            //             rute_id_akhir: rute_id_akhir,
-            //             id_survey_pasar: id_survey_pasar
-            //         },
-            //         beforeSend: function() {
-            //             $('.loading-overlay').show();
-            //         },
-            //         success: function(response) {
-            //             // console.log(response.message);
-            //             $('#PindahRuteModal').modal('hide');
-            //             $('#successModal #message').text(response.message);
-            //             $('.modal-input').val('');
-            //             $('#successModal').modal('show');
-            //             setTimeout(function() {
-            //                 $('#successModal').modal('hide');
-            //                 location.reload();
-            //             }, 3000);
-            //         },
-            //         error: function(xhr, status, error) {
-            //             console.error(error);
-            //             $('#errorModal #message').text(xhr.responseJSON.message);
-            //             $('#errorModal').modal('show');
-            //         },
-            //         complete: function() {
-            //             $('.loading-overlay').hide();
-            //         }
+            //         $.ajax({
+            //             type: 'POST',
+            //             url: "{{ route('KodeCustomer.pindah') }}",
+            //             dataType: 'json',
+            //             encode: true,
+            //             data: {
+            //                 id: id,
+            //                 id_pasar_awal: id_pasar_awal,
+            //                 rute_id_akhir: rute_id_akhir,
+            //                 id_survey_pasar: id_survey_pasar
+            //             },
+            //             beforeSend: function() {
+            //                 $('.loading-overlay').show();
+            //             },
+            //             success: function(response) {
+            //                 $('#PindahRuteModal').modal('hide');
+            //                 $('#successModal #message').text(response.message);
+            //                 
+            //                 $('#successModal').modal('show');
+            //                 setTimeout(function() {
+            //                     $('#successModal').modal('hide');
+            //                     location.reload();
+            //                 }, 1000);
+            //             },
+            //             error: function(xhr, status, error) {
+            //                 console.error(error);
+            //                 $('#errorModal #message').text(xhr.responseJSON.message);
+            //                 $('#errorModal').modal('show');
+            //             },
+            //             complete: function() {
+            //                 $('.loading-overlay').hide();
+            //             }
+            //         });
             //     });
             // });
 
@@ -641,7 +773,7 @@
                         return data.text;
                     }
                     return $('<span>').text(data.text).addClass('pull-right').append($('<b>').text(
-                        ' - ' +
+                        '-' +
                         data.nama_wilayah));
                 }
             }).on('select2:select', function(e) {
@@ -678,12 +810,15 @@
                     }
                     return $('<span>').text(data.text);
                 }
+            }).on('select2:select', function(e) {
+                var data = e.params.data;
+                $('#id_wilayah_akhir').val(data.id_wilayah);
             });
 
             // EDIT OUTLET
             $(document).on('click', ".btnEdit", function() {
-                var nama_toko = $(this).closest('tr').find('.nama_toko').text();
-                var alamat = $(this).closest('tr').find('.alamat').text();
+                var nama_toko = $(this).closest('tr').find('.nama_toko').text().trim();
+                var alamat = $(this).closest('tr').find('.alamat').text().trim();
                 var kode_customer = $(this).closest('tr').find('.kode_customer').text().trim();
 
                 $('#alamat-baru').val(alamat);
@@ -697,41 +832,50 @@
                 var selectedRows = [];
 
                 var id_wilayah = $(this).closest('tr').find('.nama_wilayah').text().match(
-                    /\(([^()]+)\)[^(]*$/)[1];
-                var id_survey_pasar = $(this).closest('tr').find('.id_survey_pasar').text();
-                var id_qr_outlet = $(this).closest('tr').find('.id_mco').text();
-                var mrdo_id = $(this).closest('tr').find('.id_mrdo').text();
-                var id = $(this).closest('tr').find('.rute_id').text();
-                var rute = $(this).closest('tr').find('.rute').text();
-                var hari = $(this).closest('tr').find('.hari').text();
-                var nama_toko = $(this).closest('tr').find('.nama_toko').text();
-                var alamat = $(this).closest('tr').find('.alamat').text();
+                    /\(([^()]+)\)[^(]*$/)[1].trim();
+                var id_distributor = $(this).closest('tr').data('id_distributor');
+                var nama_distributor = $(this).closest('tr').data('nama_distributor');
+                var id_survey_pasar = $(this).closest('tr').find('.id_survey_pasar').text().trim();
+                var id_qr_outlet = $(this).closest('tr').find('.id_mco').text().trim();
+                var mrdo_id = $(this).closest('tr').find('.id_mrdo').text().trim();
+                var rute_detail_id = $(this).closest('tr').data('rute_detail_id');
+                var id = $(this).closest('tr').find('.rute_id').text().trim();
+                var rute = $(this).closest('tr').find('.rute').text().trim();
+                var hari = $(this).closest('tr').find('.hari').text().trim();
+                var nama_toko = $(this).closest('tr').find('.nama_toko').text().trim();
+                var alamat = $(this).closest('tr').find('.alamat').text().trim();
                 var kode_customer = $(this).closest('tr').find('.kode_customer').text().trim();
                 var nama_wilayah = $(this).closest('tr').find('.nama_wilayah').text().trim().replace(
                     /\s*\([^)]*\)$/, '');
                 var salesman = $(this).closest('tr').find('.salesman').text().trim().replace(
                     /\s*\([^)]*\)$/, '');
-                var id_pasar = $(this).closest('tr').find('.id_pasar').text();
-                var location_type = $(this).closest('tr').find('.tipe_outlet').text().split(
-                    ' - ')[1].trim();
+                var id_pasar = $(this).closest('tr').find('.id_pasar').text().trim();
+                var nama_pasar = $(this).closest('tr').find('.nama_pasar').text().trim();
+                var location_type = $(this).closest('tr').find('.tipe_outlet').text().split('-')[1]
+                    .trim();
                 var source_type = $(this).closest('tr').find('.tipe_outlet').text().split(
-                    ' - ')[2].trim();
+                    '-')[2].trim();
 
                 var dataObject = {};
                 dataObject['id_wilayah'] = id_wilayah;
                 dataObject['survey_pasar_id'] = id_survey_pasar;
                 dataObject['id_qr_outlet'] = id_qr_outlet;
                 dataObject['mrdo_id'] = mrdo_id;
+                dataObject['rute_detail_id'] = rute_detail_id;
                 dataObject['id'] = id;
                 dataObject['rute'] = rute;
                 dataObject['hari'] = hari;
+                dataObject['id_distributor'] = id_distributor;
+                dataObject['nama_distributor'] = nama_distributor;
                 dataObject['nama_toko'] = nama_toko;
                 dataObject['kode_customer'] = kode_customer;
                 dataObject['nama_wilayah'] = nama_wilayah;
+                dataObject['nama_pasar'] = nama_pasar;
                 dataObject['salesman'] = salesman;
                 dataObject['id_pasar'] = id_pasar;
                 dataObject['location_type'] = location_type;
 
+                $('#saveEdit').off('click');
                 $('#saveEdit').click(function(e) {
                     e.preventDefault();
                     var nama_toko_baru = $('#nama_toko-baru').val();
@@ -764,7 +908,7 @@
                             setTimeout(function() {
                                 $('#successModal').modal('hide');
                                 location.reload();
-                            }, 3000);
+                            }, 1000);
                         },
                         error: function(xhr, status, error) {
                             console.error(error);
@@ -778,31 +922,33 @@
                 });
             });
 
-            // PINDAH RUTE
+            // PINDAH OUTLET
             $('.btnPindah').click(function(e) {
                 e.preventDefault();
 
                 $('#PindahRuteModal').modal('show');
 
                 var selectedRows = [];
-                var id_mrdo = $(this).closest('tr').find('.id_mrdo').text();
-                var rute_id = $(this).closest('tr').find('.rute_id').text();
+                var id_mrdo = $(this).closest('tr').find('.id_mrdo').text().trim();
+                var rute_id = $(this).closest('tr').find('.rute_id').text().trim();
                 var rute_detail_id = $(this).closest('tr').data('rute_detail_id');
-                var id_pasar = $(this).closest('tr').find('.id_pasar').text();
-                var id_survey_pasar = $(this).closest('tr').find('.id_survey_pasar').text();
+                var id_wilayah = $('#id_wilayah_akhir').val();
+                var id_pasar = $(this).closest('tr').find('.id_pasar').text().trim();
+                var id_survey_pasar = $(this).closest('tr').find('.id_survey_pasar').text().trim();
                 var kode_customer = $(this).closest('tr').find('.kode_customer').text().trim();
                 var wilayah = $(this).closest('tr').find('.nama_wilayah').text().trim().replace(
                     /\s*\([^)]*\)$/, '');
                 var salesman = $(this).closest('tr').find('.salesman').text().trim().replace(
                     /\s*\([^)]*\)$/, '');
                 var location_type = $(this).closest('tr').find('.tipe_outlet').text().split(
-                    ' - ')[1];
-                var toko = $(this).closest('tr').find('.nama_toko').text();
+                    '-')[1].trim();
+                var toko = $(this).closest('tr').find('.nama_toko').text().trim();
 
                 var dataObject = {};
                 dataObject['id_mrdo'] = id_mrdo;
                 dataObject['rute_id'] = rute_id;
                 dataObject['rute_detail_id'] = rute_detail_id;
+                dataObject['id_wilayah'] = id_wilayah;
                 dataObject['id_pasar'] = id_pasar;
                 dataObject['survey_pasar_id'] = id_survey_pasar;
                 dataObject['kode_customer'] = kode_customer;
@@ -813,11 +959,12 @@
 
                 selectedRows.push(dataObject);
 
+                $('#savePindahRute').off('click');
                 $('#savePindahRute').click(function(e) {
                     e.preventDefault();
 
                     var salesman_akhir = $('#salesman_akhir').val();
-                    var hari = $('#rute_id_akhir').text().split(' ')[0];
+                    var hari = $('#rute_id_akhir').text().split(' ')[0].trim();
                     var rute = $('#rute_id_akhir').val();
 
                     if (rute === '' || rute == null) {
@@ -846,7 +993,7 @@
                                 setTimeout(function() {
                                     $('#successModal').modal('hide');
                                     location.reload();
-                                }, 3000);
+                                }, 1000);
                             } else {
                                 $('#errorModal #message').text(response.message);
                                 $('#errorModal').modal('show');
@@ -864,35 +1011,167 @@
                 });
             });
 
+            // PINDAH PASAR
+            $(document).on('click', ".btnPindahPasar", function() {
+                // Tampilkan modal edit
+                $('#PindahPasarModal').modal('show');
+
+                var valid = true;
+
+                var id_wilayah = $(this).closest('tr').find('.nama_wilayah').text().match(
+                    /\(([^()]+)\)[^(]*$/)[1].trim();
+                var id_distributor = $(this).closest('tr').data('id_distributor');
+                var nama_distributor = $(this).closest('tr').data('nama_distributor');
+                var id_survey_pasar = $(this).closest('tr').find('.id_survey_pasar').text().trim();
+                var id_qr_outlet = $(this).closest('tr').find('.id_mco').text().trim();
+                var mrdo_id = $(this).closest('tr').find('.id_mrdo').text().trim();
+                var rute_detail_id = $(this).closest('tr').data('rute_detail_id');
+                var id = $(this).closest('tr').find('.rute_id').text().trim();
+                var rute = $(this).closest('tr').find('.rute').text().trim();
+                var hari = $(this).closest('tr').find('.hari').text().trim();
+                var nama_toko = $(this).closest('tr').find('.nama_toko').text().trim();
+                var alamat = $(this).closest('tr').find('.alamat').text().trim();
+                var kode_customer = $(this).closest('tr').find('.kode_customer').text().trim();
+                var nama_wilayah = $(this).closest('tr').find('.nama_wilayah').text().trim().replace(
+                    /\s*\([^)]*\)$/, '');
+                var salesman = $(this).closest('tr').find('.salesman').text().trim().replace(
+                    /\s*\([^)]*\)$/, '');
+                var id_pasar = $(this).closest('tr').find('.id_pasar').text().trim();
+                var nama_pasar = $(this).closest('tr').find('.nama_pasar').text().trim();
+                var location_type = $(this).closest('tr').find('.tipe_outlet').text().split('-')[1]
+                    .trim();
+                var source_type = $(this).closest('tr').find('.tipe_outlet').text().split(
+                    '-')[2].trim();
+                // if (source_type == 'MAS') {
+                //     alert("Source Type MAS : " + nama_toko + " - " + kode_customer);
+                //     valid = false;
+                //     $('#PindahPasarModal').modal('hide');
+                //     return false;
+                // }
+
+                var dataObject = {};
+                dataObject['id_wilayah'] = id_wilayah;
+                dataObject['survey_pasar_id'] = id_survey_pasar;
+                dataObject['id_qr_outlet'] = id_qr_outlet;
+                dataObject['mrdo_id'] = mrdo_id;
+                dataObject['rute_detail_id'] = rute_detail_id;
+                dataObject['id'] = id;
+                dataObject['rute'] = rute;
+                dataObject['hari'] = hari;
+                dataObject['id_distributor'] = id_distributor;
+                dataObject['nama_distributor'] = nama_distributor;
+                dataObject['nama_toko'] = nama_toko;
+                dataObject['kode_customer'] = kode_customer;
+                dataObject['nama_pasar'] = nama_pasar;
+                dataObject['nama_wilayah'] = nama_wilayah;
+                dataObject['salesman'] = salesman;
+                dataObject['id_pasar'] = id_pasar;
+                dataObject['location_type'] = location_type;
+
+                $('#savePindahPasar').off('click').on('click', function(e) {
+                    e.preventDefault();
+                    var id_pasar_akhir = $('#pasar_akhir').val();
+                    var nama_pasar_akhir = $('#nama_pasar_akhir').val();
+
+                    var selectedRows = [];
+
+                    var data = [];
+                    data.push(kode_customer);
+                    // data.push(String(kode_customer).padStart(6, '0'));
+                    data.push(nama_toko);
+                    data.push(alamat);
+                    data.push(location_type);
+                    // data.push(id_pasar);
+                    data.push(id_pasar_akhir);
+                    data[5] = dataObject;
+                    selectedRows.push(data);
+
+                    if (valid) {
+                        $.ajax({
+                            type: 'post',
+                            url: "http://10.11.1.37/api/tool/outletkandidat/saveeditcustomer",
+                            dataType: 'json',
+                            encode: true,
+                            data: {
+                                data: selectedRows
+                            },
+                            beforeSend: function() {
+                                $('.loading-overlay').show();
+                            },
+                            success: function(response) {
+                                $('#successModal #message').text(response.message);
+                                $('#PindahPasarModal').modal('hide');
+                                $('#successModal').modal('show');
+
+                                var rowData = table.row(
+                                    '[data-id="' + mrdo_id +
+                                    '"]').data();
+
+                                rowData[11] = id_pasar_akhir;
+                                console.log(nama_pasar_akhir);
+                                rowData[12] = nama_pasar_akhir;
+                                rowData[13] = nama_pasar_akhir;
+
+                                table.row('[data-id="' +
+                                    mrdo_id + '"]').data(
+                                    rowData).draw();
+
+                                $('#nama_pasar_akhir').val("");
+                                $('#pasar_akhir').val(null).trigger(
+                                    'change.select2');
+
+                                setTimeout(function() {
+                                    $('#successModal').modal('hide');
+                                    $('#PindahPasarModal').modal('hide');
+                                    // location.reload();
+                                }, 1000);
+                            },
+                            error: function(xhr, status, error) {
+                                console.error(error);
+                                $('#errorModal #message').text(xhr.responseJSON
+                                    .message);
+                                $('#errorModal').modal('show');
+                            },
+                            complete: function() {
+                                $('.loading-overlay').hide();
+                            }
+                        });
+                    }
+                });
+            });
+
             // SET RETAIL
-            $(document).on('click', '.btnSetRetail, .btnSetGrosir', function() {
-                var id_mrdo = $(this).data('id_mrdo');
-                var id_mco = $(this).data('id_mco');
-                var set = $(this).data('set');
+            $(document).on('click', ".btnSetRetail", function() {
+                var mrdo_id = $(this).closest('tr').find('.id_mrdo').text().trim();
+                var iddepo = $(this).closest('tr').find('.nama_wilayah').text().match(
+                    /\(([^()]+)\)[^(]*$/)[1].trim();
                 var tipe_outlet = $(this).closest('tr').find('.tipe_outlet');
 
                 $.ajax({
                     type: 'POST',
-                    url: "{{ route('KodeCustomer.setOutlet') }}",
+                    url: "http://10.11.1.37/api/tool/rute/setRetail",
                     dataType: 'json',
                     encode: true,
                     data: {
-                        // _token: "{{ csrf_token() }}",
-                        id_mrdo: id_mrdo,
-                        id_mco: id_mco,
-                        set: set
+                        mrdo_id: mrdo_id,
+                        iddepo: iddepo
                     },
                     beforeSend: function() {
                         $('.loading-overlay').show();
                     },
                     success: function(response) {
-                        var tipe_outlet_all = tipe_outlet.text().trim();
-                        var tipe_outlet_parts = tipe_outlet_all.split(' - ');
-                        tipe_outlet_parts[0] = response.tipe_outlet ?? "RETAIL";
-                        var tipe_outlet_modified = tipe_outlet_parts.join(' - ');
-                        tipe_outlet.html(tipe_outlet_modified);
-                        $('.modal-input').val('');
-                        $('#successModal').modal('show');
+                        if (response.is_valid) {
+                            var tipe_outlet_all = tipe_outlet.text().trim();
+                            var tipe_outlet_parts = tipe_outlet_all.split('-');
+                            tipe_outlet_parts[0] = "RETAIL";
+                            var tipe_outlet_modified = tipe_outlet_parts.join('-');
+                            tipe_outlet.html(tipe_outlet_modified);
+
+                            $('#successModal').modal('show');
+                        } else {
+                            $('#errorModal #message').text(response.message);
+                            $('#errorModal').modal('show');
+                        }
                     },
                     error: function(xhr, status, error) {
                         console.error(error);
@@ -904,10 +1183,96 @@
                 });
             });
 
+            // SET GROSIR
+            $(document).on('click', ".btnSetGrosir", function() {
+                var mrdo_id = $(this).closest('tr').find('.id_mrdo').text().trim();
+                var iddepo = $(this).closest('tr').find('.nama_wilayah').text().match(
+                    /\(([^()]+)\)[^(]*$/)[1].trim();
+                var tipe_outlet = $(this).closest('tr').find('.tipe_outlet');
+
+                $.ajax({
+                    type: 'POST',
+                    url: "http://10.11.1.37/api/tool/rute/setGrosir",
+                    dataType: 'json',
+                    encode: true,
+                    data: {
+                        mrdo_id: mrdo_id,
+                        iddepo: iddepo
+                    },
+                    beforeSend: function() {
+                        $('.loading-overlay').show();
+                    },
+                    success: function(response) {
+                        if (response.is_valid) {
+                            var tipe_outlet_all = tipe_outlet.text().trim();
+                            var tipe_outlet_parts = tipe_outlet_all.split('-');
+                            tipe_outlet_parts[0] = "TPOUT_WHSL";
+                            var tipe_outlet_modified = tipe_outlet_parts.join('-');
+                            tipe_outlet.html(tipe_outlet_modified);
+
+                            $('#successModal').modal('show');
+                        } else {
+                            $('#errorModal #message').text(response.message);
+                            $('#errorModal').modal('show');
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(error);
+                        $('#errorModal').modal('show');
+                    },
+                    complete: function() {
+                        $('.loading-overlay').hide();
+                    }
+                });
+            });
+
+            // // SET RETAIL
+            // $(document).on('click', '.btnSetRetail, .btnSetGrosir', function() {
+            //     var id_mrdo = $(this).data('id_mrdo');
+            //     var id_mco = $(this).data('id_mco');
+            //     var set = $(this).data('set');
+            //     var tipe_outlet = $(this).closest('tr').find('.tipe_outlet');
+
+            //     $.ajax({
+            //         type: 'POST',
+            //         url: "{{ route('KodeCustomer.setOutlet') }}",
+            //         dataType: 'json',
+            //         encode: true,
+            //         data: {
+            //             // _token: "{{ csrf_token() }}",
+            //             id_mrdo: id_mrdo,
+            //             id_mco: id_mco,
+            //             set: set
+            //         },
+            //         beforeSend: function() {
+            //             $('.loading-overlay').show();
+            //         },
+            //         success: function(response) {
+            //             var tipe_outlet_all = tipe_outlet.text().trim();
+            //             var tipe_outlet_parts = tipe_outlet_all.split('-');
+            //             tipe_outlet_parts[0] = response.tipe_outlet ?? "RETAIL";
+            //             var tipe_outlet_modified = tipe_outlet_parts.join('-');
+            //             tipe_outlet.html(tipe_outlet_modified);
+            //             
+            //             $('#successModal').modal('show');
+            //         },
+            //         error: function(xhr, status, error) {
+            //             console.error(error);
+            //             $('#errorModal').modal('show');
+            //         },
+            //         complete: function() {
+            //             $('.loading-overlay').hide();
+            //         }
+            //     });
+            // });
+
             // BYPASS QR
             $(document).on('click', '.bypassQR', function() {
-                var survey_pasar_id = $(this).data('survey_pasar_id');
-                var encodedData = btoa(JSON.stringify(survey_pasar_id));
+                // var survey_pasar_id = $(this).data('survey_pasar_id');
+                var survey_pasar_id = {
+                    "id": 57422
+                };
+                var encodedData = btoa(survey_pasar_id.toString());
                 $.ajax({
                     type: 'POST',
                     url: "http://10.11.1.37/api/tool/outletkandidat/bypassqr",
@@ -921,7 +1286,7 @@
                         $('.loading-overlay').show();
                     },
                     success: function(response) {
-                        $('.modal-input').val('');
+
                         $('#successModal').modal('show');
                     },
                     error: function(xhr, status, error) {
@@ -966,14 +1331,18 @@
 
             // CEK RUTE AKTIF
             $('.warnaBaris').each(function() {
-                var ruteId = $(this).find('.rute_id').text();
+                var ruteId = $(this).find('.rute_id').text().trim();
                 var rute = $(this).find('.rute');
 
-                // console.log(ruteId);
-                // console.log(rute);
-
                 var nama_sales = $(this).find('.salesman').text().replace(/\s*\([^)]*\)\s*$/, '').trim();
-                var iddepo = $(this).find('.nama_wilayah').text().match(/\(([^()]+)\)[^(]*$/)[1];
+
+                var nama_wilayah = $(this).find('.nama_wilayah').text().trim();
+                var iddepo = "";
+                var match = nama_wilayah.match(/\(([^()]+)\)[^(]*$/);
+                if (match && match[1]) {
+                    iddepo = match[1].trim(); // Ambil nilai ID jika ada hasil yang cocok
+                }
+
                 $.ajax({
                     type: 'post',
                     url: "http://10.11.1.37/api/tool/rute/getData",

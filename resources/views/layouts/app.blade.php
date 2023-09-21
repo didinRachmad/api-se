@@ -52,7 +52,7 @@
             margin: 0;
             padding: 0;
             color: #224;
-            background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.6)), url(https://source.unsplash.com/E8Ufcyxz514/1280x720);
+            background-image: linear-gradient(to bottom, rgba(10, 10, 10, 0.3), rgba(10, 10, 10, 0.7)), url("https://source.unsplash.com/random/1366x768/?city,night,street"), url('../img/bg.jpg');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
@@ -91,7 +91,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgb(255, 255, 255);
+            background-color: rgba(2, 16, 32, 1);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -123,6 +123,12 @@
             color: #fff;
         }
 
+        .navbar-dark.scrolled {
+            background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.6));
+            backdrop-filter: blur(25px);
+            background-color: transparent;
+        }
+
         .navbar-dark .navbar-toggler {
             border-color: rgba(255, 255, 255, 0.2);
         }
@@ -150,7 +156,7 @@
         }
 
         table.dataTable tbody td {
-            padding: 0 5px;
+            padding: 5px;
         }
 
         .myTable,
@@ -158,7 +164,7 @@
         .TableKandidat {
             font-size: 8pt;
             font-weight: 600;
-            padding: 5px;
+            padding: 5px 0;
         }
 
         .myTable input,
@@ -217,8 +223,22 @@
             background-color: #fff
         }
 
+        .bg-btn {
+            /* background-image: linear-gradient(to left, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.1)), url("https://source.unsplash.com/random/?city,night"); */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            transition: transform .01s;
+            box-shadow: 0px 2px 5px rgba(255, 255, 255, 1);
+        }
+
+        .bg-btn:hover {
+            transform: scale(1.05);
+        }
+
         #action {
-            min-width: 70px;
+            min-width: 80px;
         }
     </style>
     <style>
@@ -227,7 +247,7 @@
         }
 
         .card {
-            background-color: rgba(2, 16, 32, 0.6);
+            background-color: rgba(2, 16, 32, 0.7);
             box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.3);
             backdrop-filter: blur(20px);
             color: #fff;
@@ -320,7 +340,7 @@
     <div class="overlay">
         <i class="fa-brands fa-instalod"></i>
     </div>
-    <nav class="navbar navbar-expand-md navbar-dark bg-dark bg-gradient shadow-sm fixed-top p-0">
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top p-0">
         <div class="container">
             <a class="navbar-brand" href="{{ url('/') }}">
                 {{-- {{ config('app.name', 'Laravel') }} --}}
@@ -354,28 +374,41 @@
                             </li>
                         @endif
                         {{-- <li class="nav-item px-3">
-                            <a class="btn btn-info" href="{{ route('RuteId.index') }}"><i
+                            <a class="btn btn-sm bg-btn p-2 btn-dark fw-bold" href="{{ route('RuteId.index') }}"><i
                                     class="bi bi-sign-turn-slight-right-fill"></i> {{ __('Rute Id') }}</a>
                         </li> --}}
                         <li class="nav-item px-3">
-                            <a class="btn btn-info" href="{{ route('KodeCustomer.index') }}"><i class="bi bi-qr-code"></i>
+                            <a class="btn btn-sm bg-btn p-2 btn-dark fw-bold" href="{{ route('KodeCustomer.index') }}"><i
+                                    class="bi bi-qr-code"></i>
                                 {{ __('Kode Customer') }}</a>
                         </li>
                         <li class="nav-item px-3">
-                            <a class="btn btn-info" href="{{ route('ToolOutlet.index') }}"><i class="bi bi-gear-fill"></i>
+                            <a class="btn btn-sm bg-btn p-2 btn-dark fw-bold" href="{{ route('ToolOutlet.index') }}"><i
+                                    class="bi bi-gear-fill"></i>
                                 {{ __('Tool Outlet') }}</a>
                         </li>
                         <li class="nav-item px-3">
-                            <a class="btn btn-info" href="{{ route('ListRute.index') }}"><i
+                            <a class="btn btn-sm bg-btn p-2 btn-dark fw-bold" href="{{ route('ListRute.index') }}"><i
                                     class="bi bi-signpost-split-fill"></i>
                                 {{ __('List Rute') }}</a>
                         </li>
                         <li class="nav-item px-3">
-                            <a class="btn btn-info" href="{{ route('ExecRekap.index') }}"><i class="bi bi-ui-checks"></i>
+                            <a class="btn btn-sm bg-btn p-2 btn-dark fw-bold" href="{{ route('ToolDepo.index') }}"><i
+                                    class="bi bi-house-gear-fill"></i>
+                                {{ __('Tool Depo') }}</a>
+                        </li>
+                        <li class="nav-item px-3">
+                            <a class="btn btn-sm bg-btn p-2 btn-dark fw-bold" href="{{ route('ToolExcel.index') }}"><i
+                                    class="bi bi-file-earmark-arrow-up"></i>
+                                {{ __('Tool Excel') }}</a>
+                        </li>
+                        <li class="nav-item px-3">
+                            <a class="btn btn-sm bg-btn p-2 btn-dark fw-bold" href="{{ route('ExecRekap.index') }}"><i
+                                    class="bi bi-ui-checks"></i>
                                 {{ __('Exec Rekap') }}</a>
                         </li>
                         {{-- <li class="nav-item px-3">
-                            <a class="btn btn-info" href="{{ route('FaceRecognition.index') }}"><i
+                            <a class="btn btn-sm bg-btn p-2 btn-dark fw-bold" href="{{ route('FaceRecognition.index') }}"><i
                                     class="bi bi-sign-intersection-y-fill"></i>
                                 {{ __('Face Recognition') }}</a>
                         </li> --}}
@@ -418,6 +451,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.min.js"
         integrity="sha384-heAjqF+bCxXpCWLa6Zhcp4fu20XoNIA98ecBC1YkdXhszjoejr5y9Q77hIrv8R9i" crossorigin="anonymous">
     </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/2.3.6/js/dataTables.buttons.min.js"></script>
@@ -429,6 +463,8 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.42/moment-timezone-with-data.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
 
     <script>
         $.ajaxSetup({
@@ -444,12 +480,33 @@
             // $(window).on('load', function() {
             $('.overlay').fadeOut(200);
             // });
-        });
 
-        $('.form-control').on('paste', function(event) {
-            event.preventDefault();
-            var pastedValue = event.originalEvent.clipboardData.getData('text/plain');
-            $(this).val(pastedValue);
+            // var textInputs = document.querySelectorAll("input[type='text']");
+
+            // textInputs.forEach(function(input) {
+            //     input.addEventListener("input", function() {
+            //         this.value = this.value.toUpperCase();
+            //     });
+            // });
+            // $(".form-control").on('input', function(event) {
+            //     $(this).val(this.value.toUpperCase());
+            // });
+
+            const navbar = $(".navbar-dark");
+
+            $(window).scroll(function() {
+                if ($(this).scrollTop() > 50) {
+                    navbar.addClass("scrolled");
+                } else {
+                    navbar.removeClass("scrolled");
+                }
+            });
+
+            $("input[type='text'], input[type='search']").on('paste', function(event) {
+                event.preventDefault();
+                var pastedValue = event.originalEvent.clipboardData.getData('text/plain');
+                $(this).val(pastedValue.toUpperCase());
+            });
         });
     </script>
 </body>

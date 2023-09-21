@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class MasterRute extends Model
 {
     protected $table = 'master_rute';
+    public $timestamps = false;
 
     public function mrdo()
     {

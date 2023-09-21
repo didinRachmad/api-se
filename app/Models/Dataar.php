@@ -9,6 +9,7 @@ class Dataar extends Model
 {
     protected $connection = 'mysql2';
     protected $table = 'dataar';
+    public $timestamps = false;
 
     public function art()
     {

@@ -66,17 +66,21 @@ class ToolOutlet extends Controller
         $term = $request->input('q');
         $salesman = $request->input('salesman');
 
-        $rute = MasterRute::where('rute', 'LIKE', '%' . $term . '%')->where('salesman', $salesman)->orderByDesc('rute')
-            ->pluck('rute', 'id');
+        $ruteData = MasterRute::where('rute', 'LIKE', '%' . $term . '%')
+            ->where('salesman', $salesman)
+            ->orderByDesc('rute')
+            ->get(['id', 'rute', 'id_wilayah']);
 
         $results = [];
 
-        foreach ($rute as $id => $text) {
+        foreach ($ruteData as $rute) {
             $results[] = [
-                'id' => $id,
-                'text' => $text,
+                'id' => $rute->id,
+                'text' => $rute->rute,
+                'id_wilayah' => $rute->id_wilayah
             ];
         }
+
 
         return response()->json(['results' => $results]);
     }
@@ -151,18 +155,13 @@ class ToolOutlet extends Controller
         $id_salesman = $request->input('id_salesman');
         $tgl_transaksi = $request->input('tgl_transaksi');
 
-        $data = Order::select('id', 'nama_wilayah', 'no_order', 'id_salesman', 'nama_salesman', 'nama_toko', 'id_survey_pasar', 'total_rp', 'total_qty', 'total_transaksi', 'tgl_transaksi', 'document', 'closed_order', 'platform')->selectRaw('CASE WHEN (order.total_rp = 0) THEN "KUNJUNGAN" ELSE "ORDER" END AS status')
-            ->with(['art' => function ($query) {
-                $query->select('dataar', 'document');
-                $query->with(['ar' => function ($query) {
-                    $query->select('id', 'kode_customer', 'id_qr_outlet');
-                }]);
+        $data = Order::select('id', 'nama_wilayah', 'no_order', 'id_salesman', 'nama_salesman', 'nama_toko', 'id_survey_pasar', 'total_rp', 'total_qty', 'total_transaksi', 'tgl_transaksi', 'document', 'platform', 'is_exported', 'kode_customer', 'is_call', 'tipe_order')->selectRaw('CASE WHEN (order.total_rp = 0) THEN "KUNJUNGAN" ELSE "ORDER" END AS status')
+            ->with(['art.ar' => function ($query) {
+                $query->select('id', 'kode_customer', 'id_qr_outlet');
             }])->where('id_salesman', $id_salesman)->where('tgl_transaksi', $tgl_transaksi)->get();
 
         return DataTables::make($data)->addColumn('id_qr_outlet', function ($data) {
             return $data->art->ar->id_qr_outlet;
-        })->addColumn('kode_customer', function ($data) {
-            return $data->art->ar->kode_customer;
         })->toJson();
     }
 
@@ -171,7 +170,7 @@ class ToolOutlet extends Controller
         $id_salesman = $request->input('id_salesman');
         $tgl_visit = $request->input('tgl_visit');
 
-        $data = VisitKandidat::select('nama_toko', 'nama_wilayah', 'status', 'reason', 'kode_customer', 'tgl_visit', 'lama_visit', 'nama_distributor', 'id_salesman', 'nama_salesman', 'updated_at')->where('id_salesman', $id_salesman)->where('tgl_visit', $tgl_visit)->get();
+        $data = VisitKandidat::select('id', 'nama_toko', 'nama_wilayah', 'status', 'reason', 'kode_customer', 'tgl_visit', 'lama_visit', 'nama_distributor', 'id_salesman', 'nama_salesman', 'updated_at')->where('id_salesman', $id_salesman)->where('tgl_visit', $tgl_visit)->get();
 
         return DataTables::make($data)->addColumn('updated_at', function ($row) {
             return date('Y-m-d H:i:s', strtotime($row->updated_at));
@@ -182,80 +181,73 @@ class ToolOutlet extends Controller
     {
         $detail = $request->input('detail');
 
-        DB::beginTransaction();
-
-        try {
-            if ($detail == null) {
-                throw new \Exception('Harap pilih Rute tujuan');
-            }
-            foreach ($detail as $row) {
-                if (!$row['rute_id_akhir']) {
-                    throw new \Exception('Rute Tujuan tidak boleh kosong');
-                }
-
-                $tgl_sekarang = Carbon::now()->format('Y-m-d');
-
-                // CEK APAKAH DATA KUNJUNGAN PADA OUTLET YANG AKAN DIPINDAH SUDAH ADA DI HARI INI
-                $existingOrder = Order::where('id_survey_pasar', $row['id_survey_pasar'])->where('tgl_transaksi', $tgl_sekarang)->first();
-                if ($existingOrder) {
-                    throw new \Exception('Sudah terdapat kunjungan pada rute yang dipindah = ' . $existingOrder->nama_salesman . '   |   ' . $existingOrder->nama_toko . '   |   ' . $existingOrder->tgl_transaksi . '   |   ' . $existingOrder->total_transaksi);
-                }
-
-                // CEK APAKAH DATA OUTLET PADA RUTE TUJUAN SUDAH ADA
-                $existingOutlet = MasterRuteDetailOutlet::where('rute_id', $row['rute_id_akhir'])
-                    ->where('survey_pasar_id', $row['id_survey_pasar'])
-                    ->first();
-
-                if ($existingOutlet) {
-                    // JIKA DATA OUTLET PADA RUTE TUJUAN SUDAH ADA
-                    $mrdo = MasterRuteDetailOutlet::findOrFail($row['id']);
-                    // JIKA DATA OUTLET PADA RUTE TUJUAN TIDAK SAMA DENGAN RUTE ASAL
-                    if ($mrdo->rute_id != $row['rute_id_akhir']) {
-                        $mrdo->delete();
+        return DB::transaction(
+            function () use ($detail) {
+                foreach ($detail as $row) {
+                    if (!$row['rute_id_akhir']) {
+                        throw new \Exception('Rute Tujuan tidak boleh kosong');
                     }
-                } else {
 
-                    // Mencari data MRD berdasarkan id_pasar dan rute_id
-                    $mrd = MasterRuteDetail::where('id_pasar', $row['id_pasar_awal'])
-                        ->where('rute_id', $row['rute_id_akhir'])
+                    $tgl_sekarang = Carbon::now()->format('Y-m-d');
+
+                    // CEK APAKAH DATA KUNJUNGAN PADA OUTLET YANG AKAN DIPINDAH SUDAH ADA DI HARI INI
+                    $existingOrder = Order::where('id_survey_pasar', $row['id_survey_pasar'])->where('tgl_transaksi', $tgl_sekarang)->first();
+                    if ($existingOrder) {
+                        throw new \Exception('Sudah terdapat kunjungan pada rute yang dipindah = ' . $existingOrder->nama_salesman . '   |   ' . $existingOrder->nama_toko . '   |   ' . $existingOrder->tgl_transaksi . '   |   ' . $existingOrder->total_transaksi);
+                    }
+
+                    // CEK APAKAH DATA OUTLET PADA RUTE TUJUAN SUDAH ADA
+                    $existingOutlet = MasterRuteDetailOutlet::where('rute_id', $row['rute_id_akhir'])
+                        ->where('survey_pasar_id', $row['id_survey_pasar'])
+                        ->lockForUpdate()
                         ->first();
 
-                    if ($mrd) {
-
-                        // Jika data MRD ditemukan, maka update rute_id
+                    if ($existingOutlet) {
+                        // JIKA DATA OUTLET PADA RUTE TUJUAN SUDAH ADA
                         $mrdo = MasterRuteDetailOutlet::findOrFail($row['id']);
-                        $mrdo->rute_id = $row['rute_id_akhir'];
-                        $mrdo->rute_detail_id = $mrd->id;
-                        $mrdo->save();
+                        // JIKA DATA OUTLET PADA RUTE TUJUAN SAMA DENGAN RUTE ASAL
+                        if ($mrdo->rute_id != $row['rute_id_akhir']) {
+                            $mrdo->delete();
+                        }
                     } else {
-                        // Jika tidak ditemukan, tambahkan data baru ke MRD
-                        $mp = MasterPasar::where('id_pasar', $row['id_pasar_awal'])->first();
 
-                        $mrd = new MasterRuteDetail();
-                        $mrd->rute_id = $row['rute_id_akhir'];
-                        $mrd->KODE_WILAYAH_kecamatan = $mp->KODE_WILAYAH_kecamatan;
-                        $mrd->kecamatan = $mp->kecamatan;
-                        $mrd->id_pasar = $row['id_pasar_awal'];
-                        $mrd->nama_pasar = $mp->nama_pasar;
-                        $mrd->rute_asal = 'senew';
-                        $mrd->save();
+                        // Mencari data MRD berdasarkan id_pasar dan rute_id
+                        $mrd = MasterRuteDetail::where('id_pasar', $row['id_pasar_awal'])
+                            ->where('rute_id', $row['rute_id_akhir'])
+                            ->first();
 
-                        $mrdo = MasterRuteDetailOutlet::findOrFail($row['id']);
-                        $mrdo->rute_id = $row['rute_id_akhir'];
-                        $mrdo->rute_detail_id = $mrd->id;
-                        $mrdo->save();
+                        if ($mrd) {
+                            // Jika data MRD ditemukan, maka update rute_id
+                            $mrdo = MasterRuteDetailOutlet::findOrFail($row['id']);
+                            $mrdo->rute_id = $row['rute_id_akhir'];
+                            $mrdo->rute_detail_id = $mrd->id;
+                            $mrdo->save();
+                        } else {
+                            // Jika tidak ditemukan, tambahkan data baru ke MRD
+                            $mp = MasterPasar::where('id_pasar', $row['id_pasar_awal'])->first();
+
+                            $mrd = new MasterRuteDetail();
+                            $mrd->rute_id = $row['rute_id_akhir'];
+                            $mrd->KODE_WILAYAH_kecamatan = $mp->KODE_WILAYAH_kecamatan;
+                            $mrd->kecamatan = $mp->kecamatan;
+                            $mrd->id_pasar = $row['id_pasar_awal'];
+                            $mrd->nama_pasar = $mp->nama_pasar;
+                            $mrd->rute_asal = 'senew';
+                            $mrd->save();
+
+                            $mrdo = MasterRuteDetailOutlet::findOrFail($row['id']);
+                            $mrdo->rute_id = $row['rute_id_akhir'];
+                            $mrdo->rute_detail_id = $mrd->id;
+                            $mrdo->save();
+                        }
                     }
                 }
-            }
 
-            DB::commit();
-
-            return response()->json(['message' => 'Outlet Berhasil Dipindah']);
-        } catch (\Exception $e) {
-            DB::rollback();
-
-            return response()->json(['message' => 'Terjadi kesalahan: ' . $e->getMessage()], 500);
-        }
+                return response()->json(['message' => 'Outlet Berhasil Dipindah']);
+            },
+            15
+        );
+        return response()->json(['message' => 'Terjadi kesalahan saat memproses transaksi.'], 422);
     }
 
     public function pindahPasar(Request $request)
@@ -342,7 +334,7 @@ class ToolOutlet extends Controller
         } catch (\Exception $e) {
             DB::rollback();
 
-            return response()->json(['message' => 'Terjadi kesalahan: ' . $e->getMessage()], 500);
+            return response()->json(['message' => 'Terjadi kesalahan: ' . $e->getMessage()], 422);
         }
     }
     public function pindahLokasi(Request $request)
@@ -372,22 +364,90 @@ class ToolOutlet extends Controller
         } catch (\Exception $e) {
             DB::rollback();
 
-            return response()->json(['message' => 'Terjadi kesalahan: ' . $e->getMessage()], 500);
+            return response()->json(['message' => 'Terjadi kesalahan: ' . $e->getMessage()], 422);
         }
     }
 
     public function setOutlet(Request $request)
     {
-        $mrdo = MasterRuteDetailOutlet::find($request->id_mrdo);
-        if ($mrdo != null) {
-            $mrdo->tipe_outlet = $request->set;
-            $mrdo->save();
+        DB::beginTransaction();
+
+        try {
+            $mrdo = MasterRuteDetailOutlet::where('id', $request->id_mrdo)->lockForUpdate()->firstOrFail();
+            if ($mrdo) {
+                $mrdo->tipe_outlet = $request->set;
+                $mrdo->save();
+            }
+
+            Dataar::where('id_qr_outlet', $request->id_mco)->lockForUpdate()->update(['tipe_outlet' => $request->set]);
+
+            DB::commit();
+            return response()->json([
+                'tipe_outlet' => $mrdo->tipe_outlet
+            ]);
+        } catch (\Exception $e) {
+            DB::rollback();
+
+            return response()->json(['message' => 'Terjadi kesalahan: ' . $e->getMessage()], 422);
         }
+    }
 
-        Dataar::where('id_qr_outlet', $request->id_mco)->update(['tipe_outlet' => $request->set]);
+    public function clear_kode_kandidat(Request $request)
+    {
+        $salesman = $request->input('salesman');
+        DB::beginTransaction();
 
-        return response()->json([
-            'tipe_outlet' => $mrdo->tipe_outlet
-        ]);
+        try {
+            if ($salesman == null) {
+                throw new \Exception('Salesman belum dipilih');
+            }
+
+            MasterConvertOutlet::join('survey_pasar as sp', 'master_convert_outlet.id_outlet_mas', '=', 'sp.id')
+                ->join('master_rute_detail_outlet as mrdo', 'mrdo.survey_pasar_id', '=', 'master_convert_outlet.id_outlet_mas')
+                ->join('master_rute as mr', 'mr.id', '=', 'mrdo.rute_id')
+                ->where('mr.salesman', $salesman)
+                ->update([
+                    'master_convert_outlet.kode_customer' => DB::raw('sp.kode_customer'),
+                    'master_convert_outlet.nama_outlet_mas' => DB::raw('sp.nama_toko'),
+                    'master_convert_outlet.nama_customer' => DB::raw('sp.nama_toko')
+                ]);
+
+            DB::commit();
+            return response()->json([
+                'message' => 'Data berhasil dibersihkan'
+            ]);
+        } catch (\Exception $e) {
+            DB::rollback();
+
+            return response()->json(['message' => 'Terjadi kesalahan: ' . $e->getMessage()], 422);
+        }
+    }
+    public function hapus_ro_double(Request $request)
+    {
+        $detail = $request->input('detail');
+        DB::beginTransaction();
+
+        try {
+            if ($detail == null) {
+                throw new \Exception('Tidak ada RO Kode Double');
+            }
+            foreach ($detail as $row) {
+                if ($row['id_mrdo'] == null) {
+                    throw new \Exception('Data double source type SE - ' . $row['kode_customer']);
+                }
+
+                $mrdo = MasterRuteDetailOutlet::findOrFail($row['id_mrdo']);
+                $mrdo->delete();
+            }
+
+            DB::commit();
+            return response()->json([
+                'message' => 'Data berhasil dibersihkan'
+            ]);
+        } catch (\Exception $e) {
+            DB::rollback();
+
+            return response()->json(['message' => 'Terjadi kesalahan: ' . $e->getMessage()], 422);
+        }
     }
 }
