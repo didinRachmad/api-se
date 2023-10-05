@@ -69,25 +69,27 @@ class ListRute extends Controller
 
         $context = stream_context_create($options);
 
-        try {
-            $response = file_get_contents('http://10.11.1.37/api/downloadrute/getListRute', false, $context);
+        // try {
+        $response = file_get_contents('http://10.11.1.37/api/downloadrute/getListRute', false, $context);
 
-            $res = json_decode($response, true);
+        $res = json_decode($response, true);
 
-            if (isset($res['is_valid']) && $res['is_valid']) {
-                $data = $res['data'];
-                $total = $res['total'];
-                $ro = $res['total_ro'];
-                $kandidat = intval($res['total']) - intval($res['total_ro']);
-            } else {
-                $data = [];
-            }
-
-            return view('ListRute', compact('data', 'salesman', 'id_salesman', 'total', 'ro', 'kandidat'));
-        } catch (\Exception $e) {
-            // Tangani kesalahan jika ada
-            $data = [];
-            return view('ListRute', compact('data', 'salesman', 'id_salesman'));
+        $message = '';
+        if (isset($res['is_valid'])) {
+            $data = $res['data'];
+            $message = $res['message'];
+            $total = $res['total'];
+            $ro = $res['total_ro'];
+            $kandidat = intval($res['total']) - intval($res['total_ro']);
+            $is_valid = $res['is_valid'];
+        } else {
+            $message = '';
         }
+        // return response()->json($res);
+        return view('ListRute', compact('data', 'message', 'salesman', 'id_salesman', 'total', 'ro', 'kandidat'));
+        // } catch (\Exception $e) {
+        // Tangani kesalahan jika ada
+        // return view('ListRute', compact('salesman', 'id_salesman'));
+        // }
     }
 }

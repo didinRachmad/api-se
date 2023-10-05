@@ -28,4 +28,8 @@ class MasterRuteDetailOutlet extends Model
     {
         return $this->belongsTo(MasterPasar::class, 'id_pasar', 'id_pasar');
     }
+    public function sp()
+    {
+        return $this->hasOne(SurveyPasar::class, 'id', 'survey_pasar_id');
+    }
 }

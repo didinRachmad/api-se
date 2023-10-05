@@ -52,7 +52,7 @@
             margin: 0;
             padding: 0;
             color: #224;
-            background-image: linear-gradient(to bottom, rgba(10, 10, 10, 0.3), rgba(10, 10, 10, 0.7)), url("https://source.unsplash.com/random/1366x768/?city,night,street"), url('../img/bg.jpg');
+            background-image: linear-gradient(to bottom, rgba(10, 10, 10, 0.3), rgba(10, 10, 10, 0.7)), url("https://source.unsplash.com/random/1366x768/?city,street"), url('../img/bg2.jpg');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
@@ -231,10 +231,18 @@
             background-repeat: no-repeat;
             background-attachment: fixed;
             transition: transform .01s;
-            box-shadow: 0px 2px 5px rgba(255, 255, 255, 1);
+            box-shadow: 0px 3px 4px rgb(207, 232, 245);
         }
 
         .bg-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .btn-sm {
+            transition: transform .01s;
+        }
+
+        .btn-sm:hover {
             transform: scale(1.05);
         }
 

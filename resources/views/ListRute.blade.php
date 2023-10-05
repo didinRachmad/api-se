@@ -41,70 +41,76 @@
                 </div>
             </form>
             {{-- <textarea name="tes" id="tes" class="form-control w-100" cols="30" rows="10"></textarea> --}}
-            <div class="table-responsive pt-3">
-                <table class="table table-sm table-dark table-striped table-bordered align-middle myTable">
-                    <thead class="text-center">
-                        <th>no</th>
-                        <th>nama wilayah</th>
-                        <th>salesman</th>
-                        <th>rute id</th>
-                        <th>id mrdo</th>
-                        <th>survey pasar id</th>
-                        <th>kode customer</th>
-                        <th>nama toko</th>
-                        <th>alamat</th>
-                        <th>id mco <button type="button" class="btn btn-sm btn-secondary" id="salinID_MCO">Salin</button>
-                        </th>
-                        <th>id dataar</th>
-                        <th>id pasar</th>
-                        <th>nama pasar</th>
-                        <th>lokasi</th>
-                        <th>latitude</th>
-                        <th>longitude</th>
-                        <th>visited</th>
-                    </thead>
-                    <tbody id="bodyTabelRute">
-                        @if (!isset($data))
+            @if (isset($data) && !empty($data))
+                <div class="table-responsive pt-3">
+                    <table class="table table-sm table-dark table-striped table-bordered align-middle myTable">
+                        <thead class="text-center">
+                            <th>no</th>
+                            <th>nama wilayah</th>
+                            <th>salesman</th>
+                            <th>rute id</th>
+                            <th>id mrdo</th>
+                            <th>survey pasar id</th>
+                            <th>kode customer</th>
+                            <th>nama toko</th>
+                            <th>alamat</th>
+                            <th>id mco <button type="button" class="btn btn-sm btn-secondary"
+                                    id="salinID_MCO">Salin</button>
+                            </th>
+                            <th>id dataar</th>
+                            <th>id pasar</th>
+                            <th>nama pasar</th>
+                            <th>lokasi</th>
+                            <th>latitude</th>
+                            <th>longitude</th>
+                            <th>visited</th>
+                        </thead>
+                        <tbody id="bodyTabelRute">
                             @php
-                                $data = [];
+                                $no = 0;
                             @endphp
-                        @endif
-                        @php
-                            $no = 0;
-                        @endphp
-                        @foreach ($data as $mr)
-                            @php
-                                $no += 1;
-                            @endphp
-                            <tr class="warnaBaris">
-                                <td></td>
-                                <td>{{ $mr['nama_wilayah'] }} ({{ $mr['iddepo'] }})</td>
-                                <td>{{ $mr['nama_sales_ekslusif'] }}</td>
-                                <td>{{ $mr['rute_id'] }}</td>
-                                <td>{{ $mr['rute_outlet_id'] }}</td>
-                                <td>{{ $mr['id_survey_pasar'] }}</td>
-                                <td class="text-primary fw-bold kode_customer">{{ $mr['kode_toko'] }}</td>
-                                <td>{{ $mr['nama_toko'] }}</td>
-                                <td>{{ $mr['alamat_toko'] }}</td>
-                                <td class="id_mco">{{ $mr['id'] }}</td>
-                                <td>{{ $mr['dataar'] }}</td>
-                                <td>{{ $mr['id_pasar'] }}</td>
-                                <td>{{ $mr['nama_pasar'] }}</td>
-                                <td>{{ $mr['location_type'] ?? '' }}</td>
-                                <td>{{ $mr['latitude'] }}</td>
-                                <td>{{ $mr['longitude'] }}</td>
-                                <td>{{ $mr['is_visited'] }}
-                                    @if ($mr['is_visited'])
-                                        <i class="bi bi-check-square-fill text-success"></i>
-                                    @else
-                                        <i class="bi bi-x-square-fill text-danger"></i>
-                                    @endif
-                                </td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
+                            @foreach ($data as $mr)
+                                @php
+                                    $no += 1;
+                                @endphp
+                                <tr class="warnaBaris">
+                                    <td></td>
+                                    <td>{{ $mr['nama_wilayah'] }} ({{ $mr['iddepo'] }})</td>
+                                    <td>{{ $mr['nama_sales_ekslusif'] }}</td>
+                                    <td>{{ $mr['rute_id'] }}</td>
+                                    <td>{{ $mr['rute_outlet_id'] }}</td>
+                                    <td>{{ $mr['id_survey_pasar'] }}</td>
+                                    <td class="text-primary fw-bold kode_customer">{{ $mr['kode_toko'] }}</td>
+                                    <td>{{ $mr['nama_toko'] }}</td>
+                                    <td>{{ $mr['alamat_toko'] }}</td>
+                                    <td class="id_mco">{{ $mr['id'] }}</td>
+                                    <td>{{ $mr['dataar'] }}</td>
+                                    <td>{{ $mr['id_pasar'] }}</td>
+                                    <td>{{ $mr['nama_pasar'] }}</td>
+                                    <td>{{ $mr['location_type'] ?? '' }}</td>
+                                    <td>{{ $mr['latitude'] }}</td>
+                                    <td>{{ $mr['longitude'] }}</td>
+                                    <td>{{ $mr['is_visited'] }}
+                                        @if ($mr['is_visited'])
+                                            <i class="bi bi-check-square-fill text-success"></i>
+                                        @else
+                                            <i class="bi bi-x-square-fill text-danger"></i>
+                                        @endif
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            @else
+                @if (!empty($data))
+                    <div id="json-output" class="json-viewer" style="white-space: pre-wrap;">
+                        {{ json_encode($data, JSON_PRETTY_PRINT) }}</div>
+                @endif
+            @endif
+            {{-- @php
+                // echo $message;
+            @endphp --}}
         </div>
     </div>
 

@@ -963,7 +963,7 @@
             });
 
             // PINDAH OUTLET
-            $('.btnPindah').click(function(e) {
+            $(document).on('click', ".btnPindah", function(e) {
                 e.preventDefault();
 
                 $('#PindahRuteModal').modal('show');
@@ -1272,8 +1272,7 @@
                 var iddepo = $(this).closest('tr').find('.nama_wilayah').text().match(
                     /\(([^()]+)\)[^(]*$/)[1].trim();
                 var kode_customer = $(this).closest('tr').find('.kode_customer').text().trim();
-                var keterangan = $('#keterangan').val();
-                var tipe = $(this).text().trim();
+                var tipe = $(this).text().trim().toLowerCase();
 
                 $.ajax({
                     type: 'POST',

@@ -55,6 +55,7 @@
                             <span class="input-group-text">Rute</span>
                             <select class="form-select form-select-sm select2-rute_akhir" name="rute_id_akhir"
                                 id="rute_id_akhir"></select>
+                            <input type="hidden" id="rute_akhir">
                             <input type="hidden" id="id_wilayah_akhir">
                         </div>
                     </div>
@@ -139,7 +140,6 @@
                         <th>nama pasar mrd</th>
                         <th>nama pasar mp</th>
                         <th>Tipe Outlet</th>
-                        <th>salesman</th>
                         <th class="text-center" id="action">Action</th>
                         <th class="text-center">
                             <input type="checkbox" class="btn-check check-all" id="check-all" autocomplete="off">
@@ -156,9 +156,6 @@
                                     $no += 1;
                                 @endphp
                                 <tr class="warnaBaris" data-id="{{ $mrdo->id }}"
-                                    data-id_mco="{{ $mrdo->mco->id ?? '' }}" data-id_pasar_awal="{{ $mrdo->id_pasar }}"
-                                    data-rute_id_awal="{{ $mrdo->rute_id }}"
-                                    data-id_survey_pasar="{{ $mrdo->survey_pasar_id }}"
                                     data-rute_detail_id="{{ $mrdo->rute_detail_id }}">
                                     <td></td>
                                     <td class="rute">{{ $mr->rute }}</td>
@@ -175,10 +172,9 @@
                                     <td class="nama_pasar">{{ $mrdo->mrd->nama_pasar ?? '' }}</td>
                                     <td>{{ $mrdo->mp->nama_pasar ?? '' }}</td>
                                     <td class="tipe_outlet">
-                                        {{ $mrdo->tipe_outlet ?? 'RETAIL' }} - {{ $mrdo->mco->sp->location_type ?? '' }} -
-                                        {{ $mrdo->mco->sp->source_type ?? '' }}
+                                        {{ $mrdo->tipe_outlet ?? 'RETAIL' }} - {{ $mrdo->sp->location_type ?? '' }} -
+                                        {{ $mrdo->sp->source_type ?? '' }}
                                     </td>
-                                    <td class="salesman">{{ $mr->salesman }}</td>
                                     <td>
                                         <div class="row px-2 py-1">
                                             <div class="col-12 px-0">
@@ -572,6 +568,7 @@
             }).on('select2:select', function(e) {
                 var data = e.params.data;
                 $('#id_wilayah_akhir').val(data.id_wilayah);
+                $('#rute_akhir').val(data.text);
             });
 
             // SELECT2 PASAR
@@ -648,11 +645,8 @@
                 }, 'print'],
                 "columnDefs": [{
                     "orderable": false,
-                    "targets": [0, 15, 16],
+                    "targets": [0, 14, 15],
                     "className": 'no-export'
-                }, {
-                    "targets": [14],
-                    "visible": false,
                 }],
                 "order": [
                     [1, 'asc'],
@@ -752,7 +746,6 @@
                         });
                 }
             });
-            table.column(14).search($('#salesman_awal').val()).draw();
             table.column(3).search($('#rute_id_awal').val()).draw();
             table.on('order.dt search.dt', function() {
                 table.column(0, {
@@ -909,7 +902,7 @@
                             [4, 'asc']
                         ],
                         columnDefs: [{
-                            targets: [1, 13, 14, 15, 16],
+                            targets: [1, 13, 14, 16],
                             className: 'no-export' // kelas no-export
                         }],
                         columns: [{
@@ -1159,7 +1152,7 @@
             //     $('.check:checked').each(function() {
             //         var id = $(this).closest('tr').find('.id_mrdo').text().trim();
             //         var id_pasar_awal = $(this).closest('tr').find('.id_pasar').text().trim();
-            //         var id_survey_pasar = $(this).closest('tr').data('id_survey_pasar');
+            //         var id_survey_pasar = $(this).closest('tr').find('.survey_pasar_id').text().trim();
             //         selectedRows.push({
             //             id: id,
             //             id_pasar_awal: id_pasar_awal,
@@ -1213,7 +1206,7 @@
             //         $('.check:checked').each(function() {
             //             var id = $(this).closest('tr').data('id');
             //             var id_mco = $(this).closest('tr').data('id_mco');
-            //             var id_survey_pasar = $(this).closest('tr').data('id_survey_pasar');
+            //             var id_survey_pasar = $(this).closest('tr').find('.survey_pasar_id').text().trim();
             //             var rute_id_awal = $(this).closest('tr').data('rute_id_awal');
             //             var id_pasar_akhir = $('#id_pasar_akhir').val();
             //             selectedRows.push({
@@ -1265,7 +1258,7 @@
                 var salesman_awal = $('#salesman_awal').val();
                 var salesman_akhir = $('#salesman_akhir').val();
                 var hari_akhir = $('#rute_id_akhir').text().split(' ')[0].trim();
-                var rute_akhir = $('#rute_id_akhir').text().trim();
+                var rute_akhir = $('#rute_akhir').val();
                 var rute_id_akhir = $('#rute_id_akhir').val();
                 var id_wilayah = $('#id_wilayah_akhir').val();
                 var selectedRows = [];
@@ -1281,7 +1274,8 @@
                     var rute_id = $(this).closest('tr').find('.rute_id').text().trim();
                     var rute_detail_id = $(this).closest('tr').data('rute_detail_id');
                     var id_pasar = $(this).closest('tr').find('.id_pasar').text().trim();
-                    var id_survey_pasar = $(this).closest('tr').data('id_survey_pasar');
+                    var id_survey_pasar = $(this).closest('tr').find('.survey_pasar_id').text()
+                        .trim();
                     var kode_customer = $(this).closest('tr').find('.kode_customer').text().trim();
                     var wilayah = $('#nama_wilayah').text().replace(
                         /\s*\([^)]*\)$/, '');
@@ -1323,27 +1317,31 @@
                         if (response.is_valid) {
                             $('#successModal').modal('show');
                             $('.check:checked').each(function(index) {
-                                var mrdo_id = $(this).closest(
-                                        'tr').find('.id_mrdo')
-                                    .text().trim();
+                                if (salesman_awal != salesman_akhir) {
+                                    var row = $(this).closest('tr');
+                                    table.row(row).remove().draw();
+                                } else {
+                                    var mrdo_id = $(this).closest(
+                                            'tr').find('.id_mrdo')
+                                        .text().trim();
 
-                                var rowData = table.row(
-                                    '[data-id="' + mrdo_id +
-                                    '"]').data();
+                                    var rowData = table.row(
+                                        '[data-id="' + mrdo_id +
+                                        '"]').data();
 
-                                rowData[1] =
-                                    rute_akhir;
-                                rowData[2] =
-                                    hari_akhir;
-                                rowData[3] =
-                                    rute_id_akhir;
-                                rowData[14] =
-                                    salesman_akhir;
+                                    rowData[1] =
+                                        rute_akhir;
+                                    rowData[2] =
+                                        hari_akhir;
+                                    rowData[3] =
+                                        rute_id_akhir;
 
-                                table.row('[data-id="' +
-                                    mrdo_id + '"]').data(
-                                    rowData).draw();
+                                    table.row('[data-id="' +
+                                        mrdo_id + '"]').data(
+                                        rowData).draw();
+                                }
                             });
+                            cek_rute_aktif();
                             setTimeout(function() {
                                 $('#successModal').modal('hide');
                                 // location.reload();
@@ -1380,7 +1378,8 @@
                             /\(([^()]+)\)[^(]*$/)[1];
                         var id_wilayah = $('#nama_wilayah').text().match(
                             /\(([^()]+)\)[^(]*$/)[1];
-                        var id_survey_pasar = $(this).closest('tr').data('id_survey_pasar');
+                        var id_survey_pasar = $(this).closest('tr').find('.survey_pasar_id')
+                            .text().trim();
                         var id_qr_outlet = $(this).closest('tr').find('.id_mco').text()
                             .trim();
                         var mrdo_id = $(this).closest('tr').find('.id_mrdo').text().trim();
@@ -1524,7 +1523,8 @@
                             /\(([^()]+)\)[^(]*$/)[1];
                         var id_distributor = $('#nama-distributor').text().match(
                             /\(([^()]+)\)[^(]*$/)[1];
-                        var id_survey_pasar = $(this).closest('tr').data('id_survey_pasar');
+                        var id_survey_pasar = $(this).closest('tr').find('.survey_pasar_id')
+                            .text().trim();
                         var id_qr_outlet = $(this).closest('tr').find('.id_mco').text()
                             .trim();
                         var mrdo_id = $(this).closest('tr').find('.id_mrdo').text().trim();
@@ -1673,7 +1673,7 @@
                 var id_wilayah = $('#nama_wilayah').text().match(/\(([^()]+)\)[^(]*$/)[1];
                 var id_distributor = $('#nama-distributor').text().match(
                     /\(([^()]+)\)[^(]*$/)[1];
-                var id_survey_pasar = $(this).closest('tr').data('id_survey_pasar');
+                var id_survey_pasar = $(this).closest('tr').find('.survey_pasar_id').text().trim();
                 var id_qr_outlet = $(this).closest('tr').find('.id_mco').text().trim();
                 var mrdo_id = $(this).closest('tr').find('.id_mrdo').text().trim();
                 var rute_detail_id = $(this).closest('tr').data('rute_detail_id');
@@ -1781,7 +1781,8 @@
                     var rute_id = $(this).closest('tr').find('.rute_id').text().trim();
                     var rute_detail_id = $(this).closest('tr').data('rute_detail_id');
                     var id_pasar = $(this).closest('tr').find('.id_pasar').text().trim();
-                    var id_survey_pasar = $(this).closest('tr').data('id_survey_pasar');
+                    var id_survey_pasar = $(this).closest('tr').find('.survey_pasar_id').text()
+                        .trim();
                     var id_qr_outlet = $(this).closest('tr').find('.id_mco').text().trim();
 
                     var dataObject = {};
@@ -2106,31 +2107,36 @@
                 });
             });
 
+            cek_rute_aktif();
             // CEK RUTE AKTIF
-            var nama_sales = $('#salesman_awal').val();
-            if (nama_sales !== '') {
-                var iddepo = $('#nama_wilayah').text().match(/\(([^()]+)\)[^(]*$/)[1];
-                $.ajax({
-                    type: 'post',
-                    url: "http://10.11.1.37/api/tool/rute/getData",
-                    dataType: 'json',
-                    encode: true,
-                    data: {
-                        nama_sales: nama_sales,
-                        iddepo: iddepo
-                    },
-                    success: function(response) {
-                        $('.warnaBaris').each(function() {
-                            var ruteId = $(this).find('.rute_id').text().trim();
-                            var rute = $(this).find('.rute');
-                            if (ruteId == response.rute_hari_ini) {
-                                rute.addClass('text-success fw-bolder shadow-lg');
-                            }
-                        });
-                    },
-                    error: function(xhr, status, error) {},
-                    complete: function() {}
-                });
+            function cek_rute_aktif() {
+                var nama_sales = $('#salesman_awal').val();
+                if (nama_sales !== '') {
+                    var iddepo = $('#nama_wilayah').text().match(/\(([^()]+)\)[^(]*$/)[1];
+                    $.ajax({
+                        type: 'post',
+                        url: "http://10.11.1.37/api/tool/rute/getData",
+                        dataType: 'json',
+                        encode: true,
+                        data: {
+                            nama_sales: nama_sales,
+                            iddepo: iddepo
+                        },
+                        success: function(response) {
+                            $('.warnaBaris').each(function() {
+                                var ruteId = $(this).find('.rute_id').text().trim();
+                                var rute = $(this).find('.rute');
+                                if (ruteId == response.rute_hari_ini) {
+                                    rute.addClass('text-success fw-bolder shadow-lg');
+                                } else {
+                                    rute.removeClass('text-success fw-bolder shadow-lg');
+                                }
+                            });
+                        },
+                        error: function(xhr, status, error) {},
+                        complete: function() {}
+                    });
+                }
             }
         });
     </script>

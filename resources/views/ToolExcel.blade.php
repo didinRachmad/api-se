@@ -62,29 +62,19 @@
                 <table class="table table-sm table-dark table-striped table-bordered align-middle myTable" id="myTable">
                     <thead class="text-center">
                         <tr>
-                            <th colspan="16" class="text-warning">Rute Lama</th>
-                            <th colspan="3" class="text-success">Rute Baru</th>
+                            <th colspan="6" class="text-warning">Rute Lama</th>
+                            <th colspan="3" class="text-info">Rute Baru</th>
                         </tr>
                         <tr>
-                            <th>no</th>
-                            <th>wilayah</th>
-                            <th>id wilayah</th>
-                            <th>salesman</th>
-                            <th>rute</th>
-                            <th>hari</th>
-                            <th>rute id</th>
-                            <th>rute detail id</th>
-                            <th>id mrdo</th>
-                            <th>survey pasar id</th>
+                            <th>No</th>
+                            <th>Id Wilayah</th>
+                            <th>Wilayah</th>
                             <th>Kode Customer</th>
-                            <th>Nama Toko</th>
-                            <th>Alamat</th>
-                            <th>id pasar</th>
-                            <th>nama pasar</th>
-                            <th>Lokasi</th>
-                            <th>salesman</th>
-                            <th>hari</th>
-                            <th>rute</th>
+                            <th>Salesman</th>
+                            <th>Rute</th>
+                            <th>Salesman</th>
+                            <th>Rute</th>
+                            <th>Hari</th>
                         </tr>
                     </thead>
                     <tbody id="tbody-data">
@@ -95,6 +85,7 @@
     </div>
     <script>
         $(document).ready(function() {
+            var table;
             $("#btn-import").click(function() {
 
                 var file = $("#excel_file")[0].files[0];
@@ -123,118 +114,63 @@
                                 r: r,
                                 c: 0
                             })];
-                            var salesman = worksheet[XLSX.utils.encode_cell({
+                            var kode_customer = worksheet[XLSX.utils.encode_cell({
                                 r: r,
                                 c: 1
                             })];
-                            var rute = worksheet[XLSX.utils.encode_cell({
+                            var salesman_tujuan = worksheet[XLSX.utils.encode_cell({
                                 r: r,
                                 c: 2
                             })];
-                            var hari = worksheet[XLSX.utils.encode_cell({
+                            var rute_tujuan = worksheet[XLSX.utils.encode_cell({
                                 r: r,
                                 c: 3
                             })];
-                            // var rute_id = worksheet[XLSX.utils.encode_cell({
-                            //     r: r,
-                            //     c: 4
-                            // })];
-                            // var rute_detail_id = worksheet[XLSX.utils.encode_cell({
-                            //     r: r,
-                            //     c: 5
-                            // })];
-                            // var id_mrdo = worksheet[XLSX.utils.encode_cell({
-                            //     r: r,
-                            //     c: 6
-                            // })];
-                            // var survey_pasar_id = worksheet[XLSX.utils.encode_cell({
-                            //     r: r,
-                            //     c: 7
-                            // })];
-                            var kode_customer = worksheet[XLSX.utils.encode_cell({
-                                r: r,
-                                c: 8
-                            })];
-                            var nama_toko = worksheet[XLSX.utils.encode_cell({
-                                r: r,
-                                c: 9
-                            })];
-                            var alamat = worksheet[XLSX.utils.encode_cell({
-                                r: r,
-                                c: 10
-                            })];
-                            var id_pasar = worksheet[XLSX.utils.encode_cell({
-                                r: r,
-                                c: 11
-                            })];
-                            var nama_pasar = worksheet[XLSX.utils.encode_cell({
-                                r: r,
-                                c: 12
-                            })];
-                            var lokasi = worksheet[XLSX.utils.encode_cell({
-                                r: r,
-                                c: 13
-                            })];
-                            var salesman_tujuan = worksheet[XLSX.utils.encode_cell({
-                                r: r,
-                                c: 14
-                            })];
                             var hari_tujuan = worksheet[XLSX.utils.encode_cell({
                                 r: r,
-                                c: 15
-                            })];
-                            var rute_tujuan = worksheet[XLSX.utils.encode_cell({
-                                r: r,
-                                c: 16
+                                c: 4
                             })];
 
                             if (
                                 wilayah &&
-                                salesman &&
-                                // rute_id &&
-                                // rute_detail_id &&
-                                // id_mrdo &&
-                                // survey_pasar_id &&
                                 kode_customer &&
-                                nama_toko &&
-                                id_pasar &&
-                                lokasi &&
                                 salesman_tujuan &&
                                 hari_tujuan &&
                                 rute_tujuan
                             ) {
                                 html += "<tr>";
-                                html += '<td class="no">' + r + '</td>';
-                                html += '<td class="wilayah">' + wilayah.v + '</td>';
-                                html += '<td class="id_wilayah"></td>';
-                                html += '<td class="salesman">' + salesman.v + '</td>';
-                                html += '<td class="rute">' + rute.v + '</td>';
-                                html += '<td class="hari">' + hari.v + '</td>';
-                                html += '<td class="rute_id"></td>';
-                                html += '<td class="rute_detail_id"></td>';
-                                html += '<td class="id_mrdo"></td>';
-                                html += '<td class="survey_pasar_id"></td>';
-                                html += '<td class="kode_customer text-info">' + kode_customer.v +
+                                html += '<td class="no text-warning">' + r + '</td>';
+                                html += '<td class="id_wilayah text-warning"></td>';
+                                html += '<td class="wilayah text-warning">' + wilayah.v + '</td>';
+                                html += '<td class="kode_customer text-warning">' + kode_customer.v +
                                     '</td>';
-                                html += '<td class="nama_toko">' + nama_toko.v + '</td>';
-                                html += '<td class="alamat">' + alamat.v + '</td>';
-                                html += '<td class="id_pasar">' + id_pasar.v + '</td>';
-                                html += '<td class="nama_pasar">' + nama_pasar.v + '</td>';
-                                html += '<td class="lokasi">' + lokasi.v + '</td>';
-                                html += '<td class="salesman_tujuan">' + salesman_tujuan.v + '</td>';
-                                html += '<td class="hari_tujuan">' + hari_tujuan.v + '</td>';
-                                html += '<td class="rute_tujuan">' + rute_tujuan.v + '</td>';
+                                html += '<td class="salesman_awal text-warning"></td>';
+                                html += '<td class="rute_awal text-warning"></td>';
+                                html += '<td class="salesman_tujuan text-info">' + salesman_tujuan
+                                    .v +
+                                    '</td>';
+                                html += '<td class="rute_tujuan text-info">' + rute_tujuan.v +
+                                    '</td>';
+                                html += '<td class="hari_tujuan text-info">' + hari_tujuan.v +
+                                    '</td>';
                                 html += "</tr>";
                             }
                         }
-                        $("#tbody-data").html(html);
-                        isiDataOutlet();
+                        if (table == null) {
+                            $("#tbody-data").html(html);
+                            isiDataOutlet(initDatatables);
+
+                        } else {
+                            table.destroy();
+                            $("#tbody-data").html(html);
+                            isiDataOutlet(initDatatables);
+                        }
                     };
                     reader.readAsArrayBuffer(file);
                 }
             });
 
-            function isiDataOutlet() {
+            function isiDataOutlet(callback) {
                 var kode_customerAll = []; // Membuat array untuk menyimpan kode pelanggan
                 var wilayah;
                 $('.kode_customer').each(function(index) {
@@ -260,32 +196,26 @@
                         $('.kode_customer').each(function(index) {
                             var kode_customer = $(this).text().trim().toUpperCase();
 
-                            // Loop melalui data dalam res
                             for (var i = 0; i < res.length; i++) {
-                                if (kode_customer === res[i].kode_customer) {
-                                    // Jika kode_customer cocok, Anda dapat mengambil data sesuai indeks i di res
+                                if (kode_customer.toUpperCase() === res[i].kode_customer
+                                    .toUpperCase()) {
                                     var id_wilayah = res[i]['mrdo'][0]['mr'].id_wilayah;
-                                    var rute_id = res[i]['mrdo'][0].rute_id;
-                                    var rute_detail_id = res[i]['mrdo'][0].rute_detail_id;
-                                    var id_mrdo = res[i]['mrdo'][0].id;
-                                    var survey_pasar_id = res[i]['mrdo'][0].survey_pasar_id;
-
-                                    // Lakukan sesuatu dengan data yang Anda ambil di sini
-                                    // Misalnya, Anda bisa mengisinya ke dalam elemen HTML yang sesuai
-                                    // Contoh:
                                     $(this).closest('tr').find('.id_wilayah').html(id_wilayah);
-                                    $(this).closest('tr').find('.rute_id').html(rute_id);
-                                    $(this).closest('tr').find('.rute_detail_id').html(
-                                        rute_detail_id);
-                                    $(this).closest('tr').find('.id_mrdo').html(id_mrdo);
-                                    $(this).closest('tr').find('.survey_pasar_id').html(
-                                        survey_pasar_id);
 
-                                    // Keluar dari loop karena Anda sudah menemukan yang cocok
+                                    var salesman_awal = res[i]['mrdo'][0]['mr'].salesman;
+                                    $(this).closest('tr').find('.salesman_awal').html(
+                                        salesman_awal);
+
+                                    var rute_awal = res[i]['mrdo'][0]['mr'].rute;
+                                    $(this).closest('tr').find('.rute_awal').html(
+                                        rute_awal);
                                     break;
                                 }
                             }
                         });
+                        if (typeof callback === 'function') {
+                            callback(); // Menjalankan callback jika ada
+                        }
                     },
 
                     error: function(xhr, status, error) {
@@ -294,121 +224,76 @@
                 });
             }
 
-            // // PINDAH RUTE
-            // $('#btnPindah').click(function(e) {
-            //     e.preventDefault();
-
-            //     var selectedRows = [];
-            //     $('.check:checked').each(function(index) {
-            //         var id_mrdo = $(this).closest('tr').find('.id_mrdo').text().trim();
-            //         var rute_id = $(this).closest('tr').find('.rute_id').text().trim();
-            //         var rute_detail_id = $(this).closest('tr').data('rute_detail_id');
-            //         var id_pasar = $(this).closest('tr').find('.id_pasar').text().trim();
-            //         var survey_pasar_id = $(this).closest('tr').data('survey_pasar_id');
-            //         var kode_customer = $(this).closest('tr').find('.kode_customer').text().trim();
-            //         var wilayah = $(this).closest('tr').find('.wilayah').text() trim();
-            //         var location_type = $(this).closest('tr').find('.lokasi').text() trim();
-            //         var toko = $(this).closest('tr').find('.nama_toko').text().trim();
-
-            //         var dataObject = {};
-            //         dataObject['id_mrdo'] = id_mrdo;
-            //         dataObject['rute_id'] = rute_id;
-            //         dataObject['rute_detail_id'] = rute_detail_id;
-            //         dataObject['id_pasar'] = id_pasar;
-            //         dataObject['survey_pasar_id'] = survey_pasar_id;
-            //         dataObject['kode_customer'] = kode_customer;
-            //         dataObject['wilayah'] = wilayah;
-            //         dataObject['salesman'] = salesman_awal;
-            //         dataObject['location_type'] = location_type;
-            //         dataObject['toko'] = toko;
-
-            //         selectedRows.push(dataObject);
-
-            //         var salesman_akhir = $(this).closest('tr').find('.salesman_tujuan').text()
-            //             .trim();
-            //         var hari = $(this).closest('tr').find('.hari_tujuan').text().trim();
-            //         var rute = $(this).closest('tr').find('.rute_tujuan').text().trim();
-            //     });
-
-            //     $.ajax({
-            //         type: 'post',
-            //         url: "http://10.11.1.37/api/tool/outletkandidat/pindahoutlet",
-            //         dataType: 'json',
-            //         encode: true,
-            //         data: {
-            //             salesman: salesman_akhir,
-            //             hari: hari,
-            //             rute: rute,
-            //             data_all: selectedRows
-            //         },
-            //         beforeSend: function() {
-            //             $('.loading-overlay').show();
-            //         },
-            //         success: function(response) {
-            //             if (response.is_valid) {
-            //                 $('#successModal').modal('show');
-            //                 setTimeout(function() {
-            //                     $('#successModal').modal('hide');
-            //                     location.reload();
-            //                 }, 2000);
-            //             } else {
-            //                 $('#errorModal #message').text(response.message);
-            //                 $('#errorModal').modal('show');
-            //             }
-            //         },
-            //         error: function(xhr, status, error) {
-            //             console.error(error);
-            //             $('#errorModal #message').text(xhr.responseJSON.message);
-            //             $('#errorModal').modal('show');
-            //         },
-            //         complete: function() {
-            //             $('.loading-overlay').hide();
-            //         }
-            //     });
-            // });
+            // INIT DATATABLES
+            function initDatatables() {
+                table = $("#myTable")
+                    .DataTable({
+                        "dom": "<'row'<'col-sm-12 col-md-10'B><'col-sm-12 col-md-2 text-right'f>>" +
+                            "<'row'<'col-sm-12'tr>>" +
+                            "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
+                        "paging": false,
+                    });
+            };
 
             // PINDAH RUTE
             $('#btnPindah').click(function(e) {
                 e.preventDefault();
-
                 var selectedRows = [];
 
-                $('.id_mrdo').each(function() {
-                    var id = $(this).text().trim();
-                    var id_pasar_awal = $(this).closest('tr').find('.id_pasar').text().trim();
-                    var id_survey_pasar = $(this).closest('tr').find('.survey_pasar_id').text()
+                $('.kode_customer').each(function(index) {
+                    var id_wilayah = $(this).closest('tr').find('.id_wilayah').text()
                         .trim();
-                    var salesman_tujuan = $(this).closest('tr').find('.salesman_tujuan').text()
+                    var wilayah = $(this).closest('tr').find('.wilayah').text().trim();
+                    var kode_customer = $(this).text().trim();
+                    var salesman_awal = $(this).closest('tr').find('.salesman_awal').text()
+                        .trim();
+                    var salesman_tujuan = $(this).closest('tr').find('.salesman_tujuan')
+                        .text()
+                        .trim();
                     var hari_tujuan = $(this).closest('tr').find('.hari_tujuan').text()
                         .trim();
-                    selectedRows.push({
-                        id: id,
-                        id_pasar_awal: id_pasar_awal,
-                        id_survey_pasar: id_survey_pasar,
-                        salesman_tujuan: salesman_tujuan,
-                        hari_tujuan: hari_tujuan
-                    });
+                    var rute_tujuan = $(this).closest('tr').find('.rute_tujuan').text()
+                        .trim();
+
+                    if (salesman_tujuan === '' || hari_tujuan === '' || rute_tujuan ===
+                        '') {
+                        alert("harap isi Rute tujuan");
+                        return;
+                    }
+
+                    var dataObject = {};
+                    dataObject['id_wilayah'] = id_wilayah;
+                    dataObject['wilayah'] = wilayah;
+                    dataObject['kode_customer'] = kode_customer;
+                    dataObject['salesman'] = salesman_awal;
+                    dataObject['pindah_salesman'] = salesman_tujuan;
+                    dataObject['pindah_hari'] = hari_tujuan;
+                    dataObject['pindah_rute'] = rute_tujuan;
+
+                    selectedRows.push(dataObject);
                 });
-                // console.log(selectedRows);
+
                 $.ajax({
                     type: 'post',
-                    url: "{{ route('ToolExcel.pindah') }}",
+                    url: "http://10.11.1.37/api/tool/outletkandidat/uploadpindahtokobatch",
                     dataType: 'json',
                     encode: true,
                     data: {
-                        detail: selectedRows
+                        data: selectedRows
                     },
                     beforeSend: function() {
                         $('.loading-overlay').show();
                     },
                     success: function(response) {
-                        // console.log(response.message);
-                        $('#successModal #message').text(response.message);
-                        $('#successModal').modal('show');
-                        setTimeout(function() {
-                            $('#successModal').modal('hide');
-                            // location.reload();
-                        }, 2000);
+                        if (response.is_valid) {
+                            $('#successModal').modal('show');
+                            // setTimeout(function() {
+                            //     $('#successModal').modal('hide');
+                            // }, 1000);
+                        } else {
+                            $('#errorModal #message').text(response.message);
+                            $('#errorModal').modal('show');
+                        }
                     },
                     error: function(xhr, status, error) {
                         console.error(error);
@@ -420,33 +305,6 @@
                     }
                 });
             });
-
-            // // CEK RUTE AKTIF
-            // var nama_sales = $('#salesman_awal').val();
-            // if (nama_sales !== '') {
-            //     var iddepo = $('#nama_wilayah').text().match(/\(([^()]+)\)[^(]*$/)[1];
-            //     $.ajax({
-            //         type: 'post',
-            //         url: "http://10.11.1.37/api/tool/rute/getData",
-            //         dataType: 'json',
-            //         encode: true,
-            //         data: {
-            //             nama_sales: nama_sales,
-            //             iddepo: iddepo
-            //         },
-            //         success: function(response) {
-            //             $('.warnaBaris').each(function() {
-            //                 var ruteId = $(this).find('.rute_id').text().trim();
-            //                 var rute = $(this).find('.rute');
-            //                 if (ruteId == response.rute_hari_ini) {
-            //                     rute.addClass('text-success fw-bolder shadow-lg');
-            //                 }
-            //             });
-            //         },
-            //         error: function(xhr, status, error) {},
-            //         complete: function() {}
-            //     });
-            // }
         });
     </script>
 @endsection

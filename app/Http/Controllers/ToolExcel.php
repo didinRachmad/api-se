@@ -25,16 +25,12 @@ class ToolExcel extends Controller
         $wilayah = strtoupper($request->input('wilayah'));
         $kode_customer = $request->input('kode_customer');
 
-        $data = MasterConvertOutlet::with(['mrdo.mr.w', 'mrdo.mr.d', 'mrdo.mr.kr', 'mrdo.mrd' => function ($query) {
-            $query->select('id', 'id_pasar', 'nama_pasar');
-        }, 'sp' => function ($query) {
-            $query->select('id', 'location_type', 'source_type');
-        }])
+        $data = MasterConvertOutlet::with('mrdo.mr')
             ->select('id', 'kode_customer', 'id_outlet_mas')
-            ->whereIn('kode_customer', $kode_customer)
+            ->whereIn(DB::raw('UPPER(kode_customer)'), array_map('strtoupper', $kode_customer))
             ->whereHas('mrdo.mr.w', function ($query) use ($wilayah) {
                 $query->where('nama_wilayah', $wilayah);
-            })
+            })->orderBy('id', 'desc')
             ->get();
 
         return response()->json(['data' => $data]);

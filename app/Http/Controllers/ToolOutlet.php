@@ -132,20 +132,23 @@ class ToolOutlet extends Controller
         $rute_id_awal = $request->input('rute_id_awal');
         $rute_awal = $request->input('rute_awal');
 
-        $data =
-            MasterRute::with(['w', 'd' => function ($query) {
-                $query->select('id_distributor', 'nama_distributor');
-            }, 'mrdo.mrd' => function ($query) {
-                $query->select('id', 'id_pasar', 'nama_pasar');
-            }, 'mrdo.mp' => function ($query) {
-                $query->select('id_pasar', 'nama_pasar');
-            }, 'mrdo.mco' => function ($query) {
-                $query->select('id', 'id_outlet_mas', 'kode_customer');
-            }, 'mrdo.mco.sp' => function ($query) {
-                $query->select('id', 'location_type', 'source_type');
-            }, 'kr'])->where('salesman', $salesman_awal)->when($rute_id_awal, function ($query, $rute_id_awal) {
-                return $query->where('id', $rute_id_awal);
-            })->get();
+        $data = MasterRute::with(['w', 'd' => function ($query) {
+            $query->select('id_distributor', 'nama_distributor');
+        }, 'mrdo' => function ($query) {
+            $query->select('id', 'rute_id', 'rute_detail_id', 'survey_pasar_id', 'nama_toko', 'alamat', 'id_pasar', 'tipe_outlet');
+        }, 'mrdo.mrd' => function ($query) {
+            $query->select('id', 'id_pasar', 'nama_pasar');
+        }, 'mrdo.mp' => function ($query) {
+            $query->select('id_pasar', 'nama_pasar');
+        }, 'mrdo.mco' => function ($query) {
+            $query->select('id', 'id_outlet_mas', 'kode_customer');
+        }, 'mrdo.sp' => function ($query) {
+            $query->select('id', 'location_type', 'source_type');
+        }, 'kr' => function ($query) {
+            $query->select('nama', 'id_salesman_mss');
+        }])->where('salesman', $salesman_awal)->when($rute_id_awal, function ($query, $rute_id_awal) {
+            return $query->where('id', $rute_id_awal);
+        })->get();
 
         return view('ToolOutlet', compact('data', 'salesman_awal', 'id_salesman_awal', 'rute_id_awal', 'rute_awal'));
     }
