@@ -29,7 +29,6 @@ class KodeCustomer extends Controller
         }])->select('id', 'kode_customer', 'id_outlet_mas')->where('kode_customer', $kode_customer)->get();
 
         // return response()->json(['data' => $data]);
-
         return view('KodeCustomer', compact('data', 'kode_customer'));
     }
 
@@ -60,7 +59,7 @@ class KodeCustomer extends Controller
 
         $threeMonthsAgo = Carbon::now()->subMonths(4)->startOfMonth()->toDateString();
 
-        $data = Order::select('id', 'nama_wilayah', 'no_order', 'id_salesman', 'nama_salesman', 'nama_toko', 'id_survey_pasar', 'total_rp', 'total_qty', 'total_transaksi', 'tgl_transaksi', 'document', 'platform', 'is_exported', 'kode_customer', 'is_call', 'tipe_order')
+        $data = Order::select('id', 'nama_wilayah', 'no_order', 'id_salesman', 'nama_salesman', 'nama_toko', 'id_survey_pasar', 'total_rp', 'total_qty', 'total_transaksi', 'tgl_transaksi', 'created_at', 'document', 'platform', 'is_exported', 'kode_customer', 'is_call', 'tipe_order', 'tipe_outlet')
             ->selectRaw('CASE WHEN (total_rp = 0) THEN "KUNJUNGAN" ELSE "ORDER" END AS status')
             ->whereDate('tgl_transaksi', '>=', $threeMonthsAgo)
             ->where(function ($query) use ($kode_customer) {

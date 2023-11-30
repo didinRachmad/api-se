@@ -27,7 +27,8 @@ class ToolOutlet extends Controller
         $perPage = 10;
 
         $query =
-            MasterRute::select('salesman', 'id_wilayah')->with('w', 'kr')
+            MasterRute::select('salesman', 'id_wilayah')
+            ->with('w', 'kr')
             ->where('salesman', 'LIKE', '%' . $term . '%')
             ->orWhereHas('w', function ($query) use ($term) {
                 $query->where('nama_wilayah', 'LIKE', '%' . $term . '%');
@@ -41,13 +42,15 @@ class ToolOutlet extends Controller
 
         foreach ($salesman as $data) {
             $nama_wilayah = $data->w->nama_wilayah ?? '';
+            $id_wilayah = $data->w->id_wilayah ?? '';
             $id_salesman_mss = $data->kr->id_salesman_mss ?? '';
             $results[] = [
                 'id' => $data->salesman,
                 'text' => $data->salesman,
                 'salesman' => $data->salesman,
+                'id_salesman' => $id_salesman_mss,
                 'nama_wilayah' => $nama_wilayah,
-                'id_salesman' => $id_salesman_mss
+                'id_wilayah' => $id_wilayah
             ];
         }
 
@@ -76,8 +79,7 @@ class ToolOutlet extends Controller
         foreach ($ruteData as $rute) {
             $results[] = [
                 'id' => $rute->id,
-                'text' => $rute->rute,
-                'id_wilayah' => $rute->id_wilayah
+                'text' => $rute->rute
             ];
         }
 
@@ -89,7 +91,7 @@ class ToolOutlet extends Controller
     {
         $term = $request->input('q');
         $page = $request->input('page', 1);
-        $id_wilayah = $request->input('id_wilayah');
+        // $id_wilayah = $request->input('id_wilayah');
         $perPage = 10;
 
         $query = MasterPasar::select('master_pasar.id_pasar as id_pasar', 'master_pasar.nama_pasar as nama_pasar', 'wilayah.nama_wilayah as nama_wilayah')
@@ -129,28 +131,55 @@ class ToolOutlet extends Controller
     {
         $salesman_awal = $request->input('salesman_awal');
         $id_salesman_awal = $request->input('id_salesman_awal');
+        $nama_wilayah_awal = $request->input('nama_wilayah_awal');
+        $id_wilayah_awal = $request->input('id_wilayah_awal');
         $rute_id_awal = $request->input('rute_id_awal');
         $rute_awal = $request->input('rute_awal');
+        $pasar_awal = $request->input('pasar_awal');
+        $id_pasar_awal = $request->input('id_pasar_awal');
 
-        $data = MasterRute::with(['w', 'd' => function ($query) {
-            $query->select('id_distributor', 'nama_distributor');
-        }, 'mrdo' => function ($query) {
-            $query->select('id', 'rute_id', 'rute_detail_id', 'survey_pasar_id', 'nama_toko', 'alamat', 'id_pasar', 'tipe_outlet');
-        }, 'mrdo.mrd' => function ($query) {
-            $query->select('id', 'id_pasar', 'nama_pasar');
-        }, 'mrdo.mp' => function ($query) {
-            $query->select('id_pasar', 'nama_pasar');
-        }, 'mrdo.mco' => function ($query) {
-            $query->select('id', 'id_outlet_mas', 'kode_customer');
-        }, 'mrdo.sp' => function ($query) {
-            $query->select('id', 'location_type', 'source_type');
-        }, 'kr' => function ($query) {
-            $query->select('nama', 'id_salesman_mss');
-        }])->where('salesman', $salesman_awal)->when($rute_id_awal, function ($query, $rute_id_awal) {
-            return $query->where('id', $rute_id_awal);
-        })->get();
+        if ($salesman_awal == null && $pasar_awal == null) {
+            return view('ToolOutlet', compact('salesman_awal', 'id_salesman_awal', 'nama_wilayah_awal', 'id_wilayah_awal', 'rute_id_awal', 'rute_awal', 'pasar_awal', 'id_pasar_awal'));
+        } else {
+            $data = MasterRute::select('id', 'rute', 'hari', 'salesman', 'id_wilayah', 'id_distributor')->with([
+                'w', 'd' => function ($query) {
+                    $query->select('id_distributor', 'nama_distributor');
+                }, 'mrdo' => function ($query) use ($id_pasar_awal) {
+                    $query->select('id', 'rute_id', 'rute_detail_id', 'survey_pasar_id', 'nama_toko', 'alamat', 'id_pasar', 'tipe_outlet')
+                        ->when($id_pasar_awal, function ($q) use ($id_pasar_awal) {
+                            $q->where('id_pasar', $id_pasar_awal);
+                        });
+                    $query->with([
+                        'mrd' => function ($subquery) {
+                            $subquery->select('id', 'id_pasar', 'nama_pasar');
+                        },
+                        'mp' => function ($subquery) {
+                            $subquery->select('id_pasar', 'nama_pasar');
+                        },
+                        'mco' => function ($subquery) {
+                            $subquery->select('id', 'id_outlet_mas', 'kode_customer');
+                        },
+                        'sp' => function ($subquery) {
+                            $subquery->select('id', 'location_type', 'source_type');
+                        },
+                    ]);
+                },
+                'kr' => function ($query) {
+                    $query->select('nama', 'id_salesman_mss');
+                }
+            ])->when($salesman_awal, function ($query, $salesman_awal) {
+                return $query->where('salesman', $salesman_awal);
+            })->when($rute_id_awal, function ($query, $rute_id_awal) {
+                return $query->where('id', $rute_id_awal);
+            })->whereHas('mrdo', function ($query) use ($id_pasar_awal) {
+                $query->when($id_pasar_awal, function ($q) use ($id_pasar_awal) {
+                    $q->where('id_pasar', $id_pasar_awal);
+                });
+            })->get();
 
-        return view('ToolOutlet', compact('data', 'salesman_awal', 'id_salesman_awal', 'rute_id_awal', 'rute_awal'));
+            // return response()->json(['id_salesman' => $id_salesman_awal, 'id_wilayah' => $id_wilayah_awal]);
+            return view('ToolOutlet', compact('data', 'salesman_awal', 'id_salesman_awal', 'nama_wilayah_awal', 'id_wilayah_awal', 'rute_id_awal', 'rute_awal', 'pasar_awal', 'id_pasar_awal'));
+        }
     }
 
     public function getOrder(Request $request)
@@ -158,13 +187,13 @@ class ToolOutlet extends Controller
         $id_salesman = $request->input('id_salesman');
         $tgl_transaksi = $request->input('tgl_transaksi');
 
-        $data = Order::select('id', 'nama_wilayah', 'no_order', 'id_salesman', 'nama_salesman', 'nama_toko', 'id_survey_pasar', 'total_rp', 'total_qty', 'total_transaksi', 'tgl_transaksi', 'document', 'platform', 'is_exported', 'kode_customer', 'is_call', 'tipe_order')->selectRaw('CASE WHEN (order.total_rp = 0) THEN "KUNJUNGAN" ELSE "ORDER" END AS status')
+        $data = Order::select('id', 'nama_wilayah', 'no_order', 'id_salesman', 'nama_salesman', 'nama_toko', 'id_survey_pasar', 'total_rp', 'total_qty', 'total_transaksi', 'tgl_transaksi', 'created_at', 'document', 'platform', 'is_exported', 'kode_customer', 'is_call', 'tipe_order', 'tipe_outlet')->selectRaw('CASE WHEN (order.total_rp = 0) THEN "KUNJUNGAN" ELSE "ORDER" END AS status')
             ->with(['art.ar' => function ($query) {
                 $query->select('id', 'kode_customer', 'id_qr_outlet');
             }])->where('id_salesman', $id_salesman)->where('tgl_transaksi', $tgl_transaksi)->get();
 
         return DataTables::make($data)->addColumn('id_qr_outlet', function ($data) {
-            return $data->art->ar->id_qr_outlet;
+            return $data->art->ar->id_qr_outlet ?? "";
         })->toJson();
     }
 
@@ -173,7 +202,7 @@ class ToolOutlet extends Controller
         $id_salesman = $request->input('id_salesman');
         $tgl_visit = $request->input('tgl_visit');
 
-        $data = VisitKandidat::select('id', 'nama_toko', 'nama_wilayah', 'status', 'reason', 'kode_customer', 'tgl_visit', 'lama_visit', 'nama_distributor', 'id_salesman', 'nama_salesman', 'updated_at')->where('id_salesman', $id_salesman)->where('tgl_visit', $tgl_visit)->get();
+        $data = VisitKandidat::select('id', 'nama_toko', 'nama_wilayah', 'status', 'reason', 'id_survey_pasar', 'kode_customer', 'tgl_visit', 'lama_visit', 'nama_distributor', 'id_salesman', 'nama_salesman', 'updated_at')->where('id_salesman', $id_salesman)->where('tgl_visit', $tgl_visit)->get();
 
         return DataTables::make($data)->addColumn('updated_at', function ($row) {
             return date('Y-m-d H:i:s', strtotime($row->updated_at));

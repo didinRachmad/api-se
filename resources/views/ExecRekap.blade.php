@@ -1,12 +1,12 @@
 @extends('layouts.app')
 @section('content')
     <div class="card">
-        <div class="card-header">Exec Rekap Call</div>
-        <div class="card-body card-body-custom">
+        {{-- <div class="card-header">Exec Rekap Call</div> --}}
+        <div class="card-body card-body-custom mt-3">
             <div class="row">
                 <div class="col-12">
                     <div class="table-responsive">
-                        <table class="table table-bordered table-dark table-striped table-sm align-middle myTable">
+                        <table class="table  table-light table-striped table-sm align-middle myTable">
                             <thead class="text-center">
                                 <th>No</th>
                                 <th>Nama</th>
@@ -150,7 +150,7 @@
 
             $(document).on("click", ".kirim-satu", function(index) {
                 const idSalesman = $(this).closest("tr").find(".id-salesman").html();
-                const notif = $(this).closest("tr").find(".notif");
+                // const notif = $(this).closest("tr").find(".notif");
                 const result = $(this).closest("tr").find(".response");
                 var inputDate = $("#datepicker").val();
                 var splitDate = inputDate.split("-");
@@ -168,7 +168,7 @@
                         $('.loading-overlay').show();
                     },
                     success: function(response) {
-                        notif.addClass('text-success');
+                        // notif.addClass('text-success');
                         result.html("<span class='text-success fw-bold'>✓ </span>" +
                             "Berhasil (" +
                             "Target = " +
@@ -180,7 +180,7 @@
                         result.addClass('text-success');
                     },
                     error: function(xhr, status, error) {
-                        notif.addClass('text-danger');
+                        // notif.addClass('text-danger');
                         result.html("<span class='text-success fw-bold'>X </span>" + "Gagal");
                         result.addClass('text-danger');
                     },

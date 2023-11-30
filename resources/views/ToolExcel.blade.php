@@ -28,8 +28,8 @@
     </style>
 
     <div class="card">
-        <div class="card-header">Tool Excel</div>
-        <div class="card-body card-body-custom">
+        {{-- <div class="card-header">Tool Excel</div> --}}
+        <div class="card-body card-body-custom mt-3">
             {{-- <form class="form" method="POST" action="{{ route('ToolExcel.pindah') }}"> --}}
             @csrf
             <div class="row justify-content-center mb-3">
@@ -59,22 +59,22 @@
             </div>
             {{-- </form> --}}
             <div class="table-responsive">
-                <table class="table table-sm table-dark table-striped table-bordered align-middle myTable" id="myTable">
-                    <thead class="text-center">
-                        <tr>
-                            <th colspan="6" class="text-warning">Rute Lama</th>
-                            <th colspan="3" class="text-info">Rute Baru</th>
+                <table class="table table-sm table-light table-striped  align-middle myTable" id="myTable">
+                    <thead>
+                        <tr class="text-center">
+                            <th colspan="6" class="table-dark text-center">Rute Lama</th>
+                            <th colspan="3" class="table-light text-center">Rute Baru</th>
                         </tr>
                         <tr>
-                            <th>No</th>
-                            <th>Id Wilayah</th>
-                            <th>Wilayah</th>
-                            <th>Kode Customer</th>
-                            <th>Salesman</th>
-                            <th>Rute</th>
-                            <th>Salesman</th>
-                            <th>Rute</th>
-                            <th>Hari</th>
+                            <th class="table-dark">No</th>
+                            <th class="table-dark">Id Wilayah</th>
+                            <th class="table-dark">Wilayah</th>
+                            <th class="table-dark">Kode Customer</th>
+                            <th class="table-dark">Salesman</th>
+                            <th class="table-dark">Rute</th>
+                            <th class="table-light">Salesman</th>
+                            <th class="table-light">Rute</th>
+                            <th class="table-light">Hari</th>
                         </tr>
                     </thead>
                     <tbody id="tbody-data">
@@ -139,19 +139,21 @@
                                 rute_tujuan
                             ) {
                                 html += "<tr>";
-                                html += '<td class="no text-warning">' + r + '</td>';
-                                html += '<td class="id_wilayah text-warning"></td>';
-                                html += '<td class="wilayah text-warning">' + wilayah.v + '</td>';
-                                html += '<td class="kode_customer text-warning">' + kode_customer.v +
+                                html += '<td class="no table-dark">' + r + '</td>';
+                                html += '<td class="id_wilayah table-dark"></td>';
+                                html += '<td class="wilayah table-dark">' + wilayah.v +
                                     '</td>';
-                                html += '<td class="salesman_awal text-warning"></td>';
-                                html += '<td class="rute_awal text-warning"></td>';
-                                html += '<td class="salesman_tujuan text-info">' + salesman_tujuan
+                                html += '<td class="kode_customer table-dark">' +
+                                    kode_customer.v +
+                                    '</td>';
+                                html += '<td class="salesman_awal table-dark"></td>';
+                                html += '<td class="rute_awal table-dark"></td>';
+                                html += '<td class="salesman_tujuan table-light">' + salesman_tujuan
                                     .v +
                                     '</td>';
-                                html += '<td class="rute_tujuan text-info">' + rute_tujuan.v +
+                                html += '<td class="rute_tujuan table-light">' + rute_tujuan.v +
                                     '</td>';
-                                html += '<td class="hari_tujuan text-info">' + hari_tujuan.v +
+                                html += '<td class="hari_tujuan table-light">' + hari_tujuan.v +
                                     '</td>';
                                 html += "</tr>";
                             }
@@ -179,7 +181,6 @@
 
                     kode_customerAll.push(kode_customer); // Menambahkan kode pelanggan ke dalam array
                 });
-                // console.log(kode_customerAll);
                 $.ajax({
                     type: 'POST',
                     url: "{{ route('ToolExcel.getDataOutlet') }}",
@@ -191,7 +192,6 @@
                     },
                     success: function(response) {
                         let res = response.data;
-                        // console.log(res);
 
                         $('.kode_customer').each(function(index) {
                             var kode_customer = $(this).text().trim().toUpperCase();
@@ -199,7 +199,7 @@
                             for (var i = 0; i < res.length; i++) {
                                 if (kode_customer.toUpperCase() === res[i].kode_customer
                                     .toUpperCase()) {
-                                    var id_wilayah = res[i]['mrdo'][0]['mr'].id_wilayah;
+                                    var id_wilayah = res[i]['mrdo'][0]['mr'].id_wilayah ?? "";
                                     $(this).closest('tr').find('.id_wilayah').html(id_wilayah);
 
                                     var salesman_awal = res[i]['mrdo'][0]['mr'].salesman;
@@ -233,6 +233,14 @@
                             "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
                         "paging": false,
                     });
+                table.on('order.dt search.dt', function() {
+                    table.column(0, {
+                        search: 'applied',
+                        order: 'applied'
+                    }).nodes().each(function(cell, i) {
+                        cell.innerHTML = i + 1;
+                    });
+                }).draw();
             };
 
             // PINDAH RUTE

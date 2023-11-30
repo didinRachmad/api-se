@@ -2,7 +2,7 @@
 @section('content')
     <style>
         .input-group-text {
-            width: 100px;
+            min-width: 80px;
         }
 
         .tipe_outlet {
@@ -11,27 +11,31 @@
     </style>
 
     <div class="card">
-        <div class="card-header">Tool Outlet</div>
-        <div class="card-body card-body-custom">
+        {{-- <div class="card-header">Tool Outlet</div> --}}
+        <div class="card-body card-body-custom mt-3">
             <form class="form" method="POST" action="{{ route('ToolOutlet.getDataByRuteId') }}">
                 @csrf
                 <div class="row justify-content-center">
                     <div class="col-lg-4">
-                        <div class="input-group input-group-sm flex-nowrap mb-3">
+                        <div class="input-group input-group-sm flex-nowrap mb-2">
                             <span class="input-group-text">Salesman</span>
-                            <select class="form-select form-select-sm select2-salesman_awal" name="salesman_awal"
-                                id="salesman_awal" required oninvalid="this.setCustomValidity('Harap Pilih Salesman')"
-                                oninput="setCustomValidity('')">
+                            <select class="form-control form-select-sm select2-salesman_awal" name="salesman_awal"
+                                id="salesman_awal">
                                 <option value="{{ old('salesman_awal', $salesman_awal ?? '') }}">
                                     {{ old('salesman_awal', $salesman_awal ?? '') }}
                                 </option>
                             </select>
+                            <input type="hidden" id="id_salesman_awal" name="id_salesman_awal"
+                                value="{{ old('id_salesman_awal', $id_salesman_awal ?? '') }}">
+                            <input type="hidden" id="nama_wilayah_awal" name="nama_wilayah_awal"
+                                value="{{ old('nama_wilayah_awal', $nama_wilayah_awal ?? '') }}">
+                            <input type="hidden" id="id_wilayah_awal" name="id_wilayah_awal"
+                                value="{{ old('id_wilayah_awal', $id_wilayah_awal ?? '') }}">
                         </div>
-                        <div class="input-group input-group-sm flex-nowrap">
+                        <div class="input-group input-group-sm flex-nowrap mb-2">
                             <span class="input-group-text">Rute</span>
-                            <select class="form-select form-select-sm select2-rute_awal" name="rute_id_awal"
-                                id="rute_id_awal" oninvalid="this.setCustomValidity('Harap Pilih Rute')"
-                                oninput="setCustomValidity('')">
+                            <select class="form-control form-select-sm select2-rute_awal" name="rute_id_awal"
+                                id="rute_id_awal">
                                 <option value="{{ old('rute_id_awal', $rute_id_awal ?? '') }}">
                                     {{ old('rute_awal', $rute_awal ?? '') }}
                                 </option>
@@ -39,24 +43,38 @@
                             <input type="hidden" id="rute_awal" name="rute_awal"
                                 value="{{ old('rute_awal', $rute_awal ?? '') }}">
                         </div>
+                        <div class="input-group input-group-sm flex-nowrap">
+                            <span class="input-group-text">Pasar</span>
+                            <select class="form-control form-select-sm select2-id_pasar_awal" name="id_pasar_awal"
+                                id="id_pasar_awal">
+                                <option value="{{ old('id_pasar_awal', $id_pasar_awal ?? '') }}">
+                                    {{ old('pasar_awal', $pasar_awal ?? '') }}
+                                </option>
+                            </select>
+                            <input type="hidden" id="pasar_awal" name="pasar_awal"
+                                value="{{ old('pasar_awal', $pasar_awal ?? '') }}">
+                        </div>
                     </div>
                     <div class="col-lg-1 text-center my-auto">
                         <button type="submit" class="btn btn-primary btn-sm">Search <span><i
                                     class="bi bi-search"></i></span></button>
                     </div>
                     <div class="col-lg-4">
-                        <div class="input-group input-group-sm flex-nowrap mb-3">
+                        <div class="input-group input-group-sm flex-nowrap mb-2">
                             <span class="input-group-text">Salesman</span>
-                            <select class="form-select form-select-sm select2-salesman_akhir" name="salesman_akhir"
+                            <select class="form-control form-select-sm select2-salesman_akhir" name="salesman_akhir"
                                 id="salesman_akhir">
                             </select>
+                            <input type="hidden" id="id_salesman_akhir" name="id_salesman_akhir"
+                                value="{{ old('id_salesman_akhir', $id_salesman_akhir ?? '') }}">
+                            <input type="hidden" id="nama_wilayah_akhir" name="nama_wilayah_akhir">
+                            <input type="hidden" id="id_wilayah_akhir" name="id_wilayah_akhir">
                         </div>
                         <div class="input-group input-group-sm flex-nowrap">
                             <span class="input-group-text">Rute</span>
-                            <select class="form-select form-select-sm select2-rute_akhir" name="rute_id_akhir"
+                            <select class="form-control form-select-sm select2-rute_akhir" name="rute_id_akhir"
                                 id="rute_id_akhir"></select>
-                            <input type="hidden" id="rute_akhir">
-                            <input type="hidden" id="id_wilayah_akhir">
+                            <input type="hidden" id="rute_akhir" name="rute_akhir">
                         </div>
                     </div>
                     <div class="col-lg-1 text-center my-auto">
@@ -71,7 +89,7 @@
                         {{-- <button type="button" class="btn btn-secondary btn-sm my-1" id="btnEditKodeOrder">Update
                             Kode Order <i class="bi bi-pen-fill"></i></button> --}}
                         {{-- <button type="button" class="btn btn-warning btn-sm my-1" id="btnClearKodeKandidat">Clear
-                            Kode Kandidat <i class="bi bi-x-square-fill"></i></button> --}}
+                                Kode Kandidat <i class="bi bi-x-square-fill"></i></button> --}}
                         <button type="button" class="btn btn-danger btn-sm my-1" id="btnHapusRODouble">Hapus RO
                             Double <i class="bi bi-trash"></i></button>
                         <div class="btn-group">
@@ -92,21 +110,21 @@
                 @php
                     $data = collect();
                 @endphp
-                <div class="row py-3"></div>
+                <div class="row p-1"></div>
             @else
-                <div class="row py-3">
+                <div class="row p-2">
                     <div class="col-lg-12">
-                        <p class="d-inline-block pe-3">Distributor : <span class="fw-bold"
-                                id="nama-distributor">{{ $data->first()->d->nama_distributor ?? '' }}
-                                ({{ $data->first()->d->id_distributor ?? '' }})</span>
+                        <p class="d-inline-block p-1">Distributor : <span class="fw-bold"
+                                id="nama_distributor">{{ $data->last()->d->nama_distributor ?? '' }}
+                                ({{ $data->last()->d->id_distributor ?? '' }})</span>
                         </p>
-                        <p class="d-inline-block pe-3">Wilayah : <span class="fw-bold"
-                                id="nama_wilayah">{{ $data->first()->w->nama_wilayah ?? '' }}
-                                ({{ $data->first()->w->id_wilayah ?? '' }})</span>
+                        <p class="d-inline-block p-1">Wilayah : <span class="fw-bold"
+                                id="nama_wilayah">{{ $data->last()->w->nama_wilayah ?? '' }}
+                                ({{ $data->last()->w->id_wilayah ?? '' }})</span>
                         </p>
-                        <p class="d-inline-block pe-3">Nama Salesman : <span class="fw-bold"
-                                id="nama-salesman">{{ $data->first()->salesman ?? '' }}
-                                ({{ $data->first()->kr->id_salesman_mss ?? '' }})</span>
+                        <p class="d-inline-block p-1">Nama Salesman : <span class="fw-bold"
+                                id="nama_salesman">{{ $data->last()->salesman ?? '' }}
+                                ({{ $data->last()->kr->id_salesman_mss ?? '' }})</span>
                         </p>
                         <button type="button" class="btn btn-info btn-sm btnOrder">Order <span> <i
                                     class="bi bi-journal-text"></i></span></button>
@@ -116,14 +134,16 @@
                 </div>
             @endif
             <div class="table-responsive">
-                <table class="table table-sm table-dark table-striped table-bordered align-middle myTable" id="myTable">
+                <table class="table table-sm table-light table-striped align-middle myTable" id="myTable">
                     <thead class="text-center">
-                        <th>no</th>
-                        <th>rute</th>
-                        <th>hari</th>
-                        <th>rute id</th>
-                        <th>id mrdo</th>
-                        <th>survey pasar id</th>
+                        <th>No</th>
+                        <th>Wilayah</th>
+                        <th id="filter-salesman">Salesman</th>
+                        <th id="filter-rute">Rute</th>
+                        <th>Hari</th>
+                        <th>Rute ID</th>
+                        <th>ID MRDO</th>
+                        <th>Survey pasar ID</th>
                         <th>Kode Customer <button type="button" class="btn btn-sm btn-secondary"
                                 id="salinKode">Salin</button>
                         </th>
@@ -133,13 +153,14 @@
                         <th>Alamat <button type="button" class="btn btn-sm btn-secondary"
                                 id="salinAlamat">Salin</button>
                         </th>
-                        <th>id mco <button type="button" class="btn btn-sm btn-secondary"
+                        <th>ID MCO <button type="button" class="btn btn-sm btn-secondary"
                                 id="salinID_MCO">Salin</button>
                         </th>
-                        <th>id pasar mrd</th>
-                        <th>nama pasar mrd</th>
-                        <th>nama pasar mp</th>
+                        <th>ID Pasar MRD</th>
+                        <th>Nama pasar MRD</th>
+                        <th>Nama pasar MP</th>
                         <th>Tipe Outlet</th>
+                        <th>Status Reject</th>
                         <th class="text-center" id="action">Action</th>
                         <th class="text-center">
                             <input type="checkbox" class="btn-check check-all" id="check-all" autocomplete="off">
@@ -158,6 +179,12 @@
                                 <tr class="warnaBaris" data-id="{{ $mrdo->id }}"
                                     data-rute_detail_id="{{ $mrdo->rute_detail_id }}">
                                     <td></td>
+                                    <td class="nama_wilayah">
+                                        {{ $mr->w->nama_wilayah ?? '' }} ({{ $mr->w->id_wilayah ?? '' }})
+                                    </td>
+                                    <td class="nama_salesman">
+                                        {{ $mr->salesman }} ({{ $mr->kr->id_salesman_mss ?? '' }})
+                                    </td>
                                     <td class="rute">{{ $mr->rute }}</td>
                                     <td class="hari">{{ $mr->hari }}</td>
                                     <td class="rute_id">{{ $mrdo->rute_id }}</td>
@@ -175,6 +202,7 @@
                                         {{ $mrdo->tipe_outlet ?? 'RETAIL' }} - {{ $mrdo->sp->location_type ?? '' }} -
                                         {{ $mrdo->sp->source_type ?? '' }}
                                     </td>
+                                    <td class="statusReject text-danger"></td>
                                     <td>
                                         <div class="row px-2 py-1">
                                             <div class="col-12 px-0">
@@ -228,13 +256,16 @@
             <div class="modal-content card">
                 <div class="modal-header">
                     <h5 class="modal-title" id="orderModalLabel">Data Order</h5>
-                    <input type='date' class='form-control form-control-sm date' id='tgl_transaksi'
-                        name='tgl_transaksi' value='<?= date('Y-m-d') ?>'>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <div class="mx-auto w-50 px-5">
+                        <input type="date" class="form-control form-control-sm date" id="tgl_transaksi"
+                            name="tgl_transaksi" value="<?= date('Y-m-d') ?>">
+                    </div>
+                    <button type="button" class="btn-close bg-danger" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div class="table-responsive">
-                        <table class="table table-sm table-dark  table-striped table-bordered TableOrder">
+                        <table class="table table-sm table-light  table-striped  TableOrder">
                             <thead class="text-center">
                                 <th>no</th>
                                 <th>id</th>
@@ -249,8 +280,10 @@
                                 <th>total qty</th>
                                 <th>total transaksi</th>
                                 <th>tgl transaksi</th>
+                                <th>created at</th>
                                 <th>document</th>
                                 <th>platform</th>
+                                <th>tipe Outlet</th>
                                 <th>tipe order</th>
                                 <th>id qr outlet</th>
                                 <th>exported</th>
@@ -274,11 +307,12 @@
                     <h5 class="modal-title" id="KandidatModalLabel">Data Kandidat</h5>
                     <input type='date' class='form-control form-control-sm date' id='tgl_visit' name='tgl_visit'
                         value='<?= date('Y-m-d') ?>'>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close bg-danger" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div class="table-responsive">
-                        <table class="table table-sm table-dark table-striped table-bordered TableKandidat w-100">
+                        <table class="table table-sm table-light table-striped  TableKandidat w-100">
                             <thead class="text-center">
                                 <th>No</th>
                                 <th>id</th>
@@ -289,6 +323,7 @@
                                 <th>Nama Toko</th>
                                 <th>Status</th>
                                 <th>Reason</th>
+                                <th>ID Survey Pasar</th>
                                 <th>Kode Customer</th>
                                 <th>Tgl Visit</th>
                                 <th>Lama Visit</th>
@@ -308,7 +343,8 @@
             <div class="modal-content card">
                 <div class="modal-header">
                     <h5 class="modal-title" id="editModalLabel">Edit Alamat</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close bg-danger" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <form id="editAlamat">
@@ -348,16 +384,17 @@
             <div class="modal-content card">
                 <div class="modal-header">
                     <h5 class="modal-title" id="PindahPasarModalLabel">Pindah Pasar</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close bg-danger" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <div class="input-group input-group-sm flex-nowrap mb-3">
+                        <div class="input-group input-group-sm flex-nowrap mb-2">
                             <span class="input-group-text">Pasar</span>
                             <select class="form-select form-select-sm select2-pasar_akhir w-100" id="pasar_akhir">
                             </select>
                         </div>
-                        <input type="hidden" id="nama_pasar_akhir" readonly>
+                        <input type="hidden" id="nama_pasar_akhir" name="nama_pasar_akhir" readonly>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -376,11 +413,12 @@
             <div class="modal-content card">
                 <div class="modal-header">
                     <h5 class="modal-title" id="PindahLokasiModalLabel">Pindah Lokasi</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close bg-danger" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <div class="input-group input-group-sm flex-nowrap mb-3">
+                        <div class="input-group input-group-sm flex-nowrap mb-2">
                             <span class="input-group-text">Lokasi</span>
                             <select class="form-select form-select-sm w-100" id="lokasi">
                                 <option value="Mainroad">Mainroad</option>
@@ -406,8 +444,8 @@
                 <div class="toast-body">
                     Data berhasil disalin
                 </div>
-                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
-                    aria-label="Close"></button>
+                <button type="button" class="btn-close bg-danger btn-close bg-danger-white me-2 m-auto"
+                    data-bs-dismiss="toast" aria-label="Close"></button>
             </div>
         </div>
     </div>
@@ -422,6 +460,7 @@
                 $('#rute_id_akhir').get(0).setCustomValidity(''); // Menghapus validasi pada rute_id_akhir
             });
 
+            // SELECT SALESMAN AWAL
             $('.select2-salesman_awal').select2({
                 theme: 'bootstrap-5',
                 ajax: {
@@ -459,9 +498,20 @@
                         data.nama_wilayah));
                 }
             }).on('select2:select', function(e) {
+                var data = e.params.data;
                 $('.select2-rute_awal').val(null).trigger('change');
+                $('#id_salesman_awal').val(data.id_salesman);
+                $('#nama_wilayah_awal').val(data.nama_wilayah);
+                $('#id_wilayah_awal').val(data.id_wilayah);
+            }).on('select2:unselect', function() {
+                $('.select2-rute_awal').val(null).trigger('change');
+                $('#rute_awal').val('');
+                $('#id_salesman_awal').val('');
+                $('#nama_wilayah_awal').val('');
+                $('#id_wilayah_awal').val('');
             });
 
+            // SELECT RUTE AWAL
             $('.select2-rute_awal').select2({
                 theme: 'bootstrap-5',
                 ajax: {
@@ -492,11 +542,57 @@
                 }
             }).on('select2:select', function(e) {
                 var data = e.params.data;
-                // mengubah value dari id_salesman_awal
                 $('#rute_awal').val(data.text);
+            }).on('select2:unselect', function() {
+                $('#rute_awal').val('');
             });
 
+            // SELECT PASAR AWAL
+            $('.select2-id_pasar_awal').select2({
+                theme: 'bootstrap-5',
+                ajax: {
+                    url: "{{ route('ToolOutlet.getPasar') }}",
+                    dataType: 'json',
+                    // delay: 250,
+                    data: function(params) {
+                        return {
+                            q: params.term,
+                            page: params.page || 1,
+                            // id_wilayah: $('#nama_wilayah').text().match(/\((.*?)\)/)[1],
+                        };
+                    },
+                    processResults: function(data, params) {
+                        params.page = params.page || 1; // Menyimpan nilai halaman saat ini
 
+                        return {
+                            results: data.results,
+                            pagination: {
+                                more: data.pagination.more // Mengambil nilai 'more' dari respons server
+                            }
+                        };
+                    },
+                    cache: true
+                },
+                placeholder: 'Pilih Pasar',
+                // minimumInputLength: 3,
+                allowClear: true,
+                templateResult: function(data) {
+                    if (data.loading) {
+                        return data.text;
+                    }
+                    return $('<span>').text(data.id_pasar).addClass('pull-right').append($('<b>').text(
+                        ' - ' + data.text)).addClass('pull-right').append($('<b>').text(
+                        ' - ' + data.nama_wilayah));
+                },
+                templateSelection: function(data) {
+                    return data.text;
+                }
+            }).on('select2:select', function(e) {
+                var data = e.params.data;
+                $('#pasar_awal').val(data.text);
+            });
+
+            // SELECT SALESMAN AKHIR
             $('.select2-salesman_akhir').select2({
                 theme: 'bootstrap-5',
                 ajax: {
@@ -534,9 +630,14 @@
                         data.nama_wilayah));
                 }
             }).on('select2:select', function(e) {
+                var data = e.params.data;
                 $('.select2-rute_akhir').val(null).trigger('change');
+                $('#id_salesman_akhir').val(data.id_salesman);
+                $('#nama_wilayah_akhir').val(data.nama_wilayah);
+                $('#id_wilayah_akhir').val(data.id_wilayah);
             });
 
+            // SELECT RUTE AKHIR
             $('.select2-rute_akhir').select2({
                 theme: 'bootstrap-5',
                 ajax: {
@@ -567,11 +668,10 @@
                 }
             }).on('select2:select', function(e) {
                 var data = e.params.data;
-                $('#id_wilayah_akhir').val(data.id_wilayah);
                 $('#rute_akhir').val(data.text);
             });
 
-            // SELECT2 PASAR
+            // SELECT PASAR AKHIR
             $('.select2-pasar_akhir').select2({
                 dropdownParent: $('#PindahPasarModal'),
                 theme: 'bootstrap-5',
@@ -583,7 +683,7 @@
                             q: params.term,
                             page: params.page ||
                                 1, // Menambahkan parameter 'page' saat melakukan permintaan ke server
-                            id_wilayah: $('#nama_wilayah').text().match(/\((.*?)\)/)[1],
+                            // id_wilayah: $('#nama_wilayah').text().match(/\((.*?)\)/)[1],
                         };
                     },
                     processResults: function(data, params) {
@@ -620,19 +720,19 @@
                 "paging": false,
                 buttons: [{
                     extend: 'copy',
-                    title: 'Data SE - ' + $('#nama-salesman').text().trim(),
+                    title: 'Data SE - ' + $('#nama_salesman').text().trim(),
                     exportOptions: {
                         columns: ':not(.no-export)'
                     }
                 }, 'csv', {
                     extend: 'excel',
-                    title: 'Data SE - ' + $('#nama-salesman').text().trim(),
+                    title: 'Data SE - ' + $('#nama_salesman').text().trim(),
                     exportOptions: {
                         columns: ':not(.no-export)'
                     }
                 }, {
                     extend: 'pdf',
-                    title: 'Data SE - ' + $('#nama-salesman').text().trim(),
+                    title: 'Data SE - ' + $('#nama_salesman').text().trim(),
                     exportOptions: {
                         columns: ':not(.no-export)'
                     },
@@ -642,16 +742,17 @@
                         doc.pageSize =
                             'A4'; // Set ukuran halaman 
                     }
-                }, 'print'],
+                }],
                 "columnDefs": [{
                     "orderable": false,
-                    "targets": [0, 14, 15],
+                    "targets": [0, 17, 18],
                     "className": 'no-export'
                 }],
                 "order": [
-                    [1, 'asc'],
-                    [6, 'desc'],
-                    [11, 'asc']
+                    [2, 'asc'],
+                    [3, 'asc'],
+                    [8, 'desc'],
+                    [13, 'asc']
                 ],
                 "initComplete": function(settings, json) {
                     $(`<select class="form-select form-select-sm w-100">
@@ -663,16 +764,16 @@
                         .on('change', function() {
                             var val = $(this).val();
                             if (val === '') {
-                                table.column(6).search('').draw();
+                                table.column(8).search('').draw();
                             } else if (val === 'KANDIDAT') {
-                                table.column(6).search('^(0|null|)$', true, false).draw();
+                                table.column(8).search('^(0|null|)$', true, false).draw();
                             } else if (val === 'RO') {
-                                table.column(6).search('^(?!0$|null$).+$', true, false).draw();
+                                table.column(8).search('^(?!0$|null$).+$', true, false).draw();
                             }
                         });
 
                     // FILTER SURVEY_PASAR
-                    $(`<textarea id="filterSurveyPasar" class="form-control" rows="2" placeholder="Filter Survey Pasar"></textarea>`)
+                    $(`<textarea id="filterSurveyPasar" class="form-control" rows="3" placeholder="Filter Survey Pasar"></textarea>`)
                         .appendTo('.filter-survey_pasar')
                         .on('input', function() {
                             var filterSurveyPasar = $(this).val().trim().split('\n').map(function(
@@ -682,16 +783,16 @@
 
                             if (filterSurveyPasar == '') {
                                 // Jika filter kosong, hapus pencarian pada kolom dan tampilkan semua data
-                                table.column(5).search('').draw();
+                                table.column(7).search('').draw();
                             } else {
                                 // Jika filter tidak kosong, lakukan pencarian pada kolom
                                 var filterRegex = '^' + filterSurveyPasar.join('$|^') + '$';
-                                table.column(5).search(filterRegex, true, false).draw();
+                                table.column(7).search(filterRegex, true, false).draw();
                             }
                         });
 
                     // FILTER KODE CUSTOMER
-                    $(`<textarea id="filterKodeCustomer" class="form-control" rows="2" placeholder="Filter Kode Customer"></textarea>`)
+                    $(`<textarea id="filterKodeCustomer" class="form-control" rows="3" placeholder="Filter Kode Customer"></textarea>`)
                         .appendTo('.filter-KodeCustomer')
                         .on('input', function() {
                             var filterKodeCustomer = $(this).val().trim().split('\n').map(function(
@@ -700,16 +801,16 @@
                             });
                             if (filterKodeCustomer == '') {
                                 // Jika filter kosong, hapus pencarian pada kolom dan tampilkan semua data
-                                table.column(6).search('').draw();
+                                table.column(8).search('').draw();
                             } else {
                                 // Jika filter tidak kosong, lakukan pencarian pada kolom
                                 var filterRegex = '^' + filterKodeCustomer.join('$|^') + '$';
-                                table.column(6).search(filterRegex, true, false).draw();
+                                table.column(8).search(filterRegex, true, false).draw();
                             }
                         });
 
                     // FILTER NAMA TOKO
-                    $(`<textarea id="filterNamaToko" class="form-control" rows="2" placeholder="Filter Nama Toko"></textarea>`)
+                    $(`<textarea id="filterNamaToko" class="form-control" rows="3" placeholder="Filter Nama Toko"></textarea>`)
                         .appendTo('.filter-NamaToko')
                         .on('input', function() {
                             var filterNamaToko = $(this).val().trim().split('\n').map(function(
@@ -719,15 +820,15 @@
 
                             if (filterNamaToko == '') {
                                 // Jika filter kosong, hapus pencarian pada kolom dan tampilkan semua data
-                                table.column(7).search('').draw();
+                                table.column(9).search('').draw();
                             } else {
                                 // Jika filter tidak kosong, lakukan pencarian pada kolom
                                 var filterRegex = '^' + filterNamaToko.join('$|^') + '$';
-                                table.column(7).search(filterRegex, true, false).draw();
+                                table.column(9).search(filterRegex, true, false).draw();
                             }
                         });
                     // FILTER ALAMAT
-                    $(`<textarea id="filterAlamat" class="form-control" rows="2" placeholder="Filter Alamat"></textarea>`)
+                    $(`<textarea id="filterAlamat" class="form-control" rows="3" placeholder="Filter Alamat"></textarea>`)
                         .appendTo('.filter-Alamat')
                         .on('input', function() {
                             var filterAlamat = $(this).val().trim().split('\n').map(function(
@@ -737,16 +838,40 @@
 
                             if (filterAlamat == '') {
                                 // Jika filter kosong, hapus pencarian pada kolom dan tampilkan semua data
-                                table.column(8).search('').draw();
+                                table.column(10).search('').draw();
                             } else {
                                 // Jika filter tidak kosong, lakukan pencarian pada kolom
                                 var filterRegex = '^' + filterAlamat.join('$|^') + '$';
-                                table.column(8).search(filterRegex, true, false).draw();
+                                table.column(10).search(filterRegex, true, false).draw();
                             }
                         });
+
+                    var salesmanList = this.api().column(2).data().unique().sort();
+                    var salesmanSelect = $(
+                            '<select class="w-100"><option value="">All</option></select>')
+                        .appendTo('#filter-salesman')
+                        .on('change', function() {
+                            var val = $.fn.dataTable.util.escapeRegex($(this).val());
+                            table.column(2).search(val ? '^' + val + '$' : '', true, false).draw();
+                        });
+                    salesmanList.each(function(d, j) {
+                        salesmanSelect.append('<option value="' + d + '">' + d + '</option>');
+                    });
+
+                    var ruteList = this.api().column(3).data().unique().sort();
+                    var ruteSelect = $(
+                            '<select class="w-100"><option value="">All</option></select>')
+                        .appendTo('#filter-rute')
+                        .on('change', function() {
+                            var val = $.fn.dataTable.util.escapeRegex($(this).val());
+                            table.column(3).search(val ? '^' + val + '$' : '', true, false).draw();
+                        });
+                    ruteList.each(function(d, j) {
+                        ruteSelect.append('<option value="' + d + '">' + d + '</option>');
+                    });
                 }
             });
-            table.column(3).search($('#rute_id_awal').val()).draw();
+            table.column(5).search($('#rute_id_awal').val()).draw();
             table.on('order.dt search.dt', function() {
                 table.column(0, {
                     search: 'applied',
@@ -757,46 +882,6 @@
             }).draw();
 
             $('#salinKode').click(function() {
-                // Mengambil data kolom dengan filter yang aktif
-                var filteredData = table.column(6, {
-                    search: 'applied'
-                }).data().toArray();
-
-                var textToCopy = filteredData.join('\n');
-                var tempInput = document.createElement('textarea');
-                tempInput.value = textToCopy;
-                document.body.appendChild(tempInput);
-                tempInput.select();
-                document.execCommand('copy');
-                document.body.removeChild(tempInput);
-
-                var toast = $('#toastSalin');
-                toast.show();
-                setTimeout(function() {
-                    toast.hide();
-                }, 1000);
-            });
-            $('#salinNamaToko').click(function() {
-                // Mengambil data kolom dengan filter yang aktif
-                var filteredData = table.column(7, {
-                    search: 'applied'
-                }).data().toArray();
-
-                var textToCopy = filteredData.join('\n');
-                var tempInput = document.createElement('textarea');
-                tempInput.value = textToCopy;
-                document.body.appendChild(tempInput);
-                tempInput.select();
-                document.execCommand('copy');
-                document.body.removeChild(tempInput);
-
-                var toast = $('#toastSalin');
-                toast.show();
-                setTimeout(function() {
-                    toast.hide();
-                }, 1000);
-            });
-            $('#salinAlamat').click(function() {
                 // Mengambil data kolom dengan filter yang aktif
                 var filteredData = table.column(8, {
                     search: 'applied'
@@ -816,9 +901,49 @@
                     toast.hide();
                 }, 1000);
             });
-            $('#salinID_MCO').click(function() {
+            $('#salinNamaToko').click(function() {
                 // Mengambil data kolom dengan filter yang aktif
                 var filteredData = table.column(9, {
+                    search: 'applied'
+                }).data().toArray();
+
+                var textToCopy = filteredData.join('\n');
+                var tempInput = document.createElement('textarea');
+                tempInput.value = textToCopy;
+                document.body.appendChild(tempInput);
+                tempInput.select();
+                document.execCommand('copy');
+                document.body.removeChild(tempInput);
+
+                var toast = $('#toastSalin');
+                toast.show();
+                setTimeout(function() {
+                    toast.hide();
+                }, 1000);
+            });
+            $('#salinAlamat').click(function() {
+                // Mengambil data kolom dengan filter yang aktif
+                var filteredData = table.column(10, {
+                    search: 'applied'
+                }).data().toArray();
+
+                var textToCopy = filteredData.join('\n');
+                var tempInput = document.createElement('textarea');
+                tempInput.value = textToCopy;
+                document.body.appendChild(tempInput);
+                tempInput.select();
+                document.execCommand('copy');
+                document.body.removeChild(tempInput);
+
+                var toast = $('#toastSalin');
+                toast.show();
+                setTimeout(function() {
+                    toast.hide();
+                }, 1000);
+            });
+            $('#salinID_MCO').click(function() {
+                // Mengambil data kolom dengan filter yang aktif
+                var filteredData = table.column(11, {
                     search: 'applied'
                 }).data().toArray();
 
@@ -863,19 +988,19 @@
                         "pageLength": 100,
                         buttons: [{
                             extend: 'copy',
-                            title: 'Data SE - ' + $('#salesman_awal').text().trim(),
+                            title: 'Data SE - ' + $('#salesman_awal').val(),
                             exportOptions: {
                                 columns: ':not(.no-export)'
                             }
                         }, 'csv', {
                             extend: 'excel',
-                            title: 'Data SE - ' + $('#salesman_awal').text().trim(),
+                            title: 'Data SE - ' + $('#salesman_awal').val(),
                             exportOptions: {
                                 columns: ':not(.no-export)'
                             }
                         }, {
                             extend: 'pdf',
-                            title: 'Data SE - ' + $('#salesman_awal').text().trim(),
+                            title: 'Data SE - ' + $('#salesman_awal').val(),
                             exportOptions: {
                                 columns: ':not(.no-export)'
                             },
@@ -890,7 +1015,7 @@
                             url: "{{ route('ToolOutlet.getOrder') }}",
                             type: 'POST',
                             data: function(d) {
-                                d.id_salesman = $('#nama-salesman').text().match(/\((.*?)\)/)[
+                                d.id_salesman = $('#nama_salesman').text().match(/\((.*?)\)/)[
                                     1];
                                 d.tgl_transaksi = $('#tgl_transaksi')
                                     .val(); // ambil nilai input field id_transaksi
@@ -902,7 +1027,7 @@
                             [4, 'asc']
                         ],
                         columnDefs: [{
-                            targets: [1, 13, 14, 16],
+                            targets: [1, 13, 17],
                             className: 'no-export' // kelas no-export
                         }],
                         columns: [{
@@ -967,12 +1092,20 @@
                                 className: 'text-success fw-bold'
                             },
                             {
+                                data: 'created_at',
+                                name: 'created_at'
+                            },
+                            {
                                 data: 'document',
                                 name: 'document'
                             },
                             {
                                 data: 'platform',
                                 name: 'platform'
+                            },
+                            {
+                                data: 'tipe_outlet',
+                                name: 'tipe_outlet'
                             },
                             {
                                 data: 'tipe_order',
@@ -1030,13 +1163,13 @@
                         "pageLength": 100,
                         buttons: [{
                             extend: 'copy',
-                            title: 'Data SE - ' + $('#salesman_awal').text().trim(),
+                            title: 'Data SE - ' + $('#salesman_awal').val(),
                             exportOptions: {
                                 columns: ':not(.no-export)'
                             }
                         }, 'csv', {
                             extend: 'excel',
-                            title: 'Data SE - ' + $('#salesman_awal').text().trim(),
+                            title: 'Data SE - ' + $('#salesman_awal').val(),
                             exportOptions: {
                                 columns: ':not(.no-export)'
                             }
@@ -1057,7 +1190,7 @@
                             url: "{{ route('ToolOutlet.getKandidat') }}",
                             type: 'POST',
                             data: function(d) {
-                                d.id_salesman = $('#nama-salesman').text().match(/\((.*?)\)/)[
+                                d.id_salesman = $('#nama_salesman').text().match(/\((.*?)\)/)[
                                     1];
                                 d.tgl_visit = $('#tgl_visit')
                                     .val(); // ambil nilai input field id_visit
@@ -1116,6 +1249,10 @@
                                 name: 'reason'
                             },
                             {
+                                data: 'id_survey_pasar',
+                                name: 'id_survey_pasar'
+                            },
+                            {
                                 data: 'kode_customer',
                                 name: 'kode_customer'
                             },
@@ -1160,7 +1297,6 @@
             //             id_survey_pasar: id_survey_pasar
             //         });
             //     });
-            //     // console.log(selectedRows);
             //     $.ajax({
             //         type: 'post',
             //         url: "{{ route('ToolOutlet.pindah') }}",
@@ -1173,7 +1309,6 @@
             //             $('.loading-overlay').show();
             //         },
             //         success: function(response) {
-            //             // console.log(response.message);
             //             $('#successModal #message').text(response.message);
             //             $('#successModal').modal('show');
             //             setTimeout(function() {
@@ -1217,7 +1352,6 @@
             //                 rute_id_awal: rute_id_awal
             //             });
             //         });
-            //         // console.log(selectedRows);
             //         $.ajax({
             //             type: 'post',
             //             url: "{{ route('ToolOutlet.pindahPasar') }}",
@@ -1230,7 +1364,6 @@
             //                 $('.loading-overlay').show();
             //             },
             //             success: function(response) {
-            //                 // console.log(response.message);
             //                 $('#successModal #message').text(response.message);
             //                 $('#successModal').modal('show');
             //                 $('#id_pasar_akhir').val(null);
@@ -1257,10 +1390,12 @@
 
                 var salesman_awal = $('#salesman_awal').val();
                 var salesman_akhir = $('#salesman_akhir').val();
+                var id_salesman_akhir = $('#id_salesman_akhir').val();
                 var hari_akhir = $('#rute_id_akhir').text().split(' ')[0].trim();
                 var rute_akhir = $('#rute_akhir').val();
                 var rute_id_akhir = $('#rute_id_akhir').val();
-                var id_wilayah = $('#id_wilayah_akhir').val();
+                var nama_wilayah_akhir = $('#nama_wilayah_akhir').val();
+                var id_wilayah_akhir = $('#id_wilayah_akhir').val();
                 var selectedRows = [];
 
                 if (rute_id_akhir === '' || rute_id_akhir == null) {
@@ -1277,7 +1412,7 @@
                     var id_survey_pasar = $(this).closest('tr').find('.survey_pasar_id').text()
                         .trim();
                     var kode_customer = $(this).closest('tr').find('.kode_customer').text().trim();
-                    var wilayah = $('#nama_wilayah').text().replace(
+                    var wilayah = $(this).closest('tr').find('.nama_wilayah').text().trim().replace(
                         /\s*\([^)]*\)$/, '');
                     var location_type = $(this).closest('tr').find('.tipe_outlet').text().split(
                         '-')[1];
@@ -1287,7 +1422,7 @@
                     dataObject['id_mrdo'] = id_mrdo;
                     dataObject['rute_id'] = rute_id;
                     dataObject['rute_detail_id'] = rute_detail_id;
-                    dataObject['id_wilayah'] = id_wilayah;
+                    dataObject['id_wilayah'] = id_wilayah_akhir;
                     dataObject['id_pasar'] = id_pasar;
                     dataObject['survey_pasar_id'] = id_survey_pasar;
                     dataObject['kode_customer'] = kode_customer;
@@ -1317,30 +1452,35 @@
                         if (response.is_valid) {
                             $('#successModal').modal('show');
                             $('.check:checked').each(function(index) {
-                                if (salesman_awal != salesman_akhir) {
-                                    var row = $(this).closest('tr');
-                                    table.row(row).remove().draw();
-                                } else {
-                                    var mrdo_id = $(this).closest(
-                                            'tr').find('.id_mrdo')
-                                        .text().trim();
+                                // if (salesman_awal != salesman_akhir) {
+                                //     var row = $(this).closest('tr');
+                                //     table.row(row).remove().draw();
+                                // } else {
+                                var mrdo_id = $(this).closest(
+                                        'tr').find('.id_mrdo')
+                                    .text().trim();
 
-                                    var rowData = table.row(
-                                        '[data-id="' + mrdo_id +
-                                        '"]').data();
+                                var rowData = table.row(
+                                    '[data-id="' + mrdo_id +
+                                    '"]').data();
 
-                                    rowData[1] =
-                                        rute_akhir;
-                                    rowData[2] =
-                                        hari_akhir;
-                                    rowData[3] =
-                                        rute_id_akhir;
+                                rowData[1] =
+                                    nama_wilayah_akhir + " (" + id_wilayah_akhir + ")";
+                                rowData[2] =
+                                    salesman_akhir + " (" + id_salesman_akhir + ")";
+                                rowData[3] =
+                                    rute_akhir;
+                                rowData[4] =
+                                    hari_akhir;
+                                rowData[5] =
+                                    rute_id_akhir;
 
-                                    table.row('[data-id="' +
-                                        mrdo_id + '"]').data(
-                                        rowData).draw();
-                                }
+                                table.row('[data-id="' +
+                                    mrdo_id + '"]').data(
+                                    rowData).draw();
+                                // }
                             });
+                            table.column(2).search(salesman_awal).draw();
                             cek_rute_aktif();
                             setTimeout(function() {
                                 $('#successModal').modal('hide');
@@ -1368,16 +1508,17 @@
                 // Tampilkan modal edit
                 $('#PindahPasarModal').modal('show');
 
-                $('#savePindahPasar').click(function(e) {
+                $('#savePindahPasar').off('click').on('click', function(e) {
                     e.preventDefault();
 
                     var selectedRows = [];
                     var valid = true;
                     $('.check:checked').each(function(index) {
-                        var id_distributor = $('#nama-distributor').text().match(
+                        var id_distributor = $('#nama_distributor').text().match(
                             /\(([^()]+)\)[^(]*$/)[1];
-                        var id_wilayah = $('#nama_wilayah').text().match(
-                            /\(([^()]+)\)[^(]*$/)[1];
+                        var id_wilayah = $(this).closest('tr').find('.nama_wilayah').text()
+                            .trim()
+                            .match(/\(([^()]+)\)[^(]*$/)[1];
                         var id_survey_pasar = $(this).closest('tr').find('.survey_pasar_id')
                             .text().trim();
                         var id_qr_outlet = $(this).closest('tr').find('.id_mco').text()
@@ -1394,10 +1535,10 @@
                             .text().trim();
                         var nama_pasar = $(this).closest('tr').find('.nama_pasar')
                             .text().trim();
-                        var nama_distributor = $('#nama-distributor').text().replace(
+                        var nama_distributor = $('#nama_distributor').text().replace(
                             /\s*\([^)]*\)$/, '');
-                        var nama_wilayah = $('#nama_wilayah').text().replace(
-                            /\s*\([^)]*\)$/, '');
+                        var nama_wilayah = $(this).closest('tr').find('.nama_wilayah')
+                            .text().trim().replace(/\s*\([^)]*\)$/, '');
                         var salesman = $('#salesman_awal').val();
                         var id_pasar = $(this).closest('tr').find('.id_pasar').text()
                             .trim();
@@ -1474,9 +1615,9 @@
                                     var rowData = table.row(
                                         '[data-id="' + mrdo_id +
                                         '"]').data();
-                                    rowData[10] = id_pasar_akhir;
-                                    rowData[11] = nama_pasar_akhir;
-                                    rowData[12] = nama_pasar_akhir;
+                                    rowData[12] = id_pasar_akhir;
+                                    rowData[13] = nama_pasar_akhir;
+                                    rowData[14] = nama_pasar_akhir;
 
                                     table.row('[data-id="' +
                                         mrdo_id + '"]').data(
@@ -1513,15 +1654,16 @@
                 // Tampilkan modal edit
                 $('#PindahLokasiModal').modal('show');
 
-                $('#savePindahLokasi').click(function(e) {
+                $('#savePindahLokasi').off('click').on('click', function(e) {
                     e.preventDefault();
 
                     var selectedRows = [];
                     var valid = true;
                     $('.check:checked').each(function(index) {
-                        var id_wilayah = $('#nama_wilayah').text().match(
-                            /\(([^()]+)\)[^(]*$/)[1];
-                        var id_distributor = $('#nama-distributor').text().match(
+                        var id_wilayah = $(this).closest('tr').find('.nama_wilayah').text()
+                            .trim()
+                            .match(/\(([^()]+)\)[^(]*$/)[1];
+                        var id_distributor = $('#nama_distributor').text().match(
                             /\(([^()]+)\)[^(]*$/)[1];
                         var id_survey_pasar = $(this).closest('tr').find('.survey_pasar_id')
                             .text().trim();
@@ -1539,10 +1681,10 @@
                             .text().trim();
                         var nama_pasar = $(this).closest('tr').find('.nama_pasar')
                             .text().trim();
-                        var nama_distributor = $('#nama-distributor').text().replace(
+                        var nama_distributor = $('#nama_distributor').text().replace(
                             /\s*\([^)]*\)$/, '');
-                        var nama_wilayah = $('#nama_wilayah').text().replace(
-                            /\s*\([^)]*\)$/, '');
+                        var nama_wilayah = $(this).closest('tr').find('.nama_wilayah')
+                            .text().trim().replace(/\s*\([^)]*\)$/, '');
                         var salesman = $('#salesman_awal').val();
                         var id_pasar = $(this).closest('tr').find('.id_pasar').text()
                             .trim();
@@ -1628,7 +1770,7 @@
                                             '[data-id="' + mrdo_id +
                                             '"]').data();
 
-                                        rowData[13] =
+                                        rowData[15] =
                                             tipe_outlet_modified;
 
                                         table.row('[data-id="' +
@@ -1661,8 +1803,6 @@
                 $('#alamat-baru').val(alamat.text().trim() ?? "");
                 $('#nama_toko-baru').val(nama_toko.text().trim());
                 $('#kode_customer-baru').val(kode_customer.text().trim());
-                // var index = $(".btnEdit").index(this);
-                // $('#index-edit').val();
 
                 // Tampilkan modal edit
                 $('#editModal').modal('show');
@@ -1670,8 +1810,9 @@
                 var selectedRows = [];
                 var valid = true;
 
-                var id_wilayah = $('#nama_wilayah').text().match(/\(([^()]+)\)[^(]*$/)[1];
-                var id_distributor = $('#nama-distributor').text().match(
+                var id_wilayah = $(this).closest('tr').find('.nama_wilayah').text().trim().match(
+                    /\(([^()]+)\)[^(]*$/)[1];
+                var id_distributor = $('#nama_distributor').text().match(
                     /\(([^()]+)\)[^(]*$/)[1];
                 var id_survey_pasar = $(this).closest('tr').find('.survey_pasar_id').text().trim();
                 var id_qr_outlet = $(this).closest('tr').find('.id_mco').text().trim();
@@ -1680,11 +1821,11 @@
                 var id = $(this).closest('tr').find('.rute_id').text().trim();
                 var rute = $(this).closest('tr').find('.rute').text().trim();
                 var hari = $(this).closest('tr').find('.hari').text().trim();
-                var nama_wilayah = $('#nama_wilayah').text().trim().replace(
+                var nama_wilayah = $(this).closest('tr').find('.nama_wilayah').text().trim().replace(
                     /\s*\([^)]*\)$/, '');
                 var nama_pasar = $(this).closest('tr').find('.nama_pasar')
                     .text().trim();
-                var nama_distributor = $('#nama-distributor').text().replace(
+                var nama_distributor = $('#nama_distributor').text().replace(
                     /\s*\([^)]*\)$/, '');
                 var salesman = $('#salesman_awal').val();
                 var id_pasar = $(this).closest('tr').find('.id_pasar').text().trim();
@@ -1710,7 +1851,7 @@
                 dataObject['id_pasar'] = id_pasar;
                 dataObject['location_type'] = location_type;
 
-                $('#saveEdit').click(function(e) {
+                $('#saveEdit').off('click').on('click', function(e) {
                     e.preventDefault();
                     var nama_toko_akhir = $('#nama_toko-baru').val();
                     var alamat_akhir = $('#alamat-baru').val();
@@ -1745,16 +1886,12 @@
 
                                 var rowData = table.row('[data-id="' + mrdo_id +
                                     '"]').data();
-                                rowData[7] = nama_toko_akhir;
-                                rowData[8] = alamat_akhir;
-                                rowData[6] = kode_customer_akhir;
+                                rowData[8] = kode_customer_akhir;
+                                rowData[9] = nama_toko_akhir;
+                                rowData[10] = alamat_akhir;
 
                                 table.row('[data-id="' + mrdo_id + '"]').data(
                                     rowData).draw();
-                                // nama_toko.html(nama_toko_akhir);
-                                // alamat.html(alamat_akhir);
-                                // kode_customer.html(kode_customer_akhir);
-                                // location.reload();
                             }, 1000);
                         },
                         error: function(xhr, status, error) {
@@ -1769,7 +1906,7 @@
                 });
             });
 
-            // SET RETAIL ALL
+            // SET RETAIL/GROSIR ALL
             $(document).on('click', ".btnSetTipeOutlet", function(e) {
                 e.preventDefault();
                 var buttonValue = $(this).text().trim();
@@ -1831,8 +1968,8 @@
                                     '[data-id="' + mrdo_id +
                                     '"]').data();
 
-                                rowData[13] =
-                                    tipe_outlet_modified;
+                                rowData[15] = tipe_outlet_modified;
+                                rowData[16] = "";
 
                                 table.row('[data-id="' +
                                     mrdo_id + '"]').data(
@@ -1857,119 +1994,6 @@
                     }
                 });
             });
-
-            // // SET RETAIL
-            // $(document).on('click', ".btnSetRetail", function() {
-            //     var mrdo_id = $(this).closest('tr').find('.id_mrdo').text().trim();
-            //     var iddepo = $('#nama_wilayah').text().match(
-            //         /\(([^()]+)\)[^(]*$/)[1];
-            //     var tipe_outlet = $(this).closest('tr').find('.tipe_outlet');
-
-            //     $.ajax({
-            //         type: 'POST',
-            //         url: "http://10.11.1.37/api/tool/rute/setRetail",
-            //         dataType: 'json',
-            //         encode: true,
-            //         data: {
-            //             mrdo_id: mrdo_id,
-            //             iddepo: iddepo
-            //         },
-            //         beforeSend: function() {
-            //             $('.loading-overlay').show();
-            //         },
-            //         success: function(response) {
-            //             if (response.is_valid) {
-            //                 $('#successModal').modal('show');
-
-            //                 var tipe_outlet_all = tipe_outlet.text().trim();
-            //                 var tipe_outlet_parts = tipe_outlet_all.split('-');
-            //                 tipe_outlet_parts[0] = "RETAIL";
-            //                 var tipe_outlet_modified = tipe_outlet_parts.join(' - ');
-
-            //                 var rowData = table.row(
-            //                     '[data-id="' + mrdo_id +
-            //                     '"]').data();
-
-            //                 rowData[13] =
-            //                     tipe_outlet_modified;
-
-            //                 table.row('[data-id="' +
-            //                     mrdo_id + '"]').data(
-            //                     rowData).draw();
-
-            //             } else {
-            //                 $('#errorModal #message').text(response.message);
-            //                 $('#errorModal').modal('show');
-            //             }
-            //         },
-            //         error: function(xhr, status, error) {
-            //             console.error(error);
-            //             $('#errorModal').modal('show');
-            //         },
-            //         complete: function() {
-            //             $('.loading-overlay').hide();
-            //         }
-            //     });
-            // });
-
-            // // SET GROSIR
-            // $(document).on('click', ".btnSetTipeOutlet", function() {
-            //     var buttonValue = $(this).text().trim();
-            //     var tipe = buttonValue;
-            //     if (buttonValue == "Grosir") {
-            //         tipe = "TPOUT_WHSL";
-            //     }
-
-            //     var mrdo_id = $(this).closest('tr').find('.id_mrdo').text().trim();
-            //     var iddepo = $('#nama_wilayah').text().match(
-            //         /\(([^()]+)\)[^(]*$/)[1];
-            //     var tipe_outlet = $(this).closest('tr').find('.tipe_outlet');
-
-            //     $.ajax({
-            //         type: 'POST',
-            //         url: "http://10.11.1.37/api/tool/rute/setGrosir",
-            //         dataType: 'json',
-            //         encode: true,
-            //         data: {
-            //             mrdo_id: mrdo_id,
-            //             iddepo: iddepo
-            //         },
-            //         beforeSend: function() {
-            //             $('.loading-overlay').show();
-            //         },
-            //         success: function(response) {
-            //             if (response.is_valid) {
-            //                 $('#successModal').modal('show');
-
-            //                 var tipe_outlet_all = tipe_outlet.text().trim();
-            //                 var tipe_outlet_parts = tipe_outlet_all.split('-');
-            //                 tipe_outlet_parts[0] = "TPOUT_WHSL";
-            //                 var tipe_outlet_modified = tipe_outlet_parts.join(' - ');
-
-            //                 var rowData = table.row(
-            //                     '[data-id="' + mrdo_id +
-            //                     '"]').data();
-
-            //                 rowData[13] =
-            //                     tipe_outlet_modified;
-
-            //                 table.row('[data-id="' +
-            //                     mrdo_id + '"]').data(
-            //                     rowData).draw();
-            //             } else {
-            //                 $('#errorModal #message').text(response.message);
-            //                 $('#errorModal').modal('show');
-            //             }
-            //         },
-            //         error: function(xhr, status, error) {
-            //             console.error(error);
-            //             $('#errorModal').modal('show');
-            //         },
-            //         complete: function() {
-            //             $('.loading-overlay').hide();
-            //         }
-            //     });
-            // });
 
             // // SET RETAIL / GROSIR
             // $(document).on('click', '.btnSetRetail, .btnSetGrosir', function() {
@@ -2012,7 +2036,7 @@
             // });
 
             // // CLEAR KODE KANDIDAT
-            // $('#btnClearKodeKandidat').click(function(e) {
+            // $('#btnClearKodeKandidat').off('click').on('click', function(e) {
             //     e.preventDefault();
             //     let salesman = $('#salesman_awal').val();
             //     $.ajax({
@@ -2074,7 +2098,6 @@
                         }
                     }
                 });
-                // console.log(selectedRows);
 
                 $.ajax({
                     type: 'post',
@@ -2088,7 +2111,6 @@
                         $('.loading-overlay').show();
                     },
                     success: function(response) {
-                        // console.log(response.message);
                         $('#successModal #message').text(response.message);
                         $('#successModal').modal('show');
                         setTimeout(function() {
@@ -2110,33 +2132,85 @@
             cek_rute_aktif();
             // CEK RUTE AKTIF
             function cek_rute_aktif() {
-                var nama_sales = $('#salesman_awal').val();
-                if (nama_sales !== '') {
-                    var iddepo = $('#nama_wilayah').text().match(/\(([^()]+)\)[^(]*$/)[1];
-                    $.ajax({
-                        type: 'post',
-                        url: "http://10.11.1.37/api/tool/rute/getData",
-                        dataType: 'json',
-                        encode: true,
-                        data: {
-                            nama_sales: nama_sales,
-                            iddepo: iddepo
-                        },
-                        success: function(response) {
-                            $('.warnaBaris').each(function() {
-                                var ruteId = $(this).find('.rute_id').text().trim();
-                                var rute = $(this).find('.rute');
-                                if (ruteId == response.rute_hari_ini) {
-                                    rute.addClass('text-success fw-bolder shadow-lg');
-                                } else {
-                                    rute.removeClass('text-success fw-bolder shadow-lg');
+                var salesman_awal = $('#salesman_awal').val();
+                var id_salesman_awal = $('#id_salesman_awal').val();
+                var iddepo = $('#id_wilayah_awal').val();
+                var id_pasar = $('#id_pasar_awal').val();
+                var rute_awal = $('#rute_awal').val();
+                var hari = rute_awal ? rute_awal.split(' ')[0].trim() : '';
+                var periodik = (rute_awal && rute_awal.split(' ')[1]) ? rute_awal.split(' ')[1].trim() : '';
+
+                $.ajax({
+                    type: 'post',
+                    url: "http://10.11.1.37/api/tool/outletkandidat/getData",
+                    dataType: 'json',
+                    encode: true,
+                    data: {
+                        salesman: id_salesman_awal,
+                        depo: iddepo,
+                        pasar: id_pasar,
+                        type: "",
+                        hari: hari,
+                        periodik: periodik
+                    },
+                    success: function(response) {
+                        const dataRuteID = {};
+                        const dataMRDO_ID = {};
+                        $.each(response.data, function(index, item) {
+                            const id = item.id;
+                            const mrdo_id = item.mrdo_id;
+                            if (!dataRuteID[id] && item.rute_hari_ini == 1) {
+                                dataRuteID[id] = id;
+                            }
+                            if (!dataMRDO_ID[mrdo_id] && item.visit_kandidats[0]) {
+                                if (item.visit_kandidats[item.visit_kandidats.length - 1]
+                                    .keterangan_visit['tipe'] ==
+                                    "REJECT") {
+                                    dataMRDO_ID[mrdo_id] = item.visit_kandidats[item
+                                            .visit_kandidats.length - 1]
+                                        .keterangan_visit[
+                                            'keterangan'];
                                 }
-                            });
-                        },
-                        error: function(xhr, status, error) {},
-                        complete: function() {}
-                    });
-                }
+                            }
+                        });
+                        $('.warnaBaris').each(function() {
+                            var ruteId = $(this).find('.rute_id').text().trim();
+                            var mrdo_id = $(this).find('.id_mrdo').text().trim();
+                            var nama_wilayah = $(this).find('.nama_wilayah');
+                            var nama_salesman = $(this).find('.nama_salesman');
+                            var rute = $(this).find('.rute');
+                            var hari = $(this).find('.hari');
+                            // Mencocokkan ruteId dengan dataRuteID
+                            if (dataRuteID[ruteId]) {
+                                nama_wilayah.addClass('text-success fw-bolder shadow-sm');
+                                nama_salesman.addClass('text-success fw-bolder shadow-sm');
+                                rute.addClass('text-success fw-bolder shadow-sm');
+                                hari.addClass('text-success fw-bolder shadow-sm');
+                            } else {
+                                nama_wilayah.removeClass(
+                                    'text-success fw-bolder shadow-sm');
+                                nama_salesman.removeClass(
+                                    'text-success fw-bolder shadow-sm');
+                                rute.removeClass('text-success fw-bolder shadow-sm');
+                                hari.removeClass('text-success fw-bolder shadow-sm');
+                            }
+                            if (dataMRDO_ID[mrdo_id]) {
+                                var rowData = table.row(
+                                    '[data-id="' + mrdo_id +
+                                    '"]').data();
+
+                                rowData[16] = dataMRDO_ID[mrdo_id];
+
+                                table.row('[data-id="' +
+                                    mrdo_id + '"]').data(
+                                    rowData).draw();
+                            }
+
+                        });
+                    },
+                    error: function(xhr, status, error) {},
+                    complete: function() {}
+                });
             }
         });
     </script>

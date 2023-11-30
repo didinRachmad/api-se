@@ -7,8 +7,8 @@
     </style>
 
     <div class="card">
-        <div class="card-header">Search Data by Route ID</div>
-        <div class="card-body card-body-custom">
+        {{-- <div class="card-header">Search Data by Route ID</div> --}}
+        <div class="card-body card-body-custom mt-3">
             <form class="form" method="POST" action="{{ route('RuteId.getDataByRuteId') }}">
                 @csrf
                 <div class="row">
@@ -69,7 +69,7 @@
                 </div>
             </form>
             <div class="table-responsive pt-3">
-                <table class="table table-sm table-dark table-striped table-bordered align-middle myTable">
+                <table class="table table-sm table-light table-striped  align-middle myTable">
                     <thead class="text-center">
                         <th>no</th>
                         <th>rute</th>
@@ -179,11 +179,12 @@
                     <h5 class="modal-title" id="orderModalLabel">Data Order</h5>
                     <input type='date' class='form-control form-control-sm date' id='tgl_transaksi'
                         name='tgl_transaksi' value='<?= date('Y-m-d') ?>'>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close bg-danger" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div class="table-responsive">
-                        <table class="table table-sm table-dark  table-striped table-bordered TableOrder">
+                        <table class="table table-sm table-light  table-striped  TableOrder">
                             <thead class="text-center">
                                 <th>no</th>
                                 <th>id</th>
@@ -221,11 +222,12 @@
                     <h5 class="modal-title" id="KandidatModalLabel">Data Kandidat</h5>
                     <input type='date' class='form-control form-control-sm date' id='tgl_visit' name='tgl_visit'
                         value='<?= date('Y-m-d') ?>'>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close bg-danger" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div class="table-responsive">
-                        <table class="table table-sm table-dark table-striped table-bordered TableKandidat w-100">
+                        <table class="table table-sm table-light table-striped  TableKandidat w-100">
                             <thead class="text-center">
                                 <th>No</th>
                                 <th>Distributor</th>
@@ -254,7 +256,8 @@
             <div class="modal-content card">
                 <div class="modal-header">
                     <h5 class="modal-title" id="editAlamatModalLabel">Edit Alamat</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close bg-danger" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <form id="editAlamat">
@@ -291,7 +294,8 @@
             <div class="modal-content card">
                 <div class="modal-header">
                     <h5 class="modal-title" id="editKodeModalLabel">Edit Kode Customer</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close bg-danger" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <form id="editKode">
@@ -328,7 +332,8 @@
             <div class="modal-content card">
                 <div class="modal-header">
                     <h5 class="modal-title" id="PindahPasarModalLabel">Pindah Pasar</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close bg-danger" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
@@ -361,8 +366,8 @@
                 <div class="toast-body">
                     Data berhasil disalin
                 </div>
-                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
-                    aria-label="Close"></button>
+                <button type="button" class="btn-close bg-danger btn-close bg-danger-white me-2 m-auto"
+                    data-bs-dismiss="toast" aria-label="Close"></button>
             </div>
         </div>
     </div>
@@ -1076,7 +1081,6 @@
                     rute_id_awal: rute_id_awal
                 });
 
-                // console.log(selectedRows);
                 $.ajax({
                     type: 'post',
                     url: "{{ route('RuteId.pindahPasar') }}",
@@ -1089,7 +1093,6 @@
                         $('.loading-overlay').show();
                     },
                     success: function(response) {
-                        console.log(response.message);
                         $('#successModal #message').text(response.message);
                         $('#successModal').modal('show');
                         $('#id_pasar_akhir').val(null);

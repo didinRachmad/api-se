@@ -55,38 +55,52 @@ class ListRute extends Controller
         $salesman = $request->input('salesman');
         $id_salesman = $request->input('id_salesman');
 
-        $request = [
+        $data = [
             'id_salesman' => $id_salesman
         ];
 
-        $options = [
-            'http' => [
-                'method' => 'POST',
-                'header' => 'Content-Type: application/x-www-form-urlencoded',
-                'content' => http_build_query($request)
-            ]
-        ];
+        // Initialize cURL session
+        $ch = curl_init();
 
-        $context = stream_context_create($options);
+        // Set cURL options
+        curl_setopt($ch, CURLOPT_URL, 'http://10.11.1.37/api/downloadrute/getListRute');
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            'Content-Type: application/x-www-form-urlencoded'
+        ]);
 
-        // try {
-        $response = file_get_contents('http://10.11.1.37/api/downloadrute/getListRute', false, $context);
+        // Execute cURL session and get the response
+        $response = curl_exec($ch);
 
-        $res = json_decode($response, true);
-
-        $message = '';
-        if (isset($res['is_valid'])) {
-            $data = $res['data'];
-            $message = $res['message'];
-            $total = $res['total'];
-            $ro = $res['total_ro'];
-            $kandidat = intval($res['total']) - intval($res['total_ro']);
-            $is_valid = $res['is_valid'];
+        // Check for cURL errors
+        if (curl_errno($ch)) {
+            $error_message = curl_error($ch);
+            // Handle cURL error, for example:
+            $message = $error_message;
+            curl_close($ch);
+            return view('ListRute', compact('message', 'salesman', 'id_salesman'));
         } else {
+            // No cURL errors, proceed with processing the response
+            curl_close($ch);
+            $res = json_decode($response, true);
+
             $message = '';
+            if (isset($res['data']) && $res['is_valid']) {
+                $data = $res['data'];
+                $message = $res['message'];
+                $total = $res['total'];
+                $ro = $res['total_ro'];
+                $kandidat = intval($res['total']) - intval($res['total_ro']);
+                $is_valid = $res['is_valid'];
+                return view('ListRute', compact('data', 'salesman', 'id_salesman', 'total', 'ro', 'kandidat'));
+            } else {
+                $message = $res['message'];
+                return view('ListRute', compact('message', 'salesman', 'id_salesman'));
+            }
         }
         // return response()->json($res);
-        return view('ListRute', compact('data', 'message', 'salesman', 'id_salesman', 'total', 'ro', 'kandidat'));
         // } catch (\Exception $e) {
         // Tangani kesalahan jika ada
         // return view('ListRute', compact('salesman', 'id_salesman'));

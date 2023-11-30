@@ -7,8 +7,8 @@
     </style>
 
     <div class="card">
-        <div class="card-header">Tool Depo</div>
-        <div class="card-body card-body-custom">
+        {{-- <div class="card-header">Tool Depo</div> --}}
+        <div class="card-body card-body-custom mt-3">
             <div class="row">
                 <div class="col-lg-4">
                     <div class="input-group input-group-sm flex-nowrap mb-3">
@@ -36,11 +36,11 @@
             <div class="modal-content card">
                 <div class="modal-header">
                     <h5 class="modal-title" id="tukarRuteModalLabel">Tukar Rute</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close bg-danger" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body" style="font-size:0.8rem;">
                     <div class="table-responsive">
-                        <table class="table table-sm table-dark table-striped table-bordered TableRute w-100">
+                        <table class="table table-sm table-light table-bordered TableRute w-100">
                             <thead class="text-center">
                                 <th>Salesman</th>
                                 <th>Rute</th>
@@ -192,7 +192,11 @@
                         let prevSalesman = null;
                         let rowspanCount = 0;
                         response.data.forEach((data, index) => {
-                            html += '<tr>';
+                            if (data['periodik_jenis']) {
+                                html += '<tr>';
+                            } else {
+                                html += '<tr class="table-active">';
+                            }
                             html += '<td class="salesman">' + data['salesman'] +
                                 '</td>';
                             html += '<td class="rute">' + data['rute'] + '</td>';
@@ -213,11 +217,8 @@
                                 rowspanCount = 0; // Reset rowspanCount
                             } else {
                                 if (rowspanCount != 0) {
-                                    console.log(prevSalesman + " - " + rowspanCount);
-                                    html += `<td class="text-center align-middle">
-                                        <input type="checkbox" class="btn-check check" id="check${index}" autocomplete="off">
-                                        <label class="btn btn-sm btn-outline-success" for="check${index}">Pilih</label>
-                                    </td>`;
+                                    html +=
+                                        `<td class="text-center align-middle"></td>`;
                                 }
                             }
                             html += '</tr>';
@@ -270,7 +271,6 @@
                         });
                     }
                 });
-                // console.log(selectedRows);
                 $.ajax({
                     type: 'POST',
                     url: "{{ route('ToolDepo.tukarRute') }}",

@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="row justify-content-center text-center p-5 text-white">
+    <div class="row justify-content-center text-center p-5 text-dark">
         <div class="col-md-12">
             <h2>HALO SELAMAT DATANG</h2>
             <br>

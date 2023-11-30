@@ -51,27 +51,27 @@
             width: 100%;
             margin: 0;
             padding: 0;
+            color: #224;
             /* background-image: linear-gradient(to bottom, rgba(10, 10, 10, 0.3), rgba(10, 10, 10, 0.7)), url("https://source.unsplash.com/random/1366x768/?city,street"), url("../img/bg2.jpg"); */
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
             background-attachment: fixed;
-            font-size: 2vh;
+            font-size: 2.2vh;
         }
 
         .light {
-            background-image: linear-gradient(to bottom, rgba(224, 224, 224, 0.6), rgba(224, 224, 224, 0.8)), url("../img/bg2.jpg");
-            color: #000;
+            /* background-image: linear-gradient(to bottom, rgba(10, 10, 10, 0.3), rgba(10, 10, 10, 0.6)), url("https://source.unsplash.com/random/1366x768/?city,street"), url("../img/bg2.jpg"); */
+            background-image: linear-gradient(to bottom, rgba(10, 10, 10, 0.3), rgba(10, 10, 10, 0.6)), url("../img/bg2.jpg");
         }
 
         .dark {
-            background-image: linear-gradient(to bottom, rgba(46, 53, 60, 0.7), rgba(46, 53, 60, 0.9)), url("../img/bg2.jpg");
-            color: #fff;
+            /* background-image: linear-gradient(to bottom, #021324b3, #02132448), url("https://source.unsplash.com/random/1366x768/?city,street"), url('../img/bg2.jpg'); */
+            background-image: linear-gradient(to bottom, rgba(2, 18, 34, 0.7), rgba(2, 19, 36, 0.3)), url('../img/bg2.jpg');
         }
 
         .container-fluid {
-            padding: 1rem;
-            margin-left: 40px;
+            padding: 5rem 1rem 1rem 1rem;
         }
 
         .scroll::-webkit-scrollbar-track {
@@ -102,6 +102,7 @@
             left: 0;
             width: 100%;
             height: 100%;
+            background-color: rgba(2, 16, 32, 1);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -130,7 +131,13 @@
         }
 
         .navbar-dark .navbar-nav {
-            color: #000;
+            color: #fff;
+        }
+
+        .navbar-dark.scrolled {
+            background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.6));
+            backdrop-filter: blur(25px);
+            background-color: transparent;
         }
 
         .navbar-dark .navbar-toggler {
@@ -143,7 +150,7 @@
 
         .navbar-dark .navbar-nav:hover,
         .navbar-dark .navbar-nav:focus {
-            color: #000;
+            color: #fff;
         }
 
         .navbar-dark .navbar-nav .nav-item {
@@ -168,7 +175,7 @@
         .TableKandidat,
         .tableOrderHapus {
             font-size: 0.7rem;
-            font-weight: 700;
+            font-weight: 600;
             padding: 5px 0;
         }
 
@@ -176,7 +183,6 @@
         .TableOrder input,
         .TableKandidat input {
             font-size: 0.7rem;
-            font-weight: 700;
             padding: 2px;
         }
 
@@ -185,7 +191,7 @@
         .dataTables_wrapper .dataTables_paginate .paginate_button.disabled,
         .dataTables_wrapper .dataTables_paginate .paginate_button.disabled:hover,
         .dataTables_wrapper .dataTables_paginate .paginate_button.disabled:active {
-            /* color: #000 !important; */
+            color: #fff !important;
         }
 
         .dataTables_wrapper .dataTables_length select option {
@@ -197,11 +203,10 @@
         div.dt-button,
         a.dt-button,
         input.dt-button {
-            /* color: #000; */
+            color: #fff;
             background-color: #007bff;
             border-color: #007bff;
-            font-size: 0.8rem;
-            font-weight: 700;
+            font-size: 0.7rem;
             padding: 0.25rem 0.5rem;
             border-radius: 0.2rem;
         }
@@ -211,20 +216,39 @@
         a.dt-button:hover:not(.disabled),
         input.dt-button:hover:not(.disabled) {
             border: 0;
-            /* color: #000; */
+            color: #fff;
             background-color: #0069d9;
             border-color: #0062cc;
 
         }
 
+        .select2-results__option {
+            font-size: 0.7rem !important;
+        }
+
+        .select2-search__field {
+            height: 25px;
+            font-size: 0.7rem;
+        }
+
         .btn-close {
-            /* background-color: #eb3a3a; */
-            color: #fff;
+            background-color: #fff
+        }
+
+        .bg-btn {
+            /* background-image: linear-gradient(to left, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.1)), url("https://source.unsplash.com/random/?city,night"); */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            transition: transform .01s;
+        }
+
+        .bg-btn:hover {
+            transform: scale(1.05);
         }
 
         .btn-sm {
-            font-size: 0.8rem;
-            font-weight: 700;
             transition: transform .01s;
         }
 
@@ -232,15 +256,15 @@
             transform: scale(1.05);
         }
 
-        .bg-btn {
-            width: 70%;
-        }
+        /* #action {
+            min-width: 70px;
+        } */
     </style>
     <style>
         .card {
-            box-shadow: 0 0 8px 1px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.3);
             backdrop-filter: blur(20px);
-            /* color: #000; */
+            color: #fff;
         }
 
         .form-control,
@@ -249,8 +273,8 @@
         .form-select,
         .form-control:focus {
             background-color: transparent !important;
+            color: #fff !important;
             font-size: 0.8rem !important;
-            font-weight: 700;
         }
 
         .date::-webkit-calendar-picker-indicator {
@@ -263,12 +287,17 @@
         }
 
         .form-select option {
-            /* background-color: #02102099;
-            color: #000; */
+            background-color: #02102099;
+            color: #fff;
         }
 
         .form-select-sm~.select2-container--bootstrap-5 .select2-selection {
             font-size: 0.8rem !important;
+        }
+
+        .select2-container--bootstrap-5 .select2-selection--single .select2-selection__rendered,
+        .select2-container--bootstrap-5 .select2-selection--single .select2-selection__rendered .select2-selection__placeholder {
+            color: #fff;
         }
 
         .input-group-sm>.btn,
@@ -278,39 +307,38 @@
             font-size: 0.8rem !important;
         }
 
+
         .input-group>.input-group-text~.select2-container--bootstrap-5 .select2-selection {
             background-color: transparent;
         }
 
-        .select2-results__option {
-            font-size: 0.8rem !important;
+        .select2-container--bootstrap-5 .select2-dropdown .select2-results__options .select2-results__option {
+            color: white;
+            background-color: #02102099;
+
         }
 
-        .select2-search__field {
-            height: 25px;
-            font-size: 0.8rem;
-            font-weight: 700;
+        .select2-container--bootstrap-5 .select2-dropdown .select2-results__options .select2-results__option.select2-results__option--disabled,
+        .select2-container--bootstrap-5 .select2-dropdown .select2-results__options .select2-results__option[aria-disabled=true] {
+            color: #fff
         }
 
-        .select2-container--bootstrap-5 .select2-selection--single .select2-selection__rendered {
-            font-size: 0.8rem;
-            font-weight: 700;
+        .select2-container--bootstrap-5 .select2-dropdown .select2-results__options .select2-results__option.select2-results__message {
+            color: #fff
         }
 
-        .select2-container--bootstrap-5 .select2-selection--single .select2-selection__rendered .select2-selection__placeholder {
-            font-size: 0.8rem;
-            font-weight: 700;
+        .btn-sm {
+            font-size: 0.7rem;
         }
 
         .ui-autocomplete {
             max-height: 120px;
-            font-size: 0.8rem;
-            font-weight: 700;
+            font-size: 0.7rem;
             overflow-y: scroll;
             /* Gunakan "scroll" daripada "auto" */
             overflow-x: hidden;
-            /* background-color: rgba(1, 9, 19, 0.9); */
-            /* color: #000; */
+            background-color: rgba(1, 9, 19, 0.9);
+            color: #fff;
             border-radius: 0 0 10px 10px;
         }
 
@@ -334,132 +362,133 @@
             padding: 5px;
         }
 
-        .form-check-input[type="checkbox"]:hover {
-            cursor: pointer;
-        }
-
         .form-check-input[type="checkbox"] {
-            width: 22px;
+            width: 40px;
             /* Sesuaikan ukuran sesuai kebutuhan */
-            height: 12px;
+            height: 20px;
             /* Sesuaikan ukuran sesuai kebutuhan */
             margin: auto;
         }
-
-        .wrapper {
-            height: 100%;
-        }
-
-        #sidebar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            height: 100%;
-            width: 40px;
-            color: #fff;
-            z-index: 1054;
-            text-align: center;
-            transition: width 0.2s ease-in-out;
-        }
-
-        #sidebar .logo {
-            width: 30px;
-        }
-
-        .navbar-nav li a {
-            position: relative;
-        }
-
-        /* Gaya teks mengambang */
-        .navbar-nav li a::after {
-            content: attr(data-tooltip);
-            position: absolute;
-            top: 0;
-            left: 110%;
-            margin-top: -0.6rem;
-            padding: 1.5em 3em;
-            white-space: nowrap;
-            font-size: 0.8rem;
-            font-weight: bolder;
-            background-color: #252B3B;
-            color: #fff;
-            border-radius: 5px;
-            opacity: 0;
-            transition: opacity 0.2s ease-in-out 0.2s;
-            pointer-events: none;
-        }
-
-        /* Menampilkan teks mengambang saat hover pada element a */
-        .navbar-nav li a:hover::after {
-            opacity: 1;
-            transition-delay: 0s;
-        }
     </style>
-
-    <script>
-        if (localStorage.getItem("darkMode") === "enabled") {
-            document.write('<style>.overlay { background-color: #021020; }</style>');
-        } else {
-            document.write('<style>.overlay { background-color: #f2f2f2; }</style>');
-        }
-    </script>
 </head>
 
-<body class="scroll dark">
+<body class="scroll">
     {{-- LOADING OVERLAY --}}
     <div class="overlay">
         <i class="fa-brands fa-instalod"></i>
     </div>
-    <nav id="sidebar">
-        <a class="navbar-brand" href="{{ url('/') }}">
-            <img class="logo py-3" src="{{ asset('img/logo.ico') }}" alt="Logo">
-            {{-- {{ config('app.name', 'Laravel') }} --}}
-        </a>
-        <ul class="navbar-nav mt-3">
-            <li class="nav-item py-3">
-                <a class="btn btn-sm btn-block bg-btn p-2 btn-dark fw-bold" data-tooltip="Kode Customer"
-                    href="{{ route('KodeCustomer.index') }}"><i class="bi bi-qr-code"></i></a>
-            </li>
-            <li class="nav-item py-3">
-                <a class="btn btn-sm btn-block bg-btn p-2 btn-dark fw-bold" data-tooltip="Tool Outlet"
-                    href="{{ route('ToolOutlet.index') }}"><i class="bi bi-gear-fill"></i></a>
-            </li>
-            <li class="nav-item py-3">
-                <a class="btn btn-sm btn-block bg-btn p-2 btn-dark fw-bold" data-tooltip="List Rute"
-                    href="{{ route('ListRute.index') }}"><i class="bi bi-signpost-split-fill"></i></a>
-            </li>
-            <li class="nav-item py-3">
-                <a class="btn btn-sm btn-block bg-btn p-2 btn-dark fw-bold" data-tooltip="Tool Depo"
-                    href="{{ route('ToolDepo.index') }}"><i class="bi bi-house-gear-fill"></i></a>
-            </li>
-            <li class="nav-item py-3">
-                <a class="btn btn-sm btn-block bg-btn p-2 btn-dark fw-bold" data-tooltip="Tool Excel"
-                    href="{{ route('ToolExcel.index') }}"><i class="bi bi-file-earmark-arrow-up"></i></a>
-            </li>
-            <li class="nav-item py-3">
-                <a class="btn btn-sm btn-block bg-btn p-2 btn-dark fw-bold" data-tooltip="Exec Rekap"
-                    href="{{ route('ExecRekap.index') }}"><i class="bi bi-ui-checks"></i></a>
-            </li>
-            <li class="nav-item pt-3 mx-auto">
-                <div class="form-check form-switch form-check-lg m-0 p-0">
-                    <input class="form-check-input" type="checkbox" id="darkModeToggle">
-                </div>
-            </li>
-            <li class="nav-item">
-                <div id="labelDarkModeToggle"></div>
-            </li>
-        </ul>
-    </nav>
-    <div class="wrapper d-flex align-items-stretch pb-3">
-        <!-- Page Content  -->
-        <div class="container-fluid">
-            <main>
-                @yield('content')
-                @include('modals.loading-modal')
-                @include('modals.success-modal')
-                @include('modals.error-modal')
-            </main>
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top p-0">
+        <div class="container">
+            <a class="navbar-brand" href="{{ url('/') }}">
+                {{-- {{ config('app.name', 'Laravel') }} --}}
+                <img src="{{ asset('img/logo.ico') }}" alt="Logo"> <span class="fw-bold my-auto">SE - TOOLS</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="{{ __('Toggle navigation') }}">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <!-- Left Side Of Navbar -->
+                <ul class="navbar-nav me-auto">
+
+                </ul>
+
+                <!-- Right Side Of Navbar -->
+                <ul class="navbar-nav ms-auto">
+                    <!-- Authentication Links -->
+                    @guest
+                        @if (Route::has('login'))
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                            </li>
+                        @endif
+
+                        @if (Route::has('register'))
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                            </li>
+                        @endif
+                        {{-- <li class="nav-item px-3">
+                            <a class="btn btn-sm bg-btn p-2 btn-dark fw-bold" href="{{ route('RuteId.index') }}"><i
+                                    class="bi bi-sign-turn-slight-right-fill"></i> {{ __('Rute Id') }}</a>
+                        </li> --}}
+                        <li class="nav-item px-3">
+                            <a class="btn btn-sm bg-btn p-2 btn-dark fw-bold" href="{{ route('KodeCustomer.index') }}"><i
+                                    class="bi bi-qr-code"></i>
+                                {{ __('Kode Customer') }}</a>
+                        </li>
+                        <li class="nav-item px-3">
+                            <a class="btn btn-sm bg-btn p-2 btn-dark fw-bold" href="{{ route('ToolOutlet.index') }}"><i
+                                    class="bi bi-gear-fill"></i>
+                                {{ __('Tool Outlet') }}</a>
+                        </li>
+                        <li class="nav-item px-3">
+                            <a class="btn btn-sm bg-btn p-2 btn-dark fw-bold" href="{{ route('ListRute.index') }}"><i
+                                    class="bi bi-signpost-split-fill"></i>
+                                {{ __('List Rute') }}</a>
+                        </li>
+                        <li class="nav-item px-3">
+                            <a class="btn btn-sm bg-btn p-2 btn-dark fw-bold" href="{{ route('ToolDepo.index') }}"><i
+                                    class="bi bi-house-gear-fill"></i>
+                                {{ __('Tool Depo') }}</a>
+                        </li>
+                        <li class="nav-item px-3">
+                            <a class="btn btn-sm bg-btn p-2 btn-dark fw-bold" href="{{ route('ToolExcel.index') }}"><i
+                                    class="bi bi-file-earmark-arrow-up"></i>
+                                {{ __('Tool Excel') }}</a>
+                        </li>
+                        <li class="nav-item px-3">
+                            <a class="btn btn-sm bg-btn p-2 btn-dark fw-bold" href="{{ route('ExecRekap.index') }}"><i
+                                    class="bi bi-ui-checks"></i>
+                                {{ __('Exec Rekap') }}</a>
+                        </li>
+                        <li class="nav-item px-3 my-auto">
+                            <div class="form-check form-switch form-check-lg m-0 p-0">
+                                <input class="form-check-input" type="checkbox" id="darkModeToggle">
+                                <label class="form-check-label px-1 py-auto my-auto" for="darkModeToggle"
+                                    id="labelDarkModeToggle">
+                                </label>
+                            </div>
+                        </li>
+                        {{-- <li class="nav-item px-3">
+                            <a class="btn btn-sm bg-btn p-2 btn-dark fw-bold" href="{{ route('FaceRecognition.index') }}"><i
+                                    class="bi bi-sign-intersection-y-fill"></i>
+                                {{ __('Face Recognition') }}</a>
+                        </li> --}}
+                    @else
+                        <li class="nav-item dropdown">
+                            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
+                                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                {{ Auth::user()->name }}
+                            </a>
+
+                            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="{{ route('logout') }}"
+                                    onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                                    {{ __('Logout') }}
+                                </a>
+
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                    @csrf
+                                </form>
+                            </div>
+                        </li>
+                    @endguest
+                </ul>
+            </div>
         </div>
+    </nav>
+
+    <div class="container-fluid">
+        <main>
+            @yield('content')
+            @include('modals.loading-modal')
+            @include('modals.success-modal')
+            @include('modals.error-modal')
+        </main>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
         integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous">
@@ -490,60 +519,58 @@
         });
 
         $(document).ready(function() {
+            // $('.overlay').fadeIn(200);
+
+
+            // $(window).on('load', function() {
+            $('.overlay').fadeOut(200);
+            // });
+
+            // var textInputs = document.querySelectorAll("input[type='text']");
+
+            // textInputs.forEach(function(input) {
+            //     input.addEventListener("input", function() {
+            //         this.value = this.value.toUpperCase();
+            //     });
+            // });
+            // $(".form-control").on('input', function(event) {
+            //     $(this).val(this.value.toUpperCase());
+            // });
+
+            const navbar = $(".navbar-dark");
+
+            $(window).scroll(function() {
+                if ($(this).scrollTop() > 50) {
+                    navbar.addClass("scrolled");
+                } else {
+                    navbar.removeClass("scrolled");
+                }
+            });
+
             $("input[type='text'], input[type='search']").on('paste', function(event) {
                 event.preventDefault();
                 var pastedValue = event.originalEvent.clipboardData.getData('text/plain');
                 $(this).val(pastedValue.toUpperCase());
             });
 
-            // // Set initial dark mode based on user preference (you can use local storage)
-            // $(".bg-btn").css('box-shadow', '-1px 3px 4px rgb(167, 192, 205)');
-            // $(".card").css('background-color', "#fff");
-            // $#sidebarard").css('background-color', "#fff");
-
-            // $("table").removeClass("table-dark");
-            // $("table").addClass("table-light");
-
             const darkModeToggle = $("#darkModeToggle");
 
             // Set initial dark mode based on user preference (you can use local storage)
             if (localStorage.getItem("darkMode") === "enabled") {
                 darkModeToggle.prop("checked", true);
-                $(".overlay").css('background-color', '#021020');
                 $("body").addClass('dark');
                 $("body").removeClass('light');
-                $(".bg-btn").css('box-shadow', '-1px 3px 4px rgb(167, 192, 205)');
-                $(".card").css('background-color', "rgba(2, 16, 32, 0.9)");
-                $("#sidebar").css('background-color', "#fff");
-                $(".dataTables_wrapper .dataTables_length select").css('color', '#fff');
-                $(".dataTables_wrapper .dataTables_filter input").css('color', '#fff');
-                $(".select2-container--bootstrap-5 .select2-selection--single .select2-selection__rendered")
-                    .css('color', '#fff');
-                $(".navbar-nav li a::after").css({
-                    'background-color': '#252B3B',
-                    'color': '#fff'
-                });
-                $(".form-control").css('color', "#fff");
+                $(".bg-btn").css('box-shadow', '0px 3px 4px rgb(207, 232, 245)');
+                $(".card").css('background-color', "rgba(2, 16, 32, 0.7)");
                 $("table").addClass("table-dark");
                 $("table").removeClass("table-light");
-                $('#labelDarkModeToggle').html('<i class="fa fa-moon text-info"></i>');
+                $('#labelDarkModeToggle').html('<i class="fa fa-moon"></i>');
             } else {
                 darkModeToggle.prop("checked", false);
-                $(".overlay").css('background-color', '#f2f2f2');
                 $("body").addClass('light');
                 $("body").removeClass('dark');
-                $(".bg-btn").css('box-shadow', '-1px 3px 4px rgb(245, 242, 207)');
-                $(".card").css('background-color', "#fff");
-                $("#sidebar").css('background-color', "#252B3B");
-                $(".dataTables_wrapper .dataTables_length select").css('color', '#000');
-                $(".dataTables_wrapper .dataTables_filter input").css('color', '#000');
-                $(".select2-container--bootstrap-5 .select2-selection--single .select2-selection__rendered").css(
-                    'color', '#000');
-                $(".navbar-nav li a::after").css({
-                    'background-color': '#FFF',
-                    'color': '#000'
-                });
-                $(".form-control").css('color', "#000");
+                $(".bg-btn").css('box-shadow', '0px 3px 4px rgb(245, 242, 207)');
+                $(".card").css('background-color', "rgba(78, 61, 14, 0.5)");
                 $("table").removeClass("table-dark");
                 $("table").addClass("table-light");
                 $('#labelDarkModeToggle').html('<i class="fa fa-sun text-warning"></i>');
@@ -553,55 +580,23 @@
                 if (darkModeToggle.prop("checked")) {
                     $("body").addClass('dark');
                     $("body").removeClass('light');
-                    $(".bg-btn").css('box-shadow', '-1px 3px 4px rgb(167, 192, 205)');
-                    $(".card").css('background-color', "rgba(2, 16, 32, 0.9)");
-                    $("#sidebar").css('background-color', "#fff");
-                    $(".dataTables_wrapper .dataTables_length select").css('color', '#fff');
-                    $(".dataTables_wrapper .dataTables_filter input").css('color', '#fff');
-                    $(".select2-container--bootstrap-5 .select2-selection--single .select2-selection__rendered")
-                        .css('color', '#fff');
-                    $(".navbar-nav li a::after").css({
-                        'background-color': '#252B3B',
-                        'color': '#fff'
-                    });
-                    $(".form-control").css('color', "#fff");
+                    $(".bg-btn").css('box-shadow', '0px 3px 4px rgb(207, 232, 245)');
+                    $(".card").css('background-color', "rgba(2, 16, 32, 0.7)");
                     $("table").addClass("table-dark");
                     $("table").removeClass("table-light");
-                    $('#labelDarkModeToggle').html('<i class="fa fa-moon text-info"></i>');
+                    $('#labelDarkModeToggle').html('<i class="fa fa-moon"></i>');
                     localStorage.setItem("darkMode", "enabled");
                 } else {
                     $("body").addClass('light');
                     $("body").removeClass('dark');
-                    $(".bg-btn").css('box-shadow', '-1px 3px 4px rgb(245, 242, 207)');
-                    $(".card").css('background-color', "#fff");
-                    $("#sidebar").css('background-color', "#252B3B");
-                    $(".dataTables_wrapper .dataTables_length select").css('color', '#000');
-                    $(".dataTables_wrapper .dataTables_filter input").css('color', '#000');
-                    $(".select2-container--bootstrap-5 .select2-selection--single .select2-selection__rendered")
-                        .css('color', '#000');
-                    $(".navbar-nav li a::after").css({
-                        'background-color': '#FFF',
-                        'color': '#000'
-                    });
-                    $(".form-control").css('color', "#000");
+                    $(".bg-btn").css('box-shadow', '0px 3px 4px rgb(245, 242, 207)');
+                    $(".card").css('background-color', "rgba(78, 61, 14, 0.5)");
                     $("table").removeClass("table-dark");
                     $("table").addClass("table-light");
                     $('#labelDarkModeToggle').html('<i class="fa fa-sun text-warning"></i>');
                     localStorage.setItem("darkMode", "disabled");
                 }
             });
-            $(".navbar-nav li").hover(
-                function() {
-                    // Hover in
-                    $("#sidebar").addClass("collapsed");
-                },
-                function() {
-                    // Hover out
-                    $("#sidebar").removeClass("collapsed");
-                }
-            );
-
-            $('.overlay').fadeOut(200);
         });
     </script>
 </body>

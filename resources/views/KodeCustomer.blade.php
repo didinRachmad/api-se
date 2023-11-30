@@ -2,16 +2,16 @@
 @section('content')
     <style>
         .input-group-text {
-            width: 120px;
+            width: 100px;
         }
 
-        .action {
-            min-width: 80px;
-        }
+        /* .action {
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            min-width: 80px;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        } */
     </style>
     <div class="card">
-        <div class="card-header">Search Data by Kode Customer</div>
-        <div class="card-body card-body-custom">
+        {{-- <div class="card-header">Search Data by Kode Customer</div> --}}
+        <div class="card-body card-body-custom mt-3">
             <form class="form" method="POST" action="{{ route('KodeCustomer.getDataByKodeCustomer') }}">
                 @csrf
                 <div class="row align-items-top">
@@ -30,6 +30,8 @@
                                     class="bi bi-search"></i></span></button>
                         <button type="button" class="btn btn-info btn-sm btnOrder">Order <span> <i
                                     class="bi bi-journal-text"></i></span></button>
+                        {{-- <button type="button" class="btn btn-danger btn-sm hapusKhusus">Hapus Khusus <span> <i
+                                    class="bi bi-journal-text"></i></span></button> --}}
                     </div>
                     {{-- <div class="col-lg-4">
                         <div class="input-group input-group-sm mb-3">
@@ -51,7 +53,7 @@
                 @endphp
             @endif
             <div class="table-responsive">
-                <table class="table table-sm table-dark table-striped align-middle table-bordered myTable">
+                <table class="table table-sm table-light table-striped align-middle  myTable">
                     <thead class="text-center">
                         <th id="filter-wilayah">Wilayah</th>
                         <th id="filter-salesman">Salesman</th>
@@ -68,6 +70,7 @@
                         <th>nama pasar mrd</th>
                         <th>nama pasar mp</th>
                         <th>Tipe Outlet</th>
+                        <th>QR</th>
                         <th class="action">Action</th>
                     </thead>
                     <tbody>
@@ -107,6 +110,7 @@
                                         {{ $mrdo->tipe_outlet ?? 'RETAIL' }} - {{ $mco->sp->location_type ?? '' }} -
                                         {{ $mco->sp->source_type ?? '' }}
                                     </td>
+                                    <td class="barcode text-center">-</td>
                                     <td>
                                         <div class="row px-2 py-1 text-center justify-content-center">
                                             <div class="col-6 px-0">
@@ -148,10 +152,6 @@
                                                     </ul>
                                                 </div>
                                             </div>
-                                            {{-- <div class="col-6 px-0">
-                                                <button type="button" class="btn btn-sm p-1 btn-light w-100 bypassQR"
-                                                    data-survey_pasar_id="{{ $mco->sp->id }}">QR</button>
-                                            </div> --}}
                                         </div>
                                     </td>
                                 </tr>
@@ -170,11 +170,12 @@
             <div class="modal-content card">
                 <div class="modal-header">
                     <h5 class="modal-title" id="orderModalLabel">Data Order</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close bg-danger" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div class="table-responsive">
-                        <table class="table table-sm table-dark  table-striped table-bordered TableOrder">
+                        <table class="table table-sm table-light  table-striped  TableOrder">
                             <thead class="text-center">
                                 <th>no</th>
                                 <th>id</th>
@@ -189,8 +190,10 @@
                                 <th>total qty</th>
                                 <th>total transaksi</th>
                                 <th>tgl transaksi</th>
+                                <th>created at</th>
                                 <th>document</th>
                                 <th>platform</th>
+                                <th>tipe outlet</th>
                                 <th>tipe order</th>
                                 <th>id qr outlet</th>
                                 <th>exported</th>
@@ -212,7 +215,8 @@
             <div class="modal-content card">
                 <div class="modal-header">
                     <h5 class="modal-title" id="editModalLabel">Edit Alamat</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close bg-danger" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <form id="editAlamat">
@@ -252,7 +256,8 @@
             <div class="modal-content card">
                 <div class="modal-header">
                     <h5 class="modal-title" id="PindahRuteModalLabel">Pindah Outlet</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close bg-danger" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
@@ -288,7 +293,8 @@
             <div class="modal-content card">
                 <div class="modal-header">
                     <h5 class="modal-title" id="PindahPasarModalLabel">Pindah Pasar</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close bg-danger" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
@@ -321,7 +327,7 @@
                     </div>
                     <b>Informasi</b><br>
                     <label>Tidak dapat dihapus, terdapat transaksi berikut :</label><br>
-                    <table class="table table-sm table-dark  table-striped table-bordered tableOrderHapus">
+                    <table class="table table-sm table-light  table-striped  tableOrderHapus">
                         <tbody id="detailOrderHapus">
                         </tbody>
                     </table>
@@ -504,8 +510,8 @@
                             [4, 'asc']
                         ],
                         columnDefs: [{
-                            targets: [1, 13, 14, 16], // kolom pertama
-                            className: 'no-export' // kelas no-export
+                            targets: [1, 13, 17],
+                            className: 'no-export'
                         }],
                         columns: [{
                                 "title": "no",
@@ -569,12 +575,20 @@
                                 className: 'text-success fw-bold'
                             },
                             {
+                                data: 'created_at',
+                                name: 'created_at'
+                            },
+                            {
                                 data: 'document',
                                 name: 'document'
                             },
                             {
                                 data: 'platform',
                                 name: 'platform'
+                            },
+                            {
+                                data: 'tipe_outlet',
+                                name: 'tipe_outlet'
                             },
                             {
                                 data: 'tipe_order',
@@ -1148,7 +1162,6 @@
                                     '"]').data();
 
                                 rowData[11] = id_pasar_akhir;
-                                console.log(nama_pasar_akhir);
                                 rowData[12] = nama_pasar_akhir;
                                 rowData[13] = nama_pasar_akhir;
 
@@ -1205,7 +1218,17 @@
                             var tipe_outlet_parts = tipe_outlet_all.split('-');
                             tipe_outlet_parts[0] = "RETAIL";
                             var tipe_outlet_modified = tipe_outlet_parts.join('-');
-                            tipe_outlet.html(tipe_outlet_modified);
+                            // tipe_outlet.html(tipe_outlet_modified);
+
+                            var rowData = table.row(
+                                '[data-id="' + mrdo_id +
+                                '"]').data();
+
+                            rowData[14] = tipe_outlet_modified;
+
+                            table.row('[data-id="' +
+                                mrdo_id + '"]').data(
+                                rowData).draw();
 
                             $('#successModal').modal('show');
                         } else {
@@ -1248,7 +1271,17 @@
                             var tipe_outlet_parts = tipe_outlet_all.split('-');
                             tipe_outlet_parts[0] = "TPOUT_WHSL";
                             var tipe_outlet_modified = tipe_outlet_parts.join('-');
-                            tipe_outlet.html(tipe_outlet_modified);
+                            // tipe_outlet.html(tipe_outlet_modified);
+
+                            var rowData = table.row(
+                                '[data-id="' + mrdo_id +
+                                '"]').data();
+
+                            rowData[14] = tipe_outlet_modified;
+
+                            table.row('[data-id="' +
+                                mrdo_id + '"]').data(
+                                rowData).draw();
 
                             $('#successModal').modal('show');
                         } else {
@@ -1271,6 +1304,7 @@
                 var mrdo_id = $(this).closest('tr').find('.id_mrdo').text().trim();
                 var iddepo = $(this).closest('tr').find('.nama_wilayah').text().match(
                     /\(([^()]+)\)[^(]*$/)[1].trim();
+                var id_distributor = $(this).closest('tr').data('id_distributor');
                 var kode_customer = $(this).closest('tr').find('.kode_customer').text().trim();
                 var tipe = $(this).text().trim().toLowerCase();
 
@@ -1299,12 +1333,16 @@
                             var html = "";
                             for (var i = 0; i < response.data.length; i++) {
                                 var data = response.data[i];
-                                html += "<tr>";
-                                html += "<td>" + data.no_order + "</td>";
-                                html += "<td>" + data.tgl_transaksi + "</td>";
-                                html += "<td>" + data.nama_toko + "</td>";
-                                html += "<td>" + data.total_rp + "</td>";
-                                html += "</tr>";
+                                if (data.id_distributor_mss == id_distributor) {
+                                    html += "<tr>";
+                                    html += "<td>" + data.no_order + "</td>";
+                                    html += "<td>" + data.nama_salesman + "</td>";
+                                    html += "<td>" + data.kode_customer + "</td>";
+                                    html += "<td>" + data.tgl_transaksi + "</td>";
+                                    html += "<td>" + data.nama_toko + "</td>";
+                                    html += "<td>" + data.total_rp + "</td>";
+                                    html += "</tr>";
+                                }
                             }
                             $('#detailOrderHapus').html(html);
                             $('#HapusModal').modal('show');
@@ -1363,68 +1401,42 @@
                 });
             });
 
-            // // SET RETAIL
-            // $(document).on('click', '.btnSetRetail, .btnSetGrosir', function() {
-            //     var id_mrdo = $(this).data('id_mrdo');
-            //     var id_mco = $(this).data('id_mco');
-            //     var set = $(this).data('set');
-            //     var tipe_outlet = $(this).closest('tr').find('.tipe_outlet');
-
-            //     $.ajax({
-            //         type: 'POST',
-            //         url: "{{ route('KodeCustomer.setOutlet') }}",
-            //         dataType: 'json',
-            //         encode: true,
-            //         data: {
-            //             // _token: "{{ csrf_token() }}",
-            //             id_mrdo: id_mrdo,
-            //             id_mco: id_mco,
-            //             set: set
-            //         },
-            //         beforeSend: function() {
-            //             $('.loading-overlay').show();
-            //         },
-            //         success: function(response) {
-            //             var tipe_outlet_all = tipe_outlet.text().trim();
-            //             var tipe_outlet_parts = tipe_outlet_all.split('-');
-            //             tipe_outlet_parts[0] = response.tipe_outlet ?? "RETAIL";
-            //             var tipe_outlet_modified = tipe_outlet_parts.join('-');
-            //             tipe_outlet.html(tipe_outlet_modified);
-            //             
-            //             $('#successModal').modal('show');
-            //         },
-            //         error: function(xhr, status, error) {
-            //             console.error(error);
-            //             $('#errorModal').modal('show');
-            //         },
-            //         complete: function() {
-            //             $('.loading-overlay').hide();
-            //         }
-            //     });
-            // });
-
             // BYPASS QR
-            $(document).on('click', '.bypassQR', function() {
-                // var survey_pasar_id = $(this).data('survey_pasar_id');
-                var survey_pasar_id = {
-                    "id": 57422
-                };
-                var encodedData = btoa(survey_pasar_id.toString());
+            $(document).on('click', '.btnBarcode', function() {
+                var mrdo_id = $(this).closest('tr').find('.id_mrdo').text().trim();
+                var dataToEncrypt = [{
+                    id: $(this).data('id_qr')
+                }];
+                var jsonData = JSON.stringify(dataToEncrypt);
+                var encryptedData = btoa(jsonData);
+
                 $.ajax({
                     type: 'POST',
                     url: "http://10.11.1.37/api/tool/outletkandidat/bypassqr",
                     dataType: 'json',
                     encode: true,
                     data: {
-                        // _token: "{{ csrf_token() }}",
-                        survey_pasar: encodedData
+                        survey_pasar: encryptedData
                     },
                     beforeSend: function() {
                         $('.loading-overlay').show();
                     },
                     success: function(response) {
-
                         $('#successModal').modal('show');
+
+                        var rowData = table.row(
+                            '[data-id="' + mrdo_id +
+                            '"]').data();
+
+                        rowData[15] = 'SUDAH BYPASS';
+
+                        table.row('[data-id="' +
+                            mrdo_id + '"]').data(
+                            rowData).draw();
+
+                        setTimeout(function() {
+                            $('#successModal').modal('hide');
+                        }, 1000);
                     },
                     error: function(xhr, status, error) {
                         console.error(error);
@@ -1436,69 +1448,156 @@
                 });
             });
 
-            // // UPDATE DATAAR
-            // $(document).on('click', '.updateDataar', function() {
-            //     var id_survey_pasar = $('#id_survey_pasar').val();
-
-            //     $.ajax({
-            //         type: 'POST',
-            //         url: "{{ route('KodeCustomer.updateDataar') }}",
-            //         dataType: 'json',
-            //         encode: true,
-            //         data: {
-            //             id_survey_pasar: id_survey_pasar
-            //         },
-            //         beforeSend: function() {
-            //             $('.loading-overlay').show();
-            //         },
-            //         success: function(response) {
-            //             $('#successModal #message').text(response.message);
-            //             $('#successModal').modal('show');
-            //         },
-            //         error: function(xhr, status, error) {
-            //             console.error(error);
-            //             $('#errorModal #message').text(xhr.responseJSON.message);
-            //             $('#errorModal').modal('show');
-            //         },
-            //         complete: function() {
-            //             $('.loading-overlay').hide();
-            //         }
-            //     });
-            // });
-
+            cek_rute_aktif();
             // CEK RUTE AKTIF
-            $('.warnaBaris').each(function() {
-                var ruteId = $(this).find('.rute_id').text().trim();
-                var rute = $(this).find('.rute');
-
-                var nama_sales = $(this).find('.salesman').text().replace(/\s*\([^)]*\)\s*$/, '').trim();
-
-                var nama_wilayah = $(this).find('.nama_wilayah').text().trim();
-                var iddepo = "";
-                var match = nama_wilayah.match(/\(([^()]+)\)[^(]*$/);
-                if (match && match[1]) {
-                    iddepo = match[1].trim(); // Ambil nilai ID jika ada hasil yang cocok
-                }
+            function cek_rute_aktif() {
+                var kode_customer = [];
+                kode_customer.push($('#kode_customer').val());
 
                 $.ajax({
                     type: 'post',
-                    url: "http://10.11.1.37/api/tool/rute/getData",
+                    url: "http://10.11.1.37/api/tool/outletkandidat/getData",
                     dataType: 'json',
                     encode: true,
                     data: {
-                        nama_sales: nama_sales,
-                        iddepo: iddepo
+                        salesman: "",
+                        depo: "",
+                        pasar: "",
+                        type: "",
+                        hari: "",
+                        periodik: "",
+                        kode_customer: kode_customer
                     },
                     success: function(response) {
-                        if (ruteId == response.rute_hari_ini) {
-                            rute.addClass('text-success fw-bolder');
-                        }
+                        const dataRuteID = {};
+                        const dataBarcode = {};
+                        $.each(response.data, function(index, item) {
+                            const id = item.id;
+                            const mrdo_id = item.mrdo_id;
+                            if (!dataRuteID[id] && item.rute_hari_ini == 1) {
+                                dataRuteID[id] = id;
+                            }
+                            if (!dataBarcode[mrdo_id] && item.verifikasi_qr) {
+                                if (item.verifikasi_qr.flag_qr) {
+                                    if (item.pengajuan_by_pass[0]) {
+                                        dataBarcode[mrdo_id] = item.pengajuan_by_pass[0].id;
+                                    } else {
+                                        dataBarcode[mrdo_id] = "Belum Isi QR";
+                                    }
+                                } else {
+                                    dataBarcode[mrdo_id] = "SUDAH BYPASS";
+                                }
+                            }
+                        });
+                        $('.warnaBaris').each(function() {
+                            var ruteId = $(this).find('.rute_id').text().trim();
+                            var mrdo_id = $(this).find('.id_mrdo').text().trim();
+                            var nama_wilayah = $(this).find('.nama_wilayah');
+                            var nama_salesman = $(this).find('.salesman');
+                            var rute = $(this).find('.rute');
+                            var hari = $(this).find('.hari');
+                            // Mencocokkan ruteId dengan dataRuteID
+                            if (dataRuteID[ruteId]) {
+                                nama_wilayah.addClass('text-success fw-bolder shadow-sm');
+                                nama_salesman.addClass('text-success fw-bolder shadow-sm');
+                                rute.addClass('text-success fw-bolder shadow-sm');
+                                hari.addClass('text-success fw-bolder shadow-sm');
+                            } else {
+                                nama_wilayah.removeClass(
+                                    'text-success fw-bolder shadow-sm');
+                                nama_salesman.removeClass(
+                                    'text-success fw-bolder shadow-sm');
+                                rute.removeClass('text-success fw-bolder shadow-sm');
+                                hari.removeClass('text-success fw-bolder shadow-sm');
+                            }
+                            if (dataBarcode[mrdo_id]) {
+                                if (dataBarcode[mrdo_id] == "SUDAH BYPASS") {
+                                    var rowData = table.row('[data-id="' + mrdo_id + '"]')
+                                        .data();
+                                    rowData[15] = dataBarcode[mrdo_id];
+                                    table.row('[data-id="' + mrdo_id + '"]').data(rowData)
+                                        .draw();
+                                } else if (dataBarcode[mrdo_id] == "Belum Isi QR") {
+                                    var rowData = table.row('[data-id="' + mrdo_id + '"]')
+                                        .data();
+                                    rowData[15] = dataBarcode[mrdo_id];
+                                    table.row('[data-id="' + mrdo_id + '"]').data(rowData)
+                                        .draw();
+                                } else {
+                                    var rowData = table.row('[data-id="' + mrdo_id + '"]')
+                                        .data();
+                                    rowData[15] =
+                                        '<button type="button" class="btn btn-sm p-1 btn-danger btn-block w-100 btnBarcode" data-id_qr="' +
+                                        dataBarcode[mrdo_id] + '">QR</button>';
+                                    table.row('[data-id="' + mrdo_id + '"]').data(rowData)
+                                        .draw();
+                                }
+                            }
+
+                        });
                     },
                     error: function(xhr, status, error) {},
                     complete: function() {}
                 });
-            });
+            }
 
+            // $('.hapusKhusus').on('click', function(e) {
+            //     e.preventDefault();
+            //     var data = [{
+            //             mrdo_id: 2053558,
+            //             kode_customer: 'YUMN0001'
+            //         },
+            //         {
+            //             mrdo_id: 2053576,
+            //             kode_customer: 'PURN0003'
+            //         }
+            //     ]
+
+            //     data.forEach((item, index, array) => {
+            //         console.log(item.mrdo_id + " - " + item.kode_customer);
+            //         $.ajax({
+            //             type: 'POST',
+            //             url: "http://10.11.1.37/api/tool/rute/hapusOutlet",
+            //             dataType: 'json',
+            //             encode: true,
+            //             data: {
+            //                 mrdo_id: item.mrdo_id,
+            //                 iddepo: 28,
+            //                 kode_customer: item.kode_customer,
+            //                 keterangan: "TUTUP PERMANEN",
+            //                 tipe: "permanent",
+            //             },
+            //             // beforeSend: function() {
+            //             //     $('.loading-overlay').show();
+            //             // },
+            //             success: function(response) {
+            //                 if (response.is_valid) {
+            //                     console.log("berhasil : " + item.kode_customer);
+            //                     //     $('#successModal').modal('show');
+            //                     //     $('#HapusModal').modal('hide');
+            //                     //     setTimeout(function() {
+            //                     //         $('#successModal').modal('hide');
+            //                     //         location.reload();
+            //                     //     }, 1000);
+            //                     // } else {
+            //                     //     $('#errorModal #message').text(response.message);
+            //                     //     $('#errorModal').modal('show');
+            //                 }
+            //             },
+            //             error: function(xhr, status, error) {
+            //                 // console.error(error);
+            //                 // $('#errorModal').modal('show');
+            //             },
+            //             // complete: function() {
+            //             //     $('.loading-overlay').hide();
+            //             // }
+            //         });
+            //         if (index === data.length - 1) {
+            //             console.log("Ini adalah elemen terakhir.");
+            //             $('#successModal').modal('show');
+            //         }
+            //     });
+            // });
         });
     </script>
 @endsection

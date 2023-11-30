@@ -7,8 +7,8 @@
     </style>
 
     <div class="card">
-        <div class="card-header">List Rute</div>
-        <div class="card-body card-body-custom">
+        {{-- <div class="card-header">List Rute</div> --}}
+        <div class="card-body card-body-custom mt-3">
             <form class="form" method="POST" action="{{ route('ListRute.getListRute') }}">
                 @csrf
                 <div class="row">
@@ -43,7 +43,7 @@
             {{-- <textarea name="tes" id="tes" class="form-control w-100" cols="30" rows="10"></textarea> --}}
             @if (isset($data) && !empty($data))
                 <div class="table-responsive pt-3">
-                    <table class="table table-sm table-dark table-striped table-bordered align-middle myTable">
+                    <table class="table table-sm table-light table-striped  align-middle myTable">
                         <thead class="text-center">
                             <th>no</th>
                             <th>nama wilayah</th>
@@ -103,9 +103,8 @@
                     </table>
                 </div>
             @else
-                @if (!empty($data))
-                    <div id="json-output" class="json-viewer" style="white-space: pre-wrap;">
-                        {{ json_encode($data, JSON_PRETTY_PRINT) }}</div>
+                @if (isset($message))
+                    <div class="json-viewer text-center" style="white-space: pre-wrap;">{{ $message }}</div>
                 @endif
             @endif
             {{-- @php
@@ -122,8 +121,8 @@
                 <div class="toast-body">
                     Data berhasil disalin
                 </div>
-                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
-                    aria-label="Close"></button>
+                <button type="button" class="btn-close bg-danger btn-close bg-danger-white me-2 m-auto"
+                    data-bs-dismiss="toast" aria-label="Close"></button>
             </div>
         </div>
     </div>

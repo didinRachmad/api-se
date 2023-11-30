@@ -14,8 +14,8 @@
     </style>
 
     <div class="card">
-        <div class="card-header">PENGGABUNGAN RUTE</div>
-        <div class="card-body card-body-custom">
+        {{-- <div class="card-header">PENGGABUNGAN RUTE</div> --}}
+        <div class="card-body card-body-custom mt-3">
             <form class="form" method="POST" action="{{ route('GabungRute.prosesGabungRute') }}">
                 @csrf
                 <div class="row">
