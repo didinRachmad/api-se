@@ -951,7 +951,7 @@
 
                     $.ajax({
                         type: 'post',
-                        url: "http://10.11.1.37/api/tool/outletkandidat/saveeditcustomer",
+                        url: "https://sales.motasaindonesia.co.id/api/tool/outletkandidat/saveeditcustomer",
                         dataType: 'json',
                         encode: true,
                         data: {
@@ -1033,7 +1033,7 @@
 
                     $.ajax({
                         type: 'post',
-                        url: "http://10.11.1.37/api/tool/outletkandidat/pindahoutlet",
+                        url: "https://sales.motasaindonesia.co.id/api/tool/outletkandidat/pindahoutlet",
                         dataType: 'json',
                         encode: true,
                         data: {
@@ -1145,7 +1145,7 @@
                     if (valid) {
                         $.ajax({
                             type: 'post',
-                            url: "http://10.11.1.37/api/tool/outletkandidat/saveeditcustomer",
+                            url: "https://sales.motasaindonesia.co.id/api/tool/outletkandidat/saveeditcustomer",
                             dataType: 'json',
                             encode: true,
                             data: {
@@ -1232,7 +1232,7 @@
 
                 $.ajax({
                     type: 'post',
-                    url: "http://10.11.1.37/api/tool/outletkandidat/settipeoutlet",
+                    url: "https://sales.motasaindonesia.co.id/api/tool/outletkandidat/settipeoutlet",
                     dataType: 'json',
                     encode: true,
                     data: {
@@ -1295,7 +1295,7 @@
 
                 $.ajax({
                     type: 'POST',
-                    url: "http://10.11.1.37/api/tool/rute/hapusOutlet",
+                    url: "https://sales.motasaindonesia.co.id/api/tool/rute/hapusOutlet",
                     dataType: 'json',
                     encode: true,
                     data: {
@@ -1354,7 +1354,7 @@
 
                     $.ajax({
                         type: 'POST',
-                        url: "http://10.11.1.37/api/tool/rute/hapusOutlet",
+                        url: "https://sales.motasaindonesia.co.id/api/tool/rute/hapusOutlet",
                         dataType: 'json',
                         encode: true,
                         data: {
@@ -1402,7 +1402,7 @@
 
                 $.ajax({
                     type: 'POST',
-                    url: "http://10.11.1.37/api/tool/outletkandidat/bypassqr",
+                    url: "https://sales.motasaindonesia.co.id/api/tool/outletkandidat/bypassqr",
                     dataType: 'json',
                     encode: true,
                     data: {
@@ -1446,7 +1446,7 @@
 
             //     $.ajax({
             //         type: 'post',
-            //         url: "http://10.11.1.37/api/tool/outletkandidat/getData",
+            //         url: "https://sales.motasaindonesia.co.id/api/tool/outletkandidat/getData",
             //         dataType: 'json',
             //         encode: true,
             //         data: {
