@@ -22,42 +22,14 @@ class KodeCustomer extends Controller
     {
         $kode_customer = strtoupper($request->input('kode_customer'));
 
-        $req = array(
-            'kode_customer' => array($kode_customer),
-        );
+        $data = MasterConvertOutlet::with(['mrdo.mr.w', 'mrdo.mr.d', 'mrdo.mr.kr', 'mrdo.mrd' => function ($query) {
+            $query->select('id', 'id_pasar', 'nama_pasar');
+        }, 'sp' => function ($query) {
+            $query->select('id', 'location_type', 'source_type');
+        }])->select('id', 'kode_customer', 'id_outlet_mas')->where('kode_customer', $kode_customer)->get();
 
-        $ch = curl_init();
-
-        curl_setopt($ch, CURLOPT_URL, 'http://10.11.1.37/api/tool/outletkandidat/getData');
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($req));
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_ENCODING, '');
-        curl_setopt($ch, CURLOPT_HTTPHEADER, [
-            'Content-Type: application/x-www-form-urlencoded'
-        ]);
-
-        $response = curl_exec($ch);
-
-        if (curl_errno($ch)) {
-            $error_message = curl_error($ch);
-            $message = "Kesalahan cURL: $error_message";
-            curl_close($ch);
-            echo $message;
-        } else {
-            curl_close($ch);
-
-            $res = json_decode($response, true);
-            $data = $res['data'];
-            // return response()->json($data);
-            if (json_last_error() !== JSON_ERROR_NONE) {
-                echo "Kesalahan dekode JSON: " . json_last_error_msg();
-            } elseif ($res === null) {
-                echo "Respons JSON tidak valid.";
-            } else {
-                return view('KodeCustomer', compact('data', 'kode_customer'));
-            }
-        }
+        // return response()->json(['data' => $data]);
+        return view('KodeCustomer', compact('data', 'kode_customer'));
     }
 
     public function autocomplete(Request $request)

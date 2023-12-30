@@ -111,7 +111,7 @@
                     const result = $(this).closest("tr").find(".response");
 
                     $.ajax({
-                        url: "http://sales.motasaindonesia.co.id/api/order/execRekapCallTool",
+                        url: "http://10.11.1.37/api/order/execRekapCallTool",
                         type: "POST",
 
                         data: {
@@ -157,7 +157,7 @@
                 var newDate = splitDate[2] + "-" + splitDate[1] + "-" + splitDate[0];
                 var tgl = newDate;
                 $.ajax({
-                    url: "https://sales.motasaindonesia.co.id/api/order/execRekapCallTool",
+                    url: "http://10.11.1.37/api/order/execRekapCallTool",
                     type: "POST",
                     data: {
                         id_salesman: idSalesman,

@@ -165,61 +165,57 @@ class ToolOutlet extends Controller
     {
         $salesman_awal = $request->input('salesman_awal');
         $id_salesman_awal = $request->input('id_salesman_awal');
+        $nama_wilayah_awal = $request->input('nama_wilayah_awal');
+        $id_wilayah_awal = $request->input('id_wilayah_awal');
         $rute_id_awal = $request->input('rute_id_awal');
         $rute_awal = $request->input('rute_awal');
         $hari_awal = $request->input('hari_awal');
         $pasar_awal = $request->input('pasar_awal');
         $id_pasar_awal = $request->input('id_pasar_awal');
-        $type = $request->input('type');
-        $periodik = null;
-        $hari = $hari_awal;
 
-        if ($hari_awal == '') {
-            $pecah = explode(' ', $rute_awal);
-            $hari = isset($pecah[0]) ? $pecah[0] : null;
-            $periodik = isset($pecah[1]) ? $pecah[1] : null;
-        }
-
-        $req = array(
-            'salesman' => $id_salesman_awal,
-            'pasar' => $id_pasar_awal,
-            'hari' => $hari,
-            'periodik' => $periodik,
-            'type' => $type,
-        );
-
-        $ch = curl_init();
-
-        curl_setopt($ch, CURLOPT_URL, 'https://sales.motasaindonesia.co.id/api/tool/outletkandidat/getData');
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($req));
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_ENCODING, '');
-        curl_setopt($ch, CURLOPT_HTTPHEADER, [
-            'Content-Type: application/x-www-form-urlencoded'
-        ]);
-
-        $response = curl_exec($ch);
-
-        if (curl_errno($ch)) {
-            $error_message = curl_error($ch);
-            $message = "Kesalahan cURL: $error_message";
-            curl_close($ch);
-            echo $message;
+        if ($salesman_awal == null && $pasar_awal == null) {
+            return view('ToolOutlet', compact('salesman_awal', 'id_salesman_awal', 'nama_wilayah_awal', 'id_wilayah_awal', 'rute_id_awal', 'rute_awal', 'pasar_awal', 'id_pasar_awal'));
         } else {
-            curl_close($ch);
+            $data = MasterRute::select('id', 'rute', 'hari', 'salesman', 'id_wilayah', 'id_distributor')->with([
+                'w', 'd' => function ($query) {
+                    $query->select('id_distributor', 'nama_distributor');
+                }, 'mrdo' => function ($query) use ($id_pasar_awal) {
+                    $query->select('id', 'rute_id', 'rute_detail_id', 'survey_pasar_id', 'nama_toko', 'alamat', 'id_pasar', 'tipe_outlet')
+                        ->when($id_pasar_awal, function ($q) use ($id_pasar_awal) {
+                            $q->where('id_pasar', $id_pasar_awal);
+                        });
+                    $query->with([
+                        'mrd' => function ($subquery) {
+                            $subquery->select('id', 'id_pasar', 'nama_pasar');
+                        },
+                        'mp' => function ($subquery) {
+                            $subquery->select('id_pasar', 'nama_pasar');
+                        },
+                        'mco' => function ($subquery) {
+                            $subquery->select('id', 'id_outlet_mas', 'kode_customer');
+                        },
+                        'sp' => function ($subquery) {
+                            $subquery->select('id', 'location_type', 'source_type');
+                        },
+                    ]);
+                },
+                'kr' => function ($query) {
+                    $query->select('nama', 'id_salesman_mss');
+                }
+            ])->when($salesman_awal, function ($query, $salesman_awal) {
+                return $query->where('salesman', $salesman_awal);
+            })->when($hari_awal, function ($query, $hari_awal) {
+                return $query->where('hari', $hari_awal);
+            })->when($rute_id_awal, function ($query, $rute_id_awal) {
+                return $query->where('id', $rute_id_awal);
+            })->whereHas('mrdo', function ($query) use ($id_pasar_awal) {
+                $query->when($id_pasar_awal, function ($q) use ($id_pasar_awal) {
+                    $q->where('id_pasar', $id_pasar_awal);
+                });
+            })->get();
 
-            $res = json_decode($response, true);
-            $data = $res['data'];
-            // return response()->json($data);
-            if (json_last_error() !== JSON_ERROR_NONE) {
-                echo "Kesalahan dekode JSON: " . json_last_error_msg();
-            } elseif ($res === null) {
-                echo "Respons JSON tidak valid.";
-            } else {
-                // return response()->json($data);
-                return view('ToolOutlet', compact('data', 'salesman_awal', 'id_salesman_awal', 'hari_awal', 'rute_id_awal', 'rute_awal', 'pasar_awal', 'id_pasar_awal', 'type'));
-            }
+            // return response()->json(['data' => $data]);
+            return view('ToolOutlet', compact('data', 'salesman_awal', 'id_salesman_awal', 'nama_wilayah_awal', 'id_wilayah_awal', 'hari_awal', 'rute_id_awal', 'rute_awal', 'pasar_awal', 'id_pasar_awal'));
         }
     }
 

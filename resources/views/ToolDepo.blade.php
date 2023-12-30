@@ -40,8 +40,9 @@
                 </div>
                 <div class="modal-body" style="font-size:0.8rem;">
                     <div class="table-responsive">
-                        <table class="table table-sm table-light table-bordered TableRute w-100">
-                            <thead class="text-center">
+                        <table class="table table-sm table-light table-bordered TableRute w-100 text-center align-midle"
+                            id="bodyTukerRute">
+                            {{-- <thead class="text-center">
                                 <th>Salesman</th>
                                 <th>Rute</th>
                                 <th>periodik</th>
@@ -52,7 +53,7 @@
                                 </th>
                             </thead>
                             <tbody id="bodyTukerRute">
-                            </tbody>
+                            </tbody> --}}
                         </table>
                     </div>
                 </div>
@@ -174,6 +175,7 @@
                     }
                 });
             });
+
             $('#btnTukarRute').click(function() {
                 var iddepo = $('#depo').val();
                 $.ajax({
@@ -191,40 +193,120 @@
                         let html = '';
                         let prevSalesman = null;
                         let rowspanCount = 0;
-                        response.data.forEach((data, index) => {
-                            if (data['periodik_jenis']) {
-                                html += '<tr>';
-                            } else {
-                                html += '<tr class="table-active">';
+                        const pivotTable = {};
+                        response.data.forEach(data => {
+                            const salesman = data.salesman;
+                            const rute = data.rute.toUpperCase();
+
+                            if (!pivotTable[salesman]) {
+                                pivotTable[salesman] = {};
                             }
-                            html += '<td class="salesman">' + data['salesman'] +
-                                '</td>';
-                            html += '<td class="rute">' + data['rute'] + '</td>';
-                            html += '<td class="periodik">' + data['periodik_jenis'] +
-                                '</td>';
-                            html += '<td class="id">' + data['id'] + '</td>';
-                            if (prevSalesman === null || prevSalesman !== data[
-                                    'salesman']) {
-                                prevSalesman = data['salesman'];
-                                rowspanCount = response.data.filter(d => d[
-                                    'salesman'] === prevSalesman).length;
-                            }
-                            if (rowspanCount > 1) {
-                                html += `<td rowspan='${rowspanCount}' class="text-center align-middle">
-                                        <input type="checkbox" class="btn-check check" id="check${index}" autocomplete="off">
-                                        <label class="btn btn-sm btn-outline-success" for="check${index}">Pilih</label>
-                                        </td>`;
-                                rowspanCount = 0; // Reset rowspanCount
-                            } else {
-                                if (rowspanCount != 0) {
-                                    html +=
-                                        `<td class="text-center align-middle"></td>`;
-                                }
-                            }
-                            html += '</tr>';
+
+                            pivotTable[salesman][rute] = data;
                         });
 
+                        const orderedDays = ['SENIN', 'SELASA', 'RABU', 'KAMIS', 'JUMAT',
+                            'SABTU'
+                        ];
+                        const orderedPeriodik = ['GANJIL', 'GENAP'];
+
+                        html += '<thead>';
+                        html += '<tr>';
+                        html += '<th>Salesman</th>';
+
+                        // Menambahkan header hari sesuai dengan urutan
+                        orderedDays.forEach((hari) => {
+                            html +=
+                                `<th class="text-center align-middle">${hari}
+                                    <input type="checkbox" class="btn-check checkAllHari" id="checkAll${hari}" data-hari="${hari}" autocomplete="off">
+                                    <label class="btn btn-sm btn-outline-success" for="checkAll${hari}">All</label>
+                                </td>`;
+                        });
+
+                        html += '</tr>';
+                        html += '</thead>';
+                        html += '<tbody>';
+
+                        // Menambahkan data ke dalam tabel
+                        for (const salesman in pivotTable) {
+                            const periodikJenis = pivotTable[salesman].periodik_jenis;
+                            // Menambahkan baris untuk data ganjil
+                            html += '<tr>';
+                            if (Object.keys(pivotTable[salesman]).some(key => key.includes(
+                                    "GANJIL") || key.includes("GENAP"))) {
+                                html +=
+                                    `<td class="text-center align-middle salesman">${salesman}
+                                            <input type="checkbox" class="btn-check checkAllSalesman" id="checkAll${salesman}" data-salesman="${salesman}" autocomplete="off">
+                                            <label class="btn btn-sm btn-outline-success" for="checkAll${salesman}">All</label>
+                                            </td>`;
+                            } else {
+                                html +=
+                                    `<td class="text-center align-middle salesman">${salesman}</td>`;
+                            }
+
+                            // Menambahkan data rute dan id untuk setiap hari dan periodik (GANJIL)
+                            orderedDays.forEach((hari) => {
+                                const dataRuteGanjil = `${hari} GANJIL`;
+                                const dataGanjil = pivotTable[salesman][dataRuteGanjil];
+                                const idGanjil = dataGanjil ? dataGanjil.id : '';
+                                const ruteGanjil = dataGanjil ? dataGanjil.rute : '';
+                                const periodikGanjil = dataGanjil ? dataGanjil
+                                    .periodik_jenis : '';
+                                const dataRuteGenap = `${hari} GENAP`;
+                                const dataGenap = pivotTable[salesman][dataRuteGenap];
+                                const idGenap = dataGenap ? dataGenap.id : '';
+                                const ruteGenap = dataGenap ? dataGenap.rute : '';
+                                const periodikGenap = dataGenap ? dataGenap
+                                    .periodik_jenis : '';
+                                // html += `<td class="id">${idGanjil}</td>`;
+                                // html += `<td class="rute">${ruteGanjil}</td>`;
+                                // html += `<td class="periodik">${periodikGanjil}</td>`;
+                                if (periodikGanjil != "" && periodikGenap != "") {
+                                    html +=
+                                        `<td class="text-center align-middle"><input type="checkbox" class="btn-check check" id="check${idGanjil}" data-salesman="${salesman}" data-hari="${hari}" data-rute_ganjil="${ruteGanjil}" data-rute_genap="${ruteGenap}" data-periodik_ganjil="${periodikGanjil}" data-periodik_genap="${periodikGenap}" data-id_genap="${idGenap}" data-id_ganjil="${idGanjil}" autocomplete="off">
+                                            <label class="btn btn-sm btn-outline-success" for="check${idGanjil}">Pilih</label></td>`;
+                                } else {
+                                    html += `<td></td>`
+                                }
+                            });
+
+                            html += '</tr>';
+
+                            // Menambahkan baris untuk data genap
+                            // html += '<tr>';
+
+                            // // Menambahkan data rute dan id untuk setiap hari dan periodik (GENAP)
+                            // orderedDays.forEach((hari) => {
+                            //     const dataRuteGenap = `${hari} GENAP`;
+                            //     const dataGenap = pivotTable[salesman][dataRuteGenap];
+                            //     const idGenap = dataGenap ? dataGenap.id : '';
+                            //     const ruteGenap = dataGenap ? dataGenap.rute : '';
+                            //     const periodikGenap = dataGenap ? dataGenap
+                            //         .periodik_jenis : '';
+                            //     html += `<td class="id">${idGenap}</td>`;
+                            //     html += `<td class="rute">${ruteGenap}</td>`;
+                            //     html += `<td class="periodik">${periodikGenap}</td>`;
+                            // });
+
+                            // html += '</tr>';
+                        }
+
+                        html += '</tbody>';
+
                         $('#bodyTukerRute').html(html);
+                        // Check All Salesman yang Sama
+                        $(".checkAllSalesman").change(function() {
+                            const salesman = $(this).data("salesman");
+                            $(`.btn-check.check[data-salesman="${salesman}"]`).prop(
+                                "checked", $(this).prop("checked"));
+                        });
+
+                        // Check All Hari yang Sama
+                        $(".checkAllHari").change(function() {
+                            const hari = $(this).data("hari");
+                            $(`.btn-check.check[data-hari="${hari}"]`).prop("checked",
+                                $(this).prop("checked"));
+                        });
                         $('#tukarRuteModal').modal('show');
                     },
                     error: function(xhr, status, error) {
@@ -241,35 +323,30 @@
             $('#saveTukarRute').click(function() {
                 var selectedRows = [];
                 $('.check:checked').each(function() {
-                    var salesman = $(this).closest('tr').find('.salesman').text().trim();
-                    var rute = $(this).closest('tr').find('.rute').text().trim();
-                    var periodik = $(this).closest('tr').find('.periodik').text().trim();
-                    var id = $(this).closest('tr').find('.id').text().trim();
+                    var salesman = $(this).data('salesman');
+                    var hari = $(this).data('hari');
+                    var periodikGanjil = $(this).data('periodik_ganjil');
+                    var periodikGenap = $(this).data('periodik_genap');
+                    var idGanjil = $(this).data('id_ganjil');
+                    var idGenap = $(this).data('id_genap');
+                    var ruteGanjil = $(this).data('rute_ganjil');
+                    var ruteGenap = $(this).data('rute_genap');
 
                     // Tambahkan data dari baris saat ini
                     selectedRows.push({
                         salesman: salesman,
-                        rute: rute,
-                        periodik: periodik,
-                        id: id
+                        hari: hari,
+                        rute: ruteGanjil,
+                        periodik: periodikGanjil,
+                        id: idGanjil
                     });
-
-                    // Cek apakah ada baris selanjutnya yang dirowspan
-                    var row2 = $(this).closest('tr').next('tr');
-                    if (row2.length > 0) {
-                        var salesman_row2 = row2.find('.salesman').text().trim();
-                        var rute_row2 = row2.find('.rute').text().trim();
-                        var periodik_row2 = row2.find('.periodik').text().trim();
-                        var id_row2 = row2.find('.id').text().trim();
-
-                        // Tambahkan data dari baris sebelah kiri yang di-`rowspan`
-                        selectedRows.push({
-                            salesman: salesman_row2,
-                            rute: rute_row2,
-                            periodik: periodik_row2,
-                            id: id_row2
-                        });
-                    }
+                    selectedRows.push({
+                        salesman: salesman,
+                        hari: hari,
+                        rute: ruteGenap,
+                        periodik: periodikGenap,
+                        id: idGenap
+                    });
                 });
                 $.ajax({
                     type: 'POST',

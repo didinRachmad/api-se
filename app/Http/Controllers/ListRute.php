@@ -63,7 +63,7 @@ class ListRute extends Controller
         $ch = curl_init();
 
         // Set cURL options
-        curl_setopt($ch, CURLOPT_URL, 'http://10.11.1.37/api/downloadrute/getListRute');
+        curl_setopt($ch, CURLOPT_URL, 'https://sales.motasaindonesia.co.id/api/downloadrute/getListRute');
         curl_setopt($ch, CURLOPT_POST, 1);
         curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);

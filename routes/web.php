@@ -78,6 +78,7 @@ Route::prefix('ToolOutlet')->group(function () {
     })->name('ToolOutlet.index');
     Route::post('/', [ToolOutlet::class, 'getDataByRuteId'])->middleware('web')->name('ToolOutlet.getDataByRuteId');
     Route::get('/getSalesman', [ToolOutlet::class, 'getSalesman'])->name('ToolOutlet.getSalesman');
+    Route::get('/getHari', [ToolOutlet::class, 'getHari'])->name('ToolOutlet.getHari');
     Route::get('/getRute', [ToolOutlet::class, 'getRute'])->name('ToolOutlet.getRute');
     Route::get('/getPasar', [ToolOutlet::class, 'getPasar'])->name('ToolOutlet.getPasar');
     Route::post('/getOrder', [ToolOutlet::class, 'getOrder'])->name('ToolOutlet.getOrder');

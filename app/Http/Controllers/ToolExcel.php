@@ -22,6 +22,7 @@ class ToolExcel extends Controller
 
     public function getDataOutlet(Request $request)
     {
+        ini_set('max_input_vars', 15000);
         $wilayah = strtoupper($request->input('wilayah'));
         $kode_customer = $request->input('kode_customer');
 

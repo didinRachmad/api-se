@@ -50,7 +50,7 @@
                             <input type="hidden" id="rute_awal" name="rute_awal"
                                 value="{{ old('rute_awal', $rute_awal ?? '') }}">
                         </div>
-                        <div class="input-group input-group-sm flex-nowrap mb-2">
+                        <div class="input-group input-group-sm flex-nowrap">
                             <span class="input-group-text">Pasar</span>
                             <select class="form-control form-select-sm select2-id_pasar_awal" name="id_pasar_awal"
                                 id="id_pasar_awal">
@@ -60,16 +60,6 @@
                             </select>
                             <input type="hidden" id="pasar_awal" name="pasar_awal"
                                 value="{{ old('pasar_awal', $pasar_awal ?? '') }}">
-                        </div>
-                        <div class="input-group input-group-sm flex-nowrap">
-                            <span class="input-group-text">Type</span>
-                            <select class="form-control form-select-sm type fw-bold" name="type" id="type">
-                                <option value="" {{ old('type', $type ?? '') == '' ? 'selected' : '' }}>All</option>
-                                <option value="ro" {{ old('type', $type ?? '') == 'ro' ? 'selected' : '' }}>RO</option>
-                                <option value="kandidat" {{ old('type', $type ?? '') == 'kandidat' ? 'selected' : '' }}>
-                                    Kandidat
-                                </option>
-                            </select>
                         </div>
                     </div>
                     <div class="col-lg-1 text-center my-auto">
@@ -124,24 +114,25 @@
                 </div>
             </form>
 
-            @if (!isset($data) || empty($data))
+            @if (!isset($data))
                 @php
-                    $data = [];
+                    $data = collect();
                 @endphp
                 <div class="row p-1"></div>
             @else
                 <div class="row py-1 px-3 my-2 mx-1 rounded text-white" style="background-color: #252B3B;">
                     <div class="col-lg-12">
                         <p class="d-inline-block p-1">Distributor : <span class="fw-bold"
-                                id="nama_distributor">{{ end($data)['nama_distributor'] ?? '' }}
-                                ({{ end($data)['id_distributor'] }})</span>
+                                id="nama_distributor">{{ $data->first()->d?->nama_distributor ?? '' }}
+                                ({{ $data->first()->d?->id_distributor ?? '' }})</span>
                         </p>
                         <p class="d-inline-block p-1">Wilayah : <span class="fw-bold"
-                                id="nama_wilayah">{{ end($data)['nama_wilayah'] ?? '' }}
-                                ({{ end($data)['id_wilayah'] }})</span>
+                                id="nama_wilayah">{{ $data->first()->w->nama_wilayah ?? '' }}
+                                ({{ $data->first()->w->id_wilayah ?? '' }})</span>
                         </p>
                         <p class="d-inline-block p-1">Nama Salesman : <span class="fw-bold"
-                                id="nama_salesman">{{ end($data)['salesman'] ?? '' }}</span>
+                                id="nama_salesman">{{ $data->first()->salesman ?? '' }}
+                                ({{ $data->first()->kr?->id_salesman_mss ?? '' }})</span>
                         </p>
                         @if (isset($salesman_awal))
                             <button type="button" class="btn btn-info btn-sm btnOrder">Order <span> <i
@@ -191,85 +182,71 @@
                             $no = 0;
                         @endphp
                         @foreach ($data as $mr)
-                            @php
-                                $no += 1;
-                            @endphp
-                            <tr class="warnaBaris" data-id="{{ $mr['mrdo_id'] }}"
-                                data-rute_detail_id="{{ $mr['rute_detail_id'] }}">
-                                <td></td>
-                                <td class="nama_wilayah {{ $mr['rute_hari_ini'] == 1 ? ' text-success fw-bolder' : '' }}">
-                                    {{ $mr['nama_wilayah'] }} ({{ $mr['id_wilayah'] }})</td>
-                                <td
-                                    class="nama_salesman {{ $mr['rute_hari_ini'] == 1 ? ' text-success fw-bolder' : '' }}">
-                                    {{ $mr['salesman'] }}</td>
-                                <td class="rute {{ $mr['rute_hari_ini'] == 1 ? ' text-success fw-bolder' : '' }}">
-                                    {{ $mr['rute'] }}</td>
-                                <td class="hari {{ $mr['rute_hari_ini'] == 1 ? ' text-success fw-bolder' : '' }}">
-                                    {{ $mr['hari'] }}</td>
-                                <td class="rute_id">{{ $mr['id'] }}</td>
-                                <td class="id_mrdo">{{ $mr['mrdo_id'] }}</td>
-                                <td class="survey_pasar_id">{{ $mr['survey_pasar_id'] }}</td>
-                                <td class="id_mco">{{ $mr['id_qr_outlet'] }}</td>
-                                <td class="text-primary fw-bolder kode_customer">{{ $mr['kode_customer'] }}
-                                </td>
-                                <td class="nama_toko">{{ $mr['nama_toko'] }}</td>
-                                <td class="alamat" id="alamat{{ $no }}">{{ $mr['alamat'] }}</td>
-                                <td class="id_pasar">{{ $mr['id_pasar'] }}</td>
-                                <td class="nama_pasar">{{ $mr['nama_pasar'] }}</td>
-                                <td class="tipe_outlet">
-                                    {{ $mr['tipe_outlet'] ?? 'RETAIL' }} - {{ $mr['location_type'] }} -
-                                    {{ $mr['source_type'] }}
-                                </td>
-                                <td class="statusReject text-danger">
-                                    @php
-                                        if ($mr['visit_kandidats']) {
-                                            $lastVisitKandidat = end($mr['visit_kandidats']);
-                                            if (!empty($lastVisitKandidat['keterangan_visit'])) {
-                                                if ($lastVisitKandidat['keterangan_visit']['tipe'] == 'REJECT') {
-                                                    echo $lastVisitKandidat['keterangan_visit']['keterangan'];
-                                                } else {
-                                                    echo '-';
-                                                }
-                                            } else {
-                                                echo '-';
-                                            }
-                                        } else {
-                                            echo '-';
-                                        }
-                                    @endphp
-                                </td>
-                                <td class="barcode fw-bold">
-                                    @if ($mr['verifikasi_qr'])
-                                        @if ($mr['verifikasi_qr']['flag_qr'])
-                                            @if ($mr['pengajuan_by_pass'])
+                            @foreach ($mr->mrdo as $mrdo)
+                                @php
+                                    $no += 1;
+                                @endphp
+                                <tr class="warnaBaris" data-id="{{ $mrdo->id }}"
+                                    data-rute_detail_id="{{ $mrdo->rute_detail_id }}">
+                                    <td></td>
+                                    <td class="nama_wilayah">
+                                        {{ $mr->w->nama_wilayah ?? '' }} ({{ $mr->w->id_wilayah ?? '' }})
+                                    </td>
+                                    <td class="nama_salesman">
+                                        {{ $mr->salesman }} ({{ $mr->kr->id_salesman_mss ?? '' }})
+                                    </td>
+                                    <td class="rute">{{ $mr->rute }}</td>
+                                    <td class="hari">{{ $mr->hari }}</td>
+                                    <td class="rute_id">{{ $mrdo->rute_id }}</td>
+                                    <td class="id_mrdo">{{ $mrdo->id }}</td>
+                                    <td class="survey_pasar_id">{{ $mrdo->survey_pasar_id }}</td>
+                                    <td class="id_mco">{{ $mrdo->mco->id ?? '' }}</td>
+                                    <td class="text-primary fw-bold kode_customer">{{ $mrdo->mco->kode_customer ?? '' }}
+                                    </td>
+                                    <td class="nama_toko">{{ $mrdo->nama_toko }}</td>
+                                    <td class="alamat" id="alamat{{ $no }}">{{ $mrdo->alamat }}</td>
+                                    <td class="id_pasar">{{ $mrdo->mrd->id_pasar ?? '' }}</td>
+                                    <td class="nama_pasar">{{ $mrdo->mrd->nama_pasar ?? '' }}</td>
+                                    <td class="tipe_outlet">
+                                        {{ $mrdo->tipe_outlet ?? 'RETAIL' }} - {{ $mrdo->sp->location_type ?? '' }} -
+                                        {{ $mrdo->sp->source_type ?? '' }}
+                                    </td>
+                                    <td class="statusReject text-danger"></td>
+                                    <td class="barcode fw-bold"></td>
+                                    <td>
+                                        <div class="row px-2 py-1">
+                                            <div class="col-12 px-0">
                                                 <button type="button"
-                                                    class="btn btn-sm p-1 btn-danger btn-block w-100 btnBarcode"
-                                                    data-id_qr="{{ $mr['pengajuan_by_pass'][0]['id'] }}">QR</button>
-                                            @else
-                                                Belum Isi QR Bermasalah
-                                            @endif
-                                        @else
-                                            SUDAH BYPASS
-                                        @endif
-                                    @else
-                                        -
-                                    @endif
-                                </td>
-                                <td>
-                                    <div class="row px-2 py-1">
-                                        <div class="col-12 px-0">
-                                            <button type="button"
-                                                class="btn btn-sm p-1 btn-warning btn-block w-100 btnEdit">Edit</button>
+                                                    class="btn btn-sm p-1 btn-warning btn-block w-100 btnEdit">Edit</button>
+                                            </div>
+                                            {{-- <div class="col-6 px-0">
+                                                <button type="button" class="btn btn-sm p-1 btn-info btn-block w-100 btnSetRetail"
+                                                    data-row-index="{{ $no }}"
+                                                    data-id_mrdo="{{ $mrdo->id }}"
+                                                    data-id_mco="{{ $mrdo->mco->id ?? '' }}"
+                                                    data-set={{ null }}>Retail</button>
+                                                </div>
+                                                <div class="col-6 px-0">
+                                                    <button type="button" class="btn btn-sm p-1 btn-success btn-block w-100 btnSetGrosir" data-row-index="{{ $no }}" data-id_mrdo="{{ $mrdo->id }}" data-id_mco="{{ $mrdo->mco->id ?? '' }}" data-set="TPOUT_WHSL">Grosir</button>
+                                            </div> --}}
+                                            {{-- <div class="col-6 px-0">
+                                                <button type="button" class="btn btn-sm p-1 btn-light w-100 bypassQR"
+                                                    data-survey_pasar_id="{{ $mrdo->survey_pasar_id }}">QR</button>
+                                            </div> --}}
+                                            {{-- <div class="col-6 px-0">
+                                                    <button type="button"
+                                                        class="btn btn-sm p-1 btn-danger btn-block w-100 btnHapus">Hapus</button>
+                                                </div> --}}
                                         </div>
-                                    </div>
-                                </td>
-                                <td class="text-center">
-                                    <input type="checkbox" class="btn-check check" id="check{{ $no }}"
-                                        autocomplete="off">
-                                    <label class="btn btn-sm btn-outline-success"
-                                        for="check{{ $no }}">Pilih</label>
-                                </td>
-                            </tr>
+                                    </td>
+                                    <td class="text-center">
+                                        <input type="checkbox" class="btn-check check" id="check{{ $no }}"
+                                            autocomplete="off">
+                                        <label class="btn btn-sm btn-outline-success"
+                                            for="check{{ $no }}">Pilih</label>
+                                    </td>
+                                </tr>
+                            @endforeach
                         @endforeach
                     </tbody>
                 </table>
@@ -484,13 +461,9 @@
         $(document).ready(function() {
 
             $('form').submit(function() {
-                var salesman = $('#salesman_awal').val();
-                var id_pasar = $('#id_pasar_awal').val();
-                if ((salesman == '' || salesman == null) && (
-                        id_pasar == '' || id_pasar == null)) {
-                    $('#salesman_awal').get(0).setCustomValidity('Harap Isi Salesman Awal');
-                    return false;
-                }
+                // Nonaktifkan validasi ketika form di-submit
+                isValidationEnabled = false;
+                $('#rute_id_akhir').get(0).setCustomValidity(''); // Menghapus validasi pada rute_id_akhir
             });
 
             // SELECT SALESMAN AWAL
@@ -951,6 +924,26 @@
 
             $('#salinKode').click(function() {
                 // Mengambil data kolom dengan filter yang aktif
+                var filteredData = table.column(8, {
+                    search: 'applied'
+                }).data().toArray();
+
+                var textToCopy = filteredData.join('\n');
+                var tempInput = document.createElement('textarea');
+                tempInput.value = textToCopy;
+                document.body.appendChild(tempInput);
+                tempInput.select();
+                document.execCommand('copy');
+                document.body.removeChild(tempInput);
+
+                var toast = $('#toastSalin');
+                toast.show();
+                setTimeout(function() {
+                    toast.hide();
+                }, 1000);
+            });
+            $('#salinNamaToko').click(function() {
+                // Mengambil data kolom dengan filter yang aktif
                 var filteredData = table.column(9, {
                     search: 'applied'
                 }).data().toArray();
@@ -967,9 +960,9 @@
                 toast.show();
                 setTimeout(function() {
                     toast.hide();
-                }, 2000);
+                }, 1000);
             });
-            $('#salinNamaToko').click(function() {
+            $('#salinAlamat').click(function() {
                 // Mengambil data kolom dengan filter yang aktif
                 var filteredData = table.column(10, {
                     search: 'applied'
@@ -987,9 +980,9 @@
                 toast.show();
                 setTimeout(function() {
                     toast.hide();
-                }, 2000);
+                }, 1000);
             });
-            $('#salinAlamat').click(function() {
+            $('#salinID_MCO').click(function() {
                 // Mengambil data kolom dengan filter yang aktif
                 var filteredData = table.column(11, {
                     search: 'applied'
@@ -1007,27 +1000,7 @@
                 toast.show();
                 setTimeout(function() {
                     toast.hide();
-                }, 2000);
-            });
-            $('#salinID_MCO').click(function() {
-                // Mengambil data kolom dengan filter yang aktif
-                var filteredData = table.column(8, {
-                    search: 'applied'
-                }).data().toArray();
-
-                var textToCopy = filteredData.join('\n');
-                var tempInput = document.createElement('textarea');
-                tempInput.value = textToCopy;
-                document.body.appendChild(tempInput);
-                tempInput.select();
-                document.execCommand('copy');
-                document.body.removeChild(tempInput);
-
-                var toast = $('#toastSalin');
-                toast.show();
-                setTimeout(function() {
-                    toast.hide();
-                }, 2000);
+                }, 1000);
             });
 
             $('.check-all').click(function() {
@@ -1083,7 +1056,8 @@
                             url: "{{ route('ToolOutlet.getOrder') }}",
                             type: 'POST',
                             data: function(d) {
-                                d.id_salesman = $('#id_salesman_awal').val();
+                                d.id_salesman = $('#nama_salesman').text().match(/\((.*?)\)/)[
+                                    1];
                                 d.tgl_transaksi = $('#tgl_transaksi')
                                     .val(); // ambil nilai input field id_transaksi
                             },
@@ -1253,7 +1227,8 @@
                             url: "{{ route('ToolOutlet.getKandidat') }}",
                             type: 'POST',
                             data: function(d) {
-                                d.id_salesman = $('#id_salesman_awal').val();
+                                d.id_salesman = $('#nama_salesman').text().match(/\((.*?)\)/)[
+                                    1];
                                 d.tgl_visit = $('#tgl_visit')
                                     .val(); // ambil nilai input field id_visit
                             },
@@ -1498,7 +1473,7 @@
 
                 $.ajax({
                     type: 'post',
-                    url: "https://sales.motasaindonesia.co.id/api/tool/outletkandidat/pindahoutlet",
+                    url: "http://10.11.1.37/api/tool/outletkandidat/pindahoutlet",
                     dataType: 'json',
                     encode: true,
                     data: {
@@ -1648,7 +1623,7 @@
                     if (valid) {
                         $.ajax({
                             type: 'post',
-                            url: "https://sales.motasaindonesia.co.id/api/tool/outletkandidat/saveeditcustomer",
+                            url: "http://10.11.1.37/api/tool/outletkandidat/saveeditcustomer",
                             dataType: 'json',
                             encode: true,
                             data: {
@@ -1796,7 +1771,7 @@
                     if (valid) {
                         $.ajax({
                             type: 'post',
-                            url: "https://sales.motasaindonesia.co.id/api/tool/outletkandidat/saveeditcustomer",
+                            url: "http://10.11.1.37/api/tool/outletkandidat/saveeditcustomer",
                             dataType: 'json',
                             encode: true,
                             data: {
@@ -1931,7 +1906,7 @@
 
                     $.ajax({
                         type: 'post',
-                        url: "https://sales.motasaindonesia.co.id/api/tool/outletkandidat/saveeditcustomer",
+                        url: "http://10.11.1.37/api/tool/outletkandidat/saveeditcustomer",
                         dataType: 'json',
                         encode: true,
                         data: {
@@ -2002,7 +1977,7 @@
 
                 $.ajax({
                     type: 'post',
-                    url: "https://sales.motasaindonesia.co.id/api/tool/outletkandidat/settipeoutlet",
+                    url: "http://10.11.1.37/api/tool/outletkandidat/settipeoutlet",
                     dataType: 'json',
                     encode: true,
                     data: {
@@ -2025,8 +2000,6 @@
                                 var tipe = buttonValue;
                                 if (buttonValue == "Grosir") {
                                     tipe = "TPOUT_WHSL";
-                                } else if (buttonValue == "NOO") {
-                                    tipe = "TPOUT_NOO";
                                 }
                                 var tipe_outlet_parts = tipe_outlet.split('-');
                                 tipe_outlet_parts[0] = tipe;
@@ -2044,10 +2017,10 @@
                                     mrdo_id + '"]').data(
                                     rowData).draw();
                             });
-                            setTimeout(function() {
-                                $('#successModal').modal('hide');
-                                // location.reload();
-                            }, 1000);
+                            // setTimeout(function() {
+                            //     $('#successModal').modal('hide');
+                            //     // location.reload();
+                            // }, 1000);
                         } else {
                             $('#errorModal #message').text(response.message);
                             $('#errorModal').modal('show');
@@ -2063,76 +2036,6 @@
                     }
                 });
             });
-
-            // // SET RETAIL / GROSIR
-            // $(document).on('click', '.btnSetRetail, .btnSetGrosir', function() {
-            //     var id_mrdo = $(this).data('id_mrdo');
-            //     var id_mco = $(this).data('id_mco');
-            //     var set = $(this).data('set');
-            //     var tipe_outlet = $(this).closest('tr').find('.tipe_outlet');
-
-            //     $.ajax({
-            //         type: 'POST',
-            //         url: "{{ route('ToolOutlet.setOutlet') }}",
-            //         dataType: 'json',
-            //         encode: true,
-            //         data: {
-            //             // _token: "{{ csrf_token() }}",
-            //             id_mrdo: id_mrdo,
-            //             id_mco: id_mco,
-            //             set: set
-            //         },
-            //         beforeSend: function() {
-            //             $('.loading-overlay').show();
-            //         },
-            //         success: function(response) {
-            //             var tipe_outlet_all = tipe_outlet.text().trim();
-            //             var tipe_outlet_parts = tipe_outlet_all.split('-');
-            //             tipe_outlet_parts[0] = response.tipe_outlet ?? "RETAIL";
-            //             var tipe_outlet_modified = tipe_outlet_parts.join(' - ');
-            //             tipe_outlet.html(tipe_outlet_modified);
-            //             $('.modal-input').val('');
-            //             $('#successModal').modal('show');
-            //         },
-            //         error: function(xhr, status, error) {
-            //             console.error(error);
-            //             $('#errorModal').modal('show');
-            //         },
-            //         complete: function() {
-            //             $('.loading-overlay').hide();
-            //         }
-            //     });
-            // });
-
-            // // CLEAR KODE KANDIDAT
-            // $('#btnClearKodeKandidat').off('click').on('click', function(e) {
-            //     e.preventDefault();
-            //     let salesman = $('#salesman_awal').val();
-            //     $.ajax({
-            //         type: 'post',
-            //         url: "{{ route('ToolOutlet.clear_kode_kandidat') }}",
-            //         dataType: 'json',
-            //         encode: true,
-            //         data: {
-            //             salesman: salesman
-            //         },
-            //         beforeSend: function() {
-            //             $('.loading-overlay').show();
-            //         },
-            //         success: function(response) {
-            //             $('#successModal #message').text(response.message);
-            //             $('#successModal').modal('show');
-            //         },
-            //         error: function(xhr, status, error) {
-            //             console.error(error);
-            //             $('#errorModal #message').text(xhr.responseJSON.message);
-            //             $('#errorModal').modal('show');
-            //         },
-            //         complete: function() {
-            //             $('.loading-overlay').hide();
-            //         }
-            //     });
-            // });
 
             // DELETE RO DOUBLE
             $('#btnHapusRODouble').click(function(e) {
@@ -2209,7 +2112,7 @@
 
                 $.ajax({
                     type: 'POST',
-                    url: "https://sales.motasaindonesia.co.id/api/tool/outletkandidat/bypassqr",
+                    url: "http://10.11.1.37/api/tool/outletkandidat/bypassqr",
                     dataType: 'json',
                     encode: true,
                     data: {
@@ -2245,8 +2148,8 @@
                 });
             });
 
-            // cek_rute_aktif();
-            // // CEK RUTE AKTIF
+            cek_rute_aktif();
+            // CEK RUTE AKTIF
             function cek_rute_aktif() {
                 var salesman_awal = $('#salesman_awal').val();
                 var id_salesman_awal = $('#id_salesman_awal').val();
@@ -2258,7 +2161,7 @@
 
                 $.ajax({
                     type: 'post',
-                    url: "https://sales.motasaindonesia.co.id/api/tool/outletkandidat/getData",
+                    url: "http://10.11.1.37/api/tool/outletkandidat/getData",
                     dataType: 'json',
                     encode: true,
                     data: {
@@ -2272,22 +2175,42 @@
                     success: function(response) {
                         const dataRuteID = {};
                         const dataMRDO_ID = {};
+                        const dataQR = {};
                         $.each(response.data, function(index, item) {
                             const id = item.id;
                             const mrdo_id = item.mrdo_id;
                             if (!dataRuteID[id] && item.rute_hari_ini == 1) {
                                 dataRuteID[id] = id;
                             }
-                            // if (!dataMRDO_ID[mrdo_id] && item.visit_kandidats[0]) {
-                            //     if (item.visit_kandidats[item.visit_kandidats.length - 1]
-                            //         .keterangan_visit['tipe'] ==
-                            //         "REJECT") {
-                            //         dataMRDO_ID[mrdo_id] = item.visit_kandidats[item
-                            //                 .visit_kandidats.length - 1]
-                            //             .keterangan_visit[
-                            //                 'keterangan'];
-                            //     }
-                            // }
+                            if (!dataMRDO_ID[mrdo_id] && item.visit_kandidats[0]) {
+                                if (item.visit_kandidats[item.visit_kandidats.length - 1]
+                                    .keterangan_visit['tipe'] ==
+                                    "REJECT") {
+                                    dataMRDO_ID[mrdo_id] = item.visit_kandidats[item
+                                            .visit_kandidats.length - 1]
+                                        .keterangan_visit[
+                                            'keterangan'];
+                                } else {
+                                    dataMRDO_ID[mrdo_id] = '-';
+                                }
+                            } else {
+                                dataMRDO_ID[mrdo_id] = '-';
+                            }
+                            if (item.verifikasi_qr) {
+                                if (item.verifikasi_qr['flag_qr']) {
+                                    if (item.pengajuan_by_pass[0]) {
+                                        dataQR[mrdo_id] = `<button type="button"
+                                                    class="btn btn-sm p-1 btn-danger btn-block w-100 btnBarcode"
+                                                    data-id_qr="` + item.pengajuan_by_pass[0].id + `">QR</button>`;
+                                    } else {
+                                        dataQR[mrdo_id] = 'Belum Isi QR Bermasalah';
+                                    }
+                                } else {
+                                    dataQR[mrdo_id] = 'SUDAH BYPASS';
+                                }
+                            } else {
+                                dataQR[mrdo_id] = '-';
+                            }
                         });
                         $('.warnaBaris').each(function() {
                             var ruteId = $(this).find('.rute_id').text().trim();
@@ -2310,17 +2233,28 @@
                                 rute.removeClass('text-success fw-bolder shadow-sm');
                                 hari.removeClass('text-success fw-bolder shadow-sm');
                             }
-                            // if (dataMRDO_ID[mrdo_id]) {
-                            //     var rowData = table.row(
-                            //         '[data-id="' + mrdo_id +
-                            //         '"]').data();
+                            if (dataMRDO_ID[mrdo_id]) {
+                                var rowData = table.row(
+                                    '[data-id="' + mrdo_id +
+                                    '"]').data();
 
-                            //     rowData[16] = dataMRDO_ID[mrdo_id];
+                                rowData[15] = dataMRDO_ID[mrdo_id];
 
-                            //     table.row('[data-id="' +
-                            //         mrdo_id + '"]').data(
-                            //         rowData).draw();
-                            // }
+                                table.row('[data-id="' +
+                                    mrdo_id + '"]').data(
+                                    rowData).draw();
+                            }
+                            if (dataQR[mrdo_id]) {
+                                var rowData = table.row(
+                                    '[data-id="' + mrdo_id +
+                                    '"]').data();
+
+                                rowData[16] = dataQR[mrdo_id];
+
+                                table.row('[data-id="' +
+                                    mrdo_id + '"]').data(
+                                    rowData).draw();
+                            }
 
                         });
                     },

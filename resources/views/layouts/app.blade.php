@@ -56,22 +56,23 @@
             background-position: center;
             background-repeat: no-repeat;
             background-attachment: fixed;
-            font-size: 2vh;
+            font-size: 0.8rem;
+            font-weight: 700;
         }
 
         .light {
-            background-image: linear-gradient(to bottom, rgba(224, 224, 224, 0.6), rgba(224, 224, 224, 0.8)), url("../img/bg2.jpg");
+            background-image: linear-gradient(to bottom, rgba(224, 224, 224, 0.8), rgba(224, 224, 224, 0.9)), url("../img/bg2.jpg");
             color: #000;
         }
 
         .dark {
-            background-image: linear-gradient(to bottom, rgba(46, 53, 60, 0.7), rgba(46, 53, 60, 0.9)), url("../img/bg2.jpg");
+            background-image: linear-gradient(to bottom, rgba(46, 53, 60, 0.8), rgba(46, 53, 60, 0.9)), url("../img/bg2.jpg");
             color: #fff;
         }
 
         .container-fluid {
             padding: 1rem;
-            margin-left: 40px;
+            margin-left: 45px;
         }
 
         .scroll::-webkit-scrollbar-track {
@@ -151,16 +152,13 @@
             padding-top: 0.2rem;
         }
 
-        table.dataTable thead>tr>th.sorting {
-            padding: 5px;
-        }
 
         table.dataTable thead th {
             padding: 5px, 0;
         }
 
         table.dataTable tbody td {
-            padding: 5px;
+            padding: 2px 5px;
         }
 
         .myTable,
@@ -172,12 +170,8 @@
             padding: 5px 0;
         }
 
-        .myTable input,
-        .TableOrder input,
-        .TableKandidat input {
-            font-size: 0.7rem;
-            font-weight: 700;
-            padding: 2px;
+        table.dataTable thead>tr>th.sorting {
+            padding: 5px;
         }
 
         .dataTables_wrapper .dataTables_length select,
@@ -235,12 +229,15 @@
         .bg-btn {
             width: 70%;
         }
+
+        .action {
+            max-width: 150px;
+        }
     </style>
     <style>
         .card {
             box-shadow: 0 0 8px 1px rgba(0, 0, 0, 0.2);
             backdrop-filter: blur(20px);
-            /* color: #000; */
         }
 
         .form-control,
@@ -250,11 +247,16 @@
         .form-control:focus {
             background-color: transparent !important;
             font-size: 0.8rem !important;
+            /* font-weight: 700; */
+        }
+
+        .form-control[type="search"] {
+            font-size: 0.8rem;
             font-weight: 700;
         }
 
         .date::-webkit-calendar-picker-indicator {
-            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='white' class='bi bi-calendar' viewBox='0 0 16 16'%3E%3Cpath d='M11 0v1h1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h1V0a1 1 0 0 1 1-1 1 1 0 0 1 1 1v1h4V0a1 1 0 0 1 1 1zM1 3v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3H1z' /%3E%3C/svg%3E") no-repeat;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='black' class='bi bi-calendar' viewBox='0 0 16 16'%3E%3Cpath d='M11 0v1h1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h1V0a1 1 0 0 1 1-1 1 1 0 0 1 1 1v1h4V0a1 1 0 0 1 1 1zM1 3v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3H1z' /%3E%3C/svg%3E") no-repeat;
             background-size: 90% 90%;
         }
 
@@ -271,12 +273,12 @@
             font-size: 0.8rem !important;
         }
 
-        .input-group-sm>.btn,
+        /* .input-group-sm>.btn,
         .input-group-sm>.form-control,
         .input-group-sm>.form-select-sm,
         .input-group-sm>.input-group-text {
             font-size: 0.8rem !important;
-        }
+        } */
 
         .input-group>.input-group-text~.select2-container--bootstrap-5 .select2-selection {
             background-color: transparent;
@@ -346,16 +348,12 @@
             margin: auto;
         }
 
-        .wrapper {
-            height: 100%;
-        }
-
         #sidebar {
             position: fixed;
             top: 0;
             left: 0;
             height: 100%;
-            width: 40px;
+            width: 45px;
             color: #fff;
             z-index: 1054;
             text-align: center;
@@ -371,36 +369,58 @@
         }
 
         /* Gaya teks mengambang */
+        /* Gaya teks mengambang */
         .navbar-nav li a::after {
             content: attr(data-tooltip);
             position: absolute;
             top: 0;
             left: 110%;
             margin-top: -0.6rem;
-            padding: 1.5em 3em;
+            padding: 1.7em 3em;
             white-space: nowrap;
-            font-size: 0.8rem;
+            /* font-size: 0.8rem; */
             font-weight: bolder;
-            background-color: #252B3B;
-            color: #fff;
-            border-radius: 5px;
+            border-radius: 0 5px 5px 0;
             opacity: 0;
-            transition: opacity 0.2s ease-in-out 0.2s;
+            transition: transform 0.1s ease-in-out, opacity 0.1s ease-in-out 0.3s;
             pointer-events: none;
+            transform: translateX(-2%);
         }
 
         /* Menampilkan teks mengambang saat hover pada element a */
         .navbar-nav li a:hover::after {
             opacity: 1;
             transition-delay: 0s;
+            transform: translateX(3%);
         }
     </style>
 
     <script>
         if (localStorage.getItem("darkMode") === "enabled") {
-            document.write('<style>.overlay { background-color: #021020; }</style>');
+            document.write(`<style>.overlay { background-color: #021020;}
+            .bg-btn { box-shadow: -1px 3px 4px rgb(167, 192, 205); }
+            .card { background-color: rgba(2, 16, 32, 0.9); }
+            #sidebar { background-color: #fff; }
+            .dataTables_wrapper .dataTables_length select,
+            .dataTables_wrapper .dataTables_filter input,
+            .select2-container--bootstrap-5 .select2-selection--single .select2-selection__rendered,
+            .form-control,
+            .form-control:focus { color: #fff; }
+            .navbar-nav li a::after { background-color: #FFF; color: #000; }
+            </style>`);
+
         } else {
-            document.write('<style>.overlay { background-color: #f2f2f2; }</style>');
+            document.write(`<style>.overlay { background-color: #f2f2f2; }
+            .bg-btn { box-shadow: -1px 3px 4px rgb(245, 242, 207); }
+            .card { background-color: #fff; }
+            #sidebar { background-color: #252B3B; }
+            .dataTables_wrapper .dataTables_length select,
+            .dataTables_wrapper .dataTables_filter input,
+            .select2-container--bootstrap-5 .select2-selection--single .select2-selection__rendered,
+            .form-control,
+            .form-control:focus { color: #000; }
+            .navbar-nav li a::after { background-color: #252B3B; color: #fff; }
+            </style>`);
         }
     </script>
 </head>
@@ -415,6 +435,9 @@
             <img class="logo py-3" src="{{ asset('img/logo.ico') }}" alt="Logo">
             {{-- {{ config('app.name', 'Laravel') }} --}}
         </a>
+        <br>
+        <br>
+        <br>
         <ul class="navbar-nav mt-3">
             <li class="nav-item py-3">
                 <a class="btn btn-sm btn-block bg-btn p-2 btn-dark fw-bold" data-tooltip="Kode Customer"
@@ -450,7 +473,7 @@
             </li>
         </ul>
     </nav>
-    <div class="wrapper d-flex align-items-stretch pb-3">
+    <div class="wrapper d-flex align-items-stretch">
         <!-- Page Content  -->
         <div class="container-fluid">
             <main>
@@ -509,41 +532,15 @@
             // Set initial dark mode based on user preference (you can use local storage)
             if (localStorage.getItem("darkMode") === "enabled") {
                 darkModeToggle.prop("checked", true);
-                $(".overlay").css('background-color', '#021020');
                 $("body").addClass('dark');
                 $("body").removeClass('light');
-                $(".bg-btn").css('box-shadow', '-1px 3px 4px rgb(167, 192, 205)');
-                $(".card").css('background-color', "rgba(2, 16, 32, 0.9)");
-                $("#sidebar").css('background-color', "#fff");
-                $(".dataTables_wrapper .dataTables_length select").css('color', '#fff');
-                $(".dataTables_wrapper .dataTables_filter input").css('color', '#fff');
-                $(".select2-container--bootstrap-5 .select2-selection--single .select2-selection__rendered")
-                    .css('color', '#fff');
-                $(".navbar-nav li a::after").css({
-                    'background-color': '#252B3B',
-                    'color': '#fff'
-                });
-                $(".form-control").css('color', "#fff");
                 $("table").addClass("table-dark");
                 $("table").removeClass("table-light");
                 $('#labelDarkModeToggle').html('<i class="fa fa-moon text-info"></i>');
             } else {
                 darkModeToggle.prop("checked", false);
-                $(".overlay").css('background-color', '#f2f2f2');
                 $("body").addClass('light');
                 $("body").removeClass('dark');
-                $(".bg-btn").css('box-shadow', '-1px 3px 4px rgb(245, 242, 207)');
-                $(".card").css('background-color', "#fff");
-                $("#sidebar").css('background-color', "#252B3B");
-                $(".dataTables_wrapper .dataTables_length select").css('color', '#000');
-                $(".dataTables_wrapper .dataTables_filter input").css('color', '#000');
-                $(".select2-container--bootstrap-5 .select2-selection--single .select2-selection__rendered").css(
-                    'color', '#000');
-                $(".navbar-nav li a::after").css({
-                    'background-color': '#FFF',
-                    'color': '#000'
-                });
-                $(".form-control").css('color', "#000");
                 $("table").removeClass("table-dark");
                 $("table").addClass("table-light");
                 $('#labelDarkModeToggle').html('<i class="fa fa-sun text-warning"></i>');
@@ -580,7 +577,7 @@
                     $(".select2-container--bootstrap-5 .select2-selection--single .select2-selection__rendered")
                         .css('color', '#000');
                     $(".navbar-nav li a::after").css({
-                        'background-color': '#FFF',
+                        'background-color': '#fff',
                         'color': '#000'
                     });
                     $(".form-control").css('color', "#000");

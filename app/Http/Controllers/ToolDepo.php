@@ -95,7 +95,7 @@ class ToolDepo extends Controller
             ];
 
             $context = stream_context_create($options);
-            $response = file_get_contents('http://10.11.1.37/api/tool/rute/updateArAll', false, $context);
+            $response = file_get_contents('https://sales.motasaindonesia.co.id/api/tool/rute/updateArAll', false, $context);
             $data = json_decode($response, true);
             // return view('ListRute', compact('data', 'salesman', 'id_salesman'));
             return response()->json($data);
@@ -163,7 +163,9 @@ class ToolDepo extends Controller
             if ($iddepo == null) {
                 throw new \Exception('Silahkan pilih Depo');
             }
-            $sp = MasterRute::select('id', 'rute', 'hari', 'salesman', 'id_wilayah', 'periodik_jenis')->where('id_wilayah', $iddepo)->where('hari', $hariIni)->orderBy('salesman')->orderBy('rute')->get();
+            $sp = MasterRute::select('id', 'rute', 'hari', 'salesman', 'id_wilayah', 'periodik_jenis')->where('id_wilayah', $iddepo)
+                // ->where('hari', $hariIni)
+                ->orderBy('salesman')->orderBy('rute')->get();
 
             DB::commit();
             return response()->json([
@@ -179,11 +181,11 @@ class ToolDepo extends Controller
 
     public function tukarRute(Request $request)
     {
-        setlocale(LC_TIME, 'id_ID');
+        // setlocale(LC_TIME, 'id_ID');
         // Ambil tanggal hari ini dalam format Carbon
-        $today = Carbon::today();
+        // $today = Carbon::today();
         // Dapatkan nama harinya dalam bahasa Indonesia
-        $hariIni = $today->translatedFormat('l');
+        // $hariIni = $today->translatedFormat('l');
 
         $detail = $request->input('detail');
 
@@ -197,13 +199,13 @@ class ToolDepo extends Controller
                 $mr = MasterRute::findOrFail($row['id']);
                 if ($row['periodik'] === 'genap') {
                     if ($mr != null) {
-                        $mr->rute = $hariIni . ' GANJIL';
+                        $mr->rute = $row['hari'] . ' GANJIL';
                         $mr->periodik_jenis = 'ganjil';
                         $mr->save();
                     }
                 } else if ($row['periodik'] === 'ganjil') {
                     if ($mr != null) {
-                        $mr->rute = $hariIni . ' GENAP';
+                        $mr->rute = $row['hari'] . ' GENAP';
                         $mr->periodik_jenis = 'genap';
                         $mr->save();
                     }

@@ -90,11 +90,11 @@
                                     <td>{{ $mr['location_type'] ?? '' }}</td>
                                     <td>{{ $mr['latitude'] }}</td>
                                     <td>{{ $mr['longitude'] }}</td>
-                                    <td>{{ $mr['is_visited'] }}
+                                    <td>
                                         @if ($mr['is_visited'])
-                                            <i class="bi bi-check-square-fill text-success"></i>
+                                            <i class="bi bi-check-square-fill text-success">1</i>
                                         @else
-                                            <i class="bi bi-x-square-fill text-danger"></i>
+                                            <i class="bi bi-x-square-fill text-danger">0</i>
                                         @endif
                                     </td>
                                 </tr>
