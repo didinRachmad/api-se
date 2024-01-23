@@ -109,6 +109,8 @@
                                 Kode Kandidat <i class="bi bi-x-square-fill"></i></button> --}}
                         <button type="button" class="btn btn-danger btn-sm my-1" id="btnHapusRODouble">Hapus RO
                             Double <i class="bi bi-trash"></i></button>
+                        <button type="button" class="btn btn-danger btn-sm my-1" id="btnHapusROALL">Hapus RO
+                            ALL <i class="bi bi-trash"></i></button>
                         <div class="btn-group">
                             <button class="btn btn-secondary btn-sm dropdown-toggle" type="button"
                                 data-bs-toggle="dropdown" aria-expanded="false">
@@ -1607,11 +1609,14 @@
                             .text().split('-')[1].trim();
                         var pasar = $(this).closest('tr').find('.tipe_outlet').text()
                             .split('-')[1].trim().toUpperCase();
-                        // if (pasar == 'PASAR') {
-                        //     // alert("LOKASI PASAR : " + nama_toko + " - " + kode_customer);
-                        //     valid = false;
-                        //     return false;
-                        // }
+                        if (pasar == 'PASAR') {
+                            valid = confirm("LOKASI PASAR : " + nama_toko + " - " +
+                                kode_customer);
+                        }
+                        if (!valid) {
+                            return false;
+                        }
+
                         var id_pasar_akhir = $('#pasar_akhir').val();
 
                         var dataObject = {};
@@ -2245,6 +2250,62 @@
                 });
             });
 
+            // HAPUS OUTLET
+            $('#btnHapusROALL').on('click', function(e) {
+                var keterangan = prompt("Isi Keterangan", "");
+                if ($('.check:checked').length === 0) {
+                    $('#errorModal #message').text("Belum ada data yang dipilih");
+                    $('#errorModal').modal('show');
+                } else {
+                    var completedRequests = 0;
+                    $('.check:checked').each(function(index) {
+                        var mrdo_id = $(this).closest('tr').find('.id_mrdo').text().trim();
+                        var iddepo = $(this).closest('tr').find('.nama_wilayah').text().match(
+                            /\(([^()]+)\)[^(]*$/)[1].trim();
+                        var id_distributor = $(this).closest('tr').data('id_distributor');
+                        var kode_customer = $(this).closest('tr').find('.kode_customer').text()
+                            .trim();
+                        var tipe = "permanent";
+
+                        $.ajax({
+                            type: 'POST',
+                            url: "https://sales.motasaindonesia.co.id/api/tool/rute/hapusOutlet",
+                            dataType: 'json',
+                            encode: true,
+                            data: {
+                                mrdo_id: mrdo_id,
+                                iddepo: iddepo,
+                                kode_customer: kode_customer,
+                                keterangan: keterangan,
+                                tipe: tipe,
+                            },
+                            beforeSend: function() {
+                                $('.loading-overlay').show();
+                            },
+                            success: function(response) {
+                                completedRequests++;
+                                if (completedRequests === $('.check:checked').length) {
+                                    $('.loading-overlay').hide();
+                                    $('#successModal').modal('show');
+                                    setTimeout(function() {
+                                        $('#successModal').modal('hide');
+                                        location.reload();
+                                    }, 1000);
+                                }
+                            },
+                            error: function(xhr, status, error) {
+                                $('.loading-overlay').hide();
+                                console.error(error);
+                                $('#errorModal').modal('show');
+                            },
+                            // complete: function() {
+                            //     $('.loading-overlay').hide();
+                            // }
+                        });
+                    });
+                }
+            });
+
             // cek_rute_aktif();
             // // CEK RUTE AKTIF
             function cek_rute_aktif() {
@@ -2254,7 +2315,8 @@
                 var id_pasar = $('#id_pasar_awal').val();
                 var rute_awal = $('#rute_awal').val();
                 var hari = rute_awal ? rute_awal.split(' ')[0].trim() : '';
-                var periodik = (rute_awal && rute_awal.split(' ')[1]) ? rute_awal.split(' ')[1].trim() : '';
+                var periodik = (rute_awal && rute_awal.split(' ')[1]) ? rute_awal.split(' ')[1].trim() :
+                    '';
 
                 $.ajax({
                     type: 'post',
@@ -2298,8 +2360,10 @@
                             var hari = $(this).find('.hari');
                             // Mencocokkan ruteId dengan dataRuteID
                             if (dataRuteID[ruteId]) {
-                                nama_wilayah.addClass('text-success fw-bolder shadow-sm');
-                                nama_salesman.addClass('text-success fw-bolder shadow-sm');
+                                nama_wilayah.addClass(
+                                    'text-success fw-bolder shadow-sm');
+                                nama_salesman.addClass(
+                                    'text-success fw-bolder shadow-sm');
                                 rute.addClass('text-success fw-bolder shadow-sm');
                                 hari.addClass('text-success fw-bolder shadow-sm');
                             } else {
@@ -2307,8 +2371,10 @@
                                     'text-success fw-bolder shadow-sm');
                                 nama_salesman.removeClass(
                                     'text-success fw-bolder shadow-sm');
-                                rute.removeClass('text-success fw-bolder shadow-sm');
-                                hari.removeClass('text-success fw-bolder shadow-sm');
+                                rute.removeClass(
+                                    'text-success fw-bolder shadow-sm');
+                                hari.removeClass(
+                                    'text-success fw-bolder shadow-sm');
                             }
                             // if (dataMRDO_ID[mrdo_id]) {
                             //     var rowData = table.row(

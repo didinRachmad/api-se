@@ -48,7 +48,7 @@ class KodeCustomer extends Controller
             curl_close($ch);
 
             $res = json_decode($response, true);
-            $data = $res['data'];
+            $data = $res['data'] ?? [];
             // return response()->json($data);
             if (json_last_error() !== JSON_ERROR_NONE) {
                 echo "Kesalahan dekode JSON: " . json_last_error_msg();

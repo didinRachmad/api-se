@@ -190,7 +190,7 @@
                 });
             });
 
-            function berhasil() {
+            function berhasil(eksekusi, jumlah) {
                 if (eksekusi == jumlah) {
                     alert("Berhasil Terkirim Semua");
                     $('.loading-overlay').hide();

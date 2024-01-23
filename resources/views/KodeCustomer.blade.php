@@ -741,61 +741,61 @@
             //     });
             // });
 
-            // // PINDAH OUTLET
-            // $('.btnPindah').click(function(e) {
-            //     e.preventDefault();
-            //     $('#PindahRuteModal').modal('show');
+            // PINDAH OUTLET
+            $('.btnPindah').click(function(e) {
+                e.preventDefault();
+                $('#PindahRuteModal').modal('show');
 
-            //     var id = $(this).closest('tr').find('.id_mrdo').text().trim();
-            //     var id_pasar_awal = $(this).closest('tr').find('.id_pasar').text().trim();
-            //     var id_survey_pasar = $(this).closest('tr').find('.id_survey_pasar').text()
-            //         .trim();
+                var id = $(this).closest('tr').find('.id_mrdo').text().trim();
+                var id_pasar_awal = $(this).closest('tr').find('.id_pasar').text().trim();
+                var id_survey_pasar = $(this).closest('tr').find('.id_survey_pasar').text()
+                    .trim();
 
-            //     $(document).on('click', '#savePindahRute', function() {
+                $(document).on('click', '#savePindahRute', function() {
 
-            //         var rute_id_akhir = $('#rute_id_akhir').val();
+                    var rute_id_akhir = $('#rute_id_akhir').val();
 
-            //         if (rute_id_akhir === '' || rute_id_akhir == null) {
-            //             $('#rute_id_akhir').get(0).setCustomValidity('Harap isi Rute tujuan');
-            //             $('#rute_id_akhir').get(0).reportValidity(); // Menampilkan pesan kesalahan
-            //             return;
-            //         }
+                    if (rute_id_akhir === '' || rute_id_akhir == null) {
+                        $('#rute_id_akhir').get(0).setCustomValidity('Harap isi Rute tujuan');
+                        $('#rute_id_akhir').get(0).reportValidity(); // Menampilkan pesan kesalahan
+                        return;
+                    }
 
-            //         $.ajax({
-            //             type: 'POST',
-            //             url: "{{ route('KodeCustomer.pindah') }}",
-            //             dataType: 'json',
-            //             encode: true,
-            //             data: {
-            //                 id: id,
-            //                 id_pasar_awal: id_pasar_awal,
-            //                 rute_id_akhir: rute_id_akhir,
-            //                 id_survey_pasar: id_survey_pasar
-            //             },
-            //             beforeSend: function() {
-            //                 $('.loading-overlay').show();
-            //             },
-            //             success: function(response) {
-            //                 $('#PindahRuteModal').modal('hide');
-            //                 $('#successModal #message').text(response.message);
-            //                 
-            //                 $('#successModal').modal('show');
-            //                 setTimeout(function() {
-            //                     $('#successModal').modal('hide');
-            //                     location.reload();
-            //                 }, 1000);
-            //             },
-            //             error: function(xhr, status, error) {
-            //                 console.error(error);
-            //                 $('#errorModal #message').text(xhr.responseJSON.message);
-            //                 $('#errorModal').modal('show');
-            //             },
-            //             complete: function() {
-            //                 $('.loading-overlay').hide();
-            //             }
-            //         });
-            //     });
-            // });
+                    $.ajax({
+                        type: 'POST',
+                        url: "{{ route('KodeCustomer.pindah') }}",
+                        dataType: 'json',
+                        encode: true,
+                        data: {
+                            id: id,
+                            id_pasar_awal: id_pasar_awal,
+                            rute_id_akhir: rute_id_akhir,
+                            id_survey_pasar: id_survey_pasar
+                        },
+                        beforeSend: function() {
+                            $('.loading-overlay').show();
+                        },
+                        success: function(response) {
+                            $('#PindahRuteModal').modal('hide');
+                            $('#successModal #message').text(response.message);
+
+                            $('#successModal').modal('show');
+                            setTimeout(function() {
+                                $('#successModal').modal('hide');
+                                location.reload();
+                            }, 1000);
+                        },
+                        error: function(xhr, status, error) {
+                            console.error(error);
+                            $('#errorModal #message').text(xhr.responseJSON.message);
+                            $('#errorModal').modal('show');
+                        },
+                        complete: function() {
+                            $('.loading-overlay').hide();
+                        }
+                    });
+                });
+            });
 
             $('.select2-salesman_akhir').select2({
                 dropdownParent: $('#PindahRuteModal'),
@@ -980,99 +980,98 @@
                 });
             });
 
-            // PINDAH OUTLET
-            $(document).on('click', ".btnPindah", function(e) {
-                e.preventDefault();
+            // // PINDAH OUTLET
+            // $(document).on('click', ".btnPindah", function(e) {
+            //     e.preventDefault();
 
-                $('#PindahRuteModal').modal('show');
+            //     $('#PindahRuteModal').modal('show');
 
-                var selectedRows = [];
-                var id_mrdo = $(this).closest('tr').find('.id_mrdo').text().trim();
-                var rute_id = $(this).closest('tr').find('.rute_id').text().trim();
-                var rute_detail_id = $(this).closest('tr').data('rute_detail_id');
-                var id_wilayah = $('#id_wilayah_akhir').val();
-                var id_pasar = $(this).closest('tr').find('.id_pasar').text().trim();
-                var id_survey_pasar = $(this).closest('tr').find('.id_survey_pasar').text().trim();
-                var kode_customer = $(this).closest('tr').find('.kode_customer').text().trim();
-                var wilayah = $(this).closest('tr').find('.nama_wilayah').text().trim().replace(
-                    /\s*\([^)]*\)$/, '');
-                var salesman = $(this).closest('tr').find('.salesman').text().trim().replace(
-                    /\s*\([^)]*\)$/, '');
-                var location_type = $(this).closest('tr').find('.tipe_outlet').text().split(
-                    '-')[1].trim();
-                var toko = $(this).closest('tr').find('.nama_toko').text().trim();
+            //     var selectedRows = [];
+            //     var id_mrdo = $(this).closest('tr').find('.id_mrdo').text().trim();
+            //     var rute_id = $(this).closest('tr').find('.rute_id').text().trim();
+            //     var rute_detail_id = $(this).closest('tr').data('rute_detail_id');
+            //     var id_wilayah = $('#id_wilayah_akhir').val();
+            //     var id_pasar = $(this).closest('tr').find('.id_pasar').text().trim();
+            //     var id_survey_pasar = $(this).closest('tr').find('.id_survey_pasar').text().trim();
+            //     var kode_customer = $(this).closest('tr').find('.kode_customer').text().trim();
+            //     var wilayah = $(this).closest('tr').find('.nama_wilayah').text().trim().replace(
+            //         /\s*\([^)]*\)$/, '');
+            //     var salesman = $(this).closest('tr').find('.salesman').text().trim().replace(
+            //         /\s*\([^)]*\)$/, '');
+            //     var location_type = $(this).closest('tr').find('.tipe_outlet').text().split(
+            //         '-')[1].trim();
+            //     var toko = $(this).closest('tr').find('.nama_toko').text().trim();
 
-                var dataObject = {};
-                dataObject['id_mrdo'] = id_mrdo;
-                dataObject['rute_id'] = rute_id;
-                dataObject['rute_detail_id'] = rute_detail_id;
-                dataObject['id_wilayah'] = id_wilayah;
-                dataObject['id_pasar'] = id_pasar;
-                dataObject['survey_pasar_id'] = id_survey_pasar;
-                dataObject['kode_customer'] = kode_customer;
-                dataObject['wilayah'] = wilayah;
-                dataObject['salesman'] = salesman;
-                dataObject['location_type'] = location_type;
-                dataObject['toko'] = toko;
+            //     var dataObject = {};
+            //     dataObject['id_mrdo'] = id_mrdo;
+            //     dataObject['rute_id'] = rute_id;
+            //     dataObject['rute_detail_id'] = rute_detail_id;
+            //     dataObject['id_wilayah'] = id_wilayah;
+            //     dataObject['id_pasar'] = id_pasar;
+            //     dataObject['survey_pasar_id'] = id_survey_pasar;
+            //     dataObject['kode_customer'] = kode_customer;
+            //     dataObject['wilayah'] = wilayah;
+            //     dataObject['salesman'] = salesman;
+            //     dataObject['location_type'] = location_type;
+            //     dataObject['toko'] = toko;
 
-                selectedRows.push(dataObject);
+            //     selectedRows.push(dataObject);
 
-                $('#savePindahRute').off('click');
-                $('#savePindahRute').click(function(e) {
-                    e.preventDefault();
+            //     $('#savePindahRute').off('click');
+            //     $('#savePindahRute').click(function(e) {
+            //         e.preventDefault();
 
-                    var salesman_akhir = $('#salesman_akhir').val();
-                    var hari = $('#rute_id_akhir').text().split(' ')[0].trim();
-                    var rute = $('#rute_id_akhir').val();
+            //         var salesman_akhir = $('#salesman_akhir').val();
+            //         var hari = $('#rute_id_akhir').text().split(' ')[0].trim();
+            //         var rute = $('#rute_id_akhir').val();
 
-                    if (rute === '' || rute == null) {
-                        $('#rute_id_akhir').get(0).setCustomValidity('Harap isi Rute tujuan');
-                        $('#rute_id_akhir').get(0).reportValidity(); // Menampilkan pesan kesalahan
-                        return;
-                    }
+            //         if (rute === '' || rute == null) {
+            //             $('#rute_id_akhir').get(0).setCustomValidity('Harap isi Rute tujuan');
+            //             $('#rute_id_akhir').get(0).reportValidity(); // Menampilkan pesan kesalahan
+            //             return;
+            //         }
 
-                    $.ajax({
-                        type: 'post',
-                        url: "https://sales.motasaindonesia.co.id/api/tool/outletkandidat/pindahoutlet",
-                        dataType: 'json',
-                        encode: true,
-                        data: {
-                            salesman: salesman_akhir,
-                            hari: hari,
-                            rute: rute,
-                            data_all: selectedRows
-                        },
-                        beforeSend: function() {
-                            $('.loading-overlay').show();
-                        },
-                        success: function(response) {
-                            if (response.is_valid) {
-                                $('#successModal').modal('show');
-                                setTimeout(function() {
-                                    $('#successModal').modal('hide');
-                                    location.reload();
-                                }, 1000);
-                            } else {
-                                $('#errorModal #message').text(response.message);
-                                $('#errorModal').modal('show');
-                            }
-                        },
-                        error: function(xhr, status, error) {
-                            console.error(error);
-                            $('#errorModal #message').text(xhr.responseJSON.message);
-                            $('#errorModal').modal('show');
-                        },
-                        complete: function() {
-                            $('.loading-overlay').hide();
-                        }
-                    });
-                });
-            });
+            //         $.ajax({
+            //             type: 'post',
+            //             url: "https://sales.motasaindonesia.co.id/api/tool/outletkandidat/pindahoutlet",
+            //             dataType: 'json',
+            //             encode: true,
+            //             data: {
+            //                 salesman: salesman_akhir,
+            //                 hari: hari,
+            //                 rute: rute,
+            //                 data_all: selectedRows
+            //             },
+            //             beforeSend: function() {
+            //                 $('.loading-overlay').show();
+            //             },
+            //             success: function(response) {
+            //                 if (response.is_valid) {
+            //                     $('#successModal').modal('show');
+            //                     setTimeout(function() {
+            //                         $('#successModal').modal('hide');
+            //                         location.reload();
+            //                     }, 1000);
+            //                 } else {
+            //                     $('#errorModal #message').text(response.message);
+            //                     $('#errorModal').modal('show');
+            //                 }
+            //             },
+            //             error: function(xhr, status, error) {
+            //                 console.error(error);
+            //                 $('#errorModal #message').text(xhr.responseJSON.message);
+            //                 $('#errorModal').modal('show');
+            //             },
+            //             complete: function() {
+            //                 $('.loading-overlay').hide();
+            //             }
+            //         });
+            //     });
+            // });
 
             // PINDAH PASAR
             $(document).on('click', ".btnPindahPasar", function() {
                 // Tampilkan modal edit
-                $('#PindahPasarModal').modal('show');
 
                 var valid = true;
 
@@ -1100,10 +1099,13 @@
                     .trim();
                 var pasar = $(this).closest('tr').find('.tipe_outlet').text()
                     .split('-')[1].trim().toUpperCase();
-                // if (pasar == 'PASAR') {
-                //     // alert("LOKASI PASAR : " + nama_toko + " - " + kode_customer);
-                //     valid = false;
-                // }
+
+                if (pasar == 'PASAR') {
+                    valid = confirm("LOKASI PASAR : " + nama_toko + " - " + kode_customer);
+                }
+                if (valid) {
+                    $('#PindahPasarModal').modal('show');
+                }
 
                 var dataObject = {};
                 dataObject['id_wilayah'] = id_wilayah;
@@ -1142,59 +1144,56 @@
                     data[5] = dataObject;
                     selectedRows.push(data);
 
-                    if (valid) {
-                        $.ajax({
-                            type: 'post',
-                            url: "https://sales.motasaindonesia.co.id/api/tool/outletkandidat/saveeditcustomer",
-                            dataType: 'json',
-                            encode: true,
-                            data: {
-                                data: selectedRows
-                            },
-                            beforeSend: function() {
-                                $('.loading-overlay').show();
-                            },
-                            success: function(response) {
-                                $('#successModal #message').text(response.message);
+                    $.ajax({
+                        type: 'post',
+                        url: "https://sales.motasaindonesia.co.id/api/tool/outletkandidat/saveeditcustomer",
+                        dataType: 'json',
+                        encode: true,
+                        headers: {
+                            "X-CSRF-TOKEN": "eyJpdiI6IkhWTUFZdHN3VlUzNHA0bDYzanpvZVE9PSIsInZhbHVlIjoiL0tZOFdidlBYbjNMMlhwY1ZkSjgyQzYrd3dYeXh2SUJIT01oMzdaUXZycFNLdWhzeG5yOXgyTWtjaTZDUVhHdXY3OEU5WUg1L3ZMSWU4bHMxS2UvaHdnVEpOTTNFUXBFVHErdWpsSEp6Qm1CNSsyZHo5ZWVTd293S2J5SnNxb04iLCJtYWMiOiJmNmZiNTI5ODk3ZWZkMjhmMmE3OWQzMTI4M2U5ZGZiNTU1YzQ2MDQzMGNmYTVjODk3NTNhMGU1NDU2YTg5ZTliIn0%3D",
+                        },
+                        data: {
+                            data: selectedRows
+                        },
+                        beforeSend: function() {
+                            $('.loading-overlay').show();
+                        },
+                        success: function(response) {
+                            $('#successModal #message').text(response.message);
+                            $('#PindahPasarModal').modal('hide');
+                            $('#successModal').modal('show');
+
+                            var rowData = table.row(
+                                '[data-id="' + mrdo_id +
+                                '"]').data();
+
+                            rowData[11] = id_pasar_akhir;
+                            rowData[12] = nama_pasar_akhir;
+
+                            table.row('[data-id="' +
+                                mrdo_id + '"]').data(
+                                rowData).draw();
+
+                            $('#nama_pasar_akhir').val("");
+                            $('#pasar_akhir').val(null).trigger(
+                                'change.select2');
+
+                            setTimeout(function() {
+                                $('#successModal').modal('hide');
                                 $('#PindahPasarModal').modal('hide');
-                                $('#successModal').modal('show');
-
-                                var rowData = table.row(
-                                    '[data-id="' + mrdo_id +
-                                    '"]').data();
-
-                                rowData[11] = id_pasar_akhir;
-                                rowData[12] = nama_pasar_akhir;
-
-                                table.row('[data-id="' +
-                                    mrdo_id + '"]').data(
-                                    rowData).draw();
-
-                                $('#nama_pasar_akhir').val("");
-                                $('#pasar_akhir').val(null).trigger(
-                                    'change.select2');
-
-                                setTimeout(function() {
-                                    $('#successModal').modal('hide');
-                                    $('#PindahPasarModal').modal('hide');
-                                    // location.reload();
-                                }, 1000);
-                            },
-                            error: function(xhr, status, error) {
-                                console.error(error);
-                                $('#errorModal #message').text(xhr.responseJSON
-                                    .message);
-                                $('#errorModal').modal('show');
-                            },
-                            complete: function() {
-                                $('.loading-overlay').hide();
-                            }
-                        });
-                    } else {
-                        $('#errorModal #message').text("Outlet lokasinya PASAR");
-                        $('#errorModal').modal('show');
-                        $('#PindahPasarModal').modal('hide');
-                    }
+                                // location.reload();
+                            }, 1000);
+                        },
+                        error: function(xhr, status, error) {
+                            console.error(error);
+                            $('#errorModal #message').text(xhr.responseJSON
+                                .message);
+                            $('#errorModal').modal('show');
+                        },
+                        complete: function() {
+                            $('.loading-overlay').hide();
+                        }
+                    });
                 });
             });
 

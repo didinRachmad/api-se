@@ -82,20 +82,24 @@ class ToolDepo extends Controller
                     $i++;
                 }
             }
+
             $request = [
                 'data' => $req
             ];
 
-            $options = [
-                'http' => [
-                    'method' => 'POST',
-                    'header' => 'Content-Type: application/x-www-form-urlencoded',
-                    'content' => http_build_query($request)
-                ]
-            ];
+            $ch = curl_init();
 
-            $context = stream_context_create($options);
-            $response = file_get_contents('https://sales.motasaindonesia.co.id/api/tool/rute/updateArAll', false, $context);
+            curl_setopt($ch, CURLOPT_URL, 'https://sales.motasaindonesia.co.id/api/tool/rute/updateArAll');
+            curl_setopt($ch, CURLOPT_POST, 1);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($request));
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_ENCODING, '');
+            curl_setopt($ch, CURLOPT_HTTPHEADER, [
+                'Content-Type: application/x-www-form-urlencoded'
+            ]);
+
+            $response = curl_exec($ch);
+
             $data = json_decode($response, true);
             // return view('ListRute', compact('data', 'salesman', 'id_salesman'));
             return response()->json($data);

@@ -111,28 +111,33 @@
                         // $("#tbody-data").html(html);
 
                         for (var r = range.s.r + 1; r <= range.e.r; r++) {
-                            var wilayah = worksheet[XLSX.utils.encode_cell({
+                            var id_wilayah = worksheet[XLSX.utils.encode_cell({
                                 r: r,
                                 c: 0
                             })];
-                            var kode_customer = worksheet[XLSX.utils.encode_cell({
-                                r: r,
-                                c: 4
-                            })];
-                            var salesman_tujuan = worksheet[XLSX.utils.encode_cell({
+                            var wilayah = worksheet[XLSX.utils.encode_cell({
                                 r: r,
                                 c: 1
                             })];
-                            var rute_tujuan = worksheet[XLSX.utils.encode_cell({
+                            var kode_customer = worksheet[XLSX.utils.encode_cell({
+                                r: r,
+                                c: 5
+                            })];
+                            var salesman_tujuan = worksheet[XLSX.utils.encode_cell({
                                 r: r,
                                 c: 2
                             })];
-                            var hari_tujuan = worksheet[XLSX.utils.encode_cell({
+                            var rute_tujuan = worksheet[XLSX.utils.encode_cell({
                                 r: r,
                                 c: 3
                             })];
+                            var hari_tujuan = worksheet[XLSX.utils.encode_cell({
+                                r: r,
+                                c: 4
+                            })];
 
                             if (
+                                id_wilayah &&
                                 wilayah &&
                                 kode_customer &&
                                 salesman_tujuan &&
@@ -141,7 +146,8 @@
                             ) {
                                 html += '<tr>';
                                 html += '<td class="no table-dark">' + r + '</td>';
-                                html += '<td class="id_wilayah table-dark"></td>';
+                                html += '<td class="id_wilayah table-dark">' + id_wilayah.v +
+                                    '</td>';
                                 html += '<td class="wilayah table-dark">' + wilayah.v +
                                     '</td>';
                                 html += '<td class="salesman_awal table-dark"></td>';
@@ -177,9 +183,9 @@
             function isiDataOutlet(callback) {
                 var kode_customerAll = []; // Membuat array untuk menyimpan kode pelanggan
                 var resAll = []; // Membuat array untuk menyimpan kode pelanggan
-                var wilayah;
+                var id_wilayah;
                 $('.kode_customer').each(function(index) {
-                    wilayah = $(this).closest('tr').find('.wilayah').text().trim();
+                    id_wilayah = $(this).closest('tr').find('.id_wilayah').text().trim();
                     var kode_customer = $(this).text().trim().toUpperCase();
                     kode_customerAll.push(kode_customer); // Menambahkan kode pelanggan ke dalam array
                 });
@@ -200,12 +206,13 @@
 
                         $.ajax({
                             type: 'POST',
-                            url: "{{ route('ToolExcel.getDataOutlet') }}",
+                            url: "https://sales.motasaindonesia.co.id/api/tool/outletkandidat/getData",
                             dataType: 'json',
                             encode: true,
                             data: {
-                                wilayah: wilayah,
-                                kode_customer: currentChunk
+                                depo: id_wilayah,
+                                kode_customer: currentChunk,
+                                type: 'ro'
                             },
                             success: function(response) {
                                 let res = response.data;
@@ -217,6 +224,7 @@
                             }
                         });
                     } else {
+                        // console.log(resAll);
                         $('.kode_customer').each(function(index) {
                             var kode_customer = $(this).text().trim().toUpperCase();
                             var rute_tujuan = $(this).closest('tr').find('.rute_tujuan')
@@ -230,24 +238,17 @@
                             for (var i = 0; i < resAll.length; i++) {
                                 if (kode_customer.toUpperCase() === resAll[i].kode_customer
                                     .toUpperCase()) {
-                                    var id_wilayah = resAll[i]['mrdo'][0]['mr']
-                                        .id_wilayah ?? "";
-                                    $(this).closest('tr').find('.id_wilayah').html(
-                                        id_wilayah);
+                                    // var id_wilayah = resAll[i].id_wilayah ?? "";
+                                    // $(this).closest('tr').find('.id_wilayah').html(
+                                    //     id_wilayah);
 
-                                    var salesman_awal = resAll[i]['mrdo'][0]['mr'].salesman
-                                        .trim()
-                                        .toUpperCase();
-                                    $(this).closest('tr').find('.salesman_awal').html(
-                                        salesman_awal);
+                                    var salesman_awal = resAll[i].salesman.trim().toUpperCase();
+                                    $(this).closest('tr').find('.salesman_awal').html(salesman_awal);
 
-                                    var rute_awal = resAll[i]['mrdo'][0]['mr'].rute.trim()
-                                        .toUpperCase();
-                                    $(this).closest('tr').find('.rute_awal').html(
-                                        rute_awal);
+                                    var rute_awal = resAll[i].rute.trim().toUpperCase();
+                                    $(this).closest('tr').find('.rute_awal').html(rute_awal);
 
-                                    if (rute_tujuan !== rute_awal || salesman_tujuan !==
-                                        salesman_awal) {
+                                    if (rute_tujuan !== rute_awal || salesman_tujuan !== salesman_awal) {
                                         $(this).closest('tr').find('.keterangan').html(
                                             "Berubah");
                                     }
