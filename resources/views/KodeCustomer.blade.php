@@ -415,7 +415,7 @@
                 dom: "<'row'<'col-sm-6 col-md-2'l><'col-sm-6 col-md-6 text-right'B><'col-sm-12 col-md-4 text-right'f>>" +
                     "<'row'<'col-sm-12'tr>>" +
                     "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
-                // scrollY: 260,
+                "paging": false,
                 buttons: [
                     'copy', 'csv', {
                         extend: 'excel',
@@ -432,8 +432,6 @@
                     "targets": [15],
                     "orderable": false,
                 }],
-                "lengthMenu": [10, 25, 50, 75, 100, 500],
-                "pageLength": 500,
                 "order": [
                     [0, 'asc'],
                     [2, 'asc'],
