@@ -67,15 +67,15 @@
                             <th rowspan="2" class="text-center align-middle">Keterangan</th>
                         </tr>
                         <tr>
-                            <th class="table-dark">No</th>
-                            <th class="table-dark">Id Wilayah</th>
-                            <th class="table-dark">Wilayah</th>
-                            <th class="table-dark">Salesman</th>
-                            <th class="table-dark">Rute</th>
-                            <th class="table-dark">Kode Customer</th>
-                            <th class="table-light">Salesman</th>
-                            <th class="table-light">Rute</th>
-                            <th class="table-light">Hari</th>
+                            <th class="table-dark">NO</th>
+                            <th class="table-dark">ID_WILAYAH</th>
+                            <th class="table-dark">NAMA_WILAYAH</th>
+                            <th class="table-dark">SALESMAN</th>
+                            <th class="table-dark">RUTE</th>
+                            <th class="table-dark">KODE_CUSTOMER</th>
+                            <th class="table-light">PINDAH_SALESMAN</th>
+                            <th class="table-light">PINDAH_RUTE</th>
+                            <th class="table-light">PINDAH_HARI</th>
                         </tr>
                     </thead>
                     <tbody id="tbody-data">
@@ -230,21 +230,22 @@
                             for (var i = 0; i < resAll.length; i++) {
                                 if (kode_customer.toUpperCase() === resAll[i].kode_customer
                                     .toUpperCase()) {
-                                    var id_wilayah = resAll[i]['mrdo'][0]['mr']
-                                        .id_wilayah ?? "";
-                                    $(this).closest('tr').find('.id_wilayah').html(
-                                        id_wilayah);
-
-                                    var salesman_awal = resAll[i]['mrdo'][0]['mr'].salesman
-                                        .trim()
-                                        .toUpperCase();
-                                    $(this).closest('tr').find('.salesman_awal').html(
-                                        salesman_awal);
-
-                                    var rute_awal = resAll[i]['mrdo'][0]['mr'].rute.trim()
-                                        .toUpperCase();
-                                    $(this).closest('tr').find('.rute_awal').html(
-                                        rute_awal);
+                                    var mrdoArray = resAll[i]['mrdo'];
+                                    if (mrdoArray.length > 0) {
+                                        var lastMr = mrdoArray[mrdoArray.length - 1]['mr'];
+                                        var id_wilayah = lastMr.id_wilayah || "";
+                                        var salesman_awal = lastMr.salesman.toUpperCase() || "";
+                                        var rute_awal = lastMr.rute.toUpperCase() || "";
+                                    } else {
+                                        var id_wilayah = "";
+                                        var salesman_awal = "";
+                                        var rute_awal = "";
+                                    }
+                                    $(this).closest('tr').find('.id_wilayah').html(id_wilayah);
+                                    $(this).closest('tr').find('.salesman_awal').html(salesman_awal
+                                        .toUpperCase());
+                                    $(this).closest('tr').find('.rute_awal').html(rute_awal.trim()
+                                        .toUpperCase());
 
                                     if (rute_tujuan !== rute_awal || salesman_tujuan !==
                                         salesman_awal) {
@@ -276,9 +277,62 @@
                 table = $("#myTable")
                     .DataTable({
                         "dom": "<'row'<'col-sm-12 col-md-10'B><'col-sm-12 col-md-2 text-right'f>>" +
-                            "<'row'<'col-sm-12'tr>>" +
+                            "<'row'<'col-sm-12 table-responsive'tr>>" +
                             "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
                         "paging": false,
+                        buttons: [{
+                            extend: 'copy',
+                            title: 'Data - ' + $('.wilayah').first().text(),
+                            exportOptions: {
+                                columns: ':not(.no-export)'
+                            }
+                        }, 'csv', {
+                            extend: 'excel',
+                            title: 'Data - ' + $('.wilayah').first().text(),
+                            exportOptions: {
+                                columns: [1, 2, 5, 3, 6, 8, 7]
+                            },
+                            customize: function(xlsx) {
+                                var sheet = xlsx.xl.worksheets['sheet1.xml'];
+                                var rows = $('row', sheet);
+
+                                // Remove merged cells
+                                $('mergeCells', sheet).remove();
+                                $('mergeCell', sheet).remove();
+
+                                // Remove the first row
+                                rows.first().remove();
+
+                                // Update row numbers and cell references
+                                rows.each(function() {
+                                    var rowIndex = parseInt($(this).attr('r'));
+                                    if (rowIndex > 1) {
+                                        $(this).attr('r', rowIndex - 1);
+                                        $('c', this).each(function() {
+                                            var cellRef = $(this).attr('r');
+                                            var newCellRef = cellRef.replace(
+                                                /[0-9]+/,
+                                                function(match) {
+                                                    return parseInt(match) - 1;
+                                                });
+                                            $(this).attr('r', newCellRef);
+                                        });
+                                    }
+                                });
+                            }
+                        }, {
+                            extend: 'pdf',
+                            title: 'Data - ' + $('.wilayah').first().text(),
+                            exportOptions: {
+                                columns: ':not(.no-export)'
+                            },
+                            customize: function(doc) {
+                                doc.pageOrientation =
+                                    'landscape'; // Set orientasi landscape
+                                doc.pageSize =
+                                    'LEGAL'; // Set ukuran halaman 
+                            }
+                        }, 'print'],
                     });
                 table.on('order.dt search.dt', function() {
                     table.column(0, {
@@ -290,6 +344,86 @@
                 }).draw();
 
             };
+
+            // // PINDAH RUTE
+            // $('#btnPindah').click(function(e) {
+            //     e.preventDefault();
+            //     var selectedRows = [];
+
+            //     $('.kode_customer').each(function(index) {
+            //         var keterangan = $(this).closest('tr').find('.keterangan').text()
+            //             .trim().toUpperCase();
+            //         if (keterangan == 'BERUBAH') {
+            //             var id_wilayah = $(this).closest('tr').find('.id_wilayah').text()
+            //                 .trim();
+            //             var wilayah = $(this).closest('tr').find('.wilayah').text().trim();
+            //             var kode_customer = $(this).text().trim();
+            //             var salesman_awal = $(this).closest('tr').find('.salesman_awal').text()
+            //                 .trim();
+            //             var salesman_tujuan = $(this).closest('tr').find('.salesman_tujuan')
+            //                 .text()
+            //                 .trim();
+            //             var hari_tujuan = $(this).closest('tr').find('.hari_tujuan').text()
+            //                 .trim();
+            //             var rute_tujuan = $(this).closest('tr').find('.rute_tujuan').text()
+            //                 .trim();
+
+            //             if (salesman_tujuan === '' || hari_tujuan === '' || rute_tujuan ===
+            //                 '') {
+            //                 alert("harap isi Rute tujuan");
+            //                 return;
+            //             }
+
+            //             var dataObject = {};
+            //             dataObject['id_wilayah'] = id_wilayah;
+            //             dataObject['wilayah'] = wilayah;
+            //             dataObject['kode_customer'] = kode_customer;
+            //             dataObject['salesman'] = salesman_awal;
+            //             dataObject['pindah_salesman'] = salesman_tujuan;
+            //             dataObject['pindah_hari'] = hari_tujuan;
+            //             dataObject['pindah_rute'] = rute_tujuan;
+
+            //             selectedRows.push(dataObject);
+            //         }
+            //     });
+
+            //     if (selectedRows.length === 0) {
+            //         $('#errorModal #message').text("Tidak ada data yang berubah");
+            //         $('#errorModal').modal('show');
+            //     } else {
+            //         $.ajax({
+            //             type: 'post',
+            //             url: "https://sales.motasaindonesia.co.id/api/tool/outletkandidat/uploadpindahtokobatch",
+            //             dataType: 'json',
+            //             encode: true,
+            //             data: {
+            //                 data: selectedRows
+            //             },
+            //             beforeSend: function() {
+            //                 $('.loading-overlay').show();
+            //             },
+            //             success: function(response) {
+            //                 if (response.is_valid) {
+            //                     $('#successModal').modal('show');
+            //                     // setTimeout(function() {
+            //                     //     $('#successModal').modal('hide');
+            //                     // }, 1000);
+            //                 } else {
+            //                     $('#errorModal #message').text(response.message);
+            //                     $('#errorModal').modal('show');
+            //                 }
+            //             },
+            //             error: function(xhr, status, error) {
+            //                 console.error(error);
+            //                 $('#errorModal #message').text(xhr.responseJSON.message);
+            //                 $('#errorModal').modal('show');
+            //             },
+            //             complete: function() {
+            //                 $('.loading-overlay').hide();
+            //             }
+            //         });
+            //     }
+            // });
 
             // PINDAH RUTE
             $('#btnPindah').click(function(e) {
@@ -322,7 +456,7 @@
 
                         var dataObject = {};
                         dataObject['id_wilayah'] = id_wilayah;
-                        dataObject['wilayah'] = wilayah;
+                        dataObject['nama_wilayah'] = wilayah;
                         dataObject['kode_customer'] = kode_customer;
                         dataObject['salesman'] = salesman_awal;
                         dataObject['pindah_salesman'] = salesman_tujuan;
@@ -339,7 +473,7 @@
                 } else {
                     $.ajax({
                         type: 'post',
-                        url: "https://sales.motasaindonesia.co.id/api/tool/outletkandidat/uploadpindahtokobatch",
+                        url: "http://10.11.1.37/api/tool/outletkandidat/uploadpindahtokobatch",
                         dataType: 'json',
                         encode: true,
                         data: {

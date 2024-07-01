@@ -24,7 +24,11 @@
                         <button type="submit" class="btn btn-primary btn-sm">Search <span> <i
                                     class="bi bi-search"></i></span></button>
                     </div>
-                    <div class="col-lg-7">
+                    <div class="col-lg-1">
+                        <button type="button" class="btn btn-warning btn-sm btnToken" id="btnToken">Token <span> <i
+                                    class="bi bi-journal-text"></i></span></button>
+                    </div>
+                    <div class="col-lg-1">
                         <button type="button" class="btn btn-info btn-sm btnOrder">Order <span> <i
                                     class="bi bi-journal-text"></i></span></button>
                     </div>
@@ -413,7 +417,7 @@
 
             var table = $('.myTable').DataTable({
                 dom: "<'row'<'col-sm-6 col-md-2'l><'col-sm-6 col-md-6 text-right'B><'col-sm-12 col-md-4 text-right'f>>" +
-                    "<'row'<'col-sm-12'tr>>" +
+                    "<'row'<'col-sm-12 table-responsive'tr>>" +
                     "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
                 "paging": false,
                 buttons: [
@@ -473,7 +477,7 @@
                         processing: true,
                         serverSide: true,
                         dom: "<'row'<'col-sm-12 col-md-2'l><'col-sm-12 col-md-5'B><'col-sm-12 col-md-5 text-right'f >> " +
-                            "<'row'<'col-sm-12'tr>>" +
+                            "<'row'<'col-sm-12 table-responsive'tr>>" +
                             "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
                         // scrollY: 260,
                         "lengthMenu": [10, 25, 50, 75, 100, 500],
@@ -1427,6 +1431,51 @@
                     },
                     error: function(xhr, status, error) {
                         console.error(error);
+                        $('#errorModal').modal('show');
+                    },
+                    complete: function() {
+                        $('.loading-overlay').hide();
+                    }
+                });
+            });
+
+            $('#btnToken').click(function(e) {
+                e.preventDefault();
+                var kode_customer = $('#kode_customer').val();
+
+                $.ajax({
+                    type: 'GET',
+                    url: "{{ route('KodeCustomer.getToken') }}",
+                    dataType: 'json',
+                    encode: true,
+                    data: {
+                        kode_customer: kode_customer
+                    },
+                    beforeSend: function() {
+                        $('.loading-overlay').show();
+                    },
+                    success: function(response) {
+                        if (response.results != null) {
+                            var tokenText = "Token : " + response.results.token;
+                            // var tokenText = "Tinggal Paste";
+                            navigator.clipboard.writeText(tokenText);
+                            $('#successModal #message').text(
+                                "TINGGAL PASTE !!!!!  Token : " +
+                                response
+                                .results.token);
+                            $('#successModal').modal('show');
+                            setTimeout(function() {
+                                $('#successModal').modal('hide');
+                            }, 3000);
+                        } else {
+                            navigator.clipboard.writeText('Silakan disinkron ulang');
+                            $('#errorModal #message').text('Token tidak ditemukan');
+                            $('#errorModal').modal('show');
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(error);
+                        $('#errorModal #message').text(xhr.responseJSON.message);
                         $('#errorModal').modal('show');
                     },
                     complete: function() {

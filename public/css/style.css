@@ -1,3 +1,347 @@
+html,
+body {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    /* background-image: linear-gradient(to bottom, rgba(10, 10, 10, 0.3), rgba(10, 10, 10, 0.7)), url("https://source.unsplash.com/random/1366x768/?city,street"), url("../img/bg2.jpg"); */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    font-size: 0.8rem;
+    font-weight: 700;
+}
+
+.light {
+    background-image: linear-gradient(to bottom, rgba(224, 224, 224, 0.8), rgba(224, 224, 224, 0.9)), url("../img/bg2.jpg");
+    color: #000;
+}
+
+.dark {
+    background-image: linear-gradient(to bottom, rgba(46, 53, 60, 0.8), rgba(46, 53, 60, 0.9)), url("../img/bg2.jpg");
+    color: #fff;
+}
+
+.container-fluid {
+    padding: 1rem;
+    margin-left: 45px;
+}
+
+.scroll::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    background-color: #212529;
+    border-radius: 10px;
+}
+
+.scroll::-webkit-scrollbar {
+    width: 10px;
+    background-color: #212529;
+}
+
+.scroll::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-image: -webkit-gradient(linear,
+            left bottom,
+            left top,
+            color-stop(0.44, rgb(174, 122, 217)),
+            color-stop(0.72, rgb(73, 90, 189)),
+            color-stop(0.86, rgb(28, 58, 148)));
+}
+
+.overlay {
+    position: fixed;
+    z-index: 999999;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.overlay i {
+    font-size: 50px;
+    color: #3498db;
+    animation: spin 1s infinite linear;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+p {
+    margin: 0;
+}
+
+.navbar-dark .navbar-nav {
+    color: #000;
+}
+
+.navbar-dark .navbar-toggler {
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.navbar-dark .navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3e%3cpath stroke='rgba(255, 255, 255, 0.8)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
+
+.navbar-dark .navbar-nav:hover,
+.navbar-dark .navbar-nav:focus {
+    color: #000;
+}
+
+.navbar-dark .navbar-nav .nav-item {
+    padding-bottom: 0.2rem;
+    padding-top: 0.2rem;
+}
+
+
+table.dataTable thead th {
+    padding: 5px, 0;
+}
+
+table.dataTable tbody td {
+    padding: 2px 5px;
+}
+
+.myTable,
+.TableOrder,
+.TableKandidat,
+.tableOrderHapus {
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 5px 0;
+}
+
+table.dataTable thead>tr>th.sorting {
+    padding: 5px;
+}
+
+.dataTables_wrapper .dataTables_length select option {
+    background-color: transparent;
+}
+
+/* menghapus style button.dt-button */
+button.dt-button,
+div.dt-button,
+a.dt-button,
+input.dt-button {
+    background-color: #007bff !important;
+    border-color: #007bff !important;
+    font-size: 0.8rem;
+    font-weight: 700;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.2rem;
+    transition: transform .01s;
+}
+
+button.dt-button:hover:not(.disabled),
+div.dt-button:hover:not(.disabled),
+a.dt-button:hover:not(.disabled),
+input.dt-button:hover:not(.disabled) {
+    border: 0;
+    background-color: #0069d9 !important;
+    border-color: #0062cc !important;
+    transform: scale(1.05);
+}
+
+div.dt-button-info {
+    color: #000 !important;
+}
+
+.btn-close {
+    background-color: #dc3545;
+    color: #fff;
+}
+
+.btn-sm {
+    font-size: 0.8rem;
+    font-weight: 700;
+    transition: transform .01s;
+}
+
+.btn-sm:hover {
+    transform: scale(1.05);
+}
+
+.bg-btn {
+    width: 70%;
+}
+
+.action {
+    max-width: 150px;
+}
+
+.card {
+    box-shadow: 0 0 8px 1px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(20px);
+}
+
+.form-control,
+.form-control::placeholder,
+.form-control:-webkit-autofill,
+.form-select,
+.form-control:focus {
+    background-color: transparent !important;
+    font-size: 0.8rem !important;
+    /* font-weight: 700; */
+}
+
+.form-control[type="search"] {
+    font-size: 0.8rem;
+    font-weight: 700;
+}
+
+.date::-webkit-calendar-picker-indicator {
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='black' class='bi bi-calendar' viewBox='0 0 16 16'%3E%3Cpath d='M11 0v1h1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h1V0a1 1 0 0 1 1-1 1 1 0 0 1 1 1v1h4V0a1 1 0 0 1 1 1zM1 3v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3H1z' /%3E%3C/svg%3E") no-repeat;
+    background-size: 90% 90%;
+}
+
+select.form-select::after {
+    font-weight: bold;
+}
+
+.form-select option {
+    /* background-color: #02102099;
+            color: #000; */
+}
+
+.form-select-sm~.select2-container--bootstrap-5 .select2-selection {
+    font-size: 0.8rem !important;
+}
+
+/* .input-group-sm>.btn,
+        .input-group-sm>.form-control,
+        .input-group-sm>.form-select-sm,
+        .input-group-sm>.input-group-text {
+            font-size: 0.8rem !important;
+        } */
+
+.input-group>.input-group-text~.select2-container--bootstrap-5 .select2-selection {
+    background-color: transparent;
+}
+
+.select2-results__option {
+    font-size: 0.8rem !important;
+}
+
+.select2-search__field {
+    height: 25px;
+    font-size: 0.8rem;
+    font-weight: 700;
+}
+
+.select2-container--bootstrap-5 .select2-selection--single .select2-selection__rendered {
+    font-size: 0.8rem;
+    font-weight: 700;
+}
+
+.select2-container--bootstrap-5 .select2-selection--single .select2-selection__rendered .select2-selection__placeholder {
+    font-size: 0.8rem;
+    font-weight: 700;
+}
+
+.ui-autocomplete {
+    max-height: 120px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    overflow-y: scroll;
+    /* Gunakan "scroll" daripada "auto" */
+    overflow-x: hidden;
+    /* background-color: rgba(1, 9, 19, 0.9); */
+    /* color: #000; */
+    border-radius: 0 0 10px 10px;
+}
+
+/* Menghilangkan scrollbar untuk WebKit (Chrome, Safari, Opera) */
+.ui-autocomplete::-webkit-scrollbar {
+    width: 0.5em;
+    /* Atur lebar scrollbar */
+}
+
+.ui-autocomplete::-webkit-scrollbar-thumb {
+    background-color: transparent;
+    /* Atur warna thumb scrollbar */
+}
+
+.ui-autocomplete::-webkit-scrollbar-track {
+    background-color: transparent;
+    /* Atur warna track scrollbar */
+}
+
+.ui-autocomplete.ui-menu .ui-menu-item {
+    padding: 5px;
+}
+
+.form-check-input[type="checkbox"]:hover {
+    cursor: pointer;
+}
+
+.form-check-input[type="checkbox"] {
+    width: 22px;
+    /* Sesuaikan ukuran sesuai kebutuhan */
+    height: 12px;
+    /* Sesuaikan ukuran sesuai kebutuhan */
+    margin: auto;
+}
+
+#sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 45px;
+    color: #fff;
+    z-index: 1054;
+    text-align: center;
+    transition: width 0.2s ease-in-out;
+}
+
+#sidebar .logo {
+    width: 30px;
+}
+
+.navbar-nav li a {
+    position: relative;
+}
+
+/* Gaya teks mengambang */
+/* Gaya teks mengambang */
+.navbar-nav li a::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    top: -5px;
+    left: 38px;
+    width: 120px;
+    height: 40px;
+    white-space: nowrap;
+    /* font-size: 0.8rem; */
+    font-weight: bolder;
+    border-radius: 0 5px 5px 0;
+    opacity: 0;
+    transition: transform 0s ease-in-out, opacity 0s ease-in-out 0.3s;
+    pointer-events: none;
+    transform: translateX(-2%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Menampilkan teks mengambang saat hover pada element a */
+.navbar-nav li a:hover::after {
+    opacity: 1;
+    transition-delay: 0s;
+    transform: scale(1.05), translateX(3%);
+}
+
 .select2-container {
     width: 100% !important;
 }

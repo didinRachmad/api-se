@@ -51,7 +51,7 @@
         $(document).ready(function() {
             $('.myTable').DataTable({
                 "dom": "<'row'<'col-sm-12 col-md-6 btn_upload'><'col-sm-12 col-md-6 text-right'f>>" +
-                    "<'row'<'col-sm-12'tr>>" +
+                    "<'row'<'col-sm-12 table-responsive'tr>>" +
                     "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
                 "paging": false,
                 "scrollY": 260,
@@ -64,7 +64,10 @@
                 `<div class="row row-cols-lg-auto g-3 align-items-center justify-content-center pb-3">
                     <label for="datepicker">Tgl :</label>
                     <div class="col-12">
-                        <input type="text" class="form-control form-control-sm" id="datepicker" placeholder="dd-mm-yy" />
+                        <div class="input-group input-group-sm flex-nowrap">
+    <input type="text" class="form-control form-control-sm" id="datepicker" placeholder="dd-mm-yy" />
+    <span class="input-group-text">📅</span>
+</div>
                     </div>
                     <div class="col-12">
                         <button type="button" class="btn btn-sm btn-primary" id="kirim-all">

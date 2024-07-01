@@ -8,6 +8,11 @@
         .tipe_outlet {
             white-space: nowrap;
         }
+
+        .select2-container--open {
+            z-index: 99999;
+            /* The z-index of Bootstrap modals is typically 1050 */
+        }
     </style>
 
     <div class="card">
@@ -61,7 +66,7 @@
                             <input type="hidden" id="pasar_awal" name="pasar_awal"
                                 value="{{ old('pasar_awal', $pasar_awal ?? '') }}">
                         </div>
-                        <div class="input-group input-group-sm flex-nowrap">
+                        <div class="input-group input-group-sm flex-nowrap mb-2">
                             <span class="input-group-text">Type</span>
                             <select class="form-control form-select-sm type fw-bold" name="type" id="type">
                                 <option value="" {{ old('type', $type ?? '') == '' ? 'selected' : '' }}>All</option>
@@ -70,6 +75,9 @@
                                     Kandidat
                                 </option>
                             </select>
+                            <div class="px-1"></div>
+                            <textarea id="kode_customer_rute" name="kode_customer_rute" class="form-control" rows="3"
+                                placeholder="Kode Customer">{{ old('kode_customer', $kode_customer ?? '') }}</textarea>
                         </div>
                     </div>
                     <div class="col-lg-1 text-center my-auto">
@@ -109,8 +117,10 @@
                                 Kode Kandidat <i class="bi bi-x-square-fill"></i></button> --}}
                         <button type="button" class="btn btn-danger btn-sm my-1" id="btnHapusRODouble">Hapus RO
                             Double <i class="bi bi-trash"></i></button>
-                        <button type="button" class="btn btn-danger btn-sm my-1" id="btnHapusROALL">Hapus RO
-                            ALL <i class="bi bi-trash"></i></button>
+                        <button type="button" class="btn btn-danger btn-sm my-1" id="btnHapusROBiasa">Hapus RO
+                            Biasa <i class="bi bi-trash"></i></button>
+                        <button type="button" class="btn btn-danger btn-sm my-1" id="btnHapusROPermanent">Hapus RO
+                            Permanent <i class="bi bi-trash"></i></button>
                         <div class="btn-group">
                             <button class="btn btn-secondary btn-sm dropdown-toggle" type="button"
                                 data-bs-toggle="dropdown" aria-expanded="false">
@@ -126,12 +136,7 @@
                 </div>
             </form>
 
-            @if (!isset($data) || empty($data))
-                @php
-                    $data = [];
-                @endphp
-                <div class="row p-1"></div>
-            @else
+            @if (isset($data) && !empty($data))
                 <div class="row py-1 px-3 my-2 mx-1 rounded text-white" style="background-color: #252B3B;">
                     <div class="col-lg-12">
                         <p class="d-inline-block p-1">Distributor : <span class="fw-bold"
@@ -151,6 +156,18 @@
                             <button type="button" class="btn btn-warning btn-sm btnKandidat">Visit Kandidat <span> <i
                                         class="bi bi-journal-text"></i></span></button>
                         @endif
+                    </div>
+                </div>
+            @else
+                @php
+                    $data = [];
+                @endphp
+                <div class="row p-1">
+                    <div class="col-lg-12 text-center">
+                        <button type="button" class="btn btn-info btn-sm btnOrder">Order <span> <i
+                                    class="bi bi-journal-text"></i></span></button>
+                        <button type="button" class="btn btn-warning btn-sm btnKandidat">Visit Kandidat <span> <i
+                                    class="bi bi-journal-text"></i></span></button>
                     </div>
                 </div>
             @endif
@@ -485,15 +502,15 @@
     <script>
         $(document).ready(function() {
 
-            $('form').submit(function() {
-                var salesman = $('#salesman_awal').val();
-                var id_pasar = $('#id_pasar_awal').val();
-                if ((salesman == '' || salesman == null) && (
-                        id_pasar == '' || id_pasar == null)) {
-                    $('#salesman_awal').get(0).setCustomValidity('Harap Isi Salesman Awal');
-                    return false;
-                }
-            });
+            // $('form').submit(function() {
+            //     var salesman = $('#salesman_awal').val();
+            //     var id_pasar = $('#id_pasar_awal').val();
+            //     if ((salesman == '' || salesman == null) && (
+            //             id_pasar == '' || id_pasar == null)) {
+            //         $('#salesman_awal').get(0).setCustomValidity('Harap Isi Salesman Awal');
+            //         return false;
+            //     }
+            // });
 
             // SELECT SALESMAN AWAL
             $('.select2-salesman_awal').select2({
@@ -783,9 +800,44 @@
                 $('#nama_pasar_akhir').val(data.text);
             });
 
+            // GET WILAYAH
+            $('#editNoOrderModal').on('shown.bs.modal', function() {
+                $('.select2-nama_wilayah').select2({
+                    theme: 'bootstrap-5',
+                    dropdownParent: $('#editNoOrderModal .modal-body'),
+                    ajax: {
+                        url: "{{ route('ToolOutlet.getWilayah') }}",
+                        dataType: 'json',
+                        delay: 250,
+                        data: function(params) {
+                            return {
+                                q: params.term,
+                                page: params.page || 1,
+                            };
+                        },
+                        processResults: function(data, params) {
+                            params.page = params.page || 1;
+                            return {
+                                results: data.results,
+                                pagination: {
+                                    more: data.pagination.more
+                                }
+                            };
+                        },
+                        cache: true
+                    },
+                    placeholder: 'Pilih Wilayah',
+                    allowClear: true,
+                    templateResult: function(data) {
+                        if (data.loading) return data.text;
+                        return $('<span>').text(data.text);
+                    }
+                });
+            });
+
             var table = $('.myTable').DataTable({
-                "dom": "<'row'<'col-sm-12 col-md-2 filter-survey_pasar'><'col-sm-12 col-md-2 filter-KodeCustomer'><'col-sm-12 col-md-2 filter-NamaToko'><'col-sm-12 col-md-2 filter-Alamat'><'col-sm-12 col-md-2 filter-jenis_outlet'B><'col-sm-12 col-md-2 text-right'f>>" +
-                    "<'row'<'col-sm-12'tr>>" +
+                dom: "<'row'<'col-sm-12 col-md-2 filter-survey_pasar'><'col-sm-12 col-md-2 filter-KodeCustomer'><'col-sm-12 col-md-2 filter-NamaToko'><'col-sm-12 col-md-2 filter-Alamat'><'col-sm-12 col-md-2 filter-jenis_outlet'B><'col-sm-12 col-md-2 text-right'f>>" +
+                    "<'row'<'col-sm-12 table-responsive'tr>>" +
                     "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
                 "paging": false,
                 buttons: [{
@@ -819,10 +871,12 @@
                     "className": 'no-export'
                 }],
                 "order": [
+                    [1, 'asc'],
                     [2, 'asc'],
                     [3, 'asc'],
+                    [5, 'asc'],
                     [9, 'desc'],
-                    [12, 'asc']
+                    [12, 'asc'],
                 ],
                 "initComplete": function(settings, json) {
                     $(`<select class="form-select form-select-sm w-100">
@@ -1051,7 +1105,7 @@
                         processing: true,
                         serverSide: true,
                         dom: "<'row'<'col-sm-12 col-md-2'l><'col-sm-12 col-md-5'B><'col-sm-12 col-md-5 text-right'f >> " +
-                            "<'row'<'col-sm-12'tr>>" +
+                            "<'row'<'col-sm-12 table-responsive'tr>>" +
                             "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
                         // scrollY: 260,
                         "lengthMenu": [10, 25, 50, 75, 100, 500],
@@ -1213,6 +1267,17 @@
                 TableOrder.draw();
             });
 
+            function numberWithCommas(x) {
+                var parts = x.toFixed(3).toString().split(".");
+                var integerPart = parts[0];
+                var decimalPart = parts[1];
+
+                integerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+                var formattedNumber = integerPart + "," + decimalPart;
+
+                return formattedNumber;
+            }
+
             // TABLE KANDIDAT
             var TableKandidat;
             $(document).on('click', ".btnKandidat", function() {
@@ -1221,7 +1286,7 @@
                         processing: true,
                         serverSide: true,
                         dom: "<'row'<'col-sm-12 col-md-2'l><'col-sm-12 col-md-5'B><'col-sm-12 col-md-5 text-right'f >> " +
-                            "<'row'<'col-sm-12'tr>>" +
+                            "<'row'<'col-sm-12 table-responsive'tr>>" +
                             "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
                         // scrollY: 260,
                         "lengthMenu": [10, 25, 50, 75, 100, 500],
@@ -2250,8 +2315,64 @@
                 });
             });
 
-            // HAPUS OUTLET
-            $('#btnHapusROALL').on('click', function(e) {
+            // HAPUS OUTLET BIASA
+            $('#btnHapusROBiasa').on('click', function(e) {
+                var keterangan = prompt("Isi Keterangan", "");
+                if ($('.check:checked').length === 0) {
+                    $('#errorModal #message').text("Belum ada data yang dipilih");
+                    $('#errorModal').modal('show');
+                } else {
+                    var completedRequests = 0;
+                    $('.check:checked').each(function(index) {
+                        var mrdo_id = $(this).closest('tr').find('.id_mrdo').text().trim();
+                        var iddepo = $(this).closest('tr').find('.nama_wilayah').text().match(
+                            /\(([^()]+)\)[^(]*$/)[1].trim();
+                        var id_distributor = $(this).closest('tr').data('id_distributor');
+                        var kode_customer = $(this).closest('tr').find('.kode_customer').text()
+                            .trim();
+                        var tipe = "";
+
+                        $.ajax({
+                            type: 'POST',
+                            url: "https://sales.motasaindonesia.co.id/api/tool/rute/hapusOutlet",
+                            dataType: 'json',
+                            encode: true,
+                            data: {
+                                mrdo_id: mrdo_id,
+                                iddepo: iddepo,
+                                kode_customer: kode_customer,
+                                keterangan: keterangan,
+                                tipe: tipe,
+                            },
+                            beforeSend: function() {
+                                $('.loading-overlay').show();
+                            },
+                            success: function(response) {
+                                completedRequests++;
+                                if (completedRequests === $('.check:checked').length) {
+                                    $('.loading-overlay').hide();
+                                    $('#successModal').modal('show');
+                                    setTimeout(function() {
+                                        $('#successModal').modal('hide');
+                                        location.reload();
+                                    }, 1000);
+                                }
+                            },
+                            error: function(xhr, status, error) {
+                                $('.loading-overlay').hide();
+                                console.error(error);
+                                $('#errorModal').modal('show');
+                            },
+                            // complete: function() {
+                            //     $('.loading-overlay').hide();
+                            // }
+                        });
+                    });
+                }
+            });
+
+            // HAPUS OUTLET PERMANEN
+            $('#btnHapusROPermanent').on('click', function(e) {
                 var keterangan = prompt("Isi Keterangan", "");
                 if ($('.check:checked').length === 0) {
                     $('#errorModal #message').text("Belum ada data yang dipilih");

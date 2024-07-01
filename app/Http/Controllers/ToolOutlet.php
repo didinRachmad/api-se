@@ -12,6 +12,7 @@ use App\Models\MasterRuteDetailOutlet;
 use App\Models\Order;
 use App\Models\SurveyPasar;
 use App\Models\VisitKandidat;
+use App\Models\Wilayah;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
@@ -161,6 +162,38 @@ class ToolOutlet extends Controller
         return response()->json($response);
     }
 
+    public function getWilayah(Request $request)
+    {
+        $term = $request->input('q');
+        $page = $request->input('page', 1);
+        $perPage = 10;
+
+        $query = Wilayah::select('nama_wilayah')->where('nama_wilayah', 'LIKE', '%' . $term . '%')
+            ->groupBy('nama_wilayah')
+            ->orderBy('nama_wilayah');
+
+        $wilayah = $query->paginate($perPage, ['*'], 'page', $page);
+
+        $results = [];
+
+        foreach ($wilayah as $data) {
+            // Change 'id' to 'nama_wilayah' for the value part
+            $results[] = [
+                'id' => $data->nama_wilayah,  // Use nama_wilayah as the value
+                'text' => $data->nama_wilayah  // Display text as nama_wilayah
+            ];
+        }
+
+        $response = [
+            'results' => $results,
+            'pagination' => [
+                'more' => $wilayah->hasMorePages(),
+            ],
+        ];
+
+        return response()->json($response);
+    }
+
     public function getDataByRuteId(Request $request)
     {
         $salesman_awal = $request->input('salesman_awal');
@@ -171,6 +204,13 @@ class ToolOutlet extends Controller
         $pasar_awal = $request->input('pasar_awal');
         $id_pasar_awal = $request->input('id_pasar_awal');
         $type = $request->input('type');
+        $kode_customer = $request->input('kode_customer_rute');
+        // Memecah string menjadi array berdasarkan pemisah "\r\n"
+        $kode_customer_rute = explode("\r\n", $kode_customer);
+        // Menghilangkan elemen kosong yang mungkin ada dalam array
+        $kode_customer_rute = array_filter($kode_customer_rute, function ($value) {
+            return !is_null($value) && $value !== '';
+        });
         $periodik = null;
         $hari = $hari_awal;
 
@@ -186,6 +226,7 @@ class ToolOutlet extends Controller
             'hari' => $hari,
             'periodik' => $periodik,
             'type' => $type,
+            'kode_customer_rute' => $kode_customer_rute,
         );
 
         $ch = curl_init();
@@ -211,14 +252,13 @@ class ToolOutlet extends Controller
 
             $res = json_decode($response, true);
             $data = $res['data'] ?? [];
-            // return response()->json($data);
+
             if (json_last_error() !== JSON_ERROR_NONE) {
                 echo "Kesalahan dekode JSON: " . json_last_error_msg();
             } elseif ($res === null) {
                 echo "Respons JSON tidak valid.";
             } else {
-                // return response()->json($data);
-                return view('ToolOutlet', compact('data', 'salesman_awal', 'id_salesman_awal', 'hari_awal', 'rute_id_awal', 'rute_awal', 'pasar_awal', 'id_pasar_awal', 'type'));
+                return view('ToolOutlet', compact('data', 'salesman_awal', 'id_salesman_awal', 'hari_awal', 'rute_id_awal', 'rute_awal', 'pasar_awal', 'id_pasar_awal', 'type', 'kode_customer'));
             }
         }
     }

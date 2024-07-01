@@ -9,6 +9,7 @@ use App\Models\MasterPasar;
 use App\Models\MasterRute;
 use App\Models\MasterRuteDetail;
 use App\Models\MasterRuteDetailOutlet;
+use App\Models\MembershipOutletToken;
 use App\Models\Order;
 use App\Models\SurveyPasar;
 use Carbon\Carbon;
@@ -404,5 +405,29 @@ class KodeCustomer extends Controller
 
             return response()->json(['message' => 'Terjadi kesalahan: ' . $e->getMessage()], 422);
         }
+    }
+
+    public function getToken(Request $request)
+    {
+        $kode_customer = $request->input('kode_customer');
+
+        $token = MembershipOutletToken::select('membership_outlet_token.token')
+            ->join('dataar', 'dataar.survey_pasar_id', '=', 'membership_outlet_token.id_survey_pasar')
+            ->where('dataar.kode_customer', $kode_customer)
+            ->whereNotNull('membership_outlet_token.no_hp')
+            ->distinct()
+            ->first();
+
+        // $results = [];
+
+        // foreach ($token as $rute) {
+        //     $results[] = [
+        //         'id' => $rute->id,
+        //         'text' => $rute->rute,
+        //         'id_wilayah' => $rute->id_wilayah
+        //     ];
+        // }
+
+        return response()->json(['results' => $token]);
     }
 }
