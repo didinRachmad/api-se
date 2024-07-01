@@ -40,7 +40,7 @@ class ToolExcel extends Controller
         $kode_customer = array_map('strtoupper', $request->input('kode_customer'));
 
         $req = array(
-            'id_wilayah' => $id_wilayah,
+            'depo' => $id_wilayah,
             'kode_customer' => $kode_customer,
         );
 

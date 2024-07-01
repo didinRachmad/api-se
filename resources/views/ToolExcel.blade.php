@@ -64,18 +64,9 @@
                         <tr class="text-center">
                             <th colspan="6" class="table-dark text-center">Rute Lama</th>
                             <th colspan="3" class="table-light text-center">Rute Baru</th>
-                            <th rowspan="2" class="text-center align-middle">Keterangan</th>
+                            <th rowspan="2" class="table-light text-center align-middle">Keterangan</th>
                         </tr>
                         <tr>
-                            <th class="table-dark">NO</th>
-                            <th class="table-dark">ID_WILAYAH</th>
-                            <th class="table-dark">NAMA_WILAYAH</th>
-                            <th class="table-dark">SALESMAN</th>
-                            <th class="table-dark">RUTE</th>
-                            <th class="table-dark">KODE_CUSTOMER</th>
-                            <th class="table-light">PINDAH_SALESMAN</th>
-                            <th class="table-light">PINDAH_RUTE</th>
-                            <th class="table-light">PINDAH_HARI</th>
                             <th class="table-dark">NO</th>
                             <th class="table-dark">ID_WILAYAH</th>
                             <th class="table-dark">NAMA_WILAYAH</th>
@@ -532,35 +523,16 @@
                                     .toUpperCase()) {
                                     var id_wilayah = resAll[i]
                                         .id_wilayah ?? "";
-                                    $(this).closest('tr').find('.id_wilayah').html(
-                                        id_wilayah);
+                                    $(this).closest('tr').find('.id_wilayah').html(id_wilayah);
 
                                     var salesman_awal = resAll[i].salesman
                                         .trim()
                                         .toUpperCase();
-                                    $(this).closest('tr').find('.salesman_awal').html(
-                                        salesman_awal);
+                                    $(this).closest('tr').find('.salesman_awal').html(salesman_awal);
 
                                     var rute_awal = resAll[i].rute.trim()
                                         .toUpperCase();
-                                    $(this).closest('tr').find('.rute_awal').html(
-                                        rute_awal);
-                                    var mrdoArray = resAll[i]['mrdo'];
-                                    if (mrdoArray.length > 0) {
-                                        var lastMr = mrdoArray[mrdoArray.length - 1]['mr'];
-                                        var id_wilayah = lastMr.id_wilayah || "";
-                                        var salesman_awal = lastMr.salesman.toUpperCase() || "";
-                                        var rute_awal = lastMr.rute.toUpperCase() || "";
-                                    } else {
-                                        var id_wilayah = "";
-                                        var salesman_awal = "";
-                                        var rute_awal = "";
-                                    }
-                                    $(this).closest('tr').find('.id_wilayah').html(id_wilayah);
-                                    $(this).closest('tr').find('.salesman_awal').html(salesman_awal
-                                        .toUpperCase());
-                                    $(this).closest('tr').find('.rute_awal').html(rute_awal.trim()
-                                        .toUpperCase());
+                                    $(this).closest('tr').find('.rute_awal').html(rute_awal);
 
                                     if (rute_tujuan !== rute_awal || salesman_tujuan !==
                                         salesman_awal) {
@@ -617,12 +589,6 @@
                                 page: 'all'
                             }
                         },
-                        // customize: function(xlsx) {
-                        //     var sheet = xlsx.xl.worksheets['sheet1.xml'];
-                        //     // Remove the first row completely
-                        //     $('row:first', sheet).remove();
-                        //     $('row:first', sheet).remove();
-                        // }
                     }, {
                         extend: 'pdf',
                         title: null,
