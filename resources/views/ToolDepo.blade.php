@@ -452,14 +452,14 @@
                         salesman: salesman,
                         hari: hari,
                         rute: ruteGanjil,
-                        periodik: periodikGanjil,
+                        periodik_jenis: periodikGanjil,
                         id: idGanjil
                     });
                     selectedRows.push({
                         salesman: salesman,
                         hari: hari,
                         rute: ruteGenap,
-                        periodik: periodikGenap,
+                        periodik_jenis: periodikGenap,
                         id: idGenap
                     });
                 });

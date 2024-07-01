@@ -237,13 +237,13 @@ class ToolDepo extends Controller
             }
             foreach ($detail as $row) {
                 $mr = MasterRute::findOrFail($row['id']);
-                if ($row['periodik'] === 'genap') {
+                if ($row['periodik_jenis'] === 'genap') {
                     if ($mr != null) {
                         $mr->rute = $row['hari'] . ' GANJIL';
                         $mr->periodik_jenis = 'ganjil';
                         $mr->save();
                     }
-                } else if ($row['periodik'] === 'ganjil') {
+                } else if ($row['periodik_jenis'] === 'ganjil') {
                     if ($mr != null) {
                         $mr->rute = $row['hari'] . ' GENAP';
                         $mr->periodik_jenis = 'genap';
