@@ -23,21 +23,61 @@ class ToolExcel extends Controller
     public function getDataOutlet(Request $request)
     {
         ini_set('max_input_vars', 15000);
-        $wilayah = strtoupper($request->input('wilayah'));
-        $kode_customer = $request->input('kode_customer');
+        // $wilayah = strtoupper($request->input('wilayah'));
+        // $kode_customer = $request->input('kode_customer');
 
-        $data = MasterConvertOutlet::with('mrdo.mr')
-            ->select('id', 'kode_customer', 'id_outlet_mas')
-            ->whereIn(DB::raw('UPPER(kode_customer)'), array_map('strtoupper', $kode_customer))
-            ->whereHas('mrdo.mr.w', function ($query) use ($wilayah) {
-                $query->where('nama_wilayah', $wilayah);
-            })->orderBy('id', 'desc')
-            ->get();
+        // $data = MasterConvertOutlet::with('mrdo.mr')
+        //     ->select('id', 'kode_customer', 'id_outlet_mas')
+        //     ->whereIn(DB::raw('UPPER(kode_customer)'), array_map('strtoupper', $kode_customer))
+        //     ->whereHas('mrdo.mr.w', function ($query) use ($wilayah) {
+        //         $query->where('nama_wilayah', $wilayah);
+        //     })->orderBy('id', 'desc')
+        //     ->get();
 
-        return response()->json(['data' => $data]);
+        // return response()->json(['data' => $data]);
 
-        // return view('KodeCustomer', compact('data', 'kode_customer'));
+        $id_wilayah = $request->input('id_wilayah');
+        $kode_customer = array_map('strtoupper', $request->input('kode_customer'));
+
+        $req = array(
+            'id_wilayah' => $id_wilayah,
+            'kode_customer' => $kode_customer,
+        );
+
+        $ch = curl_init();
+
+        curl_setopt($ch, CURLOPT_URL, 'https://sales.motasaindonesia.co.id/api/tool/outletkandidat/getData');
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($req));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_ENCODING, '');
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            'Content-Type: application/x-www-form-urlencoded'
+        ]);
+
+        $response = curl_exec($ch);
+
+        if (curl_errno($ch)) {
+            $error_message = curl_error($ch);
+            $message = "Kesalahan cURL: $error_message";
+            curl_close($ch);
+            echo $message;
+        } else {
+            curl_close($ch);
+
+            $res = json_decode($response, true);
+            $data = $res['data'] ?? [];
+            // return response()->json($data);
+            if (json_last_error() !== JSON_ERROR_NONE) {
+                echo "Kesalahan dekode JSON: " . json_last_error_msg();
+            } elseif ($res === null) {
+                echo "Respons JSON tidak valid.";
+            } else {
+                return response()->json(['data' => $data]);
+            }
+        }
     }
+
     public function pindah(Request $request)
     {
         $detail = $request->input('detail');
