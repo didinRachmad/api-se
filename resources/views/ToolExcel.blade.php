@@ -561,7 +561,7 @@
 
             // INIT DATATABLES
             function initDatatables() {
-                var table = $("#myTable").DataTable({
+                table = $("#myTable").DataTable({
                     dom: "<'row'<'col-sm-12 col-md-10'B><'col-sm-12 col-md-2 text-right'f>>" +
                         "<'row'<'col-sm-12'tr>>" +
                         "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
@@ -569,7 +569,7 @@
                     buttons: [{
                         extend: 'copy',
                         title: null,
-                        filename: 'DATA PINDAH - ' + $('#myTable tbody tr:first td:nth-child(3)')
+                        filename: 'DATA PINDAH - ' + $('#myTable tbody tr:first .wilayah')
                             .text().trim(),
                         exportOptions: {
                             columns: ':not(.no-export)'
@@ -577,13 +577,12 @@
                     }, 'csv', {
                         extend: 'excel',
                         title: null,
-                        filename: 'DATA PINDAH - ' + $('#myTable tbody tr:first td:nth-child(3)')
+                        filename: 'DATA PINDAH - ' + $('#myTable tbody tr:first .wilayah')
                             .text().trim(),
                         exportOptions: {
-                            columns: [1, 2, 5, 3, 6, 8, 7],
+                            columns: [1, 2, 5, 3, 6, 8, 7, 9],
                             rows: function(idx, data, node) {
-                                return data[9] ===
-                                    "Berubah";
+                                return data[9] === "Berubah" || data[9] === "Tidak ditemukan";
                             },
                             modifier: {
                                 page: 'all'
@@ -592,7 +591,7 @@
                     }, {
                         extend: 'pdf',
                         title: null,
-                        filename: 'DATA PINDAH - ' + $('#myTable tbody tr:first td:nth-child(3)')
+                        filename: 'DATA PINDAH - ' + $('#myTable tbody tr:first .wilayah')
                             .text().trim(),
                         exportOptions: {
                             columns: ':not(.no-export)'

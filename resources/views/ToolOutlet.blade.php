@@ -174,36 +174,75 @@
             <div class="table-responsive">
                 <table class="table table-sm table-light table-striped align-middle myTable" id="myTable">
                     <thead class="text-center">
-                        <th>No</th>
-                        <th>Wilayah</th>
-                        <th id="filter-salesman">Salesman</th>
-                        <th id="filter-rute">Rute</th>
-                        <th>Hari</th>
-                        <th>Rute ID</th>
-                        <th>ID MRDO</th>
-                        <th>Survey pasar ID</th>
-                        <th>ID MCO <button type="button" class="btn btn-sm btn-secondary"
-                                id="salinID_MCO">Salin</button>
-                        </th>
-                        <th>Kode Customer <button type="button" class="btn btn-sm btn-secondary"
-                                id="salinKode">Salin</button>
-                        </th>
-                        <th>Nama Toko <button type="button" class="btn btn-sm btn-secondary"
-                                id="salinNamaToko">Salin</button>
-                        </th>
-                        <th>Alamat <button type="button" class="btn btn-sm btn-secondary"
-                                id="salinAlamat">Salin</button>
-                        </th>
-                        <th>ID Pasar</th>
-                        <th>Nama pasar</th>
-                        <th>Tipe Outlet</th>
-                        <th>Status Reject</th>
-                        <th>QR</th>
-                        <th class="text-center" id="action">Action</th>
-                        <th class="text-center">
-                            <input type="checkbox" class="btn-check check-all" id="check-all" autocomplete="off">
-                            <label class="btn btn-sm btn-outline-success" for="check-all">All</label>
-                        </th>
+                        <tr>
+                            <th>No</th>
+                            <th>Wilayah</th>
+                            <th id="filter-salesman">Salesman</th>
+                            <th id="filter-rute">Rute</th>
+                            <th>Hari</th>
+                            <th>Rute ID</th>
+                            <th>ID MRDO</th>
+                            <th>Survey pasar ID</th>
+                            <th>ID MCO <button type="button" class="btn btn-sm btn-secondary"
+                                    id="salinID_MCO">Salin</button>
+                            </th>
+                            <th>Kode Customer <button type="button" class="btn btn-sm btn-secondary"
+                                    id="salinKode">Salin</button>
+                            </th>
+                            <th>Nama Toko <button type="button" class="btn btn-sm btn-secondary"
+                                    id="salinNamaToko">Salin</button>
+                            </th>
+                            <th>Alamat <button type="button" class="btn btn-sm btn-secondary"
+                                    id="salinAlamat">Salin</button>
+                            </th>
+                            <th>ID Pasar</th>
+                            <th>Nama pasar</th>
+                            <th>Tipe Outlet</th>
+                            <th>Status Reject</th>
+                            <th>QR</th>
+                            <th class="text-center" id="action">Action</th>
+                            <th class="text-center">
+                                <input type="checkbox" class="btn-check check-all" id="check-all" autocomplete="off">
+                                <label class="btn btn-sm btn-outline-success" for="check-all">All</label>
+                            </th>
+                        </tr>
+                        <tr>
+                            <th></th>
+                            <th><input type="text" class="form-control form-control-sm" placeholder="Search" />
+                            </th>
+                            <th><input type="text" class="form-control form-control-sm" placeholder="Search" />
+                            </th>
+                            <th><input type="text" class="form-control form-control-sm" placeholder="Search" />
+                            </th>
+                            <th><input type="text" class="form-control form-control-sm" placeholder="Search" />
+                            </th>
+                            <th><input type="text" class="form-control form-control-sm" placeholder="Search" />
+                            </th>
+                            <th><input type="text" class="form-control form-control-sm" placeholder="Search" />
+                            </th>
+                            <th><input type="text" class="form-control form-control-sm" placeholder="Search" />
+                            </th>
+                            <th><input type="text" class="form-control form-control-sm" placeholder="Search" />
+                            </th>
+                            <th><input type="text" class="form-control form-control-sm" placeholder="Search" />
+                            </th>
+                            <th><input type="text" class="form-control form-control-sm" placeholder="Search" />
+                            </th>
+                            <th><input type="text" class="form-control form-control-sm" placeholder="Search" />
+                            </th>
+                            <th><input type="text" class="form-control form-control-sm" placeholder="Search" />
+                            </th>
+                            <th><input type="text" class="form-control form-control-sm" placeholder="Search" />
+                            </th>
+                            <th><input type="text" class="form-control form-control-sm" placeholder="Search" />
+                            </th>
+                            <th><input type="text" class="form-control form-control-sm" placeholder="Search" />
+                            </th>
+                            <th><input type="text" class="form-control form-control-sm" placeholder="Search" />
+                            </th>
+                            <th></th>
+                            <th></th>
+                        </tr>
                     </thead>
                     <tbody>
                         @php
@@ -839,7 +878,9 @@
                 dom: "<'row'<'col-sm-12 col-md-2 filter-survey_pasar'><'col-sm-12 col-md-2 filter-KodeCustomer'><'col-sm-12 col-md-2 filter-NamaToko'><'col-sm-12 col-md-2 filter-Alamat'><'col-sm-12 col-md-2 filter-jenis_outlet'B><'col-sm-12 col-md-2 text-right'f>>" +
                     "<'row'<'col-sm-12 table-responsive'tr>>" +
                     "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
-                "paging": false,
+                paging: false,
+                orderCellsTop: true,
+                fixedHeader: true,
                 buttons: [{
                     extend: 'copy',
                     title: 'Data SE - ' + $('#nama_salesman').text().trim(),
@@ -972,7 +1013,8 @@
 
                     var salesmanList = this.api().column(2).data().unique().sort();
                     var salesmanSelect = $(
-                            '<select class="w-100"><option value="">All</option></select>')
+                            '<select class="w-100 form-select form-select-sm"><option value="">All</option></select>'
+                        )
                         .appendTo('#filter-salesman')
                         .on('change', function() {
                             var val = $.fn.dataTable.util.escapeRegex($(this).val());
@@ -984,7 +1026,8 @@
 
                     var ruteList = this.api().column(3).data().unique().sort();
                     var ruteSelect = $(
-                            '<select class="w-100"><option value="">All</option></select>')
+                            '<select class="w-100 form-select form-select-sm"><option value="">All</option></select>'
+                        )
                         .appendTo('#filter-rute')
                         .on('change', function() {
                             var val = $.fn.dataTable.util.escapeRegex($(this).val());
@@ -1004,6 +1047,20 @@
                     cell.innerHTML = i + 1;
                 });
             }).draw();
+
+            $('.myTable thead tr:eq(1) th').each(function(i) {
+                // var title = $(this).text();
+                // $(this).html('<input type="text" placeholder="Search ' + title + '" />');
+
+                $('input', this).on('keyup change', function() {
+                    if (table.column(i).search() !== this.value) {
+                        table
+                            .column(i)
+                            .search(this.value)
+                            .draw();
+                    }
+                });
+            });
 
             $('#salinKode').click(function() {
                 // Mengambil data kolom dengan filter yang aktif
