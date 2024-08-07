@@ -99,7 +99,7 @@
             // Kirim data ke server saat tombol kirim diklik
             var eksekusi = 0;
             var jumlah = 0;
-            $("#kirim-all").click(function() {
+            $("#kirim-all").click(function(e) {
                 eksekusi = 0;
                 jumlah = $(".id-salesman").length;
                 var inputDate = $("#datepicker").val();

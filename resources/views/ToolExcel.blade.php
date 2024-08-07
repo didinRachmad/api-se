@@ -87,7 +87,7 @@
     <script>
         // $(document).ready(function() {
         //     var table;
-        //     $("#btn-import").click(function() {
+        //     $("#btn-import").click(function(e) {
 
         //         var file = $("#excel_file")[0].files[0];
         //         if (file == null) {
@@ -373,7 +373,7 @@
         // });
         $(document).ready(function() {
             var table;
-            $("#btn-import").click(function() {
+            $("#btn-import").click(function(e) {
 
                 var file = $("#excel_file")[0].files[0];
                 if (file == null) {

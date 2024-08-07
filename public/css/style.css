@@ -121,8 +121,12 @@ table.dataTable tbody td {
     padding: 5px 0;
 }
 
-table.dataTable thead>tr>th.sorting {
-    padding: 5px;
+.myTable.dataTable thead>tr>th.sorting {
+    padding: 2px !important;
+}
+
+.myTable.dataTable thead>tr>th:not(.sorting_disabled) {
+    padding: 2px !important;
 }
 
 .dataTables_wrapper .dataTables_length select option {
@@ -189,6 +193,7 @@ div.dt-button-info {
 .form-control::placeholder,
 .form-control:-webkit-autofill,
 .form-select,
+.form-select option,
 .form-control:focus {
     background-color: transparent !important;
     font-size: 0.8rem !important;

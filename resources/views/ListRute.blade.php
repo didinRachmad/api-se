@@ -51,12 +51,11 @@
                             <th>rute id</th>
                             <th>id mrdo</th>
                             <th>survey pasar id</th>
-                            <th>kode customer</th>
+                            <th>kode customer <button type="button" class="btn btn-sm btn-secondary"
+                                    id="salin_kode_customer"><i class="bi bi-clipboard-fill"></i></button></th>
                             <th>nama toko</th>
                             <th>alamat</th>
-                            <th>id mco <button type="button" class="btn btn-sm btn-secondary"
-                                    id="salinID_MCO">Salin</button>
-                            </th>
+                            <th>id mco</th>
                             <th>id dataar</th>
                             <th>id pasar</th>
                             <th>nama pasar</th>
@@ -258,9 +257,10 @@
                 });
             }).draw();
 
-            $('#salinID_MCO').click(function() {
+            $('#salin_kode_customer').click(function(e) {
                 // Mengambil data kolom dengan filter yang aktif
-                var filteredData = table.column(9, {
+                e.stopPropagation();
+                var filteredData = table.column(6, {
                     search: 'applied'
                 }).data().toArray();
 

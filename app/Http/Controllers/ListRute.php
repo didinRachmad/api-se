@@ -96,7 +96,7 @@ class ListRute extends Controller
                 $is_valid = $res['is_valid'];
                 return view('ListRute', compact('data', 'salesman', 'id_salesman', 'total', 'ro', 'kandidat'));
             } else {
-                $message = $res['message'];
+                $message = $res['message'] ?? "Data Master Rute tidak ditemukan";
                 return view('ListRute', compact('message', 'salesman', 'id_salesman'));
             }
         }

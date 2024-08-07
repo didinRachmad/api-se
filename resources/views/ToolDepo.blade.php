@@ -5,25 +5,25 @@
             width: 100px;
         }
 
-        .TableRute tbody .ganjil {
+        .TableOrderDouble tbody .ganjil {
             background-color: #252B3B !important;
             /* Warna biru tua */
             color: #f2f2f2 !important;
             /* Warna putih yang lebih lembut */
         }
 
-        .TableRute tbody .genap {
+        .TableOrderDouble tbody .genap {
             background-color: #b6c0de !important;
             /* Warna putih dengan sedikit nuansa biru */
             color: #252B3B !important;
             /* Warna biru tua */
         }
 
-        .TableRute.table-light {
+        .TableOrderDouble.table-light {
             background-color: initial;
         }
 
-        .TableRute.table-light td {
+        .TableOrderDouble.table-light td {
             background-color: initial;
         }
     </style>
@@ -102,10 +102,10 @@
         </div>
     </div>
 
-    <!-- Modal Edit NO Order 2 -->
-    <div class="modal fade modal-lg" id="editNoOrderDipilihModal" tabindex="-1" role="dialog"
+    <!-- Modal Edit NO Order -->
+    <div class="modal fade" id="editNoOrderDipilihModal" tabindex="-1" role="dialog"
         aria-labelledby="editNoOrderDipilihModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
+        <div class="modal-dialog modal-xl" role="document">
             <div class="modal-content card">
                 <div class="modal-header">
                     <h5 class="modal-title" id="editNoOrderDipilihModalLabel">Edit No Order</h5>
@@ -113,7 +113,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="table-responsive">
-                        <table class="table table-sm table-bordered TableRute w-100 text-center align-midle"
+                        <table class="table table-sm table-bordered TableOrderDouble text-center align-midle w-100 nowrap"
                             id="tableEditNoOrder">
                             <thead class="text-center fw-bold">
                                 <th>ID</th>
@@ -182,11 +182,11 @@
                 $('#nama_wilayah').val('');
             });
 
-            $('.check-all').click(function() {
+            $('.check-all').click(function(e) {
                 $('.check').prop('checked', this.checked);
             });
 
-            $('.check').click(function() {
+            $('.check').click(function(e) {
                 if ($('.check:checked').length == $('.check').length) {
                     $('.check-all').prop('checked', true);
                 } else {
@@ -194,7 +194,7 @@
                 }
             });
 
-            $('#btnUpdateAR').click(function() {
+            $('#btnUpdateAR').click(function(e) {
                 var iddepo = $('#depo').val();
                 $.ajax({
                     type: 'POST',
@@ -227,7 +227,7 @@
                 });
             });
 
-            $('#btnUpdateArByOrder').click(function() {
+            $('#btnUpdateArByOrder').click(function(e) {
                 var iddepo = $('#depo').val();
                 $.ajax({
                     type: 'POST',
@@ -260,7 +260,7 @@
                 });
             });
 
-            $('#btnUpdateBySP').click(function() {
+            $('#btnUpdateBySP').click(function(e) {
                 var iddepo = $('#depo').val();
                 $.ajax({
                     type: 'POST',
@@ -288,7 +288,7 @@
                 });
             });
 
-            $('#btnTukarRute').click(function() {
+            $('#btnTukarRute').click(function(e) {
                 var iddepo = $('#depo').val();
                 $.ajax({
                     type: 'POST',
@@ -435,7 +435,7 @@
                 });
             });
 
-            $('#saveTukarRute').click(function() {
+            $('#saveTukarRute').click(function(e) {
                 var selectedRows = [];
                 $('.check:checked').each(function() {
                     var salesman = $(this).data('salesman');
@@ -536,102 +536,101 @@
                         html += '</tr>';
                         $('#bodyEditNoOrder').html(html);
 
-                        // Destroy the DataTable if it exists
-                        if (!$.fn.DataTable.isDataTable('#tableEditNoOrder')) {
-                            // $('#tableEditNoOrder').DataTable().destroy();
-                            var tableEditNoOrder = $("#tableEditNoOrder").DataTable({
-                                dom: "<'row'<'col-sm-12 col-md-10'B><'col-sm-12 col-md-2 text-right'f>>" +
-                                    "<'row'<'col-sm-12 table-responsive'tr>>" +
-                                    "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
-                                paging: false,
-                                order: [],
-                                columnDefs: [{
-                                    targets: [7],
-                                    className: 'no-export'
-                                }],
-                                buttons: [{
-                                    extend: 'copy',
-                                    title: 'Data Order - ' + $('#nama_wilayah')
-                                        .val(),
-                                    exportOptions: {
-                                        columns: ':not(.no-export)'
-                                    }
-                                }, 'csv', {
-                                    extend: 'excel',
-                                    title: 'Data Order - ' + $('#nama_wilayah')
-                                        .val(),
-                                    exportOptions: {
-                                        columns: ':not(.no-export)'
-                                    },
-                                    customize: function(xlsx) {
-                                        var sheet = xlsx.xl.worksheets[
-                                            'sheet1.xml'];
-                                        var rows = $('row', sheet);
+                        // // Destroy the DataTable if it exists
+                        // if (!$.fn.DataTable.isDataTable('#tableEditNoOrder')) {
+                        //     // $('#tableEditNoOrder').DataTable().destroy();
+                        //     var tableEditNoOrder = $("#tableEditNoOrder").DataTable({
+                        //         dom: "<'row'<'col-sm-12 col-md-10'B><'col-sm-12 col-md-2 text-right'f>>" +
+                        //             "<'row'<'col-sm-12 table-responsive'tr>>" +
+                        //             "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
+                        //         paging: false,
+                        //         order: [],
+                        //         columnDefs: [{
+                        //             targets: [7],
+                        //             className: 'no-export'
+                        //         }],
+                        //         buttons: [{
+                        //             extend: 'copy',
+                        //             title: 'Data Order - ' + $('#nama_wilayah')
+                        //                 .val(),
+                        //             exportOptions: {
+                        //                 columns: ':not(.no-export)'
+                        //             }
+                        //         }, 'csv', {
+                        //             extend: 'excel',
+                        //             title: 'Data Order - ' + $('#nama_wilayah')
+                        //                 .val(),
+                        //             exportOptions: {
+                        //                 columns: ':not(.no-export)'
+                        //             },
+                        //             customize: function(xlsx) {
+                        //                 var sheet = xlsx.xl.worksheets[
+                        //                     'sheet1.xml'];
+                        //                 var rows = $('row', sheet);
 
-                                        // Remove merged cells
-                                        $('mergeCells', sheet).remove();
-                                        $('mergeCell', sheet).remove();
+                        //                 // Remove merged cells
+                        //                 $('mergeCells', sheet).remove();
+                        //                 $('mergeCell', sheet).remove();
 
-                                        // Remove the first row
-                                        rows.first().remove();
+                        //                 // Remove the first row
+                        //                 rows.first().remove();
 
-                                        // Update row numbers and cell references
-                                        rows.each(function() {
-                                            var rowIndex = parseInt(
-                                                $(
-                                                    this).attr(
-                                                    'r'));
-                                            if (rowIndex > 1) {
-                                                $(this).attr('r',
-                                                    rowIndex - 1
-                                                );
-                                                $('c', this).each(
-                                                    function() {
-                                                        var cellRef =
-                                                            $(
-                                                                this
-                                                            )
-                                                            .attr(
-                                                                'r'
-                                                            );
-                                                        var newCellRef =
-                                                            cellRef
-                                                            .replace(
-                                                                /[0-9]+/,
-                                                                function(
-                                                                    match
-                                                                ) {
-                                                                    return parseInt(
-                                                                            match
-                                                                        ) -
-                                                                        1;
-                                                                }
-                                                            );
-                                                        $(this)
-                                                            .attr(
-                                                                'r',
-                                                                newCellRef
-                                                            );
-                                                    });
-                                            }
-                                        });
-                                    }
-                                }, {
-                                    extend: 'pdf',
-                                    title: 'Data Order - ' + $('#nama_wilayah')
-                                        .val(),
-                                    exportOptions: {
-                                        columns: ':not(.no-export)'
-                                    },
-                                    customize: function(doc) {
-                                        doc.pageOrientation =
-                                            'landscape'; // Set orientasi landscape
-                                        doc.pageSize =
-                                            'LEGAL'; // Set ukuran halaman 
-                                    }
-                                }, 'print'],
-                            });
-                        }
+                        //                 // Update row numbers and cell references
+                        //                 rows.each(function() {
+                        //                     var rowIndex = parseInt(
+                        //                         $(this).attr(
+                        //                             'r'));
+                        //                     if (rowIndex > 1) {
+                        //                         $(this).attr('r',
+                        //                             rowIndex - 1
+                        //                         );
+                        //                         $('c', this).each(
+                        //                             function() {
+                        //                                 var cellRef =
+                        //                                     $(
+                        //                                         this
+                        //                                     )
+                        //                                     .attr(
+                        //                                         'r'
+                        //                                     );
+                        //                                 var newCellRef =
+                        //                                     cellRef
+                        //                                     .replace(
+                        //                                         /[0-9]+/,
+                        //                                         function(
+                        //                                             match
+                        //                                         ) {
+                        //                                             return parseInt(
+                        //                                                     match
+                        //                                                 ) -
+                        //                                                 1;
+                        //                                         }
+                        //                                     );
+                        //                                 $(this)
+                        //                                     .attr(
+                        //                                         'r',
+                        //                                         newCellRef
+                        //                                     );
+                        //                             });
+                        //                     }
+                        //                 });
+                        //             }
+                        //         }, {
+                        //             extend: 'pdf',
+                        //             title: 'Data Order - ' + $('#nama_wilayah')
+                        //                 .val(),
+                        //             exportOptions: {
+                        //                 columns: ':not(.no-export)'
+                        //             },
+                        //             customize: function(doc) {
+                        //                 doc.pageOrientation =
+                        //                     'landscape'; // Set orientasi landscape
+                        //                 doc.pageSize =
+                        //                     'LEGAL'; // Set ukuran halaman 
+                        //             }
+                        //         }, 'print'],
+                        //     });
+                        // }
 
                         $('#editNoOrderDipilihModal').modal('show');
                     },
@@ -648,7 +647,7 @@
                 });
             });
 
-            $('#saveEditNoOrder').click(function() {
+            $('#saveEditNoOrder').click(function(e) {
                 var selectedRows = [];
                 $('.checkEditNoOrder:checked').each(function() {
                     var id = $(this).data('id');

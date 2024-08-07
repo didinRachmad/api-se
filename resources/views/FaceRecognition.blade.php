@@ -36,7 +36,7 @@
     </div>
 
     <script>
-        $(".tambah").click(function() {
+        $(".tambah").click(function(e) {
             // Mendapatkan data gambar
             var file_data = $("#file-gambar").prop("files")[0];
             var fileName = $("#nama-gambar").val();
@@ -98,7 +98,7 @@
             };
         });
 
-        $(".kirim").click(function() {
+        $(".kirim").click(function(e) {
             // Mendapatkan data gambar
             var file_data = $("#file-gambar").prop("files")[0];
             var fileName = file_data.name.substring(

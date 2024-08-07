@@ -154,17 +154,17 @@
                         <th>Rute ID</th>
                         <th>ID MRDO</th>
                         <th>Survey pasar ID</th>
-                        <th>ID MCO <button type="button" class="btn btn-sm btn-secondary"
-                                id="salinID_MCO">Salin</button>
+                        <th>ID MCO <button type="button" class="btn btn-sm btn-secondary" id="salinID_MCO"><i
+                                    class="bi bi-clipboard-fill"></i></button>
                         </th>
-                        <th>Kode Customer <button type="button" class="btn btn-sm btn-secondary"
-                                id="salinKode">Salin</button>
+                        <th>Kode Customer <button type="button" class="btn btn-sm btn-secondary" id="salinKode"><i
+                                    class="bi bi-clipboard-fill"></i></button>
                         </th>
-                        <th>Nama Toko <button type="button" class="btn btn-sm btn-secondary"
-                                id="salinNamaToko">Salin</button>
+                        <th>Nama Toko <button type="button" class="btn btn-sm btn-secondary" id="salinNamaToko"><i
+                                    class="bi bi-clipboard-fill"></i></button>
                         </th>
-                        <th>Alamat <button type="button" class="btn btn-sm btn-secondary"
-                                id="salinAlamat">Salin</button>
+                        <th>Alamat <button type="button" class="btn btn-sm btn-secondary" id="salinAlamat"><i
+                                    class="bi bi-clipboard-fill"></i></button>
                         </th>
                         <th>ID Pasar</th>
                         <th>Nama pasar</th>
@@ -922,8 +922,9 @@
                 });
             }).draw();
 
-            $('#salinKode').click(function() {
+            $('#salinKode').click(function(e) {
                 // Mengambil data kolom dengan filter yang aktif
+                e.stopPropagation();
                 var filteredData = table.column(8, {
                     search: 'applied'
                 }).data().toArray();
@@ -942,8 +943,9 @@
                     toast.hide();
                 }, 1000);
             });
-            $('#salinNamaToko').click(function() {
+            $('#salinNamaToko').click(function(e) {
                 // Mengambil data kolom dengan filter yang aktif
+                e.stopPropagation();
                 var filteredData = table.column(9, {
                     search: 'applied'
                 }).data().toArray();
@@ -962,8 +964,9 @@
                     toast.hide();
                 }, 1000);
             });
-            $('#salinAlamat').click(function() {
+            $('#salinAlamat').click(function(e) {
                 // Mengambil data kolom dengan filter yang aktif
+                e.stopPropagation();
                 var filteredData = table.column(10, {
                     search: 'applied'
                 }).data().toArray();
@@ -982,8 +985,9 @@
                     toast.hide();
                 }, 1000);
             });
-            $('#salinID_MCO').click(function() {
+            $('#salinID_MCO').click(function(e) {
                 // Mengambil data kolom dengan filter yang aktif
+                e.stopPropagation();
                 var filteredData = table.column(11, {
                     search: 'applied'
                 }).data().toArray();
@@ -1003,11 +1007,11 @@
                 }, 1000);
             });
 
-            $('.check-all').click(function() {
+            $('.check-all').click(function(e) {
                 $('.check').prop('checked', this.checked);
             });
 
-            $('.check').click(function() {
+            $('.check').click(function(e) {
                 if ($('.check:checked').length == $('.check').length) {
                     $('.check-all').prop('checked', true);
                 } else {

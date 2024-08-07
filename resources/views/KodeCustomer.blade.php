@@ -52,7 +52,7 @@
                 @endphp
             @endif
             <div class="table-responsive">
-                <table class="table table-sm table-light table-striped align-middle  myTable">
+                <table class="table table-sm table-light table-striped align-middle myTable w-100">
                     <thead class="text-center">
                         <th id="filter-wilayah">Wilayah</th>
                         <th id="filter-salesman">Salesman</th>
@@ -187,7 +187,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="table-responsive">
-                        <table class="table table-sm table-light  table-striped  TableOrder">
+                        <table class="table table-sm table-light table-striped TableOrder w-100 nowrap">
                             <thead class="text-center">
                                 <th>no</th>
                                 <th>id</th>
@@ -335,7 +335,7 @@
                     </div>
                     <b>Informasi</b><br>
                     <label>Tidak dapat dihapus, terdapat transaksi berikut :</label><br>
-                    <table class="table table-sm table-light  table-striped  tableOrderHapus">
+                    <table class="table table-sm table-light table-striped tableOrderHapus w-100 nowrap">
                         <tbody id="detailOrderHapus">
                         </tbody>
                     </table>

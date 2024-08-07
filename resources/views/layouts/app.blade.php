@@ -23,7 +23,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
 
     {{-- CSS --}}
-    <link href="{{ asset('css/style.css?v=1.0') }}" rel="stylesheet" />
+    <link href="{{ asset('css/style.css') }}?v={{ date('d-m') }}')" rel="stylesheet" />
 
     {{-- DATATABLE --}}
     <link href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css" rel="stylesheet">
@@ -49,13 +49,16 @@
         if (localStorage.getItem("darkMode") === "enabled") {
             document.write(`<style>.overlay { background-color: #021020;}
             .bg-btn { box-shadow: -1px 3px 4px rgb(167, 192, 205); }
-            .card { background-color: rgba(2, 16, 32, 0.9); }
+            .card { background-color: rgba(2, 16, 32, 1); }
             #sidebar { background-color: #fff; }
             .dataTables_wrapper .dataTables_length select,
             .dataTables_wrapper .dataTables_filter input,
             .select2-container--bootstrap-5 .select2-selection--single .select2-selection__rendered,
             .form-control,
-            .form-control:focus { color: #fff; }
+            .form-control:focus,
+            .form-select,
+            .form-select:focus { color: #fff;}
+            .form-select option {background-color: rgba(2, 16, 32, 1) !important;}
             .navbar-nav li a::after { background-color: #FFF; color: #000; }
             </style>`);
 
@@ -68,7 +71,10 @@
             .dataTables_wrapper .dataTables_filter input,
             .select2-container--bootstrap-5 .select2-selection--single .select2-selection__rendered,
             .form-control,
-            .form-control:focus { color: #000; }
+            .form-control:focus,
+            .form-select,
+            .form-select:focus { color: #000;}
+            .form-select option {background-color: #fff !important;}
             .navbar-nav li a::after { background-color: #252B3B; color: #fff; }
             </style>`);
         }
@@ -199,7 +205,7 @@
                 $("table").addClass("table-dark");
                 $("table").removeClass("table-light");
                 $("table").css('color', '#fff');
-                $(".TableRute").removeClass("table-dark");
+                $(".TableOrderDouble").removeClass("table-dark");
                 $('#labelDarkModeToggle').html('<i class="fa fa-moon text-info"></i>');
                 $("<style id='darkModeStyle'>")
                     .prop("type", "text/css")
@@ -207,7 +213,7 @@
                     .appendTo("head");
 
                 $(".bg-btn").css('box-shadow', '-1px 3px 4px rgb(167, 192, 205)');
-                $(".card").css('background-color', "rgba(2, 16, 32, 0.9)");
+                $(".card").css('background-color', "rgba(2, 16, 32, 1) !important");
                 $("#sidebar").css('background-color', "#fff");
                 $(".dataTables_wrapper .dataTables_length select").css('color', '#fff');
                 $(".dataTables_wrapper .dataTables_filter input").css('color', '#fff');
@@ -218,6 +224,8 @@
                     'color': '#fff'
                 });
                 $(".form-control").css('color', "#fff");
+                $(".form-select").css('color', "#fff");
+                $(".form-select option").css('background-color', "rgba(2, 16, 32, 1) !important");
             }
 
             function removeDarkMode() {
@@ -226,7 +234,7 @@
                 $("table").addClass("table-light");
                 $("table").removeClass("table-dark");
                 $("table").css('color', '#212529');
-                $(".TableRute").removeClass("table-light");
+                $(".TableOrderDouble").removeClass("table-light");
                 $('#labelDarkModeToggle').html('<i class="fa fa-sun text-warning"></i>');
                 $("#darkModeStyle").remove();
 
@@ -242,6 +250,8 @@
                     'color': '#000'
                 });
                 $(".form-control").css('color', "#000");
+                $(".form-select").css('color', "#000");
+                $(".form-select option").css('background-color', "#fff !important");
             }
 
             $(".navbar-nav li").hover(

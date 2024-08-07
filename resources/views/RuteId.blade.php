@@ -77,10 +77,10 @@
                         <th>rute id</th>
                         <th>rute detail id</th>
                         <th>survey pasar id</th>
-                        <th>Kode Customer <button type="button" class="btn btn-sm p-1 btn-secondary"
-                                id="salinKode">Salin</button></th>
-                        <th>Nama Toko <button type="button" class="btn btn-sm p-1 btn-secondary"
-                                id="salinNamaToko">Salin</button></th>
+                        <th>Kode Customer <button type="button" class="btn btn-sm p-1 btn-secondary" id="salinKode"><i
+                                    class="bi bi-clipboard-fill"></i></button></th>
+                        <th>Nama Toko <button type="button" class="btn btn-sm p-1 btn-secondary" id="salinNamaToko"><i
+                                    class="bi bi-clipboard-fill"></i></button></th>
                         <th>Alamat</th>
                         <th>id mco</th>
                         <th>id pasar mrd</th>
@@ -149,7 +149,8 @@
                                                     data-set={{ null }}>Retail</button>
                                             </div>
                                             <div class="col-6 px-0">
-                                                <button type="button" class="btn btn-sm p-1 btn-success w-100 btnSetGrosir"
+                                                <button type="button"
+                                                    class="btn btn-sm p-1 btn-success w-100 btnSetGrosir"
                                                     data-row-index="{{ $no }}"
                                                     data-id_mrdo="{{ $mrdo->id }}"
                                                     data-id_mco="{{ $mrdo->mco->id }}"
@@ -578,8 +579,9 @@
                 });
             }).draw();
 
-            $('#salinKode').click(function() {
+            $('#salinKode').click(function(e) {
                 // Mengambil data kolom dengan filter yang aktif
+                e.stopPropagation();
                 var filteredData = table.column(6, {
                     search: 'applied'
                 }).data().toArray();
@@ -599,8 +601,9 @@
                 }, 2000);
             });
 
-            $('#salinNamaToko').click(function() {
+            $('#salinNamaToko').click(function(e) {
                 // Mengambil data kolom dengan filter yang aktif
+                e.stopPropagation();
                 var filteredData = table.column(7, {
                     search: 'applied'
                 }).data().toArray();

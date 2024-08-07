@@ -24,7 +24,7 @@
                     <div class="col-lg-4">
                         <div class="input-group input-group-sm flex-nowrap mb-2">
                             <span class="input-group-text">Salesman</span>
-                            <select class="form-control form-select-sm select2-salesman_awal" name="salesman_awal"
+                            <select class="form-select form-select-sm select2-salesman_awal" name="salesman_awal"
                                 id="salesman_awal">
                                 <option value="{{ old('salesman_awal', $salesman_awal ?? '') }}">
                                     {{ old('salesman_awal', $salesman_awal ?? '') }}
@@ -39,14 +39,14 @@
                         </div>
                         <div class="input-group input-group-sm flex-nowrap mb-2">
                             <span class="input-group-text">Hari</span>
-                            <select class="form-control form-select-sm select2-hari_awal" name="hari_awal" id="hari_awal">
+                            <select class="form-select form-select-sm select2-hari_awal" name="hari_awal" id="hari_awal">
                                 <option value="{{ old('hari_awal', $hari_awal ?? '') }}">
                                     {{ old('hari_awal', $hari_awal ?? '') }}
                                 </option>
                             </select>
                             <div class="px-1"></div>
                             <span class="input-group-text">Rute</span>
-                            <select class="form-control form-select-sm select2-rute_awal" name="rute_id_awal"
+                            <select class="form-select form-select-sm select2-rute_awal" name="rute_id_awal"
                                 id="rute_id_awal">
                                 <option value="{{ old('rute_id_awal', $rute_id_awal ?? '') }}">
                                     {{ old('rute_awal', $rute_awal ?? '') }}
@@ -57,7 +57,7 @@
                         </div>
                         <div class="input-group input-group-sm flex-nowrap mb-2">
                             <span class="input-group-text">Pasar</span>
-                            <select class="form-control form-select-sm select2-id_pasar_awal" name="id_pasar_awal"
+                            <select class="form-select form-select-sm select2-id_pasar_awal" name="id_pasar_awal"
                                 id="id_pasar_awal">
                                 <option value="{{ old('id_pasar_awal', $id_pasar_awal ?? '') }}">
                                     {{ old('pasar_awal', $pasar_awal ?? '') }}
@@ -68,7 +68,7 @@
                         </div>
                         <div class="input-group input-group-sm flex-nowrap mb-2">
                             <span class="input-group-text">Type</span>
-                            <select class="form-control form-select-sm type fw-bold" name="type" id="type">
+                            <select class="form-select form-select-sm type fw-bold" name="type" id="type">
                                 <option value="" {{ old('type', $type ?? '') == '' ? 'selected' : '' }}>All</option>
                                 <option value="ro" {{ old('type', $type ?? '') == 'ro' ? 'selected' : '' }}>RO</option>
                                 <option value="kandidat" {{ old('type', $type ?? '') == 'kandidat' ? 'selected' : '' }}>
@@ -87,7 +87,7 @@
                     <div class="col-lg-4">
                         <div class="input-group input-group-sm flex-nowrap mb-2">
                             <span class="input-group-text">Salesman</span>
-                            <select class="form-control form-select-sm select2-salesman_akhir" name="salesman_akhir"
+                            <select class="form-select form-select-sm select2-salesman_akhir" name="salesman_akhir"
                                 id="salesman_akhir">
                             </select>
                             <input type="hidden" id="id_salesman_akhir" name="id_salesman_akhir"
@@ -97,7 +97,7 @@
                         </div>
                         <div class="input-group input-group-sm flex-nowrap">
                             <span class="input-group-text">Rute</span>
-                            <select class="form-control form-select-sm select2-rute_akhir" name="rute_id_akhir"
+                            <select class="form-select form-select-sm select2-rute_akhir" name="rute_id_akhir"
                                 id="rute_id_akhir"></select>
                             <input type="hidden" id="rute_akhir" name="rute_akhir">
                         </div>
@@ -172,7 +172,7 @@
                 </div>
             @endif
             <div class="table-responsive">
-                <table class="table table-sm table-light table-striped align-middle myTable" id="myTable">
+                <table class="table table-sm table-light table-striped align-middle myTable w-100" id="myTable">
                     <thead class="text-center">
                         <tr>
                             <th>No</th>
@@ -183,17 +183,17 @@
                             <th>Rute ID</th>
                             <th>ID MRDO</th>
                             <th>Survey pasar ID</th>
-                            <th>ID MCO <button type="button" class="btn btn-sm btn-secondary"
-                                    id="salinID_MCO">Salin</button>
+                            <th>ID MCO <button type="button" class="btn btn-sm btn-secondary" id="salinID_MCO"><i
+                                        class="bi bi-clipboard-fill"></i></button>
                             </th>
-                            <th>Kode Customer <button type="button" class="btn btn-sm btn-secondary"
-                                    id="salinKode">Salin</button>
+                            <th>Kode Customer <button type="button" class="btn btn-sm btn-secondary" id="salinKode"><i
+                                        class="bi bi-clipboard-fill"></i></button>
                             </th>
-                            <th>Nama Toko <button type="button" class="btn btn-sm btn-secondary"
-                                    id="salinNamaToko">Salin</button>
+                            <th>Nama Toko <button type="button" class="btn btn-sm btn-secondary" id="salinNamaToko"><i
+                                        class="bi bi-clipboard-fill"></i></button>
                             </th>
-                            <th>Alamat <button type="button" class="btn btn-sm btn-secondary"
-                                    id="salinAlamat">Salin</button>
+                            <th>Alamat <button type="button" class="btn btn-sm btn-secondary" id="salinAlamat"><i
+                                        class="bi bi-clipboard-fill"></i></button>
                             </th>
                             <th>ID Pasar</th>
                             <th>Nama pasar</th>
@@ -208,37 +208,37 @@
                         </tr>
                         <tr>
                             <th></th>
-                            <th><input type="text" class="form-control form-control-sm" placeholder="Search" />
+                            <th><input type="text" class="form-control form-control-sm w-100" placeholder="Search" />
                             </th>
-                            <th><input type="text" class="form-control form-control-sm" placeholder="Search" />
+                            <th><input type="text" class="form-control form-control-sm w-100" placeholder="Search" />
                             </th>
-                            <th><input type="text" class="form-control form-control-sm" placeholder="Search" />
+                            <th><input type="text" class="form-control form-control-sm w-100" placeholder="Search" />
                             </th>
-                            <th><input type="text" class="form-control form-control-sm" placeholder="Search" />
+                            <th><input type="text" class="form-control form-control-sm w-100" placeholder="Search" />
                             </th>
-                            <th><input type="text" class="form-control form-control-sm" placeholder="Search" />
+                            <th><input type="text" class="form-control form-control-sm w-100" placeholder="Search" />
                             </th>
-                            <th><input type="text" class="form-control form-control-sm" placeholder="Search" />
+                            <th><input type="text" class="form-control form-control-sm w-100" placeholder="Search" />
                             </th>
-                            <th><input type="text" class="form-control form-control-sm" placeholder="Search" />
+                            <th><input type="text" class="form-control form-control-sm w-100" placeholder="Search" />
                             </th>
-                            <th><input type="text" class="form-control form-control-sm" placeholder="Search" />
+                            <th><input type="text" class="form-control form-control-sm w-100" placeholder="Search" />
                             </th>
-                            <th><input type="text" class="form-control form-control-sm" placeholder="Search" />
+                            <th><input type="text" class="form-control form-control-sm w-100" placeholder="Search" />
                             </th>
-                            <th><input type="text" class="form-control form-control-sm" placeholder="Search" />
+                            <th><input type="text" class="form-control form-control-sm w-100" placeholder="Search" />
                             </th>
-                            <th><input type="text" class="form-control form-control-sm" placeholder="Search" />
+                            <th><input type="text" class="form-control form-control-sm w-100" placeholder="Search" />
                             </th>
-                            <th><input type="text" class="form-control form-control-sm" placeholder="Search" />
+                            <th><input type="text" class="form-control form-control-sm w-100" placeholder="Search" />
                             </th>
-                            <th><input type="text" class="form-control form-control-sm" placeholder="Search" />
+                            <th><input type="text" class="form-control form-control-sm w-100" placeholder="Search" />
                             </th>
-                            <th><input type="text" class="form-control form-control-sm" placeholder="Search" />
+                            <th><input type="text" class="form-control form-control-sm w-100" placeholder="Search" />
                             </th>
-                            <th><input type="text" class="form-control form-control-sm" placeholder="Search" />
+                            <th><input type="text" class="form-control form-control-sm w-100" placeholder="Search" />
                             </th>
-                            <th><input type="text" class="form-control form-control-sm" placeholder="Search" />
+                            <th><input type="text" class="form-control form-control-sm w-100" placeholder="Search" />
                             </th>
                             <th></th>
                             <th></th>
@@ -351,14 +351,15 @@
                 </div>
                 <div class="modal-body">
                     <div class="table-responsive">
-                        <table class="table table-sm table-light  table-striped  TableOrder">
+                        <table class="table table-sm table-light table-striped TableOrder w-100 nowrap">
                             <thead class="text-center">
                                 <th>no</th>
                                 <th>id</th>
                                 <th>wilayah</th>
                                 <th>no order</th>
                                 <th>nama salesman</th>
-                                <th>kode customer</th>
+                                <th><button type="button" class="btn btn-sm btn-secondary" id="salinKodeOrder"><i
+                                            class="bi bi-clipboard-fill"></i></button> kode customer</th>
                                 <th>nama toko</th>
                                 <th>id survey pasar</th>
                                 <th>status</th>
@@ -399,7 +400,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="table-responsive">
-                        <table class="table table-sm table-light table-striped  TableKandidat w-100">
+                        <table class="table table-sm table-light table-striped TableKandidat w-100 nowrap">
                             <thead class="text-center">
                                 <th>No</th>
                                 <th>id</th>
@@ -525,7 +526,7 @@
 
     {{-- TOAST SALIN KODE --}}
     <div class="toast-container position-fixed top-0 end-0 p-5">
-        <div class="toast align-items-center text-bg-success border-0" id="toastSalin" role="alert"
+        <div class="toast align-items-center text-bg-success border-0" id="toastSalin" role="success"
             aria-live="assertive" aria-atomic="true">
             <div class="d-flex">
                 <div class="toast-body">
@@ -912,16 +913,16 @@
                     "className": 'no-export'
                 }],
                 "order": [
-                    [1, 'asc'],
-                    [2, 'asc'],
-                    [3, 'asc'],
-                    [5, 'asc'],
-                    [9, 'desc'],
                     [12, 'asc'],
+                    [9, 'desc'],
+                    [5, 'asc'],
+                    [3, 'asc'],
+                    [2, 'asc'],
+                    [1, 'asc'],
                 ],
                 "initComplete": function(settings, json) {
                     $(`<select class="form-select form-select-sm w-100">
-                        <option value="">Semua</option>
+                        <option value="" selected>Semua</option>
                         <option value="KANDIDAT">Kandidat</option>
                         <option value="RO">RO</option>
                         </select>`)
@@ -1011,31 +1012,31 @@
                             }
                         });
 
-                    var salesmanList = this.api().column(2).data().unique().sort();
-                    var salesmanSelect = $(
-                            '<select class="w-100 form-select form-select-sm"><option value="">All</option></select>'
-                        )
-                        .appendTo('#filter-salesman')
-                        .on('change', function() {
-                            var val = $.fn.dataTable.util.escapeRegex($(this).val());
-                            table.column(2).search(val ? '^' + val + '$' : '', true, false).draw();
-                        });
-                    salesmanList.each(function(d, j) {
-                        salesmanSelect.append('<option value="' + d + '">' + d + '</option>');
-                    });
+                    // var salesmanList = this.api().column(2).data().unique().sort();
+                    // var salesmanSelect = $(
+                    //         '<select class="w-100 form-select form-select-sm"><option value="" selected>All</option></select>'
+                    //     )
+                    //     .appendTo('#filter-salesman')
+                    //     .on('change', function() {
+                    //         var val = $.fn.dataTable.util.escapeRegex($(this).val());
+                    //         table.column(2).search(val ? '^' + val + '$' : '', true, false).draw();
+                    //     });
+                    // salesmanList.each(function(d, j) {
+                    //     salesmanSelect.append('<option value="' + d + '">' + d + '</option>');
+                    // });
 
-                    var ruteList = this.api().column(3).data().unique().sort();
-                    var ruteSelect = $(
-                            '<select class="w-100 form-select form-select-sm"><option value="">All</option></select>'
-                        )
-                        .appendTo('#filter-rute')
-                        .on('change', function() {
-                            var val = $.fn.dataTable.util.escapeRegex($(this).val());
-                            table.column(3).search(val ? '^' + val + '$' : '', true, false).draw();
-                        });
-                    ruteList.each(function(d, j) {
-                        ruteSelect.append('<option value="' + d + '">' + d + '</option>');
-                    });
+                    // var ruteList = this.api().column(3).data().unique().sort();
+                    // var ruteSelect = $(
+                    //         '<select class="w-100 form-select form-select-sm" selected><option value="">All</option></select>'
+                    //     )
+                    //     .appendTo('#filter-rute')
+                    //     .on('change', function() {
+                    //         var val = $.fn.dataTable.util.escapeRegex($(this).val());
+                    //         table.column(3).search(val ? '^' + val + '$' : '', true, false).draw();
+                    //     });
+                    // ruteList.each(function(d, j) {
+                    //     ruteSelect.append('<option value="' + d + '">' + d + '</option>');
+                    // });
                 }
             });
             table.column(5).search($('#rute_id_awal').val()).draw();
@@ -1062,92 +1063,84 @@
                 });
             });
 
-            $('#salinKode').click(function() {
+            $('#salinKode').click(function(e) {
                 // Mengambil data kolom dengan filter yang aktif
+                e.stopPropagation();
                 var filteredData = table.column(9, {
                     search: 'applied'
                 }).data().toArray();
 
                 var textToCopy = filteredData.join('\n');
-                var tempInput = document.createElement('textarea');
-                tempInput.value = textToCopy;
-                document.body.appendChild(tempInput);
-                tempInput.select();
-                document.execCommand('copy');
-                document.body.removeChild(tempInput);
-
-                var toast = $('#toastSalin');
-                toast.show();
-                setTimeout(function() {
-                    toast.hide();
-                }, 2000);
+                navigator.clipboard.writeText(textToCopy).then(function() {
+                    var toast = $('#toastSalin');
+                    toast.show();
+                    setTimeout(function() {
+                        toast.hide();
+                    }, 2000);
+                }).catch(function(err) {
+                    console.error('Gagal menyalin teks: ', err);
+                });
             });
-            $('#salinNamaToko').click(function() {
+            $('#salinNamaToko').click(function(e) {
                 // Mengambil data kolom dengan filter yang aktif
+                e.stopPropagation();
                 var filteredData = table.column(10, {
                     search: 'applied'
                 }).data().toArray();
 
                 var textToCopy = filteredData.join('\n');
-                var tempInput = document.createElement('textarea');
-                tempInput.value = textToCopy;
-                document.body.appendChild(tempInput);
-                tempInput.select();
-                document.execCommand('copy');
-                document.body.removeChild(tempInput);
-
-                var toast = $('#toastSalin');
-                toast.show();
-                setTimeout(function() {
-                    toast.hide();
-                }, 2000);
+                navigator.clipboard.writeText(textToCopy).then(function() {
+                    var toast = $('#toastSalin');
+                    toast.show();
+                    setTimeout(function() {
+                        toast.hide();
+                    }, 2000);
+                }).catch(function(err) {
+                    console.error('Gagal menyalin teks: ', err);
+                });
             });
-            $('#salinAlamat').click(function() {
+            $('#salinAlamat').click(function(e) {
                 // Mengambil data kolom dengan filter yang aktif
+                e.stopPropagation();
                 var filteredData = table.column(11, {
                     search: 'applied'
                 }).data().toArray();
 
                 var textToCopy = filteredData.join('\n');
-                var tempInput = document.createElement('textarea');
-                tempInput.value = textToCopy;
-                document.body.appendChild(tempInput);
-                tempInput.select();
-                document.execCommand('copy');
-                document.body.removeChild(tempInput);
-
-                var toast = $('#toastSalin');
-                toast.show();
-                setTimeout(function() {
-                    toast.hide();
-                }, 2000);
+                navigator.clipboard.writeText(textToCopy).then(function() {
+                    var toast = $('#toastSalin');
+                    toast.show();
+                    setTimeout(function() {
+                        toast.hide();
+                    }, 2000);
+                }).catch(function(err) {
+                    console.error('Gagal menyalin teks: ', err);
+                });
             });
-            $('#salinID_MCO').click(function() {
+            $('#salinID_MCO').click(function(e) {
                 // Mengambil data kolom dengan filter yang aktif
+                e.stopPropagation();
                 var filteredData = table.column(8, {
                     search: 'applied'
                 }).data().toArray();
 
                 var textToCopy = filteredData.join('\n');
-                var tempInput = document.createElement('textarea');
-                tempInput.value = textToCopy;
-                document.body.appendChild(tempInput);
-                tempInput.select();
-                document.execCommand('copy');
-                document.body.removeChild(tempInput);
-
-                var toast = $('#toastSalin');
-                toast.show();
-                setTimeout(function() {
-                    toast.hide();
-                }, 2000);
+                navigator.clipboard.writeText(textToCopy).then(function() {
+                    var toast = $('#toastSalin');
+                    toast.show();
+                    setTimeout(function() {
+                        toast.hide();
+                    }, 2000);
+                }).catch(function(err) {
+                    console.error('Gagal menyalin teks: ', err);
+                });
             });
 
-            $('.check-all').click(function() {
+            $('.check-all').click(function(e) {
                 $('.check').prop('checked', this.checked);
             });
 
-            $('.check').click(function() {
+            $('.check').click(function(e) {
                 if ($('.check:checked').length == $('.check').length) {
                     $('.check-all').prop('checked', true);
                 } else {
@@ -1322,6 +1315,26 @@
             });
             $(document).on('change', "#tgl_transaksi", function() {
                 TableOrder.draw();
+            });
+            $('#salinKodeOrder').click(function(e) {
+                // Mengambil data kolom dengan filter yang aktif
+                e.stopPropagation();
+                var filteredData = TableOrder.column(5, {
+                    search: 'applied'
+                }).data().toArray();
+
+                var textToCopy = filteredData.join('\n');
+
+                navigator.clipboard.writeText(textToCopy).then(function() {
+                    var toast = $('#toastSalin');
+                    toast.show();
+                    setTimeout(function() {
+                        toast.hide();
+                    }, 2000);
+                }).catch(function(err) {
+                    console.error('Gagal menyalin teks: ', err);
+                });
+
             });
 
             function numberWithCommas(x) {
