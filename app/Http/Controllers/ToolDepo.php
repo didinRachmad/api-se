@@ -292,6 +292,7 @@ class ToolDepo extends Controller
                 case 'BANJARMASIN':
                 case 'KEBUMEN':
                 case 'BANDUNG 3 (BANJARAN)':
+                case 'SAMPIT':
                     $periode = "Bulanan";
                     break;
                 default:
@@ -365,6 +366,7 @@ class ToolDepo extends Controller
                     case 'SAMARINDA':
                     case 'PADANG SIDEMPUAN':
                     case 'KEBUMEN':
+                    case 'SAMPIT':
                         $digitpref = 8;
                         $digit = 4;
                         break;
