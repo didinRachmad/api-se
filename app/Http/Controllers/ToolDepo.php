@@ -459,7 +459,7 @@ class ToolDepo extends Controller
             return response()->json(['message' => 'No Order berhasil diupdate | ', 'updated_orders' => $updatedOrders]);
         } catch (\Exception $e) {
             DB::rollBack();
-            return response()->json(['message' => 'An error occurred while processing order ID ' . $Order['id'] . ': ' . $e->getMessage()], 422);
+            return response()->json(['message' => 'An error occurred while processing order ID : ' . $e->getMessage()], 422);
         }
     }
 }
