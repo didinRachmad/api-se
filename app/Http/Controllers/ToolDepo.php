@@ -156,9 +156,9 @@ class ToolDepo extends Controller
             $sp = SurveyPasar::with(['mco', 'mp' => function ($query) {
                 $query->select('id_pasar', 'nama_pasar');
             }])->select('id', 'kode_customer', 'nama_toko', 'alamat', 'pemilik', 'id_pasar')->where('id_wilayah', $iddepo)
-                // ->where(function ($query) {
-                //     $query->whereNull('delete_ro');
-                // })
+                ->where(function ($query) {
+                    $query->whereNull('delete_ro');
+                })
                 ->get();
 
             $mr = MasterRute::with(['d' => function ($query) {
@@ -293,6 +293,14 @@ class ToolDepo extends Controller
                 case 'KEBUMEN':
                 case 'BANDUNG 3 (BANJARAN)':
                 case 'SAMPIT':
+                case 'KABANJAHE':
+                case 'PURWODADI':
+                case 'PALANGKARAYA':
+                case 'MAGELANG':
+                case 'SEMARANG KODYA':
+                case 'NGAWI':
+                case 'BLITAR':
+                case 'KISARAN':
                     $periode = "Bulanan";
                     break;
                 default:
@@ -301,8 +309,10 @@ class ToolDepo extends Controller
 
             // return response()->json(['message' => $periode], 422);
 
-            $query = Order::select('no_order')
-                ->where('nama_wilayah', $nama_wilayah);
+            $query = Order::select('no_order');
+            $query->where('nama_wilayah', $nama_wilayah);
+
+
             if ($periode == "Harian") {
                 $query->where('tgl_transaksi', $tanggal);
             } else {
@@ -328,8 +338,9 @@ class ToolDepo extends Controller
 
             foreach ($duplicates->keys() as $duplicateNoOrder) {
                 // Query untuk duplicateOrders
-                $duplicateOrdersQuery = Order::select('id', 'no_order', 'nama_salesman', 'kode_customer', 'nama_toko', 'nama_wilayah', 'tgl_transaksi', 'total_transaksi')->where('nama_wilayah', $nama_wilayah)
-                    ->where('no_order', $duplicateNoOrder);
+                $duplicateOrdersQuery = Order::select('id', 'no_order', 'nama_salesman', 'kode_customer', 'nama_toko', 'nama_wilayah', 'tgl_transaksi', 'total_transaksi')->where('no_order', $duplicateNoOrder);
+                $duplicateOrdersQuery->where('nama_wilayah', $nama_wilayah);
+
                 if ($periode == "Harian") {
                     $duplicateOrdersQuery->where('tgl_transaksi', $tanggal);
                 } else {
@@ -367,6 +378,9 @@ class ToolDepo extends Controller
                     case 'PADANG SIDEMPUAN':
                     case 'KEBUMEN':
                     case 'SAMPIT':
+                    case 'PALANGKARAYA':
+                    case 'TANJUNG MORAWA':
+                    case 'BAGAN BATU':
                         $digitpref = 8;
                         $digit = 4;
                         break;
@@ -374,9 +388,8 @@ class ToolDepo extends Controller
                         $digitpref = 8;
                         $digit = 7;
                         break;
-                    case 'RANTAU PRAPAT':
-                    case 'WONOGIRI':
-                    case 'SUKOHARJO':
+                    case 'PURWODADI':
+                    case 'MAGELANG':
                         $digitpref = 7;
                         $digit = 4;
                         break;
@@ -384,17 +397,21 @@ class ToolDepo extends Controller
                         $digitpref = 9;
                         $digit = 6;
                         break;
-                    case 'DENPASAR':
+                    case 'DENPASAR 1':
+                    case 'DENPASAR 2':
+                    case 'MAKASSAR':
+                    case 'RENGAT':
                         $digitpref = 9;
                         $digit = 3;
                         break;
                     case 'MADIUN':
                     case 'MAGETAN':
-                    case 'NGAWI':
                     case 'PEMATANG SIANTAR':
                     case 'BALIGE':
                     case 'PONOROGO':
                     case 'SIBOLGA':
+                    case 'BATURAJA':
+                    case 'LAHAT':
                         $digitpref = 9;
                         $digit = 4;
                         break;
@@ -404,11 +421,17 @@ class ToolDepo extends Controller
                         $digitpref = 10;
                         $digit = 4;
                         break;
+                    case 'SEMARANG KODYA':
+                        $digitpref = 10;
+                        $digit = 3;
+                        break;
                     case 'GUNUNG KIDUL':
                         $digitpref = 12;
                         $digit = 4;
                         break;
                     case 'TEGAL':
+                    case 'PEKALONGAN':
+                    case 'BLITAR':
                         $digitpref = 8;
                         $digit = 3;
                         break;
@@ -425,9 +448,33 @@ class ToolDepo extends Controller
                         $digitpref = 13;
                         $digit = 3;
                         break;
-                    case 'JEMBER':
+                    case 'KEDIRI':
+                        $digitpref = 13;
+                        $digit = 4;
+                        break;
+                    case 'SINGKAWANG':
+
+                    case 'NGAWI':
                         $digitpref = 7;
                         $digit = 7;
+                        break;
+                    case 'WONOGIRI':
+                    case 'JEMBER':
+                        $digitpref = 8;
+                        $digit = 6;
+                        break;
+                    case 'KISARAN':
+                        $digitpref = 4;
+                        $digit = 5;
+                        break;
+                    case 'RANTAU PRAPAT':
+                    case 'SUKOHARJO':
+                        $digitpref = 9;
+                        $digit = 5;
+                        break;
+                    case 'KABANJAHE':
+                        $digitpref = 7;
+                        $digit = 5;
                         break;
                     default:
                         $digitpref = 8; // default value
@@ -435,17 +482,25 @@ class ToolDepo extends Controller
                         break;
                 }
 
-                $order = Order::where('id', $Order['id'])->lockForUpdate()->firstOrFail();
-                $prefix = substr($order->no_order, 0, $digitpref);
+                $tgl_transaksi = Carbon::parse($Order['tgl_transaksi']);
 
+                $order = Order::where('id', $Order['id'])->lockForUpdate()->firstOrFail();
+
+                // Menentukan prefix dengan panjang yang sesuai dari no_order saat ini
+                $digitPrefix = strlen($order->no_order) - $digit;
+                $prefix = substr($order->no_order, 0, $digitPrefix);
+
+                // Mencari nomor terakhir dengan prefix yang sama
                 $lastOrder = Order::where('no_order', 'like', $prefix . '%')
                     ->where('nama_wilayah', $Order['nama_wilayah'])
-                    ->whereYear('tgl_transaksi', date('Y'))
-                    ->whereMonth('tgl_transaksi', date('m'))
-                    ->latest('no_order')
+                    ->whereYear('tgl_transaksi', $tgl_transaksi->year)
+                    ->whereMonth('tgl_transaksi', $tgl_transaksi->month)
+                    ->orderByRaw('CAST(SUBSTRING(no_order, ' . ($digitPrefix + 1) . ') AS UNSIGNED) DESC') // Urutkan berdasarkan angka di sebelah kanan
                     ->first();
 
-                // Jika tidak ada nomor pesanan sebelumnya, mulai dari nomor 1
+                // dd($lastOrder);
+
+                // Increment angka di sebelah kanan
                 $nextNumber = $lastOrder ? intval(substr($lastOrder->no_order, -$digit)) + 1 : 1;
                 $newNoOrder = $prefix . str_pad($nextNumber, $digit, '0', STR_PAD_LEFT);
 

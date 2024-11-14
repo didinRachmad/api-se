@@ -558,7 +558,7 @@
                 ajax: {
                     url: "{{ route('ToolOutlet.getSalesman') }}",
                     dataType: 'json',
-                    // delay: 250,
+                    delay: 250,
                     data: function(params) {
                         return {
                             q: params.term,
@@ -579,7 +579,7 @@
                     cache: true
                 },
                 placeholder: 'Pilih Salesman',
-                // minimumInputLength: 3,
+                minimumInputLength: 3,
                 allowClear: true,
                 templateResult: function(data) {
                     if (data.loading) {
@@ -612,7 +612,7 @@
                 ajax: {
                     url: "{{ route('ToolOutlet.getHari') }}",
                     dataType: 'json',
-                    // delay: 250,
+                    delay: 250,
                     data: function(params) {
                         return {
                             q: params.term,
@@ -627,7 +627,7 @@
                     cache: true
                 },
                 placeholder: 'Pilih Hari',
-                // minimumInputLength: 3,
+                minimumInputLength: 3,
                 allowClear: true,
                 templateResult: function(data) {
                     if (data.loading) {
@@ -643,7 +643,7 @@
                 ajax: {
                     url: "{{ route('ToolOutlet.getRute') }}",
                     dataType: 'json',
-                    // delay: 250,
+                    delay: 250,
                     data: function(params) {
                         return {
                             q: params.term,
@@ -659,7 +659,7 @@
                     cache: true
                 },
                 placeholder: 'Pilih Rute',
-                // minimumInputLength: 3,
+                minimumInputLength: 3,
                 allowClear: true,
                 templateResult: function(data) {
                     if (data.loading) {
@@ -680,7 +680,7 @@
                 ajax: {
                     url: "{{ route('ToolOutlet.getPasar') }}",
                     dataType: 'json',
-                    // delay: 250,
+                    delay: 250,
                     data: function(params) {
                         return {
                             q: params.term,
@@ -701,7 +701,7 @@
                     cache: true
                 },
                 placeholder: 'Pilih Pasar',
-                // minimumInputLength: 3,
+                minimumInputLength: 3,
                 allowClear: true,
                 templateResult: function(data) {
                     if (data.loading) {
@@ -725,7 +725,7 @@
                 ajax: {
                     url: "{{ route('ToolOutlet.getSalesman') }}",
                     dataType: 'json',
-                    // delay: 250,
+                    delay: 250,
                     data: function(params) {
                         return {
                             q: params.term,
@@ -746,7 +746,7 @@
                     cache: true
                 },
                 placeholder: 'Pilih Salesman',
-                // minimumInputLength: 3,
+                minimumInputLength: 3,
                 allowClear: true,
                 templateResult: function(data) {
                     if (data.loading) {
@@ -770,7 +770,7 @@
                 ajax: {
                     url: "{{ route('ToolOutlet.getRute') }}",
                     dataType: 'json',
-                    // delay: 250,
+                    delay: 250,
                     data: function(params) {
                         return {
                             q: params.term,
@@ -785,7 +785,7 @@
                     cache: true
                 },
                 placeholder: 'Pilih Rute',
-                // minimumInputLength: 3,
+                minimumInputLength: 3,
                 allowClear: true,
                 templateResult: function(data) {
                     if (data.loading) {
@@ -805,6 +805,7 @@
                 ajax: {
                     url: "{{ route('ToolOutlet.getPasar') }}",
                     dataType: 'json',
+                    delay: 250,
                     data: function(params) {
                         return {
                             q: params.term,
@@ -826,6 +827,7 @@
                     cache: true
                 },
                 placeholder: 'Pilih Pasar',
+                minimumInputLength: 3,
                 allowClear: true,
                 templateResult: function(data) {
                     if (data.loading) {
@@ -867,6 +869,7 @@
                         cache: true
                     },
                     placeholder: 'Pilih Wilayah',
+                    minimumInputLength: 3,
                     allowClear: true,
                     templateResult: function(data) {
                         if (data.loading) return data.text;

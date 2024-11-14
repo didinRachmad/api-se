@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ListRKM;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\APIController;
 use App\Http\Controllers\ExecRekap;
@@ -99,6 +100,14 @@ Route::prefix('ListRute')->middleware(['web', 'checkReferer'])->group(function (
     })->name('ListRute.index');
     Route::get('/getSalesman', [ListRute::class, 'getSalesman'])->name('ListRute.getSalesman');
     Route::post('/getListRute', [ListRute::class, 'getListRute'])->name('ListRute.getListRute');
+});
+
+Route::prefix('ListRKM')->middleware(['web', 'checkReferer'])->group(function () {
+    Route::get('/', function () {
+        return view('ListRKM');
+    })->name('ListRKM.index');
+    Route::get('/getKaryawan', [ListRKM::class, 'getKaryawan'])->name('ListRKM.getKaryawan');
+    Route::post('/getListRKM', [ListRKM::class, 'getListRKM'])->name('ListRKM.getListRKM');
 });
 
 Route::prefix('ExecRekap')->middleware(['web', 'checkReferer'])->group(function () {

@@ -167,7 +167,7 @@
                     cache: true
                 },
                 placeholder: 'Pilih depo',
-                // minimumInputLength: 3,
+                minimumInputLength: 3,
                 allowClear: true,
                 templateResult: function(data) {
                     if (data.loading) {
@@ -527,7 +527,7 @@
                                         <td class="">${data.nama_toko}</td>
                                         <td class="">${data.tgl_transaksi}</td>
                                         <td class="">${data.total_transaksi}</td>
-                                        <td class=""><input type="checkbox" class="btn-check checkEditNoOrder" id="check${data.id}" data-id="${data.id}" data-nama_wilayah="${data.nama_wilayah}" autocomplete="off">
+                                        <td class=""><input type="checkbox" class="btn-check checkEditNoOrder" id="check${data.id}" data-id="${data.id}" data-nama_wilayah="${data.nama_wilayah}" data-tgl_transaksi="${data.tgl_transaksi}" autocomplete="off">
                                         <label class="btn btn-sm btn-outline-success" for="check${data.id}">Pilih</label></td>`;
                                 html += `</tr>`;
                             });
@@ -652,10 +652,12 @@
                 $('.checkEditNoOrder:checked').each(function() {
                     var id = $(this).data('id');
                     var nama_wilayah = $(this).data('nama_wilayah');
+                    var tgl_transaksi = $(this).data('tgl_transaksi');
 
                     selectedRows.push({
                         id: id,
-                        nama_wilayah: nama_wilayah
+                        nama_wilayah: nama_wilayah,
+                        tgl_transaksi: tgl_transaksi
                     });
                 });
                 $.ajax({

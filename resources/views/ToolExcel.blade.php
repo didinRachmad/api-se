@@ -142,19 +142,19 @@
         //                         html += '<tr>';
         //                         html += '<td class="no table-dark">' + r + '</td>';
         //                         html += '<td class="id_wilayah table-dark"></td>';
-        //                         html += '<td class="wilayah table-dark">' + wilayah.v +
+        //                         html += '<td class="wilayah table-dark">' + wilayah.v.toUpperCase() +
         //                             '</td>';
         //                         html += '<td class="salesman_awal table-dark"></td>';
         //                         html += '<td class="rute_awal table-dark"></td>';
         //                         html += '<td class="kode_customer table-dark">' +
-        //                             kode_customer.v +
+        //                             kode_customer.v.toUpperCase() +
         //                             '</td>';
         //                         html += '<td class="salesman_tujuan table-light">' + salesman_tujuan
-        //                             .v +
+        //                             .v.toUpperCase() +
         //                             '</td>';
-        //                         html += '<td class="rute_tujuan table-light">' + rute_tujuan.v +
+        //                         html += '<td class="rute_tujuan table-light">' + rute_tujuan.v.toUpperCase() +
         //                             '</td>';
-        //                         html += '<td class="hari_tujuan table-light">' + hari_tujuan.v +
+        //                         html += '<td class="hari_tujuan table-light">' + hari_tujuan.v.toUpperCase() +
         //                             '</td>';
         //                         html += '<td class="keterangan table-light text-danger"></td>';
         //                         html += "</tr>";
@@ -433,7 +433,7 @@
                                 html += '<tr>';
                                 html += '<td class="no table-dark">' + r + '</td>';
                                 html += '<td class="id_wilayah table-dark">' + id_wilayah.v + '</td>';
-                                html += '<td class="wilayah table-dark">' + wilayah.v +
+                                html += '<td class="wilayah table-dark">' + wilayah.v.toUpperCase() +
                                     '</td>';
                                 html += '<td class="salesman_awal table-dark"></td>';
                                 html += '<td class="rute_awal table-dark"></td>';
@@ -441,11 +441,13 @@
                                     kode_customer.v +
                                     '</td>';
                                 html += '<td class="salesman_tujuan table-light">' + salesman_tujuan
-                                    .v +
+                                    .v.toUpperCase() +
                                     '</td>';
-                                html += '<td class="rute_tujuan table-light">' + rute_tujuan.v +
+                                html += '<td class="rute_tujuan table-light">' + rute_tujuan.v
+                                    .toUpperCase() +
                                     '</td>';
-                                html += '<td class="hari_tujuan table-light">' + hari_tujuan.v +
+                                html += '<td class="hari_tujuan table-light">' + hari_tujuan.v
+                                    .toUpperCase() +
                                     '</td>';
                                 html += '<td class="keterangan table-light text-danger"></td>';
                                 html += "</tr>";

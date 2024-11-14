@@ -166,6 +166,10 @@
                                                 </ul>
                                             </div>
                                         </div>
+                                        <div class="col-6 px-0">
+                                            <button type="button"
+                                                class="btn btn-sm p-1 btn-light btn-block w-100 btnBypassShareKoordinat">Bypass</button>
+                                        </div>
                                     </div>
                                 </td>
                             </tr>
@@ -1484,98 +1488,190 @@
                 });
             });
 
-            // cek_rute_aktif();
-            // // CEK RUTE AKTIF
-            // function cek_rute_aktif() {
-            //     var kode_customer = [];
-            //     kode_customer.push($('#kode_customer').val());
+            cek_rute_aktif();
 
-            //     $.ajax({
-            //         type: 'post',
-            //         url: "https://sales.motasaindonesia.co.id/api/tool/outletkandidat/getData",
-            //         dataType: 'json',
-            //         encode: true,
-            //         data: {
-            //             salesman: "",
-            //             depo: "",
-            //             pasar: "",
-            //             type: "",
-            //             hari: "",
-            //             periodik: "",
-            //             kode_customer: kode_customer
-            //         },
-            //         success: function(response) {
-            //             const dataRuteID = {};
-            //             const dataBarcode = {};
-            //             $.each(response.data, function(index, item) {
-            //                 const id = item.id;
-            //                 const mrdo_id = item.mrdo_id;
-            //                 if (!dataRuteID[id] && item.rute_hari_ini == 1) {
-            //                     dataRuteID[id] = id;
-            //                 }
-            //                 if (!dataBarcode[mrdo_id] && item.verifikasi_qr) {
-            //                     if (item.verifikasi_qr.flag_qr) {
-            //                         if (item.pengajuan_by_pass[0]) {
-            //                             dataBarcode[mrdo_id] = item.pengajuan_by_pass[0].id;
-            //                         } else {
-            //                             dataBarcode[mrdo_id] = "Belum Isi QR";
-            //                         }
-            //                     } else {
-            //                         dataBarcode[mrdo_id] = "SUDAH BYPASS";
-            //                     }
-            //                 }
-            //             });
-            //             $('.warnaBaris').each(function() {
-            //                 var ruteId = $(this).find('.rute_id').text().trim();
-            //                 var mrdo_id = $(this).find('.id_mrdo').text().trim();
-            //                 var nama_wilayah = $(this).find('.nama_wilayah');
-            //                 var nama_salesman = $(this).find('.salesman');
-            //                 var rute = $(this).find('.rute');
-            //                 var hari = $(this).find('.hari');
-            //                 // Mencocokkan ruteId dengan dataRuteID
-            //                 if (dataRuteID[ruteId]) {
-            //                     nama_wilayah.addClass('text-success fw-bolder shadow-sm');
-            //                     nama_salesman.addClass('text-success fw-bolder shadow-sm');
-            //                     rute.addClass('text-success fw-bolder shadow-sm');
-            //                     hari.addClass('text-success fw-bolder shadow-sm');
-            //                 } else {
-            //                     nama_wilayah.removeClass(
-            //                         'text-success fw-bolder shadow-sm');
-            //                     nama_salesman.removeClass(
-            //                         'text-success fw-bolder shadow-sm');
-            //                     rute.removeClass('text-success fw-bolder shadow-sm');
-            //                     hari.removeClass('text-success fw-bolder shadow-sm');
-            //                 }
-            //                 if (dataBarcode[mrdo_id]) {
-            //                     if (dataBarcode[mrdo_id] == "SUDAH BYPASS") {
-            //                         var rowData = table.row('[data-id="' + mrdo_id + '"]')
-            //                             .data();
-            //                         rowData[14] = dataBarcode[mrdo_id];
-            //                         table.row('[data-id="' + mrdo_id + '"]').data(rowData)
-            //                             .draw();
-            //                     } else if (dataBarcode[mrdo_id] == "Belum Isi QR") {
-            //                         var rowData = table.row('[data-id="' + mrdo_id + '"]')
-            //                             .data();
-            //                         rowData[14] = dataBarcode[mrdo_id];
-            //                         table.row('[data-id="' + mrdo_id + '"]').data(rowData)
-            //                             .draw();
-            //                     } else {
-            //                         var rowData = table.row('[data-id="' + mrdo_id + '"]')
-            //                             .data();
-            //                         rowData[14] =
-            //                             '<button type="button" class="btn btn-sm p-1 btn-danger btn-block w-100 btnBarcode" data-id_qr="' +
-            //                             dataBarcode[mrdo_id] + '">QR</button>';
-            //                         table.row('[data-id="' + mrdo_id + '"]').data(rowData)
-            //                             .draw();
-            //                     }
-            //                 }
+            function cek_rute_aktif() {
+                var salesman = [];
+                salesman.push($('#salesman').val());
 
-            //             });
-            //         },
-            //         error: function(xhr, status, error) {},
-            //         complete: function() {}
-            //     });
-            // }
+                $.ajax({
+                    type: 'post',
+                    url: "https://sales.motasaindonesia.co.id/api/tool/outletkandidat/getData",
+                    dataType: 'json',
+                    encode: true,
+                    data: {
+                        salesman: "",
+                        depo: "",
+                        pasar: "",
+                        type: "",
+                        hari: "",
+                        periodik: "",
+                        salesman: salesman
+                    },
+                    success: function(response) {
+                        const dataRuteID = {};
+                        const dataBarcode = {};
+                        $.each(response.data, function(index, item) {
+                            const id = item.id;
+                            const mrdo_id = item.mrdo_id;
+                            if (!dataRuteID[id] && item.rute_hari_ini == 1) {
+                                dataRuteID[id] = id;
+                            }
+                            if (!dataBarcode[mrdo_id] && item.verifikasi_qr) {
+                                if (item.verifikasi_qr.flag_qr) {
+                                    if (item.pengajuan_by_pass[0]) {
+                                        dataBarcode[mrdo_id] = item.pengajuan_by_pass[0].id;
+                                    } else {
+                                        dataBarcode[mrdo_id] = "Belum Isi QR";
+                                    }
+                                } else {
+                                    dataBarcode[mrdo_id] = "SUDAH BYPASS";
+                                }
+                            }
+                        });
+                        $('.warnaBaris').each(function() {
+                            var ruteId = $(this).find('.rute_id').text().trim();
+                            var mrdo_id = $(this).find('.id_mrdo').text().trim();
+                            var nama_wilayah = $(this).find('.nama_wilayah');
+                            var nama_salesman = $(this).find('.salesman');
+                            var rute = $(this).find('.rute');
+                            var hari = $(this).find('.hari');
+                            // Mencocokkan ruteId dengan dataRuteID
+                            if (dataRuteID[ruteId]) {
+                                nama_wilayah.addClass('text-success fw-bolder shadow-sm');
+                                nama_salesman.addClass('text-success fw-bolder shadow-sm');
+                                rute.addClass('text-success fw-bolder shadow-sm');
+                                hari.addClass('text-success fw-bolder shadow-sm');
+                            } else {
+                                nama_wilayah.removeClass(
+                                    'text-success fw-bolder shadow-sm');
+                                nama_salesman.removeClass(
+                                    'text-success fw-bolder shadow-sm');
+                                rute.removeClass('text-success fw-bolder shadow-sm');
+                                hari.removeClass('text-success fw-bolder shadow-sm');
+                            }
+                            if (dataBarcode[mrdo_id]) {
+                                if (dataBarcode[mrdo_id] == "SUDAH BYPASS") {
+                                    var rowData = table.row('[data-id="' + mrdo_id + '"]')
+                                        .data();
+                                    rowData[14] = dataBarcode[mrdo_id];
+                                    table.row('[data-id="' + mrdo_id + '"]').data(rowData)
+                                        .draw();
+                                } else if (dataBarcode[mrdo_id] == "Belum Isi QR") {
+                                    var rowData = table.row('[data-id="' + mrdo_id + '"]')
+                                        .data();
+                                    rowData[14] = dataBarcode[mrdo_id];
+                                    table.row('[data-id="' + mrdo_id + '"]').data(rowData)
+                                        .draw();
+                                } else {
+                                    var rowData = table.row('[data-id="' + mrdo_id + '"]')
+                                        .data();
+                                    rowData[14] =
+                                        '<button type="button" class="btn btn-sm p-1 btn-danger btn-block w-100 btnBarcode" data-id_qr="' +
+                                        dataBarcode[mrdo_id] + '">QR</button>';
+                                    table.row('[data-id="' + mrdo_id + '"]').data(rowData)
+                                        .draw();
+                                }
+                            }
+
+                        });
+                    },
+                    error: function(xhr, status, error) {},
+                    complete: function() {}
+                });
+            }
+
+            $(document).on('click', ".btnBypassShareKoordinat", function() {
+                // Tampilkan modal edit
+
+                var valid = true;
+
+                var mrdo_id = $(this).closest('tr').find('.id_mrdo').text().trim();
+                var id_wilayah = $(this).closest('tr').find('.nama_wilayah').text().match(
+                    /\(([^()]+)\)[^(]*$/)[1].trim();
+                var kode_customer = $(this).closest('tr').find('.kode_customer').text().trim();
+                var id_survey_pasar = $(this).closest('tr').find('.id_survey_pasar').text().trim();
+                var nama_toko = $(this).closest('tr').find('.nama_toko').text().trim();
+                var id_pasar = $(this).closest('tr').find('.id_pasar').text().trim();
+                // var id_salesman = $(this).closest('tr').find('.salesman').text().match(
+                //     /\(([^()]+)\)[^(]*$/)[1].trim();
+
+                // var salesman = $(this).closest('tr').find('.salesman').text().trim().replace(
+                //     /\s*\([^)]*\)$/, '');
+                // var id_distributor = $(this).closest('tr').data('id_distributor');
+                // var nama_distributor = $(this).closest('tr').data('nama_distributor');
+                // var id_qr_outlet = $(this).closest('tr').find('.id_mco').text().trim();
+                // var rute_detail_id = $(this).closest('tr').data('rute_detail_id');
+                // var id = $(this).closest('tr').find('.rute_id').text().trim();
+                // var rute = $(this).closest('tr').find('.rute').text().trim();
+                // var hari = $(this).closest('tr').find('.hari').text().trim();
+                // var alamat = $(this).closest('tr').find('.alamat').text().trim();
+                // var nama_wilayah = $(this).closest('tr').find('.nama_wilayah').text().trim().replace(
+                //     /\s*\([^)]*\)$/, '');
+                // var nama_pasar = $(this).closest('tr').find('.nama_pasar').text().trim();
+                // var location_type = $(this).closest('tr').find('.tipe_outlet').text().split('-')[1]
+                //     .trim();
+                // var pasar = $(this).closest('tr').find('.tipe_outlet').text()
+                //     .split('-')[1].trim().toUpperCase();
+
+                // var dataObject = {};
+                // dataObject['mrdo_id'] = mrdo_id;
+                // dataObject['iddepo'] = id_wilayah;
+                // dataObject['kode_customer'] = kode_customer;
+                // dataObject['survey_pasar_id'] = id_survey_pasar;
+                // dataObject['customer'] = nama_toko;
+                // dataObject['id_pasar'] = id_pasar;
+                // dataObject['salesman'] = salesman;
+
+                // dataObject['id_qr_outlet'] = id_qr_outlet;
+                // dataObject['rute_detail_id'] = rute_detail_id;
+                // dataObject['id'] = id;
+                // dataObject['rute'] = rute;
+                // dataObject['hari'] = hari;
+                // dataObject['id_distributor'] = id_distributor;
+                // dataObject['nama_distributor'] = nama_distributor;
+                // dataObject['nama_pasar'] = nama_pasar;
+                // dataObject['nama_wilayah'] = nama_wilayah;
+                // dataObject['location_type'] = location_type;
+
+                $.ajax({
+                    type: 'post',
+                    url: "https://sales.motasaindonesia.co.id/api/tool/rute/byPassOutlet",
+                    dataType: 'json',
+                    encode: true,
+                    data: {
+                        'mrdo_id': mrdo_id,
+                        'iddepo': id_wilayah,
+                        'kode_customer': kode_customer,
+                        'survey_pasar_id': id_survey_pasar,
+                        'customer': nama_toko,
+                        'id_pasar': id_pasar,
+                        // 'salesman': id_salesman,
+                    },
+                    beforeSend: function() {
+                        $('.loading-overlay').show();
+                    },
+                    success: function(response) {
+                        $('#successModal #message').text(response.message);
+                        $('#PindahPasarModal').modal('hide');
+                        $('#successModal').modal('show');
+
+                        setTimeout(function() {
+                            $('#successModal').modal('hide');
+                            // location.reload();
+                        }, 1000);
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(error);
+                        $('#errorModal #message').text(xhr.responseJSON
+                            .message);
+                        $('#errorModal').modal('show');
+                    },
+                    complete: function() {
+                        $('.loading-overlay').hide();
+                    }
+                });
+            });
 
         });
     </script>

@@ -108,6 +108,10 @@
                     href="{{ route('ListRute.index') }}"><i class="bi bi-signpost-split-fill"></i></a>
             </li>
             <li class="nav-item py-3">
+                <a class="btn btn-sm btn-block bg-btn p-2 btn-dark fw-bold" data-tooltip="List RKM"
+                    href="{{ route('ListRKM.index') }}"><i class="bi bi-signpost-split"></i></a>
+            </li>
+            <li class="nav-item py-3">
                 <a class="btn btn-sm btn-block bg-btn p-2 btn-dark fw-bold" data-tooltip="Tool Depo"
                     href="{{ route('ToolDepo.index') }}"><i class="bi bi-house-gear-fill"></i></a>
             </li>
