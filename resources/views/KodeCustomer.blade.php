@@ -52,7 +52,7 @@
                 @endphp
             @endif
             <div class="table-responsive">
-                <table class="table table-sm table-light table-striped align-middle myTable w-100">
+                <table class="table table-sm table-striped align-middle myTable w-100">
                     <thead class="text-center">
                         <th id="filter-wilayah">Wilayah</th>
                         <th id="filter-salesman">Salesman</th>
@@ -82,7 +82,8 @@
                             <tr class="warnaBaris" data-id="{{ $mr['mrdo_id'] }}"
                                 data-rute_detail_id="{{ $mr['rute_detail_id'] }}"
                                 data-id_distributor="{{ $mr['id_distributor'] }}"
-                                data-nama_distributor="{{ $mr['nama_distributor'] }}">
+                                data-nama_distributor="{{ $mr['nama_distributor'] }}"
+                                data-rute_hari_ini="{{ $mr['rute_hari_ini'] }}">
                                 <td class="nama_wilayah {{ $mr['rute_hari_ini'] == 1 ? ' text-success fw-bolder' : '' }}">
                                     {{ $mr['nama_wilayah'] }} ({{ $mr['id_wilayah'] }})</td>
                                 <td class="salesman {{ $mr['rute_hari_ini'] == 1 ? ' text-success fw-bolder' : '' }}">
@@ -421,7 +422,7 @@
 
             var table = $('.myTable').DataTable({
                 dom: "<'row'<'col-sm-6 col-md-2'l><'col-sm-6 col-md-6 text-right'B><'col-sm-12 col-md-4 text-right'f>>" +
-                    "<'row'<'col-sm-12 table-responsive'tr>>" +
+                    "<'row py-2'<'col-sm-12'tr>>" +
                     "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
                 "paging": false,
                 buttons: [
@@ -481,7 +482,7 @@
                         processing: true,
                         serverSide: true,
                         dom: "<'row'<'col-sm-12 col-md-2'l><'col-sm-12 col-md-5'B><'col-sm-12 col-md-5 text-right'f >> " +
-                            "<'row'<'col-sm-12 table-responsive'tr>>" +
+                            "<'row py-2'<'col-sm-12'tr>>" +
                             "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
                         // scrollY: 260,
                         "lengthMenu": [10, 25, 50, 75, 100, 500],
@@ -1207,86 +1208,150 @@
             $(document).on('click', ".btnSetTipeOutlet", function(e) {
                 e.preventDefault();
                 var buttonValue = $(this).text().trim();
-
-                var selectedRows = [];
-
+                var rute_hari_ini = $(this).closest('tr').data('rute_hari_ini');
+                var id_survey_pasar = $(this).closest('tr').find('.id_survey_pasar').text().trim();
+                var mrdo_id = $(this).closest('tr').find('.id_mrdo').text().trim();
+                var iddepo = $(this).closest('tr').find('.nama_wilayah').text().match(
+                    /\(([^()]+)\)[^(]*$/)[1].trim();
                 var tipe_outlet = $(this).closest('tr').find(
                     '.tipe_outlet').text().trim();
 
-                var id_mrdo = $(this).closest('tr').find('.id_mrdo').text().trim();
-                var rute_id = $(this).closest('tr').find('.rute_id').text().trim();
-                var rute_detail_id = $(this).closest('tr').data('rute_detail_id');
-                var id_pasar = $(this).closest('tr').find('.id_pasar').text().trim();
-                var id_survey_pasar = $(this).closest('tr').find('.survey_pasar_id').text()
-                    .trim();
-                var id_qr_outlet = $(this).closest('tr').find('.id_mco').text().trim();
-                var kode_customer = $(this).closest('tr').find('.kode_customer').text().trim();
-                var id_wilayah = $(this).closest('tr').find('.nama_wilayah').text().match(
-                    /\(([^()]+)\)[^(]*$/)[1].trim();
-                var dataObject = {};
-                dataObject['id_outlet'] = id_mrdo;
-                dataObject['rute_id'] = rute_id;
-                dataObject['rute_detail_id'] = rute_detail_id;
-                dataObject['id_pasar'] = id_pasar;
-                dataObject['survey_pasar'] = id_survey_pasar;
-                dataObject['id_qr_outlet'] = id_qr_outlet;
-                dataObject['kode_customer'] = kode_customer;
-                dataObject['id_wilayah'] = id_wilayah;
-
-                selectedRows.push(dataObject);
-
-                $.ajax({
-                    type: 'post',
-                    url: "https://sales.motasaindonesia.co.id/api/tool/outletkandidat/settipeoutlet",
-                    dataType: 'json',
-                    encode: true,
-                    data: {
-                        data: selectedRows,
-                        type: buttonValue
-                    },
-                    beforeSend: function() {
-                        $('.loading-overlay').show();
-                    },
-                    success: function(response) {
-                        if (response.is_valid) {
-                            $('#successModal').modal('show');
-
-                            var tipe = buttonValue;
-                            if (buttonValue == "Grosir") {
-                                tipe = "TPOUT_WHSL";
-                            } else if (buttonValue == "NOO") {
-                                tipe = "TPOUT_NOO";
+                // Fungsi untuk mengecek apakah order sudah ada hari ini
+                function cekOrderAjax(id_survey_pasar) {
+                    return new Promise((resolve, reject) => {
+                        $.ajax({
+                            type: 'post',
+                            url: "{{ route('KodeCustomer.cekOrder') }}",
+                            dataType: 'json',
+                            data: {
+                                id_survey_pasar: id_survey_pasar
+                            },
+                            success: function(response) {
+                                resolve(response);
+                            },
+                            error: function(xhr) {
+                                reject(xhr.responseJSON?.message ||
+                                    "Terjadi kesalahan saat mengecek order.");
                             }
-                            var tipe_outlet_parts = tipe_outlet.split('-');
-                            tipe_outlet_parts[0] = tipe;
-                            var tipe_outlet_modified = tipe_outlet_parts.join(
-                                ' - ');
+                        });
+                    });
+                }
 
-                            var rowData = table.row('[data-id="' + id_mrdo + '"]').data();
-                            rowData[13] = tipe_outlet_modified;
-                            // rowData[14] = "-";
+                // Fungsi umum untuk mengubah rute
+                function updateRute(url, mrdo_id, iddepo, tipe_baru) {
+                    return new Promise((resolve, reject) => {
+                        $.ajax({
+                            type: 'post',
+                            url: url,
+                            dataType: 'json',
+                            data: {
+                                mrdo_id: mrdo_id,
+                                iddepo: iddepo
+                            },
+                            beforeSend: function() {
+                                $('.loading-overlay').show();
+                            },
+                            success: function(response) {
+                                if (response.is_valid) {
+                                    updateTipeOutlet(mrdo_id, tipe_outlet, tipe_baru);
+                                }
+                                resolve(response);
+                            },
+                            error: function(xhr) {
+                                reject(xhr.responseJSON?.message ||
+                                    "Gagal memproses permintaan.");
+                            },
+                            complete: function() {
+                                $('.loading-overlay').hide();
+                            }
+                        });
+                    });
+                }
 
-                            table.row('[data-id="' +
-                                id_mrdo + '"]').data(
-                                rowData).draw();
-                            // setTimeout(function() {
-                            //     $('#successModal').modal('hide');
-                            //     // location.reload();
-                            // }, 1000);
-                        } else {
-                            $('#errorModal #message').text(response.message);
-                            $('#errorModal').modal('show');
+                // Fungsi untuk menangani perubahan tipe outlet di tabel
+                function updateTipeOutlet(mrdo_id, tipe_outlet, tipe_baru) {
+                    let tipe_outlet_parts = tipe_outlet.split('-');
+                    tipe_outlet_parts[0] = tipe_baru;
+                    let tipe_outlet_modified = tipe_outlet_parts.join(' - ');
+
+                    let rowData = table.row(`[data-id="${mrdo_id}"]`).data();
+                    rowData[13] = tipe_outlet_modified;
+
+                    table.row(`[data-id="${mrdo_id}"]`).data(rowData).draw();
+                }
+
+                // Fungsi utama untuk menangani proses berdasarkan buttonValue
+                (async function() {
+                    try {
+                        if (buttonValue === "Grosir") {
+                            let response = await cekOrderAjax(id_survey_pasar);
+
+                            if (rute_hari_ini && !response.is_valid) {
+                                // Jika rute hari ini tetapi order tidak valid, tampilkan error dan hentikan proses
+                                let errorMessage = response.message;
+                                navigator.clipboard.writeText(errorMessage);
+                                $('#errorModal #message').text(
+                                    "Data kunjungan belum masuk ke sistem");
+                                $('#errorModal').modal('show');
+                                return;
+                            }
+
+                            // Coba set Grosir
+                            let updateResponse = await updateRute(
+                                "https://sales.motasaindonesia.co.id/api/tool/rute/setGrosir",
+                                mrdo_id, iddepo, "TPOUT_WHSL"
+                            );
+
+                            if (rute_hari_ini && !updateResponse.is_valid) {
+                                // Jika rute hari ini tetapi set Grosir gagal, ubah ke NOO
+                                await updateRute(
+                                    "https://sales.motasaindonesia.co.id/api/tool/rute/setNoo",
+                                    mrdo_id, iddepo, "TPOUT_NOO"
+                                );
+
+                                // Pesan clipboard khusus
+                                navigator.clipboard.writeText("Sudah diproses, segera direvisi");
+
+                                // Tampilkan modal sukses dengan pesan statis
+                                $('#successModal #message').text("Berhasil Tersimpan (Set NOO)");
+                                $('#successModal').modal('show');
+                            } else if (!updateResponse.is_valid) {
+                                // Pesan clipboard khusus
+                                navigator.clipboard.writeText(
+                                    "Tidak dapat diproses. Karena outlet tersebut belum memenuhi kriteria sebagai outlet grosir/input luar rute"
+                                );
+
+                                // Tampilkan modal sukses dengan pesan statis
+                                $('#errorModal #message').text("Tidak dapat diproses");
+                                $('#errorModal').modal('show');
+                            } else {
+                                navigator.clipboard.writeText("Sudah diproses");
+                                $('#successModal #message').text("Berhasil Tersimpan (Set Grosir)");
+                                $('#successModal').modal('show');
+                            }
+                        } else if (buttonValue === "Retail") {
+                            await updateRute(
+                                "https://sales.motasaindonesia.co.id/api/tool/rute/setRetail",
+                                mrdo_id, iddepo, "Retail");
+
+                            navigator.clipboard.writeText("Sudah diproses");
+                            $('#successModal #message').text("Berhasil Tersimpan (Set Retail)");
+                            $('#successModal').modal('show');
+                        } else if (buttonValue === "NOO") {
+                            let response = await updateRute(
+                                "https://sales.motasaindonesia.co.id/api/tool/rute/setNoo",
+                                mrdo_id, iddepo, "TPOUT_NOO");
+
+                            navigator.clipboard.writeText("Sudah diproses, segera diinput");
+                            $('#successModal #message').text("Berhasil Tersimpan (Set NOO)");
+                            $('#successModal').modal('show');
                         }
-                    },
-                    error: function(xhr, status, error) {
+                    } catch (error) {
                         console.error(error);
-                        $('#errorModal #message').text(xhr.responseJSON.message);
+                        $('#errorModal #message').text(error);
                         $('#errorModal').modal('show');
-                    },
-                    complete: function() {
-                        $('.loading-overlay').hide();
                     }
-                });
+                })();
             });
 
             // HAPUS OUTLET
@@ -1466,11 +1531,13 @@
                             $('#successModal #message').text(
                                 "TINGGAL PASTE !!!!!  Token : " +
                                 response
-                                .results.token);
+                                .results.token + " - " +
+                                response
+                                .results.no_hp);
                             $('#successModal').modal('show');
-                            setTimeout(function() {
-                                $('#successModal').modal('hide');
-                            }, 3000);
+                            // setTimeout(function() {
+                            //     $('#successModal').modal('hide');
+                            // }, 3000);
                         } else {
                             navigator.clipboard.writeText('Silakan disinkron ulang');
                             $('#errorModal #message').text('Token tidak ditemukan');
@@ -1488,7 +1555,7 @@
                 });
             });
 
-            cek_rute_aktif();
+            // cek_rute_aktif();
 
             function cek_rute_aktif() {
                 var salesman = [];

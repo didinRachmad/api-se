@@ -168,8 +168,11 @@ class ToolOutlet extends Controller
         $page = $request->input('page', 1);
         $perPage = 10;
 
-        $query = Wilayah::select('nama_wilayah')->where('nama_wilayah', 'LIKE', '%' . $term . '%')
-            ->groupBy('nama_wilayah')
+        $query = Wilayah::select('id_wilayah', 'nama_wilayah')->Where(function ($query) use ($term) {
+            $query->where('id_wilayah', 'LIKE', '%' . $term . '%')
+                ->orWhere('nama_wilayah', 'LIKE', '%' . $term . '%');
+        })
+            ->groupBy('id_wilayah', 'nama_wilayah')
             ->orderBy('nama_wilayah');
 
         $wilayah = $query->paginate($perPage, ['*'], 'page', $page);
@@ -179,7 +182,7 @@ class ToolOutlet extends Controller
         foreach ($wilayah as $data) {
             // Change 'id' to 'nama_wilayah' for the value part
             $results[] = [
-                'id' => $data->nama_wilayah,  // Use nama_wilayah as the value
+                'id' => $data->id_wilayah,  // Use nama_wilayah as the value
                 'text' => $data->nama_wilayah  // Display text as nama_wilayah
             ];
         }
@@ -203,12 +206,21 @@ class ToolOutlet extends Controller
         $hari_awal = $request->input('hari_awal');
         $pasar_awal = $request->input('pasar_awal');
         $id_pasar_awal = $request->input('id_pasar_awal');
+        $depo_awal = $request->input('depo_awal');
+        $iddepo_awal = $request->input('iddepo_awal');
         $type = $request->input('type');
         $kode_customer = $request->input('kode_customer_rute');
         // Memecah string menjadi array berdasarkan pemisah "\r\n"
         $kode_customer_rute = explode("\r\n", $kode_customer);
         // Menghilangkan elemen kosong yang mungkin ada dalam array
         $kode_customer_rute = array_filter($kode_customer_rute, function ($value) {
+            return !is_null($value) && $value !== '';
+        });
+        $id_survey_pasar = $request->input('survey_pasar_id_rute');
+        // Memecah string menjadi array berdasarkan pemisah "\r\n"
+        $survey_pasar_id_rute = explode("\r\n", $id_survey_pasar);
+        // Menghilangkan elemen kosong yang mungkin ada dalam array
+        $survey_pasar_id_rute = array_filter($survey_pasar_id_rute, function ($value) {
             return !is_null($value) && $value !== '';
         });
         $periodik = null;
@@ -223,10 +235,12 @@ class ToolOutlet extends Controller
         $req = array(
             'salesman' => $id_salesman_awal,
             'pasar' => $id_pasar_awal,
+            'depo' => $iddepo_awal,
             'hari' => $hari,
             'periodik' => $periodik,
             'type' => $type,
             'kode_customer_rute' => $kode_customer_rute,
+            'survey_pasar_id_rute' => $survey_pasar_id_rute,
         );
 
         $ch = curl_init();
@@ -258,7 +272,7 @@ class ToolOutlet extends Controller
             } elseif ($res === null) {
                 echo "Respons JSON tidak valid.";
             } else {
-                return view('ToolOutlet', compact('data', 'salesman_awal', 'id_salesman_awal', 'hari_awal', 'rute_id_awal', 'rute_awal', 'pasar_awal', 'id_pasar_awal', 'type', 'kode_customer'));
+                return view('ToolOutlet', compact('data', 'salesman_awal', 'id_salesman_awal', 'hari_awal', 'rute_id_awal', 'rute_awal', 'pasar_awal', 'id_pasar_awal', 'depo_awal', 'iddepo_awal', 'type', 'kode_customer', 'id_survey_pasar'));
             }
         }
     }
@@ -270,11 +284,15 @@ class ToolOutlet extends Controller
 
         $data = Order::select('id', 'nama_wilayah', 'no_order', 'id_salesman', 'nama_salesman', 'nama_toko', 'id_survey_pasar', 'total_rp', 'total_qty', 'total_transaksi', 'tgl_transaksi', 'document', 'platform', 'is_exported', 'kode_customer', 'is_call', 'tipe_order', 'tipe_outlet')->selectRaw('CASE WHEN (order.total_rp = 0) THEN "KUNJUNGAN" ELSE "ORDER" END AS status')
             ->with(['art.ar' => function ($query) {
-                $query->select('id', 'kode_customer', 'id_qr_outlet');
+                $query->select('id', 'kode_customer', 'id_qr_outlet', 'id_pasar', 'nama_pasar');
             }])->where('id_salesman', $id_salesman)->where('tgl_transaksi', $tgl_transaksi)->get();
 
         return DataTables::make($data)->addColumn('id_qr_outlet', function ($data) {
             return $data->art->ar->id_qr_outlet ?? "";
+        })->addColumn('id_pasar', function ($data) {
+            return $data->art->ar->id_pasar ?? "";
+        })->addColumn('nama_pasar', function ($data) {
+            return $data->art->ar->nama_pasar ?? "";
         })->toJson();
     }
 

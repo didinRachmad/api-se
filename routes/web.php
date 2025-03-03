@@ -13,6 +13,8 @@ use App\Http\Controllers\ListRute;
 use App\Http\Controllers\ToolExcel;
 use App\Http\Controllers\ToolOutlet;
 use App\Http\Controllers\ToolDepo;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Auth;
 
 
@@ -62,6 +64,7 @@ Route::prefix('KodeCustomer')->middleware(['web', 'checkReferer'])->group(functi
     Route::post('/update-kode', [KodeCustomer::class, 'updateKode'])->name('KodeCustomer.updateKode');
     Route::post('/pindah', [KodeCustomer::class, 'pindah'])->name('KodeCustomer.pindah');
     Route::post('/setOutlet', [KodeCustomer::class, 'setOutlet'])->name('KodeCustomer.setOutlet');
+    Route::post('/cekOrder', [KodeCustomer::class, 'cekOrder'])->name('KodeCustomer.cekOrder');
     Route::post('/updateDataar', [KodeCustomer::class, 'updateDataar'])->name('KodeCustomer.updateDataar');
 });
 
@@ -92,6 +95,13 @@ Route::prefix('ToolOutlet')->middleware(['web', 'checkReferer'])->group(function
     Route::post('/setOutlet', [ToolOutlet::class, 'setOutlet'])->name('ToolOutlet.setOutlet');
     Route::post('/clear_kode_kandidat', [ToolOutlet::class, 'clear_kode_kandidat'])->name('ToolOutlet.clear_kode_kandidat');
     Route::post('/hapus_ro_double', [ToolOutlet::class, 'hapus_ro_double'])->name('ToolOutlet.hapus_ro_double');
+    Route::get('/get/select2salesman', function (Request $request) {
+        $response = Http::get('https://sales.motasaindonesia.co.id/order/select2salesman', [
+            'search' => $request->query('search'),
+        ]);
+
+        return $response->json();
+    })->name('ToolOutlet.getSalesmanAPI');
 });
 
 Route::prefix('ListRute')->middleware(['web', 'checkReferer'])->group(function () {

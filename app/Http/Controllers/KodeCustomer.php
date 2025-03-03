@@ -25,6 +25,7 @@ class KodeCustomer extends Controller
 
         $req = array(
             'kode_customer' => array($kode_customer),
+            'type' => "ro",
         );
 
         $ch = curl_init();
@@ -363,6 +364,22 @@ class KodeCustomer extends Controller
         }
     }
 
+    public function cekOrder(Request $request)
+    {
+        $id_survey_pasar = $request->input('id_survey_pasar');
+        $tgl_sekarang = Carbon::now()->format('Y-m-d');
+
+        // Cek apakah ada orderan di hari ini
+        $cekOrder = Order::where('id_survey_pasar', $id_survey_pasar)
+            ->whereDate('tgl_transaksi', $tgl_sekarang)
+            ->exists();
+
+        return response()->json([
+            'is_valid' => $cekOrder,
+            'message' => $cekOrder ? null : "Data kunjungan belum masuk ke sistem, jika sudah dikunjungi, silakan upload ulang dahulu datanya"
+        ]);
+    }
+
     public function updateDataar(Request $request)
     {
         set_time_limit(120);
@@ -411,7 +428,7 @@ class KodeCustomer extends Controller
     {
         $kode_customer = $request->input('kode_customer');
 
-        $token = MembershipOutletToken::select('membership_outlet_token.token')
+        $token = MembershipOutletToken::select('membership_outlet_token.token', 'membership_outlet_token.no_hp')
             ->join('dataar', 'dataar.survey_pasar_id', '=', 'membership_outlet_token.id_survey_pasar')
             ->where('dataar.kode_customer', $kode_customer)
             ->whereNotNull('membership_outlet_token.no_hp')

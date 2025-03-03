@@ -497,7 +497,7 @@
 
             var table = $('.myTable').DataTable({
                 dom: "<'row'<'col-sm-12 col-md-4'B><'col-sm-12 col-md-2 filter-kode_customer'><'col-sm-12 col-md-6 text-right 'f>>" +
-                    "<'row'<'col-sm-12 table-responsive'tr>>" +
+                    "<'row py-2'<'col-sm-12'tr>>" +
                     "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
                 // "scrollY": "calc(100vh - 180px)",
                 // "scrollCollapse": true,
@@ -630,7 +630,7 @@
                         processing: true,
                         serverSide: true,
                         dom: "<'row'<'col-sm-12 col-md-2'l><'col-sm-12 col-md-5'B><'col-sm-12 col-md-5 text-right'f >> " +
-                            "<'row'<'col-sm-12 table-responsive'tr>>" +
+                            "<'row py-2'<'col-sm-12'tr>>" +
                             "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
                         // scrollY: 260,
                         "lengthMenu": [10, 25, 50, 75, 100, 500],
@@ -768,7 +768,7 @@
                         processing: true,
                         serverSide: true,
                         dom: "<'row'<'col-sm-12 col-md-2'l><'col-sm-12 col-md-5'B><'col-sm-12 col-md-5 text-right'f >> " +
-                            "<'row'<'col-sm-12 table-responsive'tr>>" +
+                            "<'row py-2'<'col-sm-12'tr>>" +
                             "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
                         // scrollY: 260,
                         "lengthMenu": [10, 25, 50, 75, 100, 500],

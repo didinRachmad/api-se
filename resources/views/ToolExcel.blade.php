@@ -276,7 +276,7 @@
         //         table = $("#myTable")
         //             .DataTable({
         //                 "dom": "<'row'<'col-sm-12 col-md-10'B><'col-sm-12 col-md-2 text-right'f>>" +
-        //                     "<'row'<'col-sm-12'tr>>" +
+        //                     "<'row py-2'<'col-sm-12'tr>>" +
         //                     "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
         //                 "paging": false,
         //             });
@@ -565,47 +565,117 @@
             function initDatatables() {
                 table = $("#myTable").DataTable({
                     dom: "<'row'<'col-sm-12 col-md-10'B><'col-sm-12 col-md-2 text-right'f>>" +
-                        "<'row'<'col-sm-12'tr>>" +
+                        "<'row py-2'<'col-sm-12'tr>>" +
                         "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
                     paging: false,
                     buttons: [{
-                        extend: 'copy',
-                        title: null,
-                        filename: 'DATA PINDAH - ' + $('#myTable tbody tr:first .wilayah')
-                            .text().trim(),
-                        exportOptions: {
-                            columns: ':not(.no-export)'
-                        }
-                    }, 'csv', {
-                        extend: 'excel',
-                        title: null,
-                        filename: 'DATA PINDAH - ' + $('#myTable tbody tr:first .wilayah')
-                            .text().trim(),
-                        exportOptions: {
-                            columns: [1, 2, 5, 3, 6, 8, 7, 9],
-                            rows: function(idx, data, node) {
-                                return data[9] === "Berubah" || data[9] === "Tidak ditemukan";
-                            },
-                            modifier: {
-                                page: 'all'
+                            extend: 'copy',
+                            title: null,
+                            filename: 'DATA PINDAH - ' + $('#myTable tbody tr:first .wilayah').text()
+                                .trim(),
+                            exportOptions: {
+                                columns: ':not(.no-export)'
                             }
                         },
-                    }, {
-                        extend: 'pdf',
-                        title: null,
-                        filename: 'DATA PINDAH - ' + $('#myTable tbody tr:first .wilayah')
-                            .text().trim(),
-                        exportOptions: {
-                            columns: ':not(.no-export)'
+                        'csv',
+                        {
+                            extend: 'pdf',
+                            title: null,
+                            filename: 'DATA PINDAH - ' + $('#myTable tbody tr:first .wilayah').text()
+                                .trim(),
+                            exportOptions: {
+                                columns: ':not(.no-export)'
+                            },
+                            customize: function(doc) {
+                                doc.pageOrientation = 'landscape';
+                                doc.pageSize = 'A4';
+                            }
                         },
-                        customize: function(doc) {
-                            doc.pageOrientation =
-                                'landscape'; // Set orientasi landscape
-                            doc.pageSize =
-                                'A4'; // Set ukuran halaman 
-                        }
-                    }],
+                        {
+                            extend: 'excel',
+                            text: 'Export Excel (All)',
+                            title: null,
+                            filename: 'DATA PINDAH - ' + $('#myTable tbody tr:first .wilayah').text()
+                                .trim() + " (All)",
+                            exportOptions: {
+                                columns: [1, 2, 5, 3, 6, 8, 7, 9],
+                                rows: function(idx, data, node) {
+                                    return data[9] === "Berubah";
+                                },
+                                modifier: {
+                                    page: 'all'
+                                }
+                            }
+                        },
+                        {
+                            extend: 'excel',
+                            text: 'Export Excel (100)',
+                            title: null,
+                            filename: 'DATA PINDAH - ' + $('#myTable tbody tr:first .wilayah').text()
+                                .trim() + " (100)",
+                            exportOptions: {
+                                columns: [1, 2, 5, 3, 6, 8, 7, 9],
+                                rows: (function() {
+                                    let counter =
+                                        0; // Counter untuk melacak jumlah baris yang sudah memenuhi kondisi
+                                    return function(idx, data, node) {
+                                        // Hanya ekspor baris jika data[9] adalah "Berubah" dan counter kurang dari 150
+                                        if (data[9] === "Berubah" && counter < 100) {
+                                            counter++; // Tingkatkan counter
+                                            return true; // Ekspor baris ini
+                                        }
+                                        return false; // Jangan ekspor baris ini
+                                    };
+                                })(),
+                                modifier: {
+                                    page: 'all'
+                                }
+                            }
+                        },
+                        {
+                            extend: 'excel',
+                            text: 'Export Excel (250)',
+                            title: null,
+                            filename: 'DATA PINDAH - ' + $('#myTable tbody tr:first .wilayah').text()
+                                .trim() + " (250)",
+                            exportOptions: {
+                                columns: [1, 2, 5, 3, 6, 8, 7, 9],
+                                rows: (function() {
+                                    let counter =
+                                        0; // Counter untuk melacak jumlah baris yang sudah memenuhi kondisi
+                                    return function(idx, data, node) {
+                                        // Hanya ekspor baris jika data[9] adalah "Berubah" dan counter kurang dari 150
+                                        if (data[9] === "Berubah" && counter < 250) {
+                                            counter++; // Tingkatkan counter
+                                            return true; // Ekspor baris ini
+                                        }
+                                        return false; // Jangan ekspor baris ini
+                                    };
+                                })(),
+                                modifier: {
+                                    page: 'all'
+                                }
+                            }
+                        },
+                        {
+                            extend: 'excel',
+                            text: 'Export Excel (Tidak Ditemukan)',
+                            title: null,
+                            filename: 'DATA PINDAH - ' + $('#myTable tbody tr:first .wilayah').text()
+                                .trim() + " (Tidak Ditemukan)",
+                            exportOptions: {
+                                columns: [1, 2, 5, 3, 6, 8, 7, 9],
+                                rows: function(idx, data, node) {
+                                    return data[9] === "Tidak Ditemukan";
+                                },
+                                modifier: {
+                                    page: 'all'
+                                }
+                            }
+                        },
+                    ]
                 });
+
                 table.on('order.dt search.dt', function() {
                     table.column(0, {
                         search: 'applied',

@@ -12,35 +12,47 @@ use App\Models\SurveyPasar;
 use App\Models\Wilayah;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 
 class ToolDepo extends Controller
 {
     public function getDepo(Request $request)
     {
-        $term = $request->input('q');
-        $page = $request->input('page', 1);
-        $perPage = 10;
+        $term = $request->input('q', ''); // Kata kunci pencarian (default: kosong)
+        $page = $request->input('page', 1); // Halaman saat ini (default: halaman pertama)
+        $perPage = 10; // Jumlah item per halaman
 
-        $query = Wilayah::where('nama_wilayah', 'LIKE', '%' . $term . '%')
-            ->orderBy('nama_wilayah')
-            ->groupBy('nama_wilayah', 'id_Wilayah');
+        // Cache semua data Wilayah selama 2 jam
+        $wilayah = Cache::remember('all_wilayah', 7200, function () {
+            return Wilayah::orderBy('nama_wilayah')->groupBy('nama_wilayah', 'id_Wilayah')->get(); // Ambil semua data Wilayah
+        });
 
-        $wilayah = $query->paginate($perPage, ['*'], 'page', $page);
+        // Filter data berdasarkan pencarian (LIKE '%term%')
+        $filtered = $wilayah->filter(function ($item) use ($term) {
+            return stripos($item->nama_wilayah, $term) !== false; // Cari nama yang mengandung term
+        });
 
+        // Konversi hasil ke array agar bisa digunakan untuk pagination manual
+        $filteredArray = $filtered->values()->toArray();
+
+        // Pagination manual
+        $paginated = array_slice($filteredArray, ($page - 1) * $perPage, $perPage);
+
+        // Format hasil untuk Select2
         $results = [];
-
-        foreach ($wilayah as $data) {
+        foreach ($paginated as $data) {
             $results[] = [
-                'id' => $data->id_wilayah,
-                'text' => $data->nama_wilayah
+                'id' => $data['id_wilayah'],
+                'text' => $data['nama_wilayah'],
             ];
         }
 
+        // Respons JSON untuk Select2
         $response = [
             'results' => $results,
             'pagination' => [
-                'more' => $wilayah->hasMorePages(), // Check if there are more pages
+                'more' => count($filteredArray) > $page * $perPage, // Apakah masih ada halaman berikutnya
             ],
         ];
 
@@ -301,6 +313,11 @@ class ToolDepo extends Controller
                 case 'NGAWI':
                 case 'BLITAR':
                 case 'KISARAN':
+                case 'SURABAYA 1':
+                case 'SURABAYA 2':
+                case 'TASIKMALAYA':
+                case 'BONDOWOSO':
+                case 'MAJALENGKA':
                     $periode = "Bulanan";
                     break;
                 default:
@@ -381,6 +398,9 @@ class ToolDepo extends Controller
                     case 'PALANGKARAYA':
                     case 'TANJUNG MORAWA':
                     case 'BAGAN BATU':
+                    case 'MEDAN':
+                    case 'DURI':
+                    case 'DUMAI':
                         $digitpref = 8;
                         $digit = 4;
                         break;
@@ -401,6 +421,7 @@ class ToolDepo extends Controller
                     case 'DENPASAR 2':
                     case 'MAKASSAR':
                     case 'RENGAT':
+                    case 'KOLAKA':
                         $digitpref = 9;
                         $digit = 3;
                         break;
@@ -412,6 +433,7 @@ class ToolDepo extends Controller
                     case 'SIBOLGA':
                     case 'BATURAJA':
                     case 'LAHAT':
+                    case 'JAKARTA PUSAT-UTARA':
                         $digitpref = 9;
                         $digit = 4;
                         break;
@@ -431,6 +453,7 @@ class ToolDepo extends Controller
                         break;
                     case 'TEGAL':
                     case 'PEKALONGAN':
+                    case 'PALOPO':
                     case 'BLITAR':
                         $digitpref = 8;
                         $digit = 3;
@@ -441,6 +464,7 @@ class ToolDepo extends Controller
                         break;
                     case 'GARUT':
                     case 'BANDUNG 3 (BANJARAN)':
+                    case 'TASIKMALAYA':
                         $digitpref = 6;
                         $digit = 6;
                         break;
@@ -449,6 +473,7 @@ class ToolDepo extends Controller
                         $digit = 3;
                         break;
                     case 'KEDIRI':
+                    case 'MAJALENGKA':
                         $digitpref = 13;
                         $digit = 4;
                         break;
@@ -475,6 +500,10 @@ class ToolDepo extends Controller
                     case 'KABANJAHE':
                         $digitpref = 7;
                         $digit = 5;
+                        break;
+                    case 'BONDOWOSO':
+                        $digitpref = 7;
+                        $digit = 6;
                         break;
                     default:
                         $digitpref = 8; // default value

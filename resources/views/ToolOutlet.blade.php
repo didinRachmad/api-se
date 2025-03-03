@@ -67,6 +67,19 @@
                                 value="{{ old('pasar_awal', $pasar_awal ?? '') }}">
                         </div>
                         <div class="input-group input-group-sm flex-nowrap mb-2">
+                            <span class="input-group-text">Depo</span>
+                            <select class="form-select form-select-sm select2-iddepo_awal" name="iddepo_awal"
+                                id="iddepo_awal">
+                                <option value="{{ old('iddepo_awal', $iddepo_awal ?? '') }}">
+                                    {{ old('depo_awal', $depo_awal ?? '') }}
+                                </option>
+                            </select>
+                            <input type="hidden" id="depo_awal" name="depo_awal"
+                                value="{{ old('depo_awal', $depo_awal ?? '') }}">
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="input-group input-group-sm flex-nowrap mb-2">
                             <span class="input-group-text">Type</span>
                             <select class="form-select form-select-sm type fw-bold" name="type" id="type">
                                 <option value="" {{ old('type', $type ?? '') == '' ? 'selected' : '' }}>All</option>
@@ -75,16 +88,20 @@
                                     Kandidat
                                 </option>
                             </select>
-                            <div class="px-1"></div>
-                            <textarea id="kode_customer_rute" name="kode_customer_rute" class="form-control" rows="3"
+                        </div>
+                        <div class="input-group input-group-sm flex-nowrap mb-2">
+                            <textarea id="kode_customer_rute" name="kode_customer_rute" class="form-control" rows="5"
                                 placeholder="Kode Customer">{{ old('kode_customer', $kode_customer ?? '') }}</textarea>
+                            <div class="px-1"></div>
+                            <textarea id="survey_pasar_id_rute" name="survey_pasar_id_rute" class="form-control" rows="5"
+                                placeholder="ID Survey Pasar">{{ old('id_survey_pasar', $id_survey_pasar ?? '') }}</textarea>
                         </div>
                     </div>
                     <div class="col-lg-1 text-center my-auto">
                         <button type="submit" class="btn btn-primary btn-sm">Search <span><i
                                     class="bi bi-search"></i></span></button>
                     </div>
-                    <div class="col-lg-4">
+                    {{-- <div class="col-lg-4">
                         <div class="input-group input-group-sm flex-nowrap mb-2">
                             <span class="input-group-text">Salesman</span>
                             <select class="form-select form-select-sm select2-salesman_akhir" name="salesman_akhir"
@@ -105,23 +122,25 @@
                     <div class="col-lg-1 text-center my-auto">
                         <button type="button" class="btn btn-primary btn-sm" id="btnPindah">Pindah <span><i
                                     class="bi bi-sign-intersection-y-fill"></i></span></button>
-                    </div>
-                    <div class="col-lg-2 text-center my-auto">
-                        <button type="button" class="btn btn-info btn-sm my-1" id="btnPindahPasar">Pindah Pasar <i
-                                class="bi bi-sign-intersection-y-fill"></i></button>
-                        <button type="button" class="btn btn-success btn-sm my-1" id="btnPindahLokasi">Pindah Lokasi
-                            <i class="bi bi-sign-intersection-y-fill"></i></button>
+                    </div> --}}
+                    <div class="col-lg-3 text-center my-auto">
+                        {{-- <button type="button" class="btn btn-info btn-sm my-1" id="btnPindahPasar">Pindah Pasar <i
+                                class="bi bi-sign-intersection-y-fill"></i></button> --}}
+                        {{-- <button type="button" class="btn btn-success btn-sm my-1" id="btnPindahLokasi">Pindah Lokasi
+                            <i class="bi bi-sign-intersection-y-fill"></i></button> --}}
                         {{-- <button type="button" class="btn btn-secondary btn-sm my-1" id="btnEditKodeOrder">Update
                             Kode Order <i class="bi bi-pen-fill"></i></button> --}}
                         {{-- <button type="button" class="btn btn-warning btn-sm my-1" id="btnClearKodeKandidat">Clear
                                 Kode Kandidat <i class="bi bi-x-square-fill"></i></button> --}}
-                        <button type="button" class="btn btn-danger btn-sm my-1" id="btnHapusRODouble">Hapus RO
-                            Double <i class="bi bi-trash"></i></button>
-                        <button type="button" class="btn btn-danger btn-sm my-1" id="btnHapusROBiasa">Hapus RO
+                        {{-- <button type="button" class="btn btn-danger btn-sm my-1" id="btnHapusRODouble">Hapus RO
+                            Double <i class="bi bi-trash"></i></button> --}}
+                        <button type="button" class="btn btn-warning btn-sm my-1" id="btnHapusROBiasa">Hapus RO
                             Biasa <i class="bi bi-trash"></i></button>
                         <button type="button" class="btn btn-danger btn-sm my-1" id="btnHapusROPermanent">Hapus RO
                             Permanent <i class="bi bi-trash"></i></button>
-                        <div class="btn-group">
+                        {{-- <button type="button" class="btn btn-warning btn-sm my-1" id="btnEditKodeOKAN">Edit Kode OKAN<i
+                                class="bi bi-trash"></i></button> --}}
+                        {{-- <div class="btn-group">
                             <button class="btn btn-secondary btn-sm dropdown-toggle" type="button"
                                 data-bs-toggle="dropdown" aria-expanded="false">
                                 Tipe Outlet
@@ -131,13 +150,20 @@
                                 <li><a class="dropdown-item btnSetTipeOutlet" href="#">Grosir</a></li>
                                 <li><a class="dropdown-item btnSetTipeOutlet" href="#">NOO</a></li>
                             </ul>
-                        </div>
+                        </div> --}}
+                        <br>
+                        @if (isset($salesman_awal))
+                            <button type="button" class="btn btn-info btn-sm btnOrder">Order <span> <i
+                                        class="bi bi-journal-text"></i></span></button>
+                            <button type="button" class="btn btn-secondary btn-sm btnKandidat">Visit Kandidat <span> <i
+                                        class="bi bi-journal-text"></i></span></button>
+                        @endif
                     </div>
                 </div>
             </form>
 
             @if (isset($data) && !empty($data))
-                <div class="row py-1 px-3 my-2 mx-1 rounded text-white" style="background-color: #252B3B;">
+                <div class="row py-1 px-3 my-2 mx-3 rounded text-white" style="background-color: #252B3B;">
                     <div class="col-lg-12">
                         <p class="d-inline-block p-1">Distributor : <span class="fw-bold"
                                 id="nama_distributor">{{ end($data)['nama_distributor'] ?? '' }}
@@ -150,29 +176,23 @@
                         <p class="d-inline-block p-1">Nama Salesman : <span class="fw-bold"
                                 id="nama_salesman">{{ end($data)['salesman'] ?? '' }}</span>
                         </p>
-                        @if (isset($salesman_awal))
-                            <button type="button" class="btn btn-info btn-sm btnOrder">Order <span> <i
-                                        class="bi bi-journal-text"></i></span></button>
-                            <button type="button" class="btn btn-warning btn-sm btnKandidat">Visit Kandidat <span> <i
-                                        class="bi bi-journal-text"></i></span></button>
-                        @endif
                     </div>
                 </div>
             @else
                 @php
                     $data = [];
                 @endphp
-                <div class="row p-1">
-                    <div class="col-lg-12 text-center">
+                <div class="row py-1 px-3 my-2 mx-3 rounded text-white" style="background-color: #252B3B;">
+                    {{-- <div class="col-lg-12 text-center">
                         <button type="button" class="btn btn-info btn-sm btnOrder">Order <span> <i
                                     class="bi bi-journal-text"></i></span></button>
                         <button type="button" class="btn btn-warning btn-sm btnKandidat">Visit Kandidat <span> <i
                                     class="bi bi-journal-text"></i></span></button>
-                    </div>
+                    </div> --}}
                 </div>
             @endif
             <div class="table-responsive">
-                <table class="table table-sm table-light table-striped align-middle myTable w-100" id="myTable">
+                <table class="table table-sm table-striped align-middle myTable w-100" id="myTable">
                     <thead class="text-center">
                         <tr>
                             <th>No</th>
@@ -182,10 +202,9 @@
                             <th>Hari</th>
                             <th>Rute ID</th>
                             <th>ID MRDO</th>
-                            <th>Survey pasar ID</th>
-                            <th>ID MCO <button type="button" class="btn btn-sm btn-secondary" id="salinID_MCO"><i
-                                        class="bi bi-clipboard-fill"></i></button>
-                            </th>
+                            <th>Survey pasar ID <button type="button" class="btn btn-sm btn-secondary"
+                                    id="salinID_SP"><i class="bi bi-clipboard-fill"></i></button></th>
+                            <th>ID MCO</th>
                             <th>Kode Customer <button type="button" class="btn btn-sm btn-secondary" id="salinKode"><i
                                         class="bi bi-clipboard-fill"></i></button>
                             </th>
@@ -266,7 +285,7 @@
                                     {{ $mr['hari'] }}</td>
                                 <td class="rute_id">{{ $mr['id'] }}</td>
                                 <td class="id_mrdo">{{ $mr['mrdo_id'] }}</td>
-                                <td class="survey_pasar_id">{{ $mr['survey_pasar_id'] }}</td>
+                                <td class="text-success fw-bolder survey_pasar_id">{{ $mr['survey_pasar_id'] }}</td>
                                 <td class="id_mco">{{ $mr['id_qr_outlet'] }}</td>
                                 <td class="text-primary fw-bolder kode_customer">{{ $mr['kode_customer'] }}
                                 </td>
@@ -361,6 +380,8 @@
                                 <th><button type="button" class="btn btn-sm btn-secondary" id="salinKodeOrder"><i
                                             class="bi bi-clipboard-fill"></i></button> kode customer</th>
                                 <th>nama toko</th>
+                                <th>id pasar</th>
+                                <th>nama pasar</th>
                                 <th>id survey pasar</th>
                                 <th>status</th>
                                 <th>total rp</th>
@@ -627,7 +648,7 @@
                     cache: true
                 },
                 placeholder: 'Pilih Hari',
-                minimumInputLength: 3,
+                // minimumInputLength: 3,
                 allowClear: true,
                 templateResult: function(data) {
                     if (data.loading) {
@@ -659,7 +680,7 @@
                     cache: true
                 },
                 placeholder: 'Pilih Rute',
-                minimumInputLength: 3,
+                // minimumInputLength: 3,
                 allowClear: true,
                 templateResult: function(data) {
                     if (data.loading) {
@@ -717,6 +738,50 @@
             }).on('select2:select', function(e) {
                 var data = e.params.data;
                 $('#pasar_awal').val(data.text);
+            });
+
+            // SELECT DEPO AWAL
+            $('.select2-iddepo_awal').select2({
+                theme: 'bootstrap-5',
+                ajax: {
+                    url: "{{ route('ToolOutlet.getWilayah') }}",
+                    dataType: 'json',
+                    delay: 250,
+                    data: function(params) {
+                        return {
+                            q: params.term,
+                            page: params.page || 1,
+                            // id_wilayah: $('#nama_wilayah').text().match(/\((.*?)\)/)[1],
+                        };
+                    },
+                    processResults: function(data, params) {
+                        params.page = params.page || 1; // Menyimpan nilai halaman saat ini
+
+                        return {
+                            results: data.results,
+                            pagination: {
+                                more: data.pagination.more // Mengambil nilai 'more' dari respons server
+                            }
+                        };
+                    },
+                    cache: true
+                },
+                placeholder: 'Pilih Depo',
+                minimumInputLength: 3,
+                allowClear: true,
+                templateResult: function(data) {
+                    if (data.loading) {
+                        return data.text;
+                    }
+                    return $('<span>').text(data.id).addClass('pull-right').append($('<b>')
+                        .text(' - ' + data.text));
+                },
+                templateSelection: function(data) {
+                    return data.text;
+                }
+            }).on('select2:select', function(e) {
+                var data = e.params.data;
+                $('#depo_awal').val(data.text);
             });
 
             // SELECT SALESMAN AKHIR
@@ -785,7 +850,7 @@
                     cache: true
                 },
                 placeholder: 'Pilih Rute',
-                minimumInputLength: 3,
+                // minimumInputLength: 3,
                 allowClear: true,
                 templateResult: function(data) {
                     if (data.loading) {
@@ -880,7 +945,7 @@
 
             var table = $('.myTable').DataTable({
                 dom: "<'row'<'col-sm-12 col-md-2 filter-survey_pasar'><'col-sm-12 col-md-2 filter-KodeCustomer'><'col-sm-12 col-md-2 filter-NamaToko'><'col-sm-12 col-md-2 filter-Alamat'><'col-sm-12 col-md-2 filter-jenis_outlet'B><'col-sm-12 col-md-2 text-right'f>>" +
-                    "<'row'<'col-sm-12 table-responsive'tr>>" +
+                    "<'row py-2'<'col-sm-12'tr>>" +
                     "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
                 paging: false,
                 orderCellsTop: true,
@@ -1120,10 +1185,10 @@
                     console.error('Gagal menyalin teks: ', err);
                 });
             });
-            $('#salinID_MCO').click(function(e) {
+            $('#salinID_SP').click(function(e) {
                 // Mengambil data kolom dengan filter yang aktif
                 e.stopPropagation();
-                var filteredData = table.column(8, {
+                var filteredData = table.column(7, {
                     search: 'applied'
                 }).data().toArray();
 
@@ -1158,7 +1223,7 @@
                         processing: true,
                         serverSide: true,
                         dom: "<'row'<'col-sm-12 col-md-2'l><'col-sm-12 col-md-5'B><'col-sm-12 col-md-5 text-right'f >> " +
-                            "<'row'<'col-sm-12 table-responsive'tr>>" +
+                            "<'row py-2'<'col-sm-12'tr>>" +
                             "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
                         // scrollY: 260,
                         "lengthMenu": [10, 25, 50, 75, 100, 500],
@@ -1198,7 +1263,7 @@
                             },
                         },
                         order: [
-                            [12, 'asc'],
+                            [10, 'asc'],
                             [2, 'asc'],
                             [4, 'asc']
                         ],
@@ -1241,6 +1306,15 @@
                             {
                                 data: 'nama_toko',
                                 name: 'nama_toko'
+                            },
+                            {
+                                data: 'id_pasar',
+                                name: 'id_pasar',
+                                className: 'text-primary'
+                            },
+                            {
+                                data: 'nama_pasar',
+                                name: 'nama_pasar'
                             },
                             {
                                 data: 'id_survey_pasar',
@@ -1359,7 +1433,7 @@
                         processing: true,
                         serverSide: true,
                         dom: "<'row'<'col-sm-12 col-md-2'l><'col-sm-12 col-md-5'B><'col-sm-12 col-md-5 text-right'f >> " +
-                            "<'row'<'col-sm-12 table-responsive'tr>>" +
+                            "<'row py-2'<'col-sm-12'tr>>" +
                             "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
                         // scrollY: 260,
                         "lengthMenu": [10, 25, 50, 75, 100, 500],
@@ -2390,11 +2464,15 @@
 
             // HAPUS OUTLET BIASA
             $('#btnHapusROBiasa').on('click', function(e) {
-                var keterangan = prompt("Isi Keterangan", "");
                 if ($('.check:checked').length === 0) {
                     $('#errorModal #message').text("Belum ada data yang dipilih");
                     $('#errorModal').modal('show');
                 } else {
+                    var keterangan = prompt("Isi Keterangan", "");
+                    if (!keterangan) {
+                        $('#errorModal').modal('show');
+                        return;
+                    }
                     var completedRequests = 0;
                     $('.check:checked').each(function(index) {
                         var mrdo_id = $(this).closest('tr').find('.id_mrdo').text().trim();
@@ -2446,11 +2524,15 @@
 
             // HAPUS OUTLET PERMANEN
             $('#btnHapusROPermanent').on('click', function(e) {
-                var keterangan = prompt("Isi Keterangan", "");
                 if ($('.check:checked').length === 0) {
                     $('#errorModal #message').text("Belum ada data yang dipilih");
                     $('#errorModal').modal('show');
                 } else {
+                    var keterangan = prompt("Isi Keterangan", "");
+                    if (!keterangan) {
+                        $('#errorModal').modal('show');
+                        return;
+                    }
                     var completedRequests = 0;
                     $('.check:checked').each(function(index) {
                         var mrdo_id = $(this).closest('tr').find('.id_mrdo').text().trim();
@@ -2498,6 +2580,57 @@
                         });
                     });
                 }
+            });
+
+            // HAPUS OUTLET PERMANEN
+            $('#btnEditKodeOKAN').on('click', function(e) {
+
+                var completedRequests = 0;
+                $('.check:checked').each(function(index) {
+                    var mrdo_id = $(this).closest('tr').find('.id_mrdo').text().trim();
+                    var rute_id = $(this).closest('tr').find('.rute_id').text().trim();
+                    var kode_customer_old = $(this).closest('tr').find('.kode_customer').text()
+                        .trim();
+                    var kode_customer_new = 0;
+                    var change_mainroad = "pasar";
+
+                    $.ajax({
+                        type: 'POST',
+                        url: "https://sales.motasaindonesia.co.id/api/tool/rute/updateKodeOutlet",
+                        dataType: 'json',
+                        encode: true,
+                        data: {
+                            mrdo_id: mrdo_id,
+                            rute_id: rute_id,
+                            kode_customer_old: kode_customer_old,
+                            kode_customer_new: kode_customer_new,
+                            change_mainroad: change_mainroad,
+                        },
+                        beforeSend: function() {
+                            $('.loading-overlay').show();
+                        },
+                        success: function(response) {
+                            completedRequests++;
+                            if (completedRequests === $('.check:checked').length) {
+                                $('.loading-overlay').hide();
+                                $('#successModal').modal('show');
+                                setTimeout(function() {
+                                    $('#successModal').modal('hide');
+                                    location.reload();
+                                }, 1000);
+                            }
+                        },
+                        error: function(xhr, status, error) {
+                            $('.loading-overlay').hide();
+                            console.error(error);
+                            $('#errorModal').modal('show');
+                        },
+                        // complete: function() {
+                        //     $('.loading-overlay').hide();
+                        // }
+                    });
+                });
+
             });
 
             // cek_rute_aktif();
