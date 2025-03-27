@@ -35,7 +35,7 @@
                                         <td class="response"></td>
                                         <td>
                                             <button type="button" name="kirim[]"
-                                                class="btn btn-sm btn-primary kirim-satu">Upload</button>
+                                                class="btn btn-sm rounded-3 shadow-sm btn-outline-primary kirim-satu">Upload</button>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -70,7 +70,7 @@
 </div>
                     </div>
                     <div class="col-12">
-                        <button type="button" class="btn btn-sm btn-primary" id="kirim-all">
+                        <button type="button" class="btn btn-sm rounded-3 shadow-sm btn-outline-primary" id="kirim-all">
                             Upload Semua
                         </button>
                     </div>

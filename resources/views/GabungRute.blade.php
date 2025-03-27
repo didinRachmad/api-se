@@ -44,7 +44,7 @@
                             name='tgl_pengganti' value='<?= date('Y-m-d') ?>'>
                     </div>
                     <div class="col-lg-3">
-                        <button type="submit" class="btn btn-primary btn-sm">Gabung <span> <i
+                        <button type="submit" class="btn btn-outline-primary btn-sm rounded-3 shadow-sm">Gabung <span> <i
                                     class="bi bi-save"></i></span></button>
                     </div>
                 </div>

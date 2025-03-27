@@ -63,7 +63,7 @@
                         </div>
                     </div>
                     <div class="col-lg-1 text-center my-auto">
-                        <button type="submit" class="btn btn-primary btn-sm">Search <span><i
+                        <button type="submit" class="btn btn-outline-primary btn-sm rounded-3 shadow-sm">Search <span><i
                                     class="bi bi-search"></i></span></button>
                     </div>
                     <div class="col-lg-4">
@@ -85,23 +85,28 @@
                         </div>
                     </div>
                     <div class="col-lg-1 text-center my-auto">
-                        <button type="button" class="btn btn-primary btn-sm" id="btnPindah">Pindah <span><i
-                                    class="bi bi-sign-intersection-y-fill"></i></span></button>
+                        <button type="button" class="btn btn-outline-primary btn-sm rounded-3 shadow-sm"
+                            id="btnPindah">Pindah
+                            <span><i class="bi bi-sign-intersection-y-fill"></i></span></button>
                     </div>
                     <div class="col-lg-2 text-center my-auto">
-                        <button type="button" class="btn btn-info btn-sm my-1" id="btnPindahPasar">Pindah Pasar <i
-                                class="bi bi-sign-intersection-y-fill"></i></button>
-                        <button type="button" class="btn btn-success btn-sm my-1" id="btnPindahLokasi">Pindah Lokasi
+                        <button type="button" class="btn btn-sm rounded-3 shadow-sm btn-outline-info my-1"
+                            id="btnPindahPasar">Pindah
+                            Pasar
                             <i class="bi bi-sign-intersection-y-fill"></i></button>
-                        {{-- <button type="button" class="btn btn-secondary btn-sm my-1" id="btnEditKodeOrder">Update
+                        <button type="button" class="btn btn-outline-success btn-sm my-1" id="btnPindahLokasi">Pindah
+                            Lokasi
+                            <i class="bi bi-sign-intersection-y-fill"></i></button>
+                        {{-- <button type="button" class="btn btn-sm rounded-3 shadow-sm btn-outline-secondary my-1" id="btnEditKodeOrder">Update
                             Kode Order <i class="bi bi-pen-fill"></i></button> --}}
-                        {{-- <button type="button" class="btn btn-warning btn-sm my-1" id="btnClearKodeKandidat">Clear
+                        {{-- <button type="button" class="btn btn-sm rounded-3 shadow-sm btn-outline-warning my-1" id="btnClearKodeKandidat">Clear
                                 Kode Kandidat <i class="bi bi-x-square-fill"></i></button> --}}
-                        <button type="button" class="btn btn-danger btn-sm my-1" id="btnHapusRODouble">Hapus RO
+                        <button type="button" class="btn btn-sm rounded-3 shadow-sm btn-outline-danger my-1"
+                            id="btnHapusRODouble">Hapus RO
                             Double <i class="bi bi-trash"></i></button>
                         <div class="btn-group">
-                            <button class="btn btn-secondary btn-sm dropdown-toggle" type="button"
-                                data-bs-toggle="dropdown" aria-expanded="false">
+                            <button class="btn btn-sm rounded-3 shadow-sm btn-outline-secondary dropdown-toggle"
+                                type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 Tipe Outlet
                             </button>
                             <ul class="dropdown-menu">
@@ -135,10 +140,12 @@
                                 ({{ $data->first()->kr?->id_salesman_mss ?? '' }})</span>
                         </p>
                         @if (isset($salesman_awal))
-                            <button type="button" class="btn btn-info btn-sm btnOrder">Order <span> <i
-                                        class="bi bi-journal-text"></i></span></button>
-                            <button type="button" class="btn btn-warning btn-sm btnKandidat">Visit Kandidat <span> <i
-                                        class="bi bi-journal-text"></i></span></button>
+                            <button type="button" class="btn btn-sm rounded-3 shadow-sm btn-outline-info btnOrder">Order
+                                <span> <i class="bi bi-journal-text"></i></span></button>
+                            <button type="button"
+                                class="btn btn-sm rounded-3 shadow-sm btn-outline-warning btnKandidat">Visit
+                                Kandidat
+                                <span> <i class="bi bi-journal-text"></i></span></button>
                         @endif
                     </div>
                 </div>
@@ -154,17 +161,18 @@
                         <th>Rute ID</th>
                         <th>ID MRDO</th>
                         <th>Survey pasar ID</th>
-                        <th>ID MCO <button type="button" class="btn btn-sm btn-secondary" id="salinID_MCO"><i
+                        <th>ID MCO <button type="button" class="btn btn-sm rounded-3 shadow-sm btn-outline-secondary"
+                                id="salinID_MCO"><i class="bi bi-clipboard-fill"></i></button>
+                        </th>
+                        <th>Kode Customer <button type="button"
+                                class="btn btn-sm rounded-3 shadow-sm btn-outline-secondary" id="salinKode"><i
                                     class="bi bi-clipboard-fill"></i></button>
                         </th>
-                        <th>Kode Customer <button type="button" class="btn btn-sm btn-secondary" id="salinKode"><i
-                                    class="bi bi-clipboard-fill"></i></button>
+                        <th>Nama Toko <button type="button" class="btn btn-sm rounded-3 shadow-sm btn-outline-secondary"
+                                id="salinNamaToko"><i class="bi bi-clipboard-fill"></i></button>
                         </th>
-                        <th>Nama Toko <button type="button" class="btn btn-sm btn-secondary" id="salinNamaToko"><i
-                                    class="bi bi-clipboard-fill"></i></button>
-                        </th>
-                        <th>Alamat <button type="button" class="btn btn-sm btn-secondary" id="salinAlamat"><i
-                                    class="bi bi-clipboard-fill"></i></button>
+                        <th>Alamat <button type="button" class="btn btn-sm rounded-3 shadow-sm btn-outline-secondary"
+                                id="salinAlamat"><i class="bi bi-clipboard-fill"></i></button>
                         </th>
                         <th>ID Pasar</th>
                         <th>Nama pasar</th>
@@ -174,7 +182,7 @@
                         <th class="text-center" id="action">Action</th>
                         <th class="text-center">
                             <input type="checkbox" class="btn-check check-all" id="check-all" autocomplete="off">
-                            <label class="btn btn-sm btn-outline-success" for="check-all">All</label>
+                            <label class="btn btn-sm rounded-3 shadow-sm btn-outline-success" for="check-all">All</label>
                         </th>
                     </thead>
                     <tbody>
@@ -217,32 +225,32 @@
                                         <div class="row px-2 py-1">
                                             <div class="col-12 px-0">
                                                 <button type="button"
-                                                    class="btn btn-sm p-1 btn-warning btn-block w-100 btnEdit">Edit</button>
+                                                    class="btn btn-sm rounded-3 shadow-sm p-1 btn-outline-warning btn-block w-100 btnEdit">Edit</button>
                                             </div>
                                             {{-- <div class="col-6 px-0">
-                                                <button type="button" class="btn btn-sm p-1 btn-info btn-block w-100 btnSetRetail"
+                                                <button type="button" class="btn btn-sm rounded-3 shadow-sm p-1 btn-outline-info btn-block w-100 btnSetRetail"
                                                     data-row-index="{{ $no }}"
                                                     data-id_mrdo="{{ $mrdo->id }}"
                                                     data-id_mco="{{ $mrdo->mco->id ?? '' }}"
                                                     data-set={{ null }}>Retail</button>
                                                 </div>
                                                 <div class="col-6 px-0">
-                                                    <button type="button" class="btn btn-sm p-1 btn-success btn-block w-100 btnSetGrosir" data-row-index="{{ $no }}" data-id_mrdo="{{ $mrdo->id }}" data-id_mco="{{ $mrdo->mco->id ?? '' }}" data-set="TPOUT_WHSL">Grosir</button>
+                                                    <button type="button" class="btn btn-sm rounded-3 shadow-sm p-1 btn-outline-success btn-block w-100 btnSetGrosir" data-row-index="{{ $no }}" data-id_mrdo="{{ $mrdo->id }}" data-id_mco="{{ $mrdo->mco->id ?? '' }}" data-set="TPOUT_WHSL">Grosir</button>
                                             </div> --}}
                                             {{-- <div class="col-6 px-0">
-                                                <button type="button" class="btn btn-sm p-1 btn-light w-100 bypassQR"
+                                                <button type="button" class="btn btn-sm rounded-3 shadow-sm p-1 btn-light w-100 bypassQR"
                                                     data-survey_pasar_id="{{ $mrdo->survey_pasar_id }}">QR</button>
                                             </div> --}}
                                             {{-- <div class="col-6 px-0">
                                                     <button type="button"
-                                                        class="btn btn-sm p-1 btn-danger btn-block w-100 btnHapus">Hapus</button>
+                                                        class="btn btn-sm rounded-3 shadow-sm p-1 btn-outline-danger btn-block w-100 btnHapus">Hapus</button>
                                                 </div> --}}
                                         </div>
                                     </td>
                                     <td class="text-center">
                                         <input type="checkbox" class="btn-check check" id="check{{ $no }}"
                                             autocomplete="off">
-                                        <label class="btn btn-sm btn-outline-success"
+                                        <label class="btn btn-sm rounded-3 shadow-sm btn-outline-success"
                                             for="check{{ $no }}">Pilih</label>
                                     </td>
                                 </tr>
@@ -375,9 +383,9 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal"
                         aria-label="Close">Batal</button>
-                    <button type="button" class="btn btn-primary" id="saveEdit">Simpan</button>
+                    <button type="button" class="btn btn-outline-primary" id="saveEdit">Simpan</button>
                 </div>
             </div>
         </div>
@@ -404,9 +412,9 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal"
                         aria-label="Close">Batal</button>
-                    <button type="button" class="btn btn-primary" id="savePindahPasar">Simpan</button>
+                    <button type="button" class="btn btn-outline-primary" id="savePindahPasar">Simpan</button>
                 </div>
             </div>
         </div>
@@ -434,9 +442,9 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal"
                         aria-label="Close">Batal</button>
-                    <button type="button" class="btn btn-primary" id="savePindahLokasi">Simpan</button>
+                    <button type="button" class="btn btn-outline-primary" id="savePindahLokasi">Simpan</button>
                 </div>
             </div>
         </div>
@@ -2204,7 +2212,7 @@
                                 if (item.verifikasi_qr['flag_qr']) {
                                     if (item.pengajuan_by_pass[0]) {
                                         dataQR[mrdo_id] = `<button type="button"
-                                                    class="btn btn-sm p-1 btn-danger btn-block w-100 btnBarcode"
+                                                    class="btn btn-sm rounded-3 shadow-sm p-1 btn-outline-danger btn-block w-100 btnBarcode"
                                                     data-id_qr="` + item.pengajuan_by_pass[0].id + `">QR</button>`;
                                     } else {
                                         dataQR[mrdo_id] = 'Belum Isi QR Bermasalah';

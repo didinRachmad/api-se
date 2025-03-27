@@ -13,8 +13,8 @@
             </div>
         </div>
         <div class="col-md-2 col-sm-12 mb-3 align-self-center">
-            <button class="btn btn-success btn-sm tambah">Tambah Data</button>
-            <button class="btn btn-primary btn-sm kirim">Absen</button>
+            <button class="btn btn-outline-success btn-sm tambah">Tambah Data</button>
+            <button class="btn btn-outline-primary btn-sm kirim">Absen</button>
         </div>
     </div>
     <div class="row justify-content-center text-center text-white">

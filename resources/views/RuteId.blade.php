@@ -36,12 +36,13 @@
                         <input type="hidden" id="rute" name="rute" value="{{ old('rute', $rute ?? '') }}">
                     </div>
                     <div class="col-lg-4">
-                        <button type="submit" class="btn btn-primary btn-sm">Search <span> <i
+                        <button type="submit" class="btn btn-outline-primary btn-sm rounded-3 shadow-sm">Search <span> <i
                                     class="bi bi-search"></i></span></button>
-                        <button type="button" class="btn btn-info btn-sm btnOrder">Order <span> <i
-                                    class="bi bi-journal-text"></i></span></button>
-                        <button type="button" class="btn btn-warning btn-sm btnKandidat">Kandidat <span> <i
-                                    class="bi bi-journal-text"></i></span></button>
+                        <button type="button" class="btn btn-sm rounded-3 shadow-sm btn-outline-info btnOrder">Order <span>
+                                <i class="bi bi-journal-text"></i></span></button>
+                        <button type="button"
+                            class="btn btn-sm rounded-3 shadow-sm btn-outline-warning btnKandidat">Kandidat <span>
+                                <i class="bi bi-journal-text"></i></span></button>
                     </div>
                     {{-- </div> --}}
 
@@ -77,9 +78,11 @@
                         <th>rute id</th>
                         <th>rute detail id</th>
                         <th>survey pasar id</th>
-                        <th>Kode Customer <button type="button" class="btn btn-sm p-1 btn-secondary" id="salinKode"><i
+                        <th>Kode Customer <button type="button"
+                                class="btn btn-sm rounded-3 shadow-sm p-1 btn-outline-secondary" id="salinKode"><i
                                     class="bi bi-clipboard-fill"></i></button></th>
-                        <th>Nama Toko <button type="button" class="btn btn-sm p-1 btn-secondary" id="salinNamaToko"><i
+                        <th>Nama Toko <button type="button"
+                                class="btn btn-sm rounded-3 shadow-sm p-1 btn-outline-secondary" id="salinNamaToko"><i
                                     class="bi bi-clipboard-fill"></i></button></th>
                         <th>Alamat</th>
                         <th>id mco</th>
@@ -121,14 +124,15 @@
                                         <div class="row px-2 py-1">
                                             <div class="col-6 px-0">
                                                 <button type="button"
-                                                    class="btn btn-sm p-1 btn-warning btnEditAlamat w-100"
+                                                    class="btn btn-sm rounded-3 shadow-sm p-1 btn-outline-warning btnEditAlamat w-100"
                                                     data-row-index="{{ $no }}"
                                                     data-alamat-awal="{{ $mrdo->alamat }}"
                                                     data-survey_pasar_id="{{ $mrdo->survey_pasar_id }}"
                                                     data-id_mco="{{ $mrdo->mco->id }}">Edit</button>
                                             </div>
                                             <div class="col-6 px-0">
-                                                <button type="button" class="btn btn-sm p-1 btn-primary btnEditKode w-100"
+                                                <button type="button"
+                                                    class="btn btn-sm rounded-3 shadow-sm p-1 btn-outline-primary btnEditKode w-100"
                                                     data-row-index="{{ $no }}"
                                                     data-kode-awal="{{ $mrdo->mco->kode_customer }}"
                                                     data-id_mco="{{ $mrdo->mco->id }}"
@@ -136,28 +140,30 @@
                                             </div>
                                             <div class="col-6 px-0">
                                                 <button type="button"
-                                                    class="btn btn-sm p-1 btn-secondary btnPindahPasar w-100"
+                                                    class="btn btn-sm rounded-3 shadow-sm p-1 btn-outline-secondary btnPindahPasar w-100"
                                                     data-id="{{ $mrdo->id }}" data-id_mco="{{ $mrdo->mco->id }}"
                                                     data-id_pasar_awal="{{ $mrdo->id_pasar }}"
                                                     data-rute_id_awal="{{ $mrdo->rute_id }}"
                                                     data-id_survey_pasar="{{ $mrdo->survey_pasar_id }}">Pasar</button>
                                             </div>
                                             <div class="col-6 px-0">
-                                                <button type="button" class="btn btn-sm p-1 btn-info w-100 btnSetRetail"
+                                                <button type="button"
+                                                    class="btn btn-sm rounded-3 shadow-sm p-1 btn-outline-info w-100 btnSetRetail"
                                                     data-row-index="{{ $no }}"
                                                     data-id_mrdo="{{ $mrdo->id }}" data-id_mco="{{ $mrdo->mco->id }}"
                                                     data-set={{ null }}>Retail</button>
                                             </div>
                                             <div class="col-6 px-0">
                                                 <button type="button"
-                                                    class="btn btn-sm p-1 btn-success w-100 btnSetGrosir"
+                                                    class="btn btn-sm rounded-3 shadow-sm p-1 btn-outline-success w-100 btnSetGrosir"
                                                     data-row-index="{{ $no }}"
                                                     data-id_mrdo="{{ $mrdo->id }}"
                                                     data-id_mco="{{ $mrdo->mco->id }}"
                                                     data-set="TPOUT_WHSL">Grosir</button>
                                             </div>
                                             <div class="col-6 px-0">
-                                                <button type="button" class="btn btn-sm p-1 btn-light w-100 bypassQR"
+                                                <button type="button"
+                                                    class="btn btn-sm rounded-3 shadow-sm p-1 btn-light w-100 bypassQR"
                                                     data-survey_pasar_id="{{ $mrdo->mco->sp->id }}">QR</button>
                                             </div>
                                         </div>
@@ -280,9 +286,9 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal"
                         aria-label="Close">Batal</button>
-                    <button type="button" class="btn btn-primary" id="saveEditAlamat">Simpan</button>
+                    <button type="button" class="btn btn-outline-primary" id="saveEditAlamat">Simpan</button>
                 </div>
             </div>
         </div>
@@ -318,9 +324,9 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal"
                         aria-label="Close">Batal</button>
-                    <button type="button" class="btn btn-primary" id="saveEditKode">Simpan</button>
+                    <button type="button" class="btn btn-outline-primary" id="saveEditKode">Simpan</button>
                 </div>
             </div>
         </div>
@@ -351,9 +357,9 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal"
                         aria-label="Close">Batal</button>
-                    <button type="button" class="btn btn-primary" id="savePindahPasar">Simpan</button>
+                    <button type="button" class="btn btn-outline-primary" id="savePindahPasar">Simpan</button>
                 </div>
             </div>
         </div>

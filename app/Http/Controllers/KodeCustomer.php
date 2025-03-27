@@ -86,23 +86,33 @@ class KodeCustomer extends Controller
     public function getOrder(Request $request)
     {
         $kode_customer = strtoupper($request->input('kode_customer'));
+        $id_survey_pasar = $request->input('id_survey_pasar');
 
         $threeMonthsAgo = Carbon::now()->subMonths(4)->startOfMonth()->toDateString();
 
-        $data = Order::select('id', 'nama_wilayah', 'no_order', 'id_salesman', 'nama_salesman', 'nama_toko', 'id_survey_pasar', 'total_rp', 'total_qty', 'total_transaksi', 'tgl_transaksi', 'document', 'platform', 'is_exported', 'kode_customer', 'is_call', 'tipe_order', 'tipe_outlet')
-            ->selectRaw('CASE WHEN (total_rp = 0) THEN "KUNJUNGAN" ELSE "ORDER" END AS status')
-            ->whereDate('tgl_transaksi', '>=', $threeMonthsAgo)
-            ->where(function ($query) use ($kode_customer) {
-                $query->where('kode_customer', $kode_customer)
-                    ->orWhereHas('art.ar', function ($query) use ($kode_customer) {
-                        $query->select('id', 'kode_customer', 'id_qr_outlet')->where('kode_customer', $kode_customer);
-                    });
-            })
-            ->orderBy('tgl_transaksi')
-            ->orderBy('id_salesman')
-            ->get();
+        if ($id_survey_pasar) {
+            $data = Order::select('id', 'nama_wilayah', 'no_order', 'id_salesman', 'nama_salesman', 'nama_toko', 'id_survey_pasar', 'total_rp', 'total_qty', 'total_transaksi', 'tgl_transaksi', 'document', 'platform', 'is_exported', 'kode_customer', 'is_call', 'tipe_order', 'tipe_outlet')
+                ->selectRaw('CASE WHEN (total_rp = 0) THEN "KUNJUNGAN" ELSE "ORDER" END AS status')
+                ->where('id_survey_pasar', $id_survey_pasar)
+                ->whereDate('tgl_transaksi', '>=', $threeMonthsAgo)
+                ->orderBy('id_salesman')
+                ->orderBy('tgl_transaksi', 'desc')
+                ->get();
+        } else {
+            $data = Order::select('id', 'nama_wilayah', 'no_order', 'id_salesman', 'nama_salesman', 'nama_toko', 'id_survey_pasar', 'total_rp', 'total_qty', 'total_transaksi', 'tgl_transaksi', 'document', 'platform', 'is_exported', 'kode_customer', 'is_call', 'tipe_order', 'tipe_outlet')
+                ->selectRaw('CASE WHEN (total_rp = 0) THEN "KUNJUNGAN" ELSE "ORDER" END AS status')
+                ->whereDate('tgl_transaksi', '>=', $threeMonthsAgo)
+                ->where(function ($query) use ($kode_customer) {
+                    $query->where('kode_customer', $kode_customer)
+                        ->orWhereHas('art.ar', function ($query) use ($kode_customer) {
+                            $query->select('id', 'kode_customer', 'id_qr_outlet')->where('kode_customer', $kode_customer);
+                        });
+                })
+                ->orderBy('id_salesman')
+                ->orderBy('tgl_transaksi', 'desc')
+                ->get();
+        }
 
-        // return response()->json(['data' => $data]);
         return DataTables::make($data)->addColumn('id_qr_outlet', function ($data) {
             return $data->art->ar->id_qr_outlet ?? "";
         })->toJson();
@@ -427,24 +437,23 @@ class KodeCustomer extends Controller
     public function getToken(Request $request)
     {
         $kode_customer = $request->input('kode_customer');
-
-        $token = MembershipOutletToken::select('membership_outlet_token.token', 'membership_outlet_token.no_hp')
-            ->join('dataar', 'dataar.survey_pasar_id', '=', 'membership_outlet_token.id_survey_pasar')
+        $today = date('Y-m-d'); // tanggal hari ini
+        $tokens = MembershipOutletToken::from('membership_outlet_token as mot')
+            ->select(
+                'mot.id',
+                'mot.token',
+                'mot.no_hp',
+                'dataar.nama_wilayah',
+                'dataar.iddepo'
+            )
+            ->join('dataar', 'dataar.survey_pasar_id', '=', 'mot.id_survey_pasar')
             ->where('dataar.kode_customer', $kode_customer)
-            ->whereNotNull('membership_outlet_token.no_hp')
+            ->whereNotNull('mot.no_hp')
+            ->whereDate('mot.created_at', $today)
+            ->orderBy('mot.id', 'desc')
             ->distinct()
-            ->first();
+            ->get();
 
-        // $results = [];
-
-        // foreach ($token as $rute) {
-        //     $results[] = [
-        //         'id' => $rute->id,
-        //         'text' => $rute->rute,
-        //         'id_wilayah' => $rute->id_wilayah
-        //     ];
-        // }
-
-        return response()->json(['results' => $token]);
+        return response()->json(['results' => $tokens]);
     }
 }

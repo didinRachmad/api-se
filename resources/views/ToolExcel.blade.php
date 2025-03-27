@@ -37,7 +37,7 @@
                     <div class="row">
                         <div class="col-lg-4">
                             <a href="{{ asset('file/FORMAT_TOOL_EXCEL.xlsx') }}" download>
-                                <button type="button" class="btn btn-sm btn-secondary">
+                                <button type="button" class="btn btn-sm rounded-3 shadow-sm btn-outline-secondary">
                                     Download Format
                                 </button>
                             </a>
@@ -45,7 +45,7 @@
                         <div class="col-lg-8">
                             <div class="input-group input-group-sm">
                                 <input class="form-control form-control-sm" id="excel_file" type="file" accept=".xlsx">
-                                <span id="btn-import" class="btn btn-sm btn-success">
+                                <span id="btn-import" class="btn btn-sm rounded-3 shadow-sm btn-outline-success">
                                     Import
                                 </span>
                             </div>
@@ -53,8 +53,8 @@
                     </div>
                 </div>
                 <div class="col-lg-4 text-left my-auto">
-                    <button type="button" class="btn btn-primary btn-sm" id="btnPindah">Pindah <span><i
-                                class="bi bi-save"></i></span></button>
+                    <button type="button" class="btn btn-outline-primary btn-sm rounded-3 shadow-sm" id="btnPindah">Pindah
+                        <span><i class="bi bi-save"></i></span></button>
                 </div>
             </div>
             {{-- </form> --}}
@@ -561,6 +561,7 @@
             }
 
 
+            var table; // Pastikan table dideklarasikan di luar
             // INIT DATATABLES
             function initDatatables() {
                 table = $("#myTable").DataTable({
@@ -571,8 +572,8 @@
                     buttons: [{
                             extend: 'copy',
                             title: null,
-                            filename: 'DATA PINDAH - ' + $('#myTable tbody tr:first .wilayah').text()
-                                .trim(),
+                            filename: 'DATA PINDAH - ' + $(
+                                '#myTable tbody tr:first .wilayah').text().trim(),
                             exportOptions: {
                                 columns: ':not(.no-export)'
                             }
@@ -581,8 +582,8 @@
                         {
                             extend: 'pdf',
                             title: null,
-                            filename: 'DATA PINDAH - ' + $('#myTable tbody tr:first .wilayah').text()
-                                .trim(),
+                            filename: 'DATA PINDAH - ' + $(
+                                '#myTable tbody tr:first .wilayah').text().trim(),
                             exportOptions: {
                                 columns: ':not(.no-export)'
                             },
@@ -595,8 +596,9 @@
                             extend: 'excel',
                             text: 'Export Excel (All)',
                             title: null,
-                            filename: 'DATA PINDAH - ' + $('#myTable tbody tr:first .wilayah').text()
-                                .trim() + " (All)",
+                            filename: 'DATA PINDAH - ' + $(
+                                    '#myTable tbody tr:first .wilayah').text().trim() +
+                                " (All)",
                             exportOptions: {
                                 columns: [1, 2, 5, 3, 6, 8, 7, 9],
                                 rows: function(idx, data, node) {
@@ -606,84 +608,21 @@
                                     page: 'all'
                                 }
                             }
-                        },
-                        {
-                            extend: 'excel',
-                            text: 'Export Excel (100)',
-                            title: null,
-                            filename: 'DATA PINDAH - ' + $('#myTable tbody tr:first .wilayah').text()
-                                .trim() + " (100)",
-                            exportOptions: {
-                                columns: [1, 2, 5, 3, 6, 8, 7, 9],
-                                rows: (function() {
-                                    let counter =
-                                        0; // Counter untuk melacak jumlah baris yang sudah memenuhi kondisi
-                                    return function(idx, data, node) {
-                                        // Hanya ekspor baris jika data[9] adalah "Berubah" dan counter kurang dari 150
-                                        if (data[9] === "Berubah" && counter < 100) {
-                                            counter++; // Tingkatkan counter
-                                            return true; // Ekspor baris ini
-                                        }
-                                        return false; // Jangan ekspor baris ini
-                                    };
-                                })(),
-                                modifier: {
-                                    page: 'all'
-                                }
-                            }
-                        },
-                        {
-                            extend: 'excel',
-                            text: 'Export Excel (250)',
-                            title: null,
-                            filename: 'DATA PINDAH - ' + $('#myTable tbody tr:first .wilayah').text()
-                                .trim() + " (250)",
-                            exportOptions: {
-                                columns: [1, 2, 5, 3, 6, 8, 7, 9],
-                                rows: (function() {
-                                    let counter =
-                                        0; // Counter untuk melacak jumlah baris yang sudah memenuhi kondisi
-                                    return function(idx, data, node) {
-                                        // Hanya ekspor baris jika data[9] adalah "Berubah" dan counter kurang dari 150
-                                        if (data[9] === "Berubah" && counter < 250) {
-                                            counter++; // Tingkatkan counter
-                                            return true; // Ekspor baris ini
-                                        }
-                                        return false; // Jangan ekspor baris ini
-                                    };
-                                })(),
-                                modifier: {
-                                    page: 'all'
-                                }
-                            }
-                        },
-                        {
-                            extend: 'excel',
-                            text: 'Export Excel (Tidak Ditemukan)',
-                            title: null,
-                            filename: 'DATA PINDAH - ' + $('#myTable tbody tr:first .wilayah').text()
-                                .trim() + " (Tidak Ditemukan)",
-                            exportOptions: {
-                                columns: [1, 2, 5, 3, 6, 8, 7, 9],
-                                rows: function(idx, data, node) {
-                                    return data[9] === "Tidak Ditemukan";
-                                },
-                                modifier: {
-                                    page: 'all'
-                                }
-                            }
-                        },
-                    ]
+                        }
+                    ],
+                    columnDefs: [{
+                        targets: 0, // Kolom "No"
+                        searchable: false,
+                        orderable: false // Supaya nomor tetap urut
+                    }],
+                    order: [], // Menghapus sorting default
+                    rowCallback: function(row, data, index) {
+                        if (table) { // Pastikan table sudah terdefinisi sebelum dipanggil
+                            var pageInfo = table.page.info();
+                            $('td:eq(0)', row).html((pageInfo?.start || 0) + index + 1);
+                        }
+                    }
                 });
-
-                table.on('order.dt search.dt', function() {
-                    table.column(0, {
-                        search: 'applied',
-                        order: 'applied'
-                    }).nodes().each(function(cell, i) {
-                        cell.innerHTML = i + 1;
-                    });
-                }).draw();
             };
 
             // PINDAH RUTE

@@ -13,36 +13,32 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Fonts -->
-    {{-- <link rel="dns-prefetch" href="//fonts.gstatic.com"> --}}
-    {{-- <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet"> --}}
+    <link rel="dns-prefetch" href="//fonts.gstatic.com">
+    <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
+
+    {{-- @vite(['resources/sass/app.scss', 'resources/js/app.js']) --}}
 
     <!-- Scripts -->
-    {{-- @vite(['resources/sass/app.scss', 'resources/js/app.js']) --}}
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
-        integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+    {{-- JQUERY --}}
+    <script src="{{ asset('js/jquery-3.7.1.js') }}"></script>
+    <script src="{{ asset('js/jquery-ui.js') }}"></script>
+
+    {{-- BOOTSTRAP --}}
+    <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}" />
+    <link rel="stylesheet" href="{{ asset('css/bootstrap-icons.css') }}" />
+    <link rel="stylesheet" href="{{ asset('css/dataTables.bootstrap5.css') }}" />
+    <link rel="stylesheet" href="{{ asset('css/buttons.dataTables.min.css') }}" />
+    <link rel="stylesheet" href="{{ asset('css/jquery-ui.css') }}" />
 
     {{-- CSS --}}
     <link href="{{ asset('css/style.css') }}?v={{ date('d-m') }}')" rel="stylesheet" />
 
-    {{-- DATATABLE --}}
-    <link href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css" rel="stylesheet">
-    <link href="https://cdn.datatables.net/buttons/2.3.6/css/buttons.dataTables.min.css" rel="stylesheet">
-
     {{-- SELECT2 --}}
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-    <link
-        href="https://cdnjs.cloudflare.com/ajax/libs/select2-bootstrap-5-theme/1.3.0/select2-bootstrap-5-theme.min.css"
-        rel="stylesheet" />
-
-    {{-- JQUERY --}}
-    <script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E="
-        crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" />
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <link rel="stylesheet" href="{{ asset('css/select2.min.css') }}" />
+    <link rel="stylesheet" href="{{ asset('css/select2-bootstrap-5-theme.min.css') }}" />
 
     {{-- FONTAWESOME --}}
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" />
+    <link rel="stylesheet" href="{{ asset('css/all.min.css') }}" />
 
     @yield('styles')
     <script>
@@ -84,7 +80,7 @@
 <body class="scroll dark">
     {{-- LOADING OVERLAY --}}
     <div class="overlay">
-        <i class="fa-brands fa-instalod"></i>
+        <i class="fa-brands fa-instalod fa-spin fa-5x"></i>
     </div>
     <nav id="sidebar">
         <a class="navbar-brand" href="{{ url('/') }}">
@@ -96,32 +92,35 @@
         <br>
         <ul class="navbar-nav mt-3">
             <li class="nav-item py-3">
-                <a class="btn btn-sm btn-block bg-btn p-2 btn-dark fw-bold" data-tooltip="Kode Customer"
-                    href="{{ route('KodeCustomer.index') }}"><i class="bi bi-qr-code"></i></a>
+                <a class="btn btn-sm rounded-3 shadow-sm btn-block bg-btn p-2 btn-dark fw-bold"
+                    data-tooltip="Kode Customer" href="{{ route('KodeCustomer.index') }}"><i
+                        class="bi bi-qr-code"></i></a>
             </li>
             <li class="nav-item py-3">
-                <a class="btn btn-sm btn-block bg-btn p-2 btn-dark fw-bold" data-tooltip="Tool Outlet"
-                    href="{{ route('ToolOutlet.index') }}"><i class="bi bi-gear-fill"></i></a>
+                <a class="btn btn-sm rounded-3 shadow-sm btn-block bg-btn p-2 btn-dark fw-bold"
+                    data-tooltip="Tool Outlet" href="{{ route('ToolOutlet.index') }}"><i
+                        class="bi bi-gear-fill"></i></a>
             </li>
             <li class="nav-item py-3">
-                <a class="btn btn-sm btn-block bg-btn p-2 btn-dark fw-bold" data-tooltip="List Rute"
-                    href="{{ route('ListRute.index') }}"><i class="bi bi-signpost-split-fill"></i></a>
-            </li>
-            <li class="nav-item py-3">
-                <a class="btn btn-sm btn-block bg-btn p-2 btn-dark fw-bold" data-tooltip="List RKM"
-                    href="{{ route('ListRKM.index') }}"><i class="bi bi-signpost-split"></i></a>
-            </li>
-            <li class="nav-item py-3">
-                <a class="btn btn-sm btn-block bg-btn p-2 btn-dark fw-bold" data-tooltip="Tool Depo"
+                <a class="btn btn-sm rounded-3 shadow-sm btn-block bg-btn p-2 btn-dark fw-bold" data-tooltip="Tool Depo"
                     href="{{ route('ToolDepo.index') }}"><i class="bi bi-house-gear-fill"></i></a>
             </li>
             <li class="nav-item py-3">
-                <a class="btn btn-sm btn-block bg-btn p-2 btn-dark fw-bold" data-tooltip="Tool Excel"
-                    href="{{ route('ToolExcel.index') }}"><i class="bi bi-file-earmark-arrow-up"></i></a>
+                <a class="btn btn-sm rounded-3 shadow-sm btn-block bg-btn p-2 btn-dark fw-bold"
+                    data-tooltip="Tool Excel" href="{{ route('ToolExcel.index') }}"><i
+                        class="bi bi-file-earmark-arrow-up"></i></a>
             </li>
             <li class="nav-item py-3">
-                <a class="btn btn-sm btn-block bg-btn p-2 btn-dark fw-bold" data-tooltip="Exec Rekap"
-                    href="{{ route('ExecRekap.index') }}"><i class="bi bi-ui-checks"></i></a>
+                <a class="btn btn-sm rounded-3 shadow-sm btn-block bg-btn p-2 btn-dark fw-bold" data-tooltip="List Rute"
+                    href="{{ route('ListRute.index') }}"><i class="bi bi-signpost-split-fill"></i></a>
+            </li>
+            <li class="nav-item py-3">
+                <a class="btn btn-sm rounded-3 shadow-sm btn-block bg-btn p-2 btn-dark fw-bold" data-tooltip="List RKM"
+                    href="{{ route('ListRKM.index') }}"><i class="bi bi-signpost-split"></i></a>
+            </li>
+            <li class="nav-item py-3">
+                <a class="btn btn-sm rounded-3 shadow-sm btn-block bg-btn p-2 btn-dark fw-bold"
+                    data-tooltip="Exec Rekap" href="{{ route('ExecRekap.index') }}"><i class="bi bi-ui-checks"></i></a>
             </li>
             <li class="nav-item pt-3 mx-auto">
                 <div class="form-check form-switch form-check-lg m-0 p-0">
@@ -154,19 +153,42 @@
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.3.6/js/dataTables.buttons.min.js"></script>
+    {{-- <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script> --}}
+    {{-- <script src="https://cdn.datatables.net/buttons/2.3.6/js/dataTables.buttons.min.js"></script> --}}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.html5.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.print.min.js"></script>
+    {{-- <script src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.print.min.js"></script> --}}
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.42/moment-timezone-with-data.js"></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+
+    {{-- <script src="{{ asset('js/popper.min.js') }}"></script>
+    <script src="{{ asset('js/bootstrap.min.js') }}"></script> --}}
+    {{-- <script src="{{ asset('js/jspdf.umd.min.js') }}"></script>
+    <script src="{{ asset('js/select2.min.js') }}"></script> --}}
+    <script src="{{ asset('js/dataTables.js') }}"></script>
+    {{-- <script src="{{ asset('js/jquery.dataTables.min.js') }}"></script> --}}
+    <script src="{{ asset('js/dataTables.bootstrap5.js') }}"></script>
+    <script src="{{ asset('js/dataTables.buttons.min.js') }}"></script>
+    {{-- <script src="https://cdn.datatables.net/buttons/1.7.1/js/dataTables.buttons.min.js"></script> --}}
+    {{-- <script src="https://cdn.datatables.net/buttons/1.7.1/js/buttons.html5.min.js"></script> --}}
+    <script src="{{ asset('js/buttons.html5.min.js') }}"></script>
+    <script src="{{ asset('js/buttons.print.min.js') }}"></script>
+    {{-- <script src="{{ asset('js/pdfmake.min.js') }}"></script>
+    <script src="{{ asset('js/jszip.min.js') }}"></script>
+    <script src="{{ asset('js/vfs_fonts.js') }}"></script>
+    <script src="{{ asset('js/xlsx.full.min.js') }}"></script>
+
+
+    <script src="{{ asset('js/moment.min.js') }}"></script>
+    <script src="{{ asset('js/moment-timezone-with-data.js') }}"></script>
+
+    <script src="{{ asset('js/all.min.js') }}"></script> --}}
 
     <script>
         $.ajaxSetup({
@@ -176,6 +198,8 @@
         });
 
         $(document).ready(function() {
+            $('.overlay').fadeIn(200);
+
             $("input[type='text'], input[type='search']").on('paste', function(event) {
                 event.preventDefault();
                 var pastedValue = event.originalEvent.clipboardData.getData('text/plain');
@@ -272,6 +296,7 @@
             $('.overlay').fadeOut(200);
         });
     </script>
+    @yield('scripts')
 </body>
 
 </html>
