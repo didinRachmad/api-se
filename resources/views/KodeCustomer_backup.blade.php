@@ -6,8 +6,8 @@
         }
 
         /* .action {
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                min-width: 80px;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            } */
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    min-width: 80px;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                } */
     </style>
     <div class="card">
         {{-- <div class="card-header">Search Data by Kode Customer</div> --}}
@@ -26,13 +26,13 @@
                         </div>
                     </div>
                     <div class="col-lg-1">
-                        <button type="submit" class="btn btn-primary btn-sm">Search <span> <i
+                        <button type="submit" class="btn btn-outline-primary btn-sm rounded-3 shadow-sm">Search <span> <i
                                     class="bi bi-search"></i></span></button>
                     </div>
                     <div class="col-lg-7">
-                        <button type="button" class="btn btn-info btn-sm btnOrder">Order <span> <i
-                                    class="bi bi-journal-text"></i></span></button>
-                        {{-- <button type="button" class="btn btn-danger btn-sm hapusKhusus">Hapus Khusus <span> <i
+                        <button type="button" class="btn btn-sm rounded-3 shadow-sm btn-outline-info btnOrder">Order <span>
+                                <i class="bi bi-journal-text"></i></span></button>
+                        {{-- <button type="button" class="btn btn-sm rounded-3 shadow-sm btn-outline-danger hapusKhusus">Hapus Khusus <span> <i
                                     class="bi bi-journal-text"></i></span></button> --}}
                     </div>
                     {{-- <div class="col-lg-4">
@@ -44,7 +44,7 @@
                         </div>
                     </div>
                     <div class="col-lg-2">
-                        <button type="button" class="btn btn-sm btn-success updateDataar">Update Dataar</button>
+                        <button type="button" class="btn btn-sm rounded-3 shadow-sm btn-outline-success updateDataar">Update Dataar</button>
                     </div> --}}
                 </div>
             </form>
@@ -117,33 +117,34 @@
                                         <div class="row px-2 py-1 text-center justify-content-center">
                                             <div class="col-6 px-0">
                                                 <button type="button"
-                                                    class="btn btn-sm p-1 btn-secondary btn-block w-100 btnPindah">Pindah
+                                                    class="btn btn-sm rounded-3 shadow-sm p-1 btn-outline-secondary btn-block w-100 btnPindah">Pindah
                                                     Rute</button>
                                             </div>
                                             <div class="col-6 px-0">
                                                 <button type="button"
-                                                    class="btn btn-sm p-1 btn-dark btn-block w-100 btnPindahPasar"
+                                                    class="btn btn-sm rounded-3 shadow-sm p-1 btn-dark btn-block w-100 btnPindahPasar"
                                                     data-id_mrdo="{{ $mrdo->id }}">Pindah Pasar</button>
                                             </div>
                                             <div class="col-6 px-0">
                                                 <button type="button"
-                                                    class="btn btn-sm p-1 btn-info btn-block w-100 btnSetRetail"
+                                                    class="btn btn-sm rounded-3 shadow-sm p-1 btn-outline-info btn-block w-100 btnSetRetail"
                                                     data-id_mrdo="{{ $mrdo->id }}" data-id_mco="{{ $mco->id }}"
                                                     data-set={{ null }}>Retail</button>
                                             </div>
                                             <div class="col-6 px-0">
                                                 <button type="button"
-                                                    class="btn btn-sm p-1 btn-success btn-block w-100 btnSetGrosir"
+                                                    class="btn btn-sm rounded-3 shadow-sm p-1 btn-outline-success btn-block w-100 btnSetGrosir"
                                                     data-id_mrdo="{{ $mrdo->id }}" data-id_mco="{{ $mco->id }}"
                                                     data-set="TPOUT_WHSL">Grosir</button>
                                             </div>
                                             <div class="col-6 px-0">
                                                 <button type="button"
-                                                    class="btn btn-sm p-1 btn-warning btn-block w-100 btnEdit">Edit</button>
+                                                    class="btn btn-sm rounded-3 shadow-sm p-1 btn-outline-warning btn-block w-100 btnEdit">Edit</button>
                                             </div>
                                             <div class="col-6 px-0">
                                                 <div class="btn-group btn-block w-100">
-                                                    <button class="btn btn-danger btn-sm btn-block w-100 dropdown-toggle"
+                                                    <button
+                                                        class="btn btn-sm rounded-3 shadow-sm btn-outline-danger btn-block w-100 dropdown-toggle"
                                                         type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                                         Hapus
                                                     </button>
@@ -242,9 +243,9 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal"
                         aria-label="Close">Batal</button>
-                    <button type="button" class="btn btn-primary" id="saveEdit">Simpan</button>
+                    <button type="button" class="btn btn-outline-primary" id="saveEdit">Simpan</button>
                 </div>
             </div>
         </div>
@@ -279,9 +280,9 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal"
                         aria-label="Close">Batal</button>
-                    <button type="button" class="btn btn-primary" id="savePindahRute">Simpan</button>
+                    <button type="button" class="btn btn-outline-primary" id="savePindahRute">Simpan</button>
                 </div>
             </div>
         </div>
@@ -308,9 +309,9 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal"
                         aria-label="Close">Batal</button>
-                    <button type="button" class="btn btn-primary" id="savePindahPasar">Simpan</button>
+                    <button type="button" class="btn btn-outline-primary" id="savePindahPasar">Simpan</button>
                 </div>
             </div>
         </div>
@@ -339,9 +340,9 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal"
                         aria-label="Close">Batal</button>
-                    <button type="button" class="btn btn-danger" id="saveHapus">Hapus</button>
+                    <button type="button" class="btn btn-outline-danger" id="saveHapus">Hapus</button>
                 </div>
             </div>
         </div>
@@ -1565,7 +1566,7 @@
                                     var rowData = table.row('[data-id="' + mrdo_id + '"]')
                                         .data();
                                     rowData[15] =
-                                        '<button type="button" class="btn btn-sm p-1 btn-danger btn-block w-100 btnBarcode" data-id_qr="' +
+                                        '<button type="button" class="btn btn-sm rounded-3 shadow-sm p-1 btn-outline-danger btn-block w-100 btnBarcode" data-id_qr="' +
                                         dataBarcode[mrdo_id] + '">QR</button>';
                                     table.row('[data-id="' + mrdo_id + '"]').data(rowData)
                                         .draw();

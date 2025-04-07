@@ -21,16 +21,20 @@
                         </div>
                     </div>
                     <div class="col-lg-1">
-                        <button type="submit" class="btn btn-primary btn-sm">Search <span> <i
+                        <button type="submit" class="btn btn-outline-primary btn-sm rounded-3 shadow-sm">Search <span> <i
                                     class="bi bi-search"></i></span></button>
                     </div>
                     <div class="col-lg-1">
-                        <button type="button" class="btn btn-warning btn-sm btnToken" id="btnToken">Token <span> <i
-                                    class="bi bi-journal-text"></i></span></button>
+                        <button type="button"
+                            class="btn btn-sm rounded-3 shadow-sm btn-outline-warning rounded-3 shadow-sm btnToken"
+                            id="btnToken">Token
+                            <span> <i class="bi bi-journal-text"></i></span></button>
                     </div>
                     <div class="col-lg-1">
-                        <button type="button" class="btn btn-info btn-sm btnOrder">Order <span> <i
-                                    class="bi bi-journal-text"></i></span></button>
+                        <button type="button"
+                            class="btn btn-sm rounded-3 shadow-sm btn-outline-info rounded-3 shadow-sm btnOrder">Order
+                            <span>
+                                <i class="bi bi-journal-text"></i></span></button>
                     </div>
                     {{-- <div class="col-lg-4">
                         <div class="input-group input-group-sm mb-3">
@@ -41,7 +45,7 @@
                         </div>
                     </div>
                     <div class="col-lg-2">
-                        <button type="button" class="btn btn-sm btn-success updateDataar">Update Dataar</button>
+                        <button type="button" class="btn btn-sm rounded-3 shadow-sm btn-outline-success updateDataar">Update Dataar</button>
                     </div> --}}
                 </div>
             </form>
@@ -109,7 +113,7 @@
                                         @if ($mr['verifikasi_qr']['flag_qr'])
                                             @if ($mr['pengajuan_by_pass'])
                                                 <button type="button"
-                                                    class="btn btn-sm p-1 btn-danger btn-block w-100 btnBarcode"
+                                                    class="btn btn-sm rounded-3 shadow-sm p-1 btn-outline-danger btn-block w-100 btnBarcode"
                                                     data-id_qr="{{ $mr['pengajuan_by_pass'][0]['id'] }}">QR</button>
                                             @else
                                                 Belum Isi QR Bermasalah
@@ -124,24 +128,25 @@
 
                                 <td>
                                     <div class="row px-2 py-1 text-center justify-content-center">
-                                        <div class="col-6 px-0">
+                                        <div class="btn-group btn-block w-100">
+                                            {{-- <div class="col-6 px-0">
                                             <button type="button"
-                                                class="btn btn-sm p-1 btn-secondary btn-block w-100 btnPindah">Pindah
+                                                class="btn btn-sm rounded-3 shadow-sm p-1 btn-outline-secondary btn-block w-100 btnPindah">Pindah
                                                 Rute</button>
                                         </div>
                                         <div class="col-6 px-0">
                                             <button type="button"
-                                                class="btn btn-sm p-1 btn-dark btn-block w-100 btnPindahPasar"
+                                                class="btn btn-sm rounded-3 shadow-sm p-1 btn-dark btn-block w-100 btnPindahPasar"
                                                 data-id_mrdo="{{ $mr['mrdo_id'] }}">Pindah Pasar</button>
                                         </div>
                                         <div class="col-12 px-0">
                                             <button type="button"
-                                                class="btn btn-sm p-1 btn-warning btn-block w-100 btnEdit">Edit</button>
-                                        </div>
-                                        <div class="col-6 px-0">
-                                            <div class="btn-group btn-block w-100">
-                                                <button class="btn btn-info btn-sm dropdown-toggle" type="button"
-                                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                                class="btn btn-sm rounded-3 shadow-sm p-1 btn-outline-warning btn-block w-100 btnEdit">Edit</button>
+                                        </div> --}}
+                                            <div class="dropdown dropstart">
+                                                <button
+                                                    class="btn btn-sm rounded-3 shadow-sm btn-outline-info dropdown-toggle"
+                                                    type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                                     Tipe Outlet
                                                 </button>
                                                 <ul class="dropdown-menu">
@@ -153,10 +158,9 @@
                                                     </li>
                                                 </ul>
                                             </div>
-                                        </div>
-                                        <div class="col-6 px-0">
-                                            <div class="btn-group btn-block w-100">
-                                                <button class="btn btn-danger btn-sm btn-block w-100 dropdown-toggle"
+                                            <div class="dropdown dropstart">
+                                                <button
+                                                    class="btn btn-sm rounded-3 shadow-sm btn-outline-danger btn-block w-100 dropdown-toggle"
                                                     type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                                     Hapus
                                                 </button>
@@ -166,10 +170,12 @@
                                                     </li>
                                                 </ul>
                                             </div>
-                                        </div>
-                                        <div class="col-6 px-0">
                                             <button type="button"
-                                                class="btn btn-sm p-1 btn-light btn-block w-100 btnBypassShareKoordinat">Bypass</button>
+                                                class="btn btn-sm rounded-3 shadow-sm p-1 btn-outline-secondary btn-block w-100 btnCekOrder">Order</button>
+                                            {{-- <div class="col-6 px-0">
+                                            <button type="button"
+                                                class="btn btn-sm rounded-3 shadow-sm p-1 btn-light btn-block w-100 btnBypassShareKoordinat">Bypass</button>
+                                        </div> --}}
                                         </div>
                                     </div>
                                 </td>
@@ -192,7 +198,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="table-responsive">
-                        <table class="table table-sm table-light table-striped TableOrder w-100 nowrap">
+                        <table class="table table-sm table-light table-striped TableCekOrder w-100 nowrap">
                             <thead class="text-center">
                                 <th>no</th>
                                 <th>id</th>
@@ -256,9 +262,9 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal"
                         aria-label="Close">Batal</button>
-                    <button type="button" class="btn btn-primary" id="saveEdit">Simpan</button>
+                    <button type="button" class="btn btn-outline-primary" id="saveEdit">Simpan</button>
                 </div>
             </div>
         </div>
@@ -292,9 +298,9 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal"
                         aria-label="Close">Batal</button>
-                    <button type="button" class="btn btn-primary" id="savePindahRute">Simpan</button>
+                    <button type="button" class="btn btn-outline-primary" id="savePindahRute">Simpan</button>
                 </div>
             </div>
         </div>
@@ -320,9 +326,9 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal"
                         aria-label="Close">Batal</button>
-                    <button type="button" class="btn btn-primary" id="savePindahPasar">Simpan</button>
+                    <button type="button" class="btn btn-outline-primary" id="savePindahPasar">Simpan</button>
                 </div>
             </div>
         </div>
@@ -351,10 +357,24 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal"
                         aria-label="Close">Batal</button>
-                    <button type="button" class="btn btn-danger" id="saveHapus">Hapus</button>
+                    <button type="button" class="btn btn-outline-danger" id="saveHapus">Hapus</button>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    {{-- TOAST SALIN KODE --}}
+    <div class="toast-container position-fixed top-0 end-0 p-5">
+        <div class="toast align-items-center text-bg-success border-0" id="toastSalin" role="success"
+            aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body">
+                    Data berhasil disalin
+                </div>
+                <button type="button" class="btn-close bg-danger btn-close bg-danger-white me-2 m-auto"
+                    data-bs-dismiss="toast" aria-label="Close"></button>
             </div>
         </div>
     </div>
@@ -422,7 +442,7 @@
 
             var table = $('.myTable').DataTable({
                 dom: "<'row'<'col-sm-6 col-md-2'l><'col-sm-6 col-md-6 text-right'B><'col-sm-12 col-md-4 text-right'f>>" +
-                    "<'row py-2'<'col-sm-12'tr>>" +
+                    "<'row p-2'<'col-sm-12'tr>>" +
                     "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
                 "paging": false,
                 buttons: [
@@ -478,11 +498,14 @@
             var tableOrder;
             $(document).on('click', ".btnOrder", function() {
                 if (!tableOrder) {
-                    tableOrder = $('.TableOrder').DataTable({
+                    if ($.fn.DataTable.isDataTable('.TableCekOrder')) {
+                        $('.TableCekOrder').DataTable().destroy();
+                    }
+                    tableOrder = $('.TableCekOrder').DataTable({
                         processing: true,
                         serverSide: true,
                         dom: "<'row'<'col-sm-12 col-md-2'l><'col-sm-12 col-md-5'B><'col-sm-12 col-md-5 text-right'f >> " +
-                            "<'row py-2'<'col-sm-12'tr>>" +
+                            "<'row p-2'<'col-sm-12'tr>>" +
                             "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
                         // scrollY: 260,
                         "lengthMenu": [10, 25, 50, 75, 100, 500],
@@ -520,9 +543,9 @@
                             },
                         },
                         order: [
-                            [2, 'asc'],
-                            [12, 'asc'],
-                            [4, 'asc']
+                            [2, 'desc'],
+                            [12, 'desc'],
+                            [4, 'desc']
                         ],
                         columnDefs: [{
                             targets: [1, 13, 17],
@@ -681,6 +704,177 @@
                     });
                 } else {
                     tableOrder.draw();
+                }
+                $('#orderModal').modal('show');
+            });
+
+            // MODAL ORDER
+            var tableCekOrder;
+            $(document).on('click', ".btnCekOrder", function() {
+                if (!tableCekOrder) {
+                    if ($.fn.DataTable.isDataTable('.TableCekOrder')) {
+                        $('.TableCekOrder').DataTable().destroy();
+                    }
+                    var id_survey_pasar = $(this).closest('tr').find('.id_survey_pasar').text().trim();
+                    var kode_customer = $(this).closest('tr').find('.kode_customer').text().trim();
+                    tableCekOrder = $('.TableCekOrder').DataTable({
+                        processing: true,
+                        serverSide: true,
+                        dom: "<'row'<'col-sm-12 col-md-2'l><'col-sm-12 col-md-5'B><'col-sm-12 col-md-5 text-right'f >> " +
+                            "<'row p-2'<'col-sm-12'tr>>" +
+                            "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
+                        // scrollY: 260,
+                        "lengthMenu": [10, 25, 50, 75, 100, 500],
+                        "pageLength": 100,
+                        buttons: [{
+                            extend: 'copy',
+                            title: 'Data - ' + $('#kode_customer').val(),
+                            exportOptions: {
+                                columns: ':not(.no-export)'
+                            }
+                        }, 'csv', {
+                            extend: 'excel',
+                            title: 'Data - ' + $('#kode_customer').val(),
+                            exportOptions: {
+                                columns: ':not(.no-export)'
+                            }
+                        }, {
+                            extend: 'pdf',
+                            title: 'Data - ' + $('#kode_customer').val(),
+                            exportOptions: {
+                                columns: ':not(.no-export)'
+                            },
+                            customize: function(doc) {
+                                doc.pageOrientation =
+                                    'landscape'; // Set orientasi landscape
+                                doc.pageSize =
+                                    'LEGAL'; // Set ukuran halaman 
+                            }
+                        }, 'print'],
+                        ajax: {
+                            url: "{{ route('KodeCustomer.getOrder') }}",
+                            type: 'POST',
+                            data: function(d) {
+                                d.id_survey_pasar = id_survey_pasar,
+                                    d.kode_customer = kode_customer
+                            },
+                        },
+                        order: [
+                            [2, 'desc'],
+                            [12, 'desc']
+                            // [4, 'desc']
+                        ],
+                        columnDefs: [{
+                            targets: [1, 13, 17],
+                            className: 'no-export'
+                        }],
+                        columns: [{
+                                "title": "no",
+                                "orderable": false,
+                                "searchable": false,
+                                "width": "30px",
+                                "className": "dt-center",
+                                'render': function(data, type, full, meta) {
+                                    return meta.row + 1;
+                                }
+                            },
+                            {
+                                data: 'id',
+                                name: 'id'
+                            },
+                            {
+                                data: 'nama_wilayah',
+                                name: 'nama_wilayah'
+                            },
+                            {
+                                data: 'no_order',
+                                name: 'no_order'
+                            },
+                            {
+                                data: 'nama_salesman',
+                                name: 'nama_salesman',
+                                className: 'text-info'
+                            },
+                            {
+                                data: 'kode_customer',
+                                name: 'kode_customer',
+                                className: 'text-primary'
+                            },
+                            {
+                                data: 'nama_toko',
+                                name: 'nama_toko'
+                            },
+                            {
+                                data: 'id_survey_pasar',
+                                name: 'id_survey_pasar'
+                            },
+                            {
+                                data: 'status',
+                                name: 'status'
+                            },
+                            {
+                                data: 'total_rp',
+                                name: 'total_rp'
+                            },
+                            {
+                                data: 'total_qty',
+                                name: 'total_qty'
+                            },
+                            {
+                                data: 'total_transaksi',
+                                name: 'total_transaksi'
+                            },
+                            {
+                                data: 'tgl_transaksi',
+                                name: 'tgl_transaksi',
+                                className: 'text-success fw-bold'
+                            },
+                            {
+                                data: 'document',
+                                name: 'document'
+                            },
+                            {
+                                data: 'platform',
+                                name: 'platform'
+                            },
+                            {
+                                data: 'tipe_outlet',
+                                name: 'tipe_outlet'
+                            },
+                            {
+                                data: 'tipe_order',
+                                name: 'tipe_order'
+                            },
+                            {
+                                data: 'id_qr_outlet',
+                                name: 'id_qr_outlet'
+                            },
+                            {
+                                data: 'is_exported',
+                                name: 'is_exported',
+                                render: function(data, type, full, meta) {
+                                    if (data === 1) {
+                                        return '<i class="bi bi-check-square-fill text-success"></i>';
+                                    } else {
+                                        return '<i class="bi bi-x-square-fill text-danger"></i>';
+                                    }
+                                }
+                            },
+                            {
+                                data: 'is_call',
+                                name: 'is_call',
+                                render: function(data, type, full, meta) {
+                                    if (data === 1) {
+                                        return '<i class="bi bi-check-square-fill text-success"></i>';
+                                    } else {
+                                        return '<i class="bi bi-x-square-fill text-danger"></i>';
+                                    }
+                                }
+                            },
+                        ],
+                    });
+                } else {
+                    tableCekOrder.draw();
                 }
                 $('#orderModal').modal('show');
             });
@@ -1289,7 +1483,7 @@
                             if (rute_hari_ini && !response.is_valid) {
                                 // Jika rute hari ini tetapi order tidak valid, tampilkan error dan hentikan proses
                                 let errorMessage = response.message;
-                                navigator.clipboard.writeText(errorMessage);
+                                copyToClipboard(errorMessage);
                                 $('#errorModal #message').text(
                                     "Data kunjungan belum masuk ke sistem");
                                 $('#errorModal').modal('show');
@@ -1310,14 +1504,18 @@
                                 );
 
                                 // Pesan clipboard khusus
-                                navigator.clipboard.writeText("Sudah diproses, segera direvisi");
+                                copyToClipboard("Sudah diproses, segera direvisi");
 
                                 // Tampilkan modal sukses dengan pesan statis
                                 $('#successModal #message').text("Berhasil Tersimpan (Set NOO)");
                                 $('#successModal').modal('show');
                             } else if (!updateResponse.is_valid) {
+                                let updateResponse = await updateRute(
+                                    "https://sales.motasaindonesia.co.id/api/tool/rute/setRetail",
+                                    mrdo_id, iddepo, "RETAIL"
+                                );
                                 // Pesan clipboard khusus
-                                navigator.clipboard.writeText(
+                                copyToClipboard(
                                     "Tidak dapat diproses. Karena outlet tersebut belum memenuhi kriteria sebagai outlet grosir/input luar rute"
                                 );
 
@@ -1325,7 +1523,7 @@
                                 $('#errorModal #message').text("Tidak dapat diproses");
                                 $('#errorModal').modal('show');
                             } else {
-                                navigator.clipboard.writeText("Sudah diproses");
+                                copyToClipboard("Sudah diproses");
                                 $('#successModal #message').text("Berhasil Tersimpan (Set Grosir)");
                                 $('#successModal').modal('show');
                             }
@@ -1334,7 +1532,7 @@
                                 "https://sales.motasaindonesia.co.id/api/tool/rute/setRetail",
                                 mrdo_id, iddepo, "Retail");
 
-                            navigator.clipboard.writeText("Sudah diproses");
+                            copyToClipboard("Sudah diproses");
                             $('#successModal #message').text("Berhasil Tersimpan (Set Retail)");
                             $('#successModal').modal('show');
                         } else if (buttonValue === "NOO") {
@@ -1342,7 +1540,7 @@
                                 "https://sales.motasaindonesia.co.id/api/tool/rute/setNoo",
                                 mrdo_id, iddepo, "TPOUT_NOO");
 
-                            navigator.clipboard.writeText("Sudah diproses, segera diinput");
+                            copyToClipboard("Sudah diproses, segera diinput");
                             $('#successModal #message').text("Berhasil Tersimpan (Set NOO)");
                             $('#successModal').modal('show');
                         }
@@ -1524,22 +1722,47 @@
                         $('.loading-overlay').show();
                     },
                     success: function(response) {
+                        // Pastikan response.results adalah array
                         if (response.results != null) {
-                            var tokenText = "Token : " + response.results.token;
-                            // var tokenText = "Tinggal Paste";
-                            navigator.clipboard.writeText(tokenText);
-                            $('#successModal #message').text(
-                                "TINGGAL PASTE !!!!!  Token : " +
-                                response
-                                .results.token + " - " +
-                                response
-                                .results.no_hp);
-                            $('#successModal').modal('show');
-                            // setTimeout(function() {
-                            //     $('#successModal').modal('hide');
-                            // }, 3000);
+                            // Jika hanya ada 1 token
+                            if (response.results.length === 1) {
+                                var tokenText = "Token : " + response.results[0].token;
+                                copyToClipboard(tokenText);
+                                $('#successModal #message').text(
+                                    "TINGGAL PASTE !!!!!  Token : " +
+                                    response.results[0].token + " - " +
+                                    response.results[0].no_hp
+                                );
+                                $('#successModal').modal('show');
+                            }
+                            // Jika ada lebih dari 1 token
+                            else if (response.results.length > 1) {
+                                var tokenHtml = '';
+                                // Tampilkan daftar token beserta tombol copy untuk masing-masing token
+                                response.results.forEach(function(item) {
+                                    tokenHtml += '<div class="token-item">';
+                                    tokenHtml += '<p><strong>Token : </strong> ' + item
+                                        .token + '</p>';
+                                    tokenHtml += '<p><strong>No HP : </strong> ' + item
+                                        .no_hp + '</p>';
+                                    tokenHtml += '<p><strong>Depo : </strong> ' + item
+                                        .nama_wilayah + '</p>';
+                                    tokenHtml +=
+                                        '<button class="btn btn-sm btn-primary" onclick="copyToClipboard(\'Token : ' +
+                                        item.token + '\')">Copy Token</button>';
+                                    tokenHtml += '</div><hr>';
+                                });
+                                $('#successModal #message').html(tokenHtml);
+                                $('#successModal').modal('show');
+                            }
+                            // Jika tidak ada token
+                            else {
+                                // copyToClipboard('Silakan disinkron ulang');
+                                $('#errorModal #message').text('Token tidak ditemukan');
+                                $('#errorModal').modal('show');
+                            }
                         } else {
-                            navigator.clipboard.writeText('Silakan disinkron ulang');
+                            // copyToClipboard('Silakan disinkron ulang');
                             $('#errorModal #message').text('Token tidak ditemukan');
                             $('#errorModal').modal('show');
                         }
@@ -1634,7 +1857,7 @@
                                     var rowData = table.row('[data-id="' + mrdo_id + '"]')
                                         .data();
                                     rowData[14] =
-                                        '<button type="button" class="btn btn-sm p-1 btn-danger btn-block w-100 btnBarcode" data-id_qr="' +
+                                        '<button type="button" class="btn btn-sm rounded-3 shadow-sm p-1 btn-outline-danger btn-block w-100 btnBarcode" data-id_qr="' +
                                         dataBarcode[mrdo_id] + '">QR</button>';
                                     table.row('[data-id="' + mrdo_id + '"]').data(rowData)
                                         .draw();
@@ -1741,5 +1964,48 @@
             });
 
         });
+
+        function copyToClipboard(text) {
+            if (navigator.clipboard && window.isSecureContext) {
+                // Opsi 1: Menggunakan Clipboard API jika tersedia
+                return navigator.clipboard.writeText(text)
+                    .then(() => {
+                        $('#toastSalin').show();
+                        setTimeout(function() {
+                            $('#toastSalin').hide();
+                        }, 2000);
+                    })
+                    .catch(err => {
+                        console.error("Gagal menyalin teks dengan Clipboard API:", err);
+                        fallbackCopy(text);
+                    });
+            } else {
+                // Opsi 2: Fallback ke execCommand
+                fallbackCopy(text);
+            }
+        }
+
+        // Fungsi fallback menggunakan execCommand
+        function fallbackCopy(text) {
+            const textarea = document.createElement("textarea");
+            textarea.value = text;
+            document.body.appendChild(textarea);
+            textarea.select();
+
+            try {
+                if (document.execCommand("copy")) {
+                    $('#toastSalin').show();
+                    setTimeout(function() {
+                        $('#toastSalin').hide();
+                    }, 2000);
+                } else {
+                    console.error("Gagal menyalin teks dengan execCommand.");
+                }
+            } catch (err) {
+                console.error("Error saat menyalin teks:", err);
+            }
+
+            document.body.removeChild(textarea);
+        }
     </script>
 @endsection
