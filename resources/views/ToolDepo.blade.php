@@ -41,28 +41,22 @@
                     </div>
                 </div>
                 <div class="col-lg-3">
-                    <button type="button" class="btn btn-outline-primary btn-sm rounded-3 shadow-sm"
-                        id="btnUpdateAR">Update
-                        AR<span><i class="bi bi-save"></i></span></button>
-                    {{-- <button type="button" class="btn btn-outline-primary btn-sm rounded-3 shadow-sm" id="btnUpdateArByOrder">Update AR By Order<span><i
+                    <button type="button" class="btn btn-primary btn-sm" id="btnUpdateAR">Update AR<span><i
+                                class="bi bi-save"></i></span></button>
+                    {{-- <button type="button" class="btn btn-primary btn-sm" id="btnUpdateArByOrder">Update AR By Order<span><i
                                 class="bi bi-save"></i></span></button> --}}
-                    <button type="button" class="btn btn-sm rounded-3 shadow-sm btn-outline-warning rounded-3 shadow-sm"
-                        id="btnUpdateBySP">Update By
-                        Survey
-                        Pasar<span><i class="bi bi-file-earmark-arrow-up-fill"></i></span></button>
-                    <button type="button" class="btn btn-sm rounded-3 shadow-sm btn-outline-info rounded-3 shadow-sm"
-                        id="btnTukarRute">Tukar
-                        Rute<span><i class="bi bi-toggles2"></i></span></button>
+                    <button type="button" class="btn btn-warning btn-sm" id="btnUpdateBySP">Update By Survey Pasar<span><i
+                                class="bi bi-file-earmark-arrow-up-fill"></i></span></button>
+                    <button type="button" class="btn btn-info btn-sm" id="btnTukarRute">Tukar Rute<span><i
+                                class="bi bi-toggles2"></i></span></button>
                 </div>
                 <div class="col-lg-3">
                     <div class="input-group input-group-sm flex-nowrap mb-3">
                         <span class="input-group-text">Tanggal</span>
                         <input type="date" class="form-control form-control-sm" id="editNoOrder-tanggal"
                             name="editNoOrder-tanggal" value="<?= date('Y-m-d') ?>">
-                        <button type="button"
-                            class="btn btn-sm rounded-3 shadow-sm btn-outline-secondary rounded-3 shadow-sm"
-                            id="btnEditNoOrder">Order Double
-                            <span><i class="bi bi-pencil-square"></i></span></button>
+                        <button type="button" class="btn btn-secondary btn-sm" id="btnEditNoOrder">Order Double <span><i
+                                    class="bi bi-pencil-square"></i></span></button>
                     </div>
                     <div class="col-lg-2">
                     </div>
@@ -91,7 +85,7 @@
                                 <th>Rute Id</th>
                                 <th class="text-center">
                                     <input type="checkbox" class="btn-check check-all" id="check-all" autocomplete="off">
-                                    <label class="btn btn-sm rounded-3 shadow-sm btn-outline-success" for="check-all">All</label>
+                                    <label class="btn btn-sm btn-outline-success" for="check-all">All</label>
                                 </th>
                             </thead>
                             <tbody id="bodyTukerRute">
@@ -100,9 +94,9 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal"
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
                         aria-label="Close">Batal</button>
-                    <button type="button" class="btn btn-outline-primary" id="saveTukarRute">Simpan</button>
+                    <button type="button" class="btn btn-primary" id="saveTukarRute">Simpan</button>
                 </div>
             </div>
         </div>
@@ -137,9 +131,9 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal"
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
                         aria-label="Close">Batal</button>
-                    <button type="button" class="btn btn-outline-primary" id="saveEditNoOrder">Simpan</button>
+                    <button type="button" class="btn btn-primary" id="saveEditNoOrder">Simpan</button>
                 </div>
             </div>
         </div>
@@ -340,7 +334,7 @@
                             html +=
                                 `<th class="text-center align-middle">${hari}
                                     <input type="checkbox" class="btn-check checkAllHari" id="checkAll${hari}" data-hari="${hari}" autocomplete="off">
-                                    <label class="btn btn-sm rounded-3 shadow-sm btn-outline-success" for="checkAll${hari}">All</label>
+                                    <label class="btn btn-sm btn-outline-success" for="checkAll${hari}">All</label>
                                 </td>`;
                         });
 
@@ -358,7 +352,7 @@
                                 html +=
                                     `<td class="text-center align-middle salesman">${salesman}
                                             <input type="checkbox" class="btn-check checkAllSalesman" id="checkAll${salesman}" data-salesman="${salesman}" autocomplete="off">
-                                            <label class="btn btn-sm rounded-3 shadow-sm btn-outline-success" for="checkAll${salesman}">All</label>
+                                            <label class="btn btn-sm btn-outline-success" for="checkAll${salesman}">All</label>
                                             </td>`;
                             } else {
                                 html +=
@@ -385,7 +379,7 @@
                                 if (periodikGanjil != "" && periodikGenap != "") {
                                     html +=
                                         `<td class="text-center align-middle"><input type="checkbox" class="btn-check check" id="check${idGanjil}" data-salesman="${salesman}" data-hari="${hari}" data-rute_ganjil="${ruteGanjil}" data-rute_genap="${ruteGenap}" data-periodik_ganjil="${periodikGanjil}" data-periodik_genap="${periodikGenap}" data-id_genap="${idGenap}" data-id_ganjil="${idGanjil}" autocomplete="off">
-                                            <label class="btn btn-sm rounded-3 shadow-sm btn-outline-success" for="check${idGanjil}">Pilih</label></td>`;
+                                            <label class="btn btn-sm btn-outline-success" for="check${idGanjil}">Pilih</label></td>`;
                                 } else {
                                     html += `<td></td>`
                                 }
@@ -534,7 +528,7 @@
                                         <td class="">${data.tgl_transaksi}</td>
                                         <td class="">${data.total_transaksi}</td>
                                         <td class=""><input type="checkbox" class="btn-check checkEditNoOrder" id="check${data.id}" data-id="${data.id}" data-nama_wilayah="${data.nama_wilayah}" data-tgl_transaksi="${data.tgl_transaksi}" autocomplete="off">
-                                        <label class="btn btn-sm rounded-3 shadow-sm btn-outline-success" for="check${data.id}">Pilih</label></td>`;
+                                        <label class="btn btn-sm btn-outline-success" for="check${data.id}">Pilih</label></td>`;
                                 html += `</tr>`;
                             });
                         });

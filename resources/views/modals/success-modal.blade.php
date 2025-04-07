@@ -13,7 +13,7 @@
                     <div class="swal2-success-circular-line-right"></div>
                 </div>
                 <div class="Text-primary fw-bold mb-3" id="message">Berhasil Tersimpan</div>
-                <button type="button button-sm" class="btn btn-outline-success" data-bs-dismiss="modal"
+                <button type="button button-sm" class="btn btn-success" data-bs-dismiss="modal"
                     aria-label="Close">Close</button>
             </div>
         </div>

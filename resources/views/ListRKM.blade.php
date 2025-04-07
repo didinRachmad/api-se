@@ -25,9 +25,8 @@
                         </div>
                     </div>
                     <div class="col-lg-2">
-                        <button type="submit" class="btn btn-outline-primary btn-sm rounded-3 shadow-sm"
-                            id="btnSearch">Search <span>
-                                <i class="bi bi-search"></i></span></button>
+                        <button type="submit" class="btn btn-primary btn-sm" id="btnSearch">Search <span> <i
+                                    class="bi bi-search"></i></span></button>
                     </div>
 
                     <div class="col-lg-6">
@@ -47,9 +46,8 @@
                             <th>no</th>
                             <th>nama wilayah</th>
                             <th>ASS / MDP</th>
-                            <th>kode customer <button type="button"
-                                    class="btn btn-sm rounded-3 shadow-sm btn-outline-secondary" id="salin_kode_customer"><i
-                                        class="bi bi-clipboard-fill"></i></button></th>
+                            <th>kode customer <button type="button" class="btn btn-sm btn-secondary"
+                                    id="salin_kode_customer"><i class="bi bi-clipboard-fill"></i></button></th>
                             <th>nama SE</th>
                             <th>survey pasar id</th>
                             <th>nama toko</th>

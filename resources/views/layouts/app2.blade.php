@@ -411,37 +411,37 @@
                             </li>
                         @endif
                         {{-- <li class="nav-item px-3">
-                            <a class="btn btn-sm rounded-3 shadow-sm bg-btn p-2 btn-dark fw-bold" href="{{ route('RuteId.index') }}"><i
+                            <a class="btn btn-sm bg-btn p-2 btn-dark fw-bold" href="{{ route('RuteId.index') }}"><i
                                     class="bi bi-sign-turn-slight-right-fill"></i> {{ __('Rute Id') }}</a>
                         </li> --}}
                         <li class="nav-item px-3">
-                            <a class="btn btn-sm rounded-3 shadow-sm bg-btn p-2 btn-dark fw-bold"
-                                href="{{ route('KodeCustomer.index') }}"><i class="bi bi-qr-code"></i>
+                            <a class="btn btn-sm bg-btn p-2 btn-dark fw-bold" href="{{ route('KodeCustomer.index') }}"><i
+                                    class="bi bi-qr-code"></i>
                                 {{ __('Kode Customer') }}</a>
                         </li>
                         <li class="nav-item px-3">
-                            <a class="btn btn-sm rounded-3 shadow-sm bg-btn p-2 btn-dark fw-bold"
-                                href="{{ route('ToolOutlet.index') }}"><i class="bi bi-gear-fill"></i>
+                            <a class="btn btn-sm bg-btn p-2 btn-dark fw-bold" href="{{ route('ToolOutlet.index') }}"><i
+                                    class="bi bi-gear-fill"></i>
                                 {{ __('Tool Outlet') }}</a>
                         </li>
                         <li class="nav-item px-3">
-                            <a class="btn btn-sm rounded-3 shadow-sm bg-btn p-2 btn-dark fw-bold"
-                                href="{{ route('ListRute.index') }}"><i class="bi bi-signpost-split-fill"></i>
+                            <a class="btn btn-sm bg-btn p-2 btn-dark fw-bold" href="{{ route('ListRute.index') }}"><i
+                                    class="bi bi-signpost-split-fill"></i>
                                 {{ __('List Rute') }}</a>
                         </li>
                         <li class="nav-item px-3">
-                            <a class="btn btn-sm rounded-3 shadow-sm bg-btn p-2 btn-dark fw-bold"
-                                href="{{ route('ToolDepo.index') }}"><i class="bi bi-house-gear-fill"></i>
+                            <a class="btn btn-sm bg-btn p-2 btn-dark fw-bold" href="{{ route('ToolDepo.index') }}"><i
+                                    class="bi bi-house-gear-fill"></i>
                                 {{ __('Tool Depo') }}</a>
                         </li>
                         <li class="nav-item px-3">
-                            <a class="btn btn-sm rounded-3 shadow-sm bg-btn p-2 btn-dark fw-bold"
-                                href="{{ route('ToolExcel.index') }}"><i class="bi bi-file-earmark-arrow-up"></i>
+                            <a class="btn btn-sm bg-btn p-2 btn-dark fw-bold" href="{{ route('ToolExcel.index') }}"><i
+                                    class="bi bi-file-earmark-arrow-up"></i>
                                 {{ __('Tool Excel') }}</a>
                         </li>
                         <li class="nav-item px-3">
-                            <a class="btn btn-sm rounded-3 shadow-sm bg-btn p-2 btn-dark fw-bold"
-                                href="{{ route('ExecRekap.index') }}"><i class="bi bi-ui-checks"></i>
+                            <a class="btn btn-sm bg-btn p-2 btn-dark fw-bold" href="{{ route('ExecRekap.index') }}"><i
+                                    class="bi bi-ui-checks"></i>
                                 {{ __('Exec Rekap') }}</a>
                         </li>
                         <li class="nav-item px-3 my-auto">
@@ -453,7 +453,7 @@
                             </div>
                         </li>
                         {{-- <li class="nav-item px-3">
-                            <a class="btn btn-sm rounded-3 shadow-sm bg-btn p-2 btn-dark fw-bold" href="{{ route('FaceRecognition.index') }}"><i
+                            <a class="btn btn-sm bg-btn p-2 btn-dark fw-bold" href="{{ route('FaceRecognition.index') }}"><i
                                     class="bi bi-sign-intersection-y-fill"></i>
                                 {{ __('Face Recognition') }}</a>
                         </li> --}}

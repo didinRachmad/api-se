@@ -98,7 +98,7 @@
                         </div>
                     </div>
                     <div class="col-lg-1 text-center my-auto">
-                        <button type="submit" class="btn btn-outline-primary btn-sm rounded-3 shadow-sm">Search <span><i
+                        <button type="submit" class="btn btn-primary btn-sm">Search <span><i
                                     class="bi bi-search"></i></span></button>
                     </div>
                     {{-- <div class="col-lg-4">
@@ -120,51 +120,43 @@
                         </div>
                     </div>
                     <div class="col-lg-1 text-center my-auto">
-                        <button type="button" class="btn btn-outline-primary btn-sm rounded-3 shadow-sm" id="btnPindah">Pindah <span><i
+                        <button type="button" class="btn btn-primary btn-sm" id="btnPindah">Pindah <span><i
                                     class="bi bi-sign-intersection-y-fill"></i></span></button>
                     </div> --}}
                     <div class="col-lg-3 text-center my-auto">
-                        {{-- <button type="button" class="btn btn-sm rounded-3 shadow-sm btn-outline-info my-1" id="btnPindahPasar">Pindah Pasar <i
+                        {{-- <button type="button" class="btn btn-info btn-sm my-1" id="btnPindahPasar">Pindah Pasar <i
                                 class="bi bi-sign-intersection-y-fill"></i></button> --}}
-                        {{-- <button type="button" class="btn btn-outline-success btn-sm my-1" id="btnPindahLokasi">Pindah Lokasi
+                        {{-- <button type="button" class="btn btn-success btn-sm my-1" id="btnPindahLokasi">Pindah Lokasi
                             <i class="bi bi-sign-intersection-y-fill"></i></button> --}}
-                        {{-- <button type="button" class="btn btn-sm rounded-3 shadow-sm btn-outline-secondary my-1" id="btnEditKodeOrder">Update
+                        {{-- <button type="button" class="btn btn-secondary btn-sm my-1" id="btnEditKodeOrder">Update
                             Kode Order <i class="bi bi-pen-fill"></i></button> --}}
-                        {{-- <button type="button" class="btn btn-sm rounded-3 shadow-sm btn-outline-warning my-1" id="btnClearKodeKandidat">Clear
+                        {{-- <button type="button" class="btn btn-warning btn-sm my-1" id="btnClearKodeKandidat">Clear
                                 Kode Kandidat <i class="bi bi-x-square-fill"></i></button> --}}
-                        {{-- <button type="button" class="btn btn-sm rounded-3 shadow-sm btn-outline-danger my-1" id="btnHapusRODouble">Hapus RO
+                        {{-- <button type="button" class="btn btn-danger btn-sm my-1" id="btnHapusRODouble">Hapus RO
                             Double <i class="bi bi-trash"></i></button> --}}
-                        <button type="button" class="btn btn-sm rounded-3 shadow-sm btn-outline-warning my-1"
-                            id="btnHapusROBiasa">Hapus RO
+                        <button type="button" class="btn btn-warning btn-sm my-1" id="btnHapusROBiasa">Hapus RO
                             Biasa <i class="bi bi-trash"></i></button>
-                        <button type="button" class="btn btn-sm rounded-3 shadow-sm btn-outline-danger my-1"
-                            id="btnHapusROPermanent">Hapus
-                            RO
+                        <button type="button" class="btn btn-danger btn-sm my-1" id="btnHapusROPermanent">Hapus RO
                             Permanent <i class="bi bi-trash"></i></button>
-                        {{-- <button type="button" class="btn btn-sm rounded-3 shadow-sm btn-outline-warning my-1" id="btnEditKodeOKAN">Edit Kode OKAN<i
+                        {{-- <button type="button" class="btn btn-warning btn-sm my-1" id="btnEditKodeOKAN">Edit Kode OKAN<i
                                 class="bi bi-trash"></i></button> --}}
-                        <div class="btn-group">
-                            <button class="btn btn-sm rounded-3 shadow-sm btn-outline-secondary dropdown-toggle"
-                                type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        {{-- <div class="btn-group">
+                            <button class="btn btn-secondary btn-sm dropdown-toggle" type="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">
                                 Tipe Outlet
                             </button>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item btnSetTipeOutlet" href="#">Retail</a>
-                                </li>
-                                <li><a class="dropdown-item btnSetTipeOutlet" href="#">Grosir</a>
-                                </li>
-                                <li><a class="dropdown-item btnSetTipeOutlet" href="#">NOO</a>
-                                </li>
+                                <li><a class="dropdown-item btnSetTipeOutlet" href="#">Retail</a></li>
+                                <li><a class="dropdown-item btnSetTipeOutlet" href="#">Grosir</a></li>
+                                <li><a class="dropdown-item btnSetTipeOutlet" href="#">NOO</a></li>
                             </ul>
-                        </div>
+                        </div> --}}
                         <br>
                         @if (isset($salesman_awal))
-                            <button type="button" class="btn btn-sm rounded-3 shadow-sm btn-outline-info btnOrder">Order
-                                <span> <i class="bi bi-journal-text"></i></span></button>
-                            <button type="button"
-                                class="btn btn-sm rounded-3 shadow-sm btn-outline-secondary btnKandidat">Visit
-                                Kandidat
-                                <span> <i class="bi bi-journal-text"></i></span></button>
+                            <button type="button" class="btn btn-info btn-sm btnOrder">Order <span> <i
+                                        class="bi bi-journal-text"></i></span></button>
+                            <button type="button" class="btn btn-secondary btn-sm btnKandidat">Visit Kandidat <span> <i
+                                        class="bi bi-journal-text"></i></span></button>
                         @endif
                     </div>
                 </div>
@@ -192,9 +184,9 @@
                 @endphp
                 <div class="row py-1 px-3 my-2 mx-3 rounded text-white" style="background-color: #252B3B;">
                     {{-- <div class="col-lg-12 text-center">
-                        <button type="button" class="btn btn-sm rounded-3 shadow-sm btn-outline-info btnOrder">Order <span> <i
+                        <button type="button" class="btn btn-info btn-sm btnOrder">Order <span> <i
                                     class="bi bi-journal-text"></i></span></button>
-                        <button type="button" class="btn btn-sm rounded-3 shadow-sm btn-outline-warning btnKandidat">Visit Kandidat <span> <i
+                        <button type="button" class="btn btn-warning btn-sm btnKandidat">Visit Kandidat <span> <i
                                     class="bi bi-journal-text"></i></span></button>
                     </div> --}}
                 </div>
@@ -210,31 +202,27 @@
                             <th>Hari</th>
                             <th>Rute ID</th>
                             <th>ID MRDO</th>
-                            <th>Survey pasar ID <button type="button"
-                                    class="btn btn-sm rounded-3 shadow-sm btn-outline-secondary" id="salinID_SP"><i
-                                        class="bi bi-clipboard-fill"></i></button></th>
+                            <th>Survey pasar ID <button type="button" class="btn btn-sm btn-secondary"
+                                    id="salinID_SP"><i class="bi bi-clipboard-fill"></i></button></th>
                             <th>ID MCO</th>
-                            <th>Kode Customer <button type="button"
-                                    class="btn btn-sm rounded-3 shadow-sm btn-outline-secondary" id="salinKode"><i
+                            <th>Kode Customer <button type="button" class="btn btn-sm btn-secondary" id="salinKode"><i
                                         class="bi bi-clipboard-fill"></i></button>
                             </th>
-                            <th>Nama Toko <button type="button"
-                                    class="btn btn-sm rounded-3 shadow-sm btn-outline-secondary" id="salinNamaToko"><i
+                            <th>Nama Toko <button type="button" class="btn btn-sm btn-secondary" id="salinNamaToko"><i
                                         class="bi bi-clipboard-fill"></i></button>
                             </th>
-                            <th>Alamat <button type="button" class="btn btn-sm rounded-3 shadow-sm btn-outline-secondary"
-                                    id="salinAlamat"><i class="bi bi-clipboard-fill"></i></button>
+                            <th>Alamat <button type="button" class="btn btn-sm btn-secondary" id="salinAlamat"><i
+                                        class="bi bi-clipboard-fill"></i></button>
                             </th>
                             <th>ID Pasar</th>
                             <th>Nama pasar</th>
                             <th>Tipe Outlet</th>
                             <th>Status Reject</th>
                             <th>QR</th>
-                            {{-- <th class="text-center" id="action">Action</th> --}}
+                            <th class="text-center" id="action">Action</th>
                             <th class="text-center">
                                 <input type="checkbox" class="btn-check check-all" id="check-all" autocomplete="off">
-                                <label class="btn btn-sm rounded-3 shadow-sm btn-outline-success"
-                                    for="check-all">All</label>
+                                <label class="btn btn-sm btn-outline-success" for="check-all">All</label>
                             </th>
                         </tr>
                         <tr>
@@ -271,7 +259,7 @@
                             </th>
                             <th><input type="text" class="form-control form-control-sm w-100" placeholder="Search" />
                             </th>
-                            {{-- <th></th> --}}
+                            <th></th>
                             <th></th>
                         </tr>
                     </thead>
@@ -284,8 +272,7 @@
                                 $no += 1;
                             @endphp
                             <tr class="warnaBaris" data-id="{{ $mr['mrdo_id'] }}"
-                                data-rute_detail_id="{{ $mr['rute_detail_id'] }}"
-                                data-rute_hari_ini="{{ $mr['rute_hari_ini'] }}">
+                                data-rute_detail_id="{{ $mr['rute_detail_id'] }}">
                                 <td></td>
                                 <td class="nama_wilayah {{ $mr['rute_hari_ini'] == 1 ? ' text-success fw-bolder' : '' }}">
                                     {{ $mr['nama_wilayah'] }} ({{ $mr['id_wilayah'] }})</td>
@@ -298,7 +285,7 @@
                                     {{ $mr['hari'] }}</td>
                                 <td class="rute_id">{{ $mr['id'] }}</td>
                                 <td class="id_mrdo">{{ $mr['mrdo_id'] }}</td>
-                                <td class="text-success fw-bolder id_survey_pasar">{{ $mr['survey_pasar_id'] }}</td>
+                                <td class="text-success fw-bolder survey_pasar_id">{{ $mr['survey_pasar_id'] }}</td>
                                 <td class="id_mco">{{ $mr['id_qr_outlet'] }}</td>
                                 <td class="text-primary fw-bolder kode_customer">{{ $mr['kode_customer'] }}
                                 </td>
@@ -333,7 +320,7 @@
                                         @if ($mr['verifikasi_qr']['flag_qr'])
                                             @if ($mr['pengajuan_by_pass'])
                                                 <button type="button"
-                                                    class="btn btn-sm rounded-3 shadow-sm p-1 btn-outline-danger btn-block w-100 btnBarcode"
+                                                    class="btn btn-sm p-1 btn-danger btn-block w-100 btnBarcode"
                                                     data-id_qr="{{ $mr['pengajuan_by_pass'][0]['id'] }}">QR</button>
                                             @else
                                                 Belum Isi QR Bermasalah
@@ -345,18 +332,18 @@
                                         -
                                     @endif
                                 </td>
-                                {{-- <td>
+                                <td>
                                     <div class="row px-2 py-1">
                                         <div class="col-12 px-0">
                                             <button type="button"
-                                                class="btn btn-sm rounded-3 shadow-sm p-1 btn-outline-warning btn-block w-100 btnEdit">Edit</button>
+                                                class="btn btn-sm p-1 btn-warning btn-block w-100 btnEdit">Edit</button>
                                         </div>
                                     </div>
-                                </td> --}}
+                                </td>
                                 <td class="text-center">
                                     <input type="checkbox" class="btn-check check" id="check{{ $no }}"
                                         autocomplete="off">
-                                    <label class="btn btn-sm rounded-3 shadow-sm btn-outline-success"
+                                    <label class="btn btn-sm btn-outline-success"
                                         for="check{{ $no }}">Pilih</label>
                                 </td>
                             </tr>
@@ -390,9 +377,8 @@
                                 <th>wilayah</th>
                                 <th>no order</th>
                                 <th>nama salesman</th>
-                                <th><button type="button" class="btn btn-sm rounded-3 shadow-sm btn-outline-secondary"
-                                        id="salinKodeOrder"><i class="bi bi-clipboard-fill"></i></button> kode customer
-                                </th>
+                                <th><button type="button" class="btn btn-sm btn-secondary" id="salinKodeOrder"><i
+                                            class="bi bi-clipboard-fill"></i></button> kode customer</th>
                                 <th>nama toko</th>
                                 <th>id pasar</th>
                                 <th>nama pasar</th>
@@ -492,9 +478,9 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal"
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
                         aria-label="Close">Batal</button>
-                    <button type="button" class="btn btn-outline-primary" id="saveEdit">Simpan</button>
+                    <button type="button" class="btn btn-primary" id="saveEdit">Simpan</button>
                 </div>
             </div>
         </div>
@@ -521,9 +507,9 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal"
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
                         aria-label="Close">Batal</button>
-                    <button type="button" class="btn btn-outline-primary" id="savePindahPasar">Simpan</button>
+                    <button type="button" class="btn btn-primary" id="savePindahPasar">Simpan</button>
                 </div>
             </div>
         </div>
@@ -551,9 +537,9 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal"
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
                         aria-label="Close">Batal</button>
-                    <button type="button" class="btn btn-outline-primary" id="savePindahLokasi">Simpan</button>
+                    <button type="button" class="btn btn-primary" id="savePindahLokasi">Simpan</button>
                 </div>
             </div>
         </div>
@@ -578,8 +564,8 @@
         $(document).ready(function() {
 
             // $('form').submit(function() {
-            //     let salesman = $('#salesman_awal').val();
-            //     let id_pasar = $('#id_pasar_awal').val();
+            //     var salesman = $('#salesman_awal').val();
+            //     var id_pasar = $('#id_pasar_awal').val();
             //     if ((salesman == '' || salesman == null) && (
             //             id_pasar == '' || id_pasar == null)) {
             //         $('#salesman_awal').get(0).setCustomValidity('Harap Isi Salesman Awal');
@@ -625,7 +611,7 @@
                         data.nama_wilayah));
                 }
             }).on('select2:select', function(e) {
-                let data = e.params.data;
+                var data = e.params.data;
                 $('.select2-rute_awal').val(null).trigger('change');
                 $('#hari_awal').val(null).trigger('change');
                 $('#rute_awal').val('');
@@ -703,7 +689,7 @@
                     return $('<span>').text(data.text);
                 }
             }).on('select2:select', function(e) {
-                let data = e.params.data;
+                var data = e.params.data;
                 $('#rute_awal').val(data.text);
             }).on('select2:unselect', function() {
                 $('#rute_awal').val('');
@@ -750,7 +736,7 @@
                     return data.text;
                 }
             }).on('select2:select', function(e) {
-                let data = e.params.data;
+                var data = e.params.data;
                 $('#pasar_awal').val(data.text);
             });
 
@@ -794,7 +780,7 @@
                     return data.text;
                 }
             }).on('select2:select', function(e) {
-                let data = e.params.data;
+                var data = e.params.data;
                 $('#depo_awal').val(data.text);
             });
 
@@ -836,7 +822,7 @@
                         data.nama_wilayah));
                 }
             }).on('select2:select', function(e) {
-                let data = e.params.data;
+                var data = e.params.data;
                 $('.select2-rute_akhir').val(null).trigger('change');
                 $('#id_salesman_akhir').val(data.id_salesman);
                 $('#nama_wilayah_akhir').val(data.nama_wilayah);
@@ -873,7 +859,7 @@
                     return $('<span>').text(data.text);
                 }
             }).on('select2:select', function(e) {
-                let data = e.params.data;
+                var data = e.params.data;
                 $('#rute_akhir').val(data.text);
             });
 
@@ -917,7 +903,7 @@
                         ' - ' + data.nama_wilayah));
                 }
             }).on('select2:select', function(e) {
-                let data = e.params.data;
+                var data = e.params.data;
                 $('#nama_pasar_akhir').val(data.text);
             });
 
@@ -957,9 +943,9 @@
                 });
             });
 
-            let table = $('.myTable').DataTable({
+            var table = $('.myTable').DataTable({
                 dom: "<'row'<'col-sm-12 col-md-2 filter-survey_pasar'><'col-sm-12 col-md-2 filter-KodeCustomer'><'col-sm-12 col-md-2 filter-NamaToko'><'col-sm-12 col-md-2 filter-Alamat'><'col-sm-12 col-md-2 filter-jenis_outlet'B><'col-sm-12 col-md-2 text-right'f>>" +
-                    "<'row p-2'<'col-sm-12'tr>>" +
+                    "<'row py-2'<'col-sm-12'tr>>" +
                     "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
                 paging: false,
                 orderCellsTop: true,
@@ -991,7 +977,7 @@
                 }],
                 "columnDefs": [{
                     "orderable": false,
-                    "targets": [0, 17, 17],
+                    "targets": [0, 17, 18],
                     "className": 'no-export'
                 }],
                 "order": [
@@ -1010,7 +996,7 @@
                         </select>`)
                         .appendTo('.filter-jenis_outlet')
                         .on('change', function() {
-                            let val = $(this).val();
+                            var val = $(this).val();
                             if (val === '') {
                                 table.column(9).search('').draw();
                             } else if (val === 'KANDIDAT') {
@@ -1024,7 +1010,7 @@
                     $(`<textarea id="filterSurveyPasar" class="form-control" rows="3" placeholder="Filter Survey Pasar"></textarea>`)
                         .appendTo('.filter-survey_pasar')
                         .on('input', function() {
-                            let filterSurveyPasar = $(this).val().trim().split('\n').map(function(
+                            var filterSurveyPasar = $(this).val().trim().split('\n').map(function(
                                 item) {
                                 return item.trim();
                             });
@@ -1034,7 +1020,7 @@
                                 table.column(7).search('').draw();
                             } else {
                                 // Jika filter tidak kosong, lakukan pencarian pada kolom
-                                let filterRegex = '^' + filterSurveyPasar.join('$|^') + '$';
+                                var filterRegex = '^' + filterSurveyPasar.join('$|^') + '$';
                                 table.column(7).search(filterRegex, true, false).draw();
                             }
                         });
@@ -1043,17 +1029,16 @@
                     $(`<textarea id="filterKodeCustomer" class="form-control" rows="3" placeholder="Filter Kode Customer"></textarea>`)
                         .appendTo('.filter-KodeCustomer')
                         .on('input', function() {
-                            let filterKodeCustomer = $(this).val().trim().split('\n').map(
-                                function(
-                                    item) {
-                                    return item.trim();
-                                });
+                            var filterKodeCustomer = $(this).val().trim().split('\n').map(function(
+                                item) {
+                                return item.trim();
+                            });
                             if (filterKodeCustomer == '') {
                                 // Jika filter kosong, hapus pencarian pada kolom dan tampilkan semua data
                                 table.column(9).search('').draw();
                             } else {
                                 // Jika filter tidak kosong, lakukan pencarian pada kolom
-                                let filterRegex = '^' + filterKodeCustomer.join('$|^') + '$';
+                                var filterRegex = '^' + filterKodeCustomer.join('$|^') + '$';
                                 table.column(9).search(filterRegex, true, false).draw();
                             }
                         });
@@ -1062,7 +1047,7 @@
                     $(`<textarea id="filterNamaToko" class="form-control" rows="3" placeholder="Filter Nama Toko"></textarea>`)
                         .appendTo('.filter-NamaToko')
                         .on('input', function() {
-                            let filterNamaToko = $(this).val().trim().split('\n').map(function(
+                            var filterNamaToko = $(this).val().trim().split('\n').map(function(
                                 item) {
                                 return item.trim();
                             });
@@ -1072,7 +1057,7 @@
                                 table.column(10).search('').draw();
                             } else {
                                 // Jika filter tidak kosong, lakukan pencarian pada kolom
-                                let filterRegex = '^' + filterNamaToko.join('$|^') + '$';
+                                var filterRegex = '^' + filterNamaToko.join('$|^') + '$';
                                 table.column(10).search(filterRegex, true, false).draw();
                             }
                         });
@@ -1080,7 +1065,7 @@
                     $(`<textarea id="filterAlamat" class="form-control" rows="3" placeholder="Filter Alamat"></textarea>`)
                         .appendTo('.filter-Alamat')
                         .on('input', function() {
-                            let filterAlamat = $(this).val().trim().split('\n').map(function(
+                            var filterAlamat = $(this).val().trim().split('\n').map(function(
                                 item) {
                                 return item.trim();
                             });
@@ -1090,31 +1075,31 @@
                                 table.column(11).search('').draw();
                             } else {
                                 // Jika filter tidak kosong, lakukan pencarian pada kolom
-                                let filterRegex = '^' + filterAlamat.join('$|^') + '$';
+                                var filterRegex = '^' + filterAlamat.join('$|^') + '$';
                                 table.column(11).search(filterRegex, true, false).draw();
                             }
                         });
 
-                    // let salesmanList = this.api().column(2).data().unique().sort();
-                    // let salesmanSelect = $(
+                    // var salesmanList = this.api().column(2).data().unique().sort();
+                    // var salesmanSelect = $(
                     //         '<select class="w-100 form-select form-select-sm"><option value="" selected>All</option></select>'
                     //     )
                     //     .appendTo('#filter-salesman')
                     //     .on('change', function() {
-                    //         let val = $.fn.dataTable.util.escapeRegex($(this).val());
+                    //         var val = $.fn.dataTable.util.escapeRegex($(this).val());
                     //         table.column(2).search(val ? '^' + val + '$' : '', true, false).draw();
                     //     });
                     // salesmanList.each(function(d, j) {
                     //     salesmanSelect.append('<option value="' + d + '">' + d + '</option>');
                     // });
 
-                    // let ruteList = this.api().column(3).data().unique().sort();
-                    // let ruteSelect = $(
+                    // var ruteList = this.api().column(3).data().unique().sort();
+                    // var ruteSelect = $(
                     //         '<select class="w-100 form-select form-select-sm" selected><option value="">All</option></select>'
                     //     )
                     //     .appendTo('#filter-rute')
                     //     .on('change', function() {
-                    //         let val = $.fn.dataTable.util.escapeRegex($(this).val());
+                    //         var val = $.fn.dataTable.util.escapeRegex($(this).val());
                     //         table.column(3).search(val ? '^' + val + '$' : '', true, false).draw();
                     //     });
                     // ruteList.each(function(d, j) {
@@ -1133,7 +1118,7 @@
             }).draw();
 
             $('.myTable thead tr:eq(1) th').each(function(i) {
-                // let title = $(this).text();
+                // var title = $(this).text();
                 // $(this).html('<input type="text" placeholder="Search ' + title + '" />');
 
                 $('input', this).on('keyup change', function() {
@@ -1149,42 +1134,74 @@
             $('#salinKode').click(function(e) {
                 // Mengambil data kolom dengan filter yang aktif
                 e.stopPropagation();
-                let filteredData = table.column(9, {
+                var filteredData = table.column(9, {
                     search: 'applied'
                 }).data().toArray();
 
-                let textToCopy = filteredData.join('\n');
-                copyToClipboard(textToCopy);
+                var textToCopy = filteredData.join('\n');
+                navigator.clipboard.writeText(textToCopy).then(function() {
+                    var toast = $('#toastSalin');
+                    toast.show();
+                    setTimeout(function() {
+                        toast.hide();
+                    }, 2000);
+                }).catch(function(err) {
+                    console.error('Gagal menyalin teks: ', err);
+                });
             });
             $('#salinNamaToko').click(function(e) {
                 // Mengambil data kolom dengan filter yang aktif
                 e.stopPropagation();
-                let filteredData = table.column(10, {
+                var filteredData = table.column(10, {
                     search: 'applied'
                 }).data().toArray();
 
-                let textToCopy = filteredData.join('\n');
-                copyToClipboard(textToCopy);
+                var textToCopy = filteredData.join('\n');
+                navigator.clipboard.writeText(textToCopy).then(function() {
+                    var toast = $('#toastSalin');
+                    toast.show();
+                    setTimeout(function() {
+                        toast.hide();
+                    }, 2000);
+                }).catch(function(err) {
+                    console.error('Gagal menyalin teks: ', err);
+                });
             });
             $('#salinAlamat').click(function(e) {
                 // Mengambil data kolom dengan filter yang aktif
                 e.stopPropagation();
-                let filteredData = table.column(11, {
+                var filteredData = table.column(11, {
                     search: 'applied'
                 }).data().toArray();
 
-                let textToCopy = filteredData.join('\n');
-                copyToClipboard(textToCopy);
+                var textToCopy = filteredData.join('\n');
+                navigator.clipboard.writeText(textToCopy).then(function() {
+                    var toast = $('#toastSalin');
+                    toast.show();
+                    setTimeout(function() {
+                        toast.hide();
+                    }, 2000);
+                }).catch(function(err) {
+                    console.error('Gagal menyalin teks: ', err);
+                });
             });
             $('#salinID_SP').click(function(e) {
                 // Mengambil data kolom dengan filter yang aktif
                 e.stopPropagation();
-                let filteredData = table.column(7, {
+                var filteredData = table.column(7, {
                     search: 'applied'
                 }).data().toArray();
 
-                let textToCopy = filteredData.join('\n');
-                copyToClipboard(textToCopy);
+                var textToCopy = filteredData.join('\n');
+                navigator.clipboard.writeText(textToCopy).then(function() {
+                    var toast = $('#toastSalin');
+                    toast.show();
+                    setTimeout(function() {
+                        toast.hide();
+                    }, 2000);
+                }).catch(function(err) {
+                    console.error('Gagal menyalin teks: ', err);
+                });
             });
 
             $('.check-all').click(function(e) {
@@ -1199,14 +1216,14 @@
                 }
             });
 
-            let TableOrder;
+            var TableOrder;
             $(document).on('click', ".btnOrder", function() {
                 if (!TableOrder) {
                     TableOrder = $('.TableOrder').DataTable({
                         processing: true,
                         serverSide: true,
                         dom: "<'row'<'col-sm-12 col-md-2'l><'col-sm-12 col-md-5'B><'col-sm-12 col-md-5 text-right'f >> " +
-                            "<'row p-2'<'col-sm-12'tr>>" +
+                            "<'row py-2'<'col-sm-12'tr>>" +
                             "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
                         // scrollY: 260,
                         "lengthMenu": [10, 25, 50, 75, 100, 500],
@@ -1379,36 +1396,44 @@
             $('#salinKodeOrder').click(function(e) {
                 // Mengambil data kolom dengan filter yang aktif
                 e.stopPropagation();
-                let filteredData = TableOrder.column(5, {
+                var filteredData = TableOrder.column(5, {
                     search: 'applied'
                 }).data().toArray();
 
-                let textToCopy = filteredData.join('\n');
+                var textToCopy = filteredData.join('\n');
 
-                copyToClipboard(textToCopy);
+                navigator.clipboard.writeText(textToCopy).then(function() {
+                    var toast = $('#toastSalin');
+                    toast.show();
+                    setTimeout(function() {
+                        toast.hide();
+                    }, 2000);
+                }).catch(function(err) {
+                    console.error('Gagal menyalin teks: ', err);
+                });
 
             });
 
             function numberWithCommas(x) {
-                let parts = x.toFixed(3).toString().split(".");
-                let integerPart = parts[0];
-                let decimalPart = parts[1];
+                var parts = x.toFixed(3).toString().split(".");
+                var integerPart = parts[0];
+                var decimalPart = parts[1];
 
                 integerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-                let formattedNumber = integerPart + "," + decimalPart;
+                var formattedNumber = integerPart + "," + decimalPart;
 
                 return formattedNumber;
             }
 
             // TABLE KANDIDAT
-            let TableKandidat;
+            var TableKandidat;
             $(document).on('click', ".btnKandidat", function() {
                 if (!TableKandidat) {
                     TableKandidat = $('.TableKandidat').DataTable({
                         processing: true,
                         serverSide: true,
                         dom: "<'row'<'col-sm-12 col-md-2'l><'col-sm-12 col-md-5'B><'col-sm-12 col-md-5 text-right'f >> " +
-                            "<'row p-2'<'col-sm-12'tr>>" +
+                            "<'row py-2'<'col-sm-12'tr>>" +
                             "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
                         // scrollY: 260,
                         "lengthMenu": [10, 25, 50, 75, 100, 500],
@@ -1534,13 +1559,13 @@
             // $('#btnPindah').click(function(e) {
             //     e.preventDefault();
 
-            //     let selectedRows = [];
+            //     var selectedRows = [];
 
-            //     let rute_id_akhir = $('#rute_id_akhir').val();
+            //     var rute_id_akhir = $('#rute_id_akhir').val();
             //     $('.check:checked').each(function() {
-            //         let id = $(this).closest('tr').find('.id_mrdo').text().trim();
-            //         let id_pasar_awal = $(this).closest('tr').find('.id_pasar').text().trim();
-            //         let id_survey_pasar = $(this).closest('tr').find('.id_survey_pasar').text().trim();
+            //         var id = $(this).closest('tr').find('.id_mrdo').text().trim();
+            //         var id_pasar_awal = $(this).closest('tr').find('.id_pasar').text().trim();
+            //         var id_survey_pasar = $(this).closest('tr').find('.survey_pasar_id').text().trim();
             //         selectedRows.push({
             //             id: id,
             //             id_pasar_awal: id_pasar_awal,
@@ -1587,14 +1612,14 @@
             //     $('#savePindahPasar').click(function(e) {
             //         e.preventDefault();
 
-            //         let selectedRows = [];
+            //         var selectedRows = [];
 
             //         $('.check:checked').each(function() {
-            //             let id = $(this).closest('tr').data('id');
-            //             let id_mco = $(this).closest('tr').data('id_mco');
-            //             let id_survey_pasar = $(this).closest('tr').find('.id_survey_pasar').text().trim();
-            //             let rute_id_awal = $(this).closest('tr').data('rute_id_awal');
-            //             let id_pasar_akhir = $('#id_pasar_akhir').val();
+            //             var id = $(this).closest('tr').data('id');
+            //             var id_mco = $(this).closest('tr').data('id_mco');
+            //             var id_survey_pasar = $(this).closest('tr').find('.survey_pasar_id').text().trim();
+            //             var rute_id_awal = $(this).closest('tr').data('rute_id_awal');
+            //             var id_pasar_akhir = $('#id_pasar_akhir').val();
             //             selectedRows.push({
             //                 id: id,
             //                 id_mco: id_mco,
@@ -1639,15 +1664,15 @@
             $('#btnPindah').click(function(e) {
                 e.preventDefault();
 
-                let salesman_awal = $('#salesman_awal').val();
-                let salesman_akhir = $('#salesman_akhir').val();
-                let id_salesman_akhir = $('#id_salesman_akhir').val();
-                let hari_akhir = $('#rute_id_akhir').text().split(' ')[0].trim();
-                let rute_akhir = $('#rute_akhir').val();
-                let rute_id_akhir = $('#rute_id_akhir').val();
-                let nama_wilayah_akhir = $('#nama_wilayah_akhir').val();
-                let id_wilayah_akhir = $('#id_wilayah_akhir').val();
-                let selectedRows = [];
+                var salesman_awal = $('#salesman_awal').val();
+                var salesman_akhir = $('#salesman_akhir').val();
+                var id_salesman_akhir = $('#id_salesman_akhir').val();
+                var hari_akhir = $('#rute_id_akhir').text().split(' ')[0].trim();
+                var rute_akhir = $('#rute_akhir').val();
+                var rute_id_akhir = $('#rute_id_akhir').val();
+                var nama_wilayah_akhir = $('#nama_wilayah_akhir').val();
+                var id_wilayah_akhir = $('#id_wilayah_akhir').val();
+                var selectedRows = [];
 
                 if (rute_id_akhir === '' || rute_id_akhir == null) {
                     $('#rute_id_akhir').get(0).setCustomValidity('Harap isi Rute tujuan');
@@ -1656,22 +1681,20 @@
                 }
 
                 $('.check:checked').each(function(index) {
-                    let id_mrdo = $(this).closest('tr').find('.id_mrdo').text().trim();
-                    let rute_id = $(this).closest('tr').find('.rute_id').text().trim();
-                    let rute_detail_id = $(this).closest('tr').data('rute_detail_id');
-                    let id_pasar = $(this).closest('tr').find('.id_pasar').text().trim();
-                    let id_survey_pasar = $(this).closest('tr').find('.id_survey_pasar').text()
+                    var id_mrdo = $(this).closest('tr').find('.id_mrdo').text().trim();
+                    var rute_id = $(this).closest('tr').find('.rute_id').text().trim();
+                    var rute_detail_id = $(this).closest('tr').data('rute_detail_id');
+                    var id_pasar = $(this).closest('tr').find('.id_pasar').text().trim();
+                    var id_survey_pasar = $(this).closest('tr').find('.survey_pasar_id').text()
                         .trim();
-                    let kode_customer = $(this).closest('tr').find('.kode_customer').text()
-                        .trim();
-                    let wilayah = $(this).closest('tr').find('.nama_wilayah').text().trim()
-                        .replace(
-                            /\s*\([^)]*\)$/, '');
-                    let location_type = $(this).closest('tr').find('.tipe_outlet').text().split(
+                    var kode_customer = $(this).closest('tr').find('.kode_customer').text().trim();
+                    var wilayah = $(this).closest('tr').find('.nama_wilayah').text().trim().replace(
+                        /\s*\([^)]*\)$/, '');
+                    var location_type = $(this).closest('tr').find('.tipe_outlet').text().split(
                         '-')[1];
-                    let toko = $(this).closest('tr').find('.nama_toko').text().trim();
+                    var toko = $(this).closest('tr').find('.nama_toko').text().trim();
 
-                    let dataObject = {};
+                    var dataObject = {};
                     dataObject['id_mrdo'] = id_mrdo;
                     dataObject['rute_id'] = rute_id;
                     dataObject['rute_detail_id'] = rute_detail_id;
@@ -1706,14 +1729,14 @@
                             $('#successModal').modal('show');
                             $('.check:checked').each(function(index) {
                                 // if (salesman_awal != salesman_akhir) {
-                                //     let row = $(this).closest('tr');
+                                //     var row = $(this).closest('tr');
                                 //     table.row(row).remove().draw();
                                 // } else {
-                                let mrdo_id = $(this).closest(
+                                var mrdo_id = $(this).closest(
                                         'tr').find('.id_mrdo')
                                     .text().trim();
 
-                                let rowData = table.row(
+                                var rowData = table.row(
                                     '[data-id="' + mrdo_id +
                                     '"]').data();
 
@@ -1763,43 +1786,40 @@
                 $('#savePindahPasar').off('click').on('click', function(e) {
                     e.preventDefault();
 
-                    let selectedRows = [];
-                    let valid = true;
+                    var selectedRows = [];
+                    var valid = true;
                     $('.check:checked').each(function(index) {
-                        let id_distributor = $('#nama_distributor').text().match(
+                        var id_distributor = $('#nama_distributor').text().match(
                             /\(([^()]+)\)[^(]*$/)[1];
-                        let id_wilayah = $(this).closest('tr').find('.nama_wilayah')
-                            .text()
+                        var id_wilayah = $(this).closest('tr').find('.nama_wilayah').text()
                             .trim()
                             .match(/\(([^()]+)\)[^(]*$/)[1];
-                        let id_survey_pasar = $(this).closest('tr').find(
-                                '.id_survey_pasar')
+                        var id_survey_pasar = $(this).closest('tr').find('.survey_pasar_id')
                             .text().trim();
-                        let id_qr_outlet = $(this).closest('tr').find('.id_mco').text()
+                        var id_qr_outlet = $(this).closest('tr').find('.id_mco').text()
                             .trim();
-                        let mrdo_id = $(this).closest('tr').find('.id_mrdo').text()
+                        var mrdo_id = $(this).closest('tr').find('.id_mrdo').text().trim();
+                        var rute_detail_id = $(this).closest('tr').data('rute_detail_id');
+                        var id = $(this).closest('tr').find('.rute_id').text().trim();
+                        var rute = $(this).closest('tr').find('.rute').text().trim();
+                        var hari = $(this).closest('tr').find('.hari').text().trim();
+                        var nama_toko = $(this).closest('tr').find('.nama_toko').text()
                             .trim();
-                        let rute_detail_id = $(this).closest('tr').data('rute_detail_id');
-                        let id = $(this).closest('tr').find('.rute_id').text().trim();
-                        let rute = $(this).closest('tr').find('.rute').text().trim();
-                        let hari = $(this).closest('tr').find('.hari').text().trim();
-                        let nama_toko = $(this).closest('tr').find('.nama_toko').text()
-                            .trim();
-                        let alamat = $(this).closest('tr').find('.alamat').text() ?? '';
-                        let kode_customer = $(this).closest('tr').find('.kode_customer')
+                        var alamat = $(this).closest('tr').find('.alamat').text() ?? '';
+                        var kode_customer = $(this).closest('tr').find('.kode_customer')
                             .text().trim();
-                        let nama_pasar = $(this).closest('tr').find('.nama_pasar')
+                        var nama_pasar = $(this).closest('tr').find('.nama_pasar')
                             .text().trim();
-                        let nama_distributor = $('#nama_distributor').text().replace(
+                        var nama_distributor = $('#nama_distributor').text().replace(
                             /\s*\([^)]*\)$/, '');
-                        let nama_wilayah = $(this).closest('tr').find('.nama_wilayah')
+                        var nama_wilayah = $(this).closest('tr').find('.nama_wilayah')
                             .text().trim().replace(/\s*\([^)]*\)$/, '');
-                        let salesman = $('#salesman_awal').val();
-                        let id_pasar = $(this).closest('tr').find('.id_pasar').text()
+                        var salesman = $('#salesman_awal').val();
+                        var id_pasar = $(this).closest('tr').find('.id_pasar').text()
                             .trim();
-                        let location_type = $(this).closest('tr').find('.tipe_outlet')
+                        var location_type = $(this).closest('tr').find('.tipe_outlet')
                             .text().split('-')[1].trim();
-                        let pasar = $(this).closest('tr').find('.tipe_outlet').text()
+                        var pasar = $(this).closest('tr').find('.tipe_outlet').text()
                             .split('-')[1].trim().toUpperCase();
                         if (pasar == 'PASAR') {
                             valid = confirm("LOKASI PASAR : " + nama_toko + " - " +
@@ -1809,9 +1829,9 @@
                             return false;
                         }
 
-                        let id_pasar_akhir = $('#pasar_akhir').val();
+                        var id_pasar_akhir = $('#pasar_akhir').val();
 
-                        let dataObject = {};
+                        var dataObject = {};
                         dataObject['id_wilayah'] = id_wilayah;
                         dataObject['survey_pasar_id'] = id_survey_pasar;
                         dataObject['id_qr_outlet'] = id_qr_outlet;
@@ -1830,7 +1850,7 @@
                         dataObject['id_pasar'] = id_pasar;
                         dataObject['location_type'] = location_type;
 
-                        let data = [];
+                        var data = [];
                         data.push(kode_customer);
                         // data.push(String(kode_customer).padStart(6, '0'));
                         data.push(nama_toko);
@@ -1859,17 +1879,17 @@
                                 $('#PindahPasarModal').modal('hide');
                                 $('#successModal').modal('show');
 
-                                let id_pasar_akhir = $('#pasar_akhir')
+                                var id_pasar_akhir = $('#pasar_akhir')
                                     .val();
-                                let nama_pasar_akhir = $(
+                                var nama_pasar_akhir = $(
                                     '#nama_pasar_akhir').val();
 
                                 $('.check:checked').each(function(index) {
-                                    let mrdo_id = $(this).closest(
+                                    var mrdo_id = $(this).closest(
                                             'tr').find('.id_mrdo')
                                         .text().trim();
 
-                                    let rowData = table.row(
+                                    var rowData = table.row(
                                         '[data-id="' + mrdo_id +
                                         '"]').data();
                                     rowData[12] = id_pasar_akhir;
@@ -1917,44 +1937,40 @@
                 $('#savePindahLokasi').off('click').on('click', function(e) {
                     e.preventDefault();
 
-                    let selectedRows = [];
-                    let valid = true;
+                    var selectedRows = [];
+                    var valid = true;
                     $('.check:checked').each(function(index) {
-                        let id_wilayah = $(this).closest('tr').find('.nama_wilayah')
-                            .text()
+                        var id_wilayah = $(this).closest('tr').find('.nama_wilayah').text()
                             .trim()
                             .match(/\(([^()]+)\)[^(]*$/)[1];
-                        let id_distributor = $('#nama_distributor').text().match(
+                        var id_distributor = $('#nama_distributor').text().match(
                             /\(([^()]+)\)[^(]*$/)[1];
-                        let id_survey_pasar = $(this).closest('tr').find(
-                                '.id_survey_pasar')
+                        var id_survey_pasar = $(this).closest('tr').find('.survey_pasar_id')
                             .text().trim();
-                        let id_qr_outlet = $(this).closest('tr').find('.id_mco').text()
+                        var id_qr_outlet = $(this).closest('tr').find('.id_mco').text()
                             .trim();
-                        let mrdo_id = $(this).closest('tr').find('.id_mrdo').text()
+                        var mrdo_id = $(this).closest('tr').find('.id_mrdo').text().trim();
+                        var rute_detail_id = $(this).closest('tr').data('rute_detail_id');
+                        var id = $(this).closest('tr').find('.rute_id').text().trim();
+                        var rute = $(this).closest('tr').find('.rute').text().trim();
+                        var hari = $(this).closest('tr').find('.hari').text().trim();
+                        var nama_toko = $(this).closest('tr').find('.nama_toko').text()
                             .trim();
-                        let rute_detail_id = $(this).closest('tr').data('rute_detail_id');
-                        let id = $(this).closest('tr').find('.rute_id').text().trim();
-                        let rute = $(this).closest('tr').find('.rute').text().trim();
-                        let hari = $(this).closest('tr').find('.hari').text().trim();
-                        let nama_toko = $(this).closest('tr').find('.nama_toko').text()
-                            .trim();
-                        let alamat = $(this).closest('tr').find('.alamat').text() ?? '';
-                        let kode_customer = $(this).closest('tr').find('.kode_customer')
+                        var alamat = $(this).closest('tr').find('.alamat').text() ?? '';
+                        var kode_customer = $(this).closest('tr').find('.kode_customer')
                             .text().trim();
-                        let nama_pasar = $(this).closest('tr').find('.nama_pasar')
+                        var nama_pasar = $(this).closest('tr').find('.nama_pasar')
                             .text().trim();
-                        let nama_distributor = $('#nama_distributor').text().replace(
+                        var nama_distributor = $('#nama_distributor').text().replace(
                             /\s*\([^)]*\)$/, '');
-                        let nama_wilayah = $(this).closest('tr').find('.nama_wilayah')
+                        var nama_wilayah = $(this).closest('tr').find('.nama_wilayah')
                             .text().trim().replace(/\s*\([^)]*\)$/, '');
-                        let salesman = $('#salesman_awal').val();
-                        let id_pasar = $(this).closest('tr').find('.id_pasar').text()
+                        var salesman = $('#salesman_awal').val();
+                        var id_pasar = $(this).closest('tr').find('.id_pasar').text()
                             .trim();
-                        let location_type = $(this).closest('tr').find('.tipe_outlet')
+                        var location_type = $(this).closest('tr').find('.tipe_outlet')
                             .text().split('-')[1].trim();
-                        let source_type = $(this).closest('tr').find('.tipe_outlet')
-                            .text()
+                        var source_type = $(this).closest('tr').find('.tipe_outlet').text()
                             .split('-')[2].trim();
                         // if (source_type == 'MAS') {
                         //     alert("Source Type MAS : " + nama_toko + " - " + kode_customer);
@@ -1963,9 +1979,9 @@
                         //     return false;
                         // }
 
-                        let lokasi = $('#lokasi').val();
+                        var lokasi = $('#lokasi').val();
 
-                        let dataObject = {};
+                        var dataObject = {};
                         dataObject['id_wilayah'] = id_wilayah;
                         dataObject['survey_pasar_id'] = id_survey_pasar;
                         dataObject['id_qr_outlet'] = id_qr_outlet;
@@ -1984,7 +2000,7 @@
                         dataObject['id_pasar'] = id_pasar;
                         dataObject['location_type'] = location_type;
 
-                        let data = [];
+                        var data = [];
                         data.push(kode_customer);
                         data.push(nama_toko);
                         data.push(alamat);
@@ -2013,24 +2029,24 @@
                                     $('#successModal').modal('hide');
                                     $('#PindahLokasiModal').modal('hide');
 
-                                    let lokasi = $('#lokasi').val();
+                                    var lokasi = $('#lokasi').val();
                                     $('.check:checked').each(function(index) {
-                                        let mrdo_id = $(this).closest(
+                                        var mrdo_id = $(this).closest(
                                                 'tr').find('.id_mrdo')
                                             .text().trim();
-                                        let tipe_outlet = $(this)
+                                        var tipe_outlet = $(this)
                                             .closest('tr').find(
                                                 '.tipe_outlet').text()
                                             .trim();
 
-                                        let tipe_outlet_parts =
+                                        var tipe_outlet_parts =
                                             tipe_outlet.split('-');
                                         tipe_outlet_parts[1] = lokasi;
-                                        let tipe_outlet_modified =
+                                        var tipe_outlet_modified =
                                             tipe_outlet_parts.join(
                                                 ' - ');
 
-                                        let rowData = table.row(
+                                        var rowData = table.row(
                                             '[data-id="' + mrdo_id +
                                             '"]').data();
 
@@ -2060,9 +2076,9 @@
 
             // EDIT OUTLET
             $(document).on('click', ".btnEdit", function() {
-                let nama_toko = $(this).closest('tr').find('.nama_toko');
-                let alamat = $(this).closest('tr').find('.alamat');
-                let kode_customer = $(this).closest('tr').find('.kode_customer');
+                var nama_toko = $(this).closest('tr').find('.nama_toko');
+                var alamat = $(this).closest('tr').find('.alamat');
+                var kode_customer = $(this).closest('tr').find('.kode_customer');
 
                 $('#alamat-baru').val(alamat.text().trim() ?? "");
                 $('#nama_toko-baru').val(nama_toko.text().trim());
@@ -2071,33 +2087,32 @@
                 // Tampilkan modal edit
                 $('#editModal').modal('show');
 
-                let selectedRows = [];
-                let valid = true;
+                var selectedRows = [];
+                var valid = true;
 
-                let id_wilayah = $(this).closest('tr').find('.nama_wilayah').text().trim().match(
+                var id_wilayah = $(this).closest('tr').find('.nama_wilayah').text().trim().match(
                     /\(([^()]+)\)[^(]*$/)[1];
-                let id_distributor = $('#nama_distributor').text().match(
+                var id_distributor = $('#nama_distributor').text().match(
                     /\(([^()]+)\)[^(]*$/)[1];
-                let id_survey_pasar = $(this).closest('tr').find('.id_survey_pasar').text().trim();
-                let id_qr_outlet = $(this).closest('tr').find('.id_mco').text().trim();
-                let mrdo_id = $(this).closest('tr').find('.id_mrdo').text().trim();
-                let rute_detail_id = $(this).closest('tr').data('rute_detail_id');
-                let id = $(this).closest('tr').find('.rute_id').text().trim();
-                let rute = $(this).closest('tr').find('.rute').text().trim();
-                let hari = $(this).closest('tr').find('.hari').text().trim();
-                let nama_wilayah = $(this).closest('tr').find('.nama_wilayah').text().trim().replace(
+                var id_survey_pasar = $(this).closest('tr').find('.survey_pasar_id').text().trim();
+                var id_qr_outlet = $(this).closest('tr').find('.id_mco').text().trim();
+                var mrdo_id = $(this).closest('tr').find('.id_mrdo').text().trim();
+                var rute_detail_id = $(this).closest('tr').data('rute_detail_id');
+                var id = $(this).closest('tr').find('.rute_id').text().trim();
+                var rute = $(this).closest('tr').find('.rute').text().trim();
+                var hari = $(this).closest('tr').find('.hari').text().trim();
+                var nama_wilayah = $(this).closest('tr').find('.nama_wilayah').text().trim().replace(
                     /\s*\([^)]*\)$/, '');
-                let nama_pasar = $(this).closest('tr').find('.nama_pasar')
+                var nama_pasar = $(this).closest('tr').find('.nama_pasar')
                     .text().trim();
-                let nama_distributor = $('#nama_distributor').text().replace(
+                var nama_distributor = $('#nama_distributor').text().replace(
                     /\s*\([^)]*\)$/, '');
-                let salesman = $('#salesman_awal').val();
-                let id_pasar = $(this).closest('tr').find('.id_pasar').text().trim();
-                let location_type = $(this).closest('tr').find('.tipe_outlet').text().split('-')[1]
-                    .trim();
-                let source_type = $(this).closest('tr').find('.tipe_outlet').text().split('-')[2].trim();
+                var salesman = $('#salesman_awal').val();
+                var id_pasar = $(this).closest('tr').find('.id_pasar').text().trim();
+                var location_type = $(this).closest('tr').find('.tipe_outlet').text().split('-')[1].trim();
+                var source_type = $(this).closest('tr').find('.tipe_outlet').text().split('-')[2].trim();
 
-                let dataObject = {};
+                var dataObject = {};
                 dataObject['id_wilayah'] = id_wilayah;
                 dataObject['survey_pasar_id'] = id_survey_pasar;
                 dataObject['id_qr_outlet'] = id_qr_outlet;
@@ -2118,11 +2133,11 @@
 
                 $('#saveEdit').off('click').on('click', function(e) {
                     e.preventDefault();
-                    let nama_toko_akhir = $('#nama_toko-baru').val();
-                    let alamat_akhir = $('#alamat-baru').val();
-                    let kode_customer_akhir = $('#kode_customer-baru').val();
+                    var nama_toko_akhir = $('#nama_toko-baru').val();
+                    var alamat_akhir = $('#alamat-baru').val();
+                    var kode_customer_akhir = $('#kode_customer-baru').val();
 
-                    let data = [];
+                    var data = [];
                     data.push(kode_customer_akhir);
                     data.push(nama_toko_akhir);
                     data.push(alamat_akhir);
@@ -2149,8 +2164,7 @@
                                 $('#successModal').modal('hide');
                                 $('#editModal').modal('hide');
 
-                                let rowData = table.row('[data-id="' +
-                                    mrdo_id +
+                                var rowData = table.row('[data-id="' + mrdo_id +
                                     '"]').data();
                                 rowData[9] = kode_customer_akhir;
                                 rowData[10] = nama_toko_akhir;
@@ -2172,273 +2186,107 @@
                 });
             });
 
-            // // SET RETAIL/GROSIR ALL
-            // $(document).on('click', ".btnSetTipeOutlet", function(e) {
-            //     e.preventDefault();
-            //     let buttonValue = $(this).text().trim();
-
-            //     let selectedRows = [];
-
-            //     $('.check:checked').each(function(index) {
-            //         let id_mrdo = $(this).closest('tr').find('.id_mrdo').text().trim();
-            //         let rute_id = $(this).closest('tr').find('.rute_id').text().trim();
-            //         let rute_detail_id = $(this).closest('tr').data('rute_detail_id');
-            //         let id_pasar = $(this).closest('tr').find('.id_pasar').text().trim();
-            //         let id_survey_pasar = $(this).closest('tr').find('.id_survey_pasar').text()
-            //             .trim();
-            //         let id_qr_outlet = $(this).closest('tr').find('.id_mco').text().trim();
-            //         let kode_customer = $(this).closest('tr').find('.kode_customer').text().trim();
-            //         let id_wilayah = $(this).closest('tr').find('.nama_wilayah').text().match(
-            //             /\(([^()]+)\)[^(]*$/)[1].trim();
-            //         let dataObject = {};
-            //         dataObject['id_outlet'] = id_mrdo;
-            //         dataObject['rute_id'] = rute_id;
-            //         dataObject['rute_detail_id'] = rute_detail_id;
-            //         dataObject['id_pasar'] = id_pasar;
-            //         dataObject['survey_pasar'] = id_survey_pasar;
-            //         dataObject['id_qr_outlet'] = id_qr_outlet;
-            //         dataObject['kode_customer'] = kode_customer;
-            //         dataObject['id_wilayah'] = id_wilayah;
-
-            //         selectedRows.push(dataObject);
-            //     });
-
-            //     $.ajax({
-            //         type: 'post',
-            //         url: "https://sales.motasaindonesia.co.id/api/tool/outletkandidat/settipeoutlet",
-            //         dataType: 'json',
-            //         encode: true,
-            //         data: {
-            //             data: selectedRows,
-            //             type: buttonValue
-            //         },
-            //         beforeSend: function() {
-            //             $('.loading-overlay').show();
-            //         },
-            //         success: function(response) {
-            //             if (response.is_valid) {
-            //                 $('#successModal').modal('show');
-            //                 $('.check:checked').each(function(index) {
-            //                     let mrdo_id = $(this).closest(
-            //                             'tr').find('.id_mrdo')
-            //                         .text().trim();
-            //                     let tipe_outlet = $(this).closest('tr').find(
-            //                         '.tipe_outlet').text().trim();
-
-            //                     let tipe = buttonValue;
-            //                     if (buttonValue == "Grosir") {
-            //                         tipe = "TPOUT_WHSL";
-            //                     } else if (buttonValue == "NOO") {
-            //                         tipe = "TPOUT_NOO";
-            //                     }
-            //                     let tipe_outlet_parts = tipe_outlet.split('-');
-            //                     tipe_outlet_parts[0] = tipe;
-            //                     let tipe_outlet_modified = tipe_outlet_parts.join(
-            //                         ' - ');
-
-            //                     let rowData = table.row(
-            //                         '[data-id="' + mrdo_id +
-            //                         '"]').data();
-
-            //                     rowData[14] = tipe_outlet_modified;
-            //                     rowData[15] = "-";
-
-            //                     table.row('[data-id="' +
-            //                         mrdo_id + '"]').data(
-            //                         rowData).draw();
-            //                 });
-            //                 setTimeout(function() {
-            //                     $('#successModal').modal('hide');
-            //                     // location.reload();
-            //                 }, 1000);
-            //             } else {
-            //                 $('#errorModal #message').text(response.message);
-            //                 $('#errorModal').modal('show');
-            //             }
-            //         },
-            //         error: function(xhr, status, error) {
-            //             console.error(error);
-            //             $('#errorModal #message').text(xhr.responseJSON.message);
-            //             $('#errorModal').modal('show');
-            //         },
-            //         complete: function() {
-            //             $('.loading-overlay').hide();
-            //         }
-            //     });
-            // });
-
-            // SET RETAIL/GROSIR/NOO ALL
+            // SET RETAIL/GROSIR ALL
             $(document).on('click', ".btnSetTipeOutlet", function(e) {
                 e.preventDefault();
-                let buttonValue = $(this).text().trim();
+                var buttonValue = $(this).text().trim();
 
-                // Fungsi untuk mengecek apakah order sudah ada hari ini
-                function cekOrderAjax(id_survey_pasar) {
-                    return new Promise((resolve, reject) => {
-                        $.ajax({
-                            type: 'post',
-                            url: "{{ route('KodeCustomer.cekOrder') }}",
-                            dataType: 'json',
-                            data: {
-                                id_survey_pasar: id_survey_pasar
-                            },
-                            success: function(response) {
-                                resolve(response);
-                            },
-                            error: function(xhr) {
-                                reject(xhr.responseJSON?.message ||
-                                    "Terjadi kesalahan saat mengecek order.");
-                            }
-                        });
-                    });
-                }
+                var selectedRows = [];
 
-                // Fungsi umum untuk mengubah rute (tanpa loading individual)
-                function updateRute(url, mrdo_id, iddepo, tipe_baru, tipe_outlet) {
-                    return new Promise((resolve, reject) => {
-                        $.ajax({
-                            type: 'post',
-                            url: url,
-                            dataType: 'json',
-                            data: {
-                                mrdo_id: mrdo_id,
-                                iddepo: iddepo
-                            },
-                            success: function(response) {
-                                if (response.is_valid) {
-                                    updateTipeOutlet(mrdo_id, tipe_outlet, tipe_baru);
+                $('.check:checked').each(function(index) {
+                    var id_mrdo = $(this).closest('tr').find('.id_mrdo').text().trim();
+                    var rute_id = $(this).closest('tr').find('.rute_id').text().trim();
+                    var rute_detail_id = $(this).closest('tr').data('rute_detail_id');
+                    var id_pasar = $(this).closest('tr').find('.id_pasar').text().trim();
+                    var id_survey_pasar = $(this).closest('tr').find('.survey_pasar_id').text()
+                        .trim();
+                    var id_qr_outlet = $(this).closest('tr').find('.id_mco').text().trim();
+                    var kode_customer = $(this).closest('tr').find('.kode_customer').text().trim();
+                    var id_wilayah = $(this).closest('tr').find('.nama_wilayah').text().match(
+                        /\(([^()]+)\)[^(]*$/)[1].trim();
+                    var dataObject = {};
+                    dataObject['id_outlet'] = id_mrdo;
+                    dataObject['rute_id'] = rute_id;
+                    dataObject['rute_detail_id'] = rute_detail_id;
+                    dataObject['id_pasar'] = id_pasar;
+                    dataObject['survey_pasar'] = id_survey_pasar;
+                    dataObject['id_qr_outlet'] = id_qr_outlet;
+                    dataObject['kode_customer'] = kode_customer;
+                    dataObject['id_wilayah'] = id_wilayah;
+
+                    selectedRows.push(dataObject);
+                });
+
+                $.ajax({
+                    type: 'post',
+                    url: "https://sales.motasaindonesia.co.id/api/tool/outletkandidat/settipeoutlet",
+                    dataType: 'json',
+                    encode: true,
+                    data: {
+                        data: selectedRows,
+                        type: buttonValue
+                    },
+                    beforeSend: function() {
+                        $('.loading-overlay').show();
+                    },
+                    success: function(response) {
+                        if (response.is_valid) {
+                            $('#successModal').modal('show');
+                            $('.check:checked').each(function(index) {
+                                var mrdo_id = $(this).closest(
+                                        'tr').find('.id_mrdo')
+                                    .text().trim();
+                                var tipe_outlet = $(this).closest('tr').find(
+                                    '.tipe_outlet').text().trim();
+
+                                var tipe = buttonValue;
+                                if (buttonValue == "Grosir") {
+                                    tipe = "TPOUT_WHSL";
+                                } else if (buttonValue == "NOO") {
+                                    tipe = "TPOUT_NOO";
                                 }
-                                resolve(response);
-                            },
-                            error: function(xhr) {
-                                reject(xhr.responseJSON?.message ||
-                                    "Gagal memproses permintaan.");
-                            }
-                        });
-                    });
-                }
+                                var tipe_outlet_parts = tipe_outlet.split('-');
+                                tipe_outlet_parts[0] = tipe;
+                                var tipe_outlet_modified = tipe_outlet_parts.join(
+                                    ' - ');
 
-                // Fungsi untuk menangani perubahan tipe outlet di tabel
-                function updateTipeOutlet(mrdo_id, tipe_outlet, tipe_baru) {
-                    let tipe_outlet_parts = tipe_outlet.split('-');
-                    tipe_outlet_parts[0] = tipe_baru;
-                    let tipe_outlet_modified = tipe_outlet_parts.join(' - ');
+                                var rowData = table.row(
+                                    '[data-id="' + mrdo_id +
+                                    '"]').data();
 
-                    let rowData = table.row(`[data-id="${mrdo_id}"]`).data();
-                    rowData[12] = tipe_outlet_modified;
+                                rowData[14] = tipe_outlet_modified;
+                                rowData[15] = "-";
 
-                    table.row(`[data-id="${mrdo_id}"]`).data(rowData).draw();
-                }
-
-                async function processData() {
-                    // Tampilkan loading indicator global satu kali
-                    $('.loading-overlay').show();
-
-                    // Buat array promise untuk setiap data yang dicek
-                    let promises = $('.check:checked').map(function() {
-                        let $tr = $(this).closest('tr');
-                        let rute_hari_ini = $tr.data('rute_hari_ini');
-                        let id_survey_pasar = $tr.find('.id_survey_pasar').text().trim();
-                        let mrdo_id = $tr.find('.id_mrdo').text().trim();
-                        let iddepo = $tr.find('.nama_wilayah').text().match(
-                            /\(([^()]+)\)[^(]*$/)[1].trim();
-                        let kode_customer = $tr.find('.kode_customer').text().trim();
-                        let nama_toko = $tr.find('.nama_toko').text().trim();
-                        let tipe_outlet = $tr.find('.tipe_outlet').text().trim();
-
-                        return (async function() {
-                            try {
-                                if (buttonValue === "Grosir") {
-                                    let response = await cekOrderAjax(
-                                        id_survey_pasar);
-                                    if (rute_hari_ini && !response.is_valid) {
-                                        // Jika data kunjungan belum masuk
-                                        return `${kode_customer} - ${nama_toko}: Data kunjungan belum masuk ke sistem`;
-                                    }
-                                    let updateResponse = await updateRute(
-                                        "https://sales.motasaindonesia.co.id/api/tool/rute/setGrosir",
-                                        mrdo_id, iddepo, "TPOUT_WHSL",
-                                        tipe_outlet
-                                    );
-                                    if (rute_hari_ini && !updateResponse.is_valid) {
-                                        // Jika gagal set Grosir, ubah ke NOO dianggap sukses (tidak menghasilkan error)
-                                        await updateRute(
-                                            "https://sales.motasaindonesia.co.id/api/tool/rute/setNoo",
-                                            mrdo_id, iddepo, "TPOUT_NOO",
-                                            tipe_outlet
-                                        );
-                                        return ""; // Tidak mengembalikan pesan error
-                                    } else if (!updateResponse.is_valid) {
-                                        // Jika tidak valid, coba set Retail dan catat error
-                                        await updateRute(
-                                            "https://sales.motasaindonesia.co.id/api/tool/rute/setRetail",
-                                            mrdo_id, iddepo, "RETAIL",
-                                            tipe_outlet
-                                        );
-                                        return `${kode_customer} - ${nama_toko}: outlet belum memenuhi kriteria`;
-                                    }
-                                    return "";
-                                } else if (buttonValue === "Retail") {
-                                    let updateResponse = await updateRute(
-                                        "https://sales.motasaindonesia.co.id/api/tool/rute/setRetail",
-                                        mrdo_id, iddepo, "Retail", tipe_outlet
-                                    );
-                                    if (!updateResponse.is_valid) {
-                                        return `${kode_customer} - ${nama_toko}: Gagal set Retail`;
-                                    }
-                                    return "";
-                                } else if (buttonValue === "NOO") {
-                                    let updateResponse = await updateRute(
-                                        "https://sales.motasaindonesia.co.id/api/tool/rute/setNoo",
-                                        mrdo_id, iddepo, "TPOUT_NOO",
-                                        tipe_outlet
-                                    );
-                                    if (!updateResponse.is_valid) {
-                                        return `${kode_customer} - ${nama_toko}: Gagal set NOO`;
-                                    }
-                                    return "";
-                                }
-                            } catch (error) {
-                                console.error(error);
-                                return `${kode_customer} - ${nama_toko}: Error - ${error}`;
-                            }
-                        })();
-                    }).get();
-
-                    // Tunggu semua proses selesai
-                    let results = await Promise.all(promises);
-
-                    // Filter hanya pesan error (string yang tidak kosong)
-                    let errorMessages = results.filter(msg => msg.trim() !== "");
-
-                    let finalMessage = "Sudah diproses, kecuali \n";
-                    if (errorMessages.length > 0) {
-                        // Jika ada outlet yang gagal, tampilkan pesan error akumulasi
-                        finalMessage += errorMessages.join("\n");
-                        copyToClipboard(finalMessage);
-                        $('.loading-overlay').hide();
-                        $('#errorModal #message').text(finalMessage);
+                                table.row('[data-id="' +
+                                    mrdo_id + '"]').data(
+                                    rowData).draw();
+                            });
+                            setTimeout(function() {
+                                $('#successModal').modal('hide');
+                                // location.reload();
+                            }, 1000);
+                        } else {
+                            $('#errorModal #message').text(response.message);
+                            $('#errorModal').modal('show');
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(error);
+                        $('#errorModal #message').text(xhr.responseJSON.message);
                         $('#errorModal').modal('show');
-                    } else {
-                        // Jika semua outlet sukses, tampilkan pesan umum
-                        finalMessage = "Sudah diproses | Segera diinput / direvisi";
-                        copyToClipboard(finalMessage);
+                    },
+                    complete: function() {
                         $('.loading-overlay').hide();
-                        $('#successModal #message').text(finalMessage);
-                        $('#successModal').modal('show');
                     }
-                }
-
-                // Panggil fungsi untuk memproses data
-                processData();
+                });
             });
 
             // // SET RETAIL / GROSIR
-            // $(document).on('click', '.btnSetRetail, .btnSetGrosir, .btnSetNOO', function() {
-            //     let id_mrdo = $(this).data('id_mrdo');
-            //     let id_mco = $(this).data('id_mco');
-            //     let set = $(this).data('set');
-            //     let tipe_outlet = $(this).closest('tr').find('.tipe_outlet');
+            // $(document).on('click', '.btnSetRetail, .btnSetGrosir', function() {
+            //     var id_mrdo = $(this).data('id_mrdo');
+            //     var id_mco = $(this).data('id_mco');
+            //     var set = $(this).data('set');
+            //     var tipe_outlet = $(this).closest('tr').find('.tipe_outlet');
 
             //     $.ajax({
             //         type: 'POST',
@@ -2455,10 +2303,10 @@
             //             $('.loading-overlay').show();
             //         },
             //         success: function(response) {
-            //             let tipe_outlet_all = tipe_outlet.text().trim();
-            //             let tipe_outlet_parts = tipe_outlet_all.split('-');
+            //             var tipe_outlet_all = tipe_outlet.text().trim();
+            //             var tipe_outlet_parts = tipe_outlet_all.split('-');
             //             tipe_outlet_parts[0] = response.tipe_outlet ?? "RETAIL";
-            //             let tipe_outlet_modified = tipe_outlet_parts.join(' - ');
+            //             var tipe_outlet_modified = tipe_outlet_parts.join(' - ');
             //             tipe_outlet.html(tipe_outlet_modified);
             //             $('.modal-input').val('');
             //             $('#successModal').modal('show');
@@ -2506,13 +2354,12 @@
             // DELETE RO DOUBLE
             $('#btnHapusRODouble').click(function(e) {
                 e.preventDefault();
-                let selectedRows = [];
-                let codeCountMap = {}; // Objek untuk melacak kemunculan kode customer
+                var selectedRows = [];
+                var codeCountMap = {}; // Objek untuk melacak kemunculan kode customer
                 $('.kode_customer').each(function() {
-                    let kode_customer = $(this).text().trim();
-                    let id_mrdo = $(this).closest('tr').find('.id_mrdo').text().trim();
-                    let source_type = $(this).closest('tr').find('.tipe_outlet').text().split(
-                        '-')[
+                    var kode_customer = $(this).text().trim();
+                    var id_mrdo = $(this).closest('tr').find('.id_mrdo').text().trim();
+                    var source_type = $(this).closest('tr').find('.tipe_outlet').text().split('-')[
                         2].trim();
 
                     if (kode_customer != null && kode_customer != '' && kode_customer != '0') {
@@ -2570,12 +2417,12 @@
 
             // BYPASS QR
             $(document).on('click', '.btnBarcode', function() {
-                let mrdo_id = $(this).closest('tr').find('.id_mrdo').text().trim();
-                let dataToEncrypt = [{
+                var mrdo_id = $(this).closest('tr').find('.id_mrdo').text().trim();
+                var dataToEncrypt = [{
                     id: $(this).data('id_qr')
                 }];
-                let jsonData = JSON.stringify(dataToEncrypt);
-                let encryptedData = btoa(jsonData);
+                var jsonData = JSON.stringify(dataToEncrypt);
+                var encryptedData = btoa(jsonData);
 
                 $.ajax({
                     type: 'POST',
@@ -2591,7 +2438,7 @@
                     success: function(response) {
                         $('#successModal').modal('show');
 
-                        let rowData = table.row(
+                        var rowData = table.row(
                             '[data-id="' + mrdo_id +
                             '"]').data();
 
@@ -2621,20 +2468,20 @@
                     $('#errorModal #message').text("Belum ada data yang dipilih");
                     $('#errorModal').modal('show');
                 } else {
-                    let keterangan = prompt("Isi Keterangan", "");
+                    var keterangan = prompt("Isi Keterangan", "");
                     if (!keterangan) {
                         $('#errorModal').modal('show');
                         return;
                     }
-                    let completedRequests = 0;
+                    var completedRequests = 0;
                     $('.check:checked').each(function(index) {
-                        let mrdo_id = $(this).closest('tr').find('.id_mrdo').text().trim();
-                        let iddepo = $(this).closest('tr').find('.nama_wilayah').text().match(
+                        var mrdo_id = $(this).closest('tr').find('.id_mrdo').text().trim();
+                        var iddepo = $(this).closest('tr').find('.nama_wilayah').text().match(
                             /\(([^()]+)\)[^(]*$/)[1].trim();
-                        let id_distributor = $(this).closest('tr').data('id_distributor');
-                        let kode_customer = $(this).closest('tr').find('.kode_customer').text()
+                        var id_distributor = $(this).closest('tr').data('id_distributor');
+                        var kode_customer = $(this).closest('tr').find('.kode_customer').text()
                             .trim();
-                        let tipe = "";
+                        var tipe = "";
 
                         $.ajax({
                             type: 'POST',
@@ -2681,20 +2528,20 @@
                     $('#errorModal #message').text("Belum ada data yang dipilih");
                     $('#errorModal').modal('show');
                 } else {
-                    let keterangan = prompt("Isi Keterangan", "");
+                    var keterangan = prompt("Isi Keterangan", "");
                     if (!keterangan) {
                         $('#errorModal').modal('show');
                         return;
                     }
-                    let completedRequests = 0;
+                    var completedRequests = 0;
                     $('.check:checked').each(function(index) {
-                        let mrdo_id = $(this).closest('tr').find('.id_mrdo').text().trim();
-                        let iddepo = $(this).closest('tr').find('.nama_wilayah').text().match(
+                        var mrdo_id = $(this).closest('tr').find('.id_mrdo').text().trim();
+                        var iddepo = $(this).closest('tr').find('.nama_wilayah').text().match(
                             /\(([^()]+)\)[^(]*$/)[1].trim();
-                        let id_distributor = $(this).closest('tr').data('id_distributor');
-                        let kode_customer = $(this).closest('tr').find('.kode_customer').text()
+                        var id_distributor = $(this).closest('tr').data('id_distributor');
+                        var kode_customer = $(this).closest('tr').find('.kode_customer').text()
                             .trim();
-                        let tipe = "permanent";
+                        var tipe = "permanent";
 
                         $.ajax({
                             type: 'POST',
@@ -2738,14 +2585,14 @@
             // HAPUS OUTLET PERMANEN
             $('#btnEditKodeOKAN').on('click', function(e) {
 
-                let completedRequests = 0;
+                var completedRequests = 0;
                 $('.check:checked').each(function(index) {
-                    let mrdo_id = $(this).closest('tr').find('.id_mrdo').text().trim();
-                    let rute_id = $(this).closest('tr').find('.rute_id').text().trim();
-                    let kode_customer_old = $(this).closest('tr').find('.kode_customer').text()
+                    var mrdo_id = $(this).closest('tr').find('.id_mrdo').text().trim();
+                    var rute_id = $(this).closest('tr').find('.rute_id').text().trim();
+                    var kode_customer_old = $(this).closest('tr').find('.kode_customer').text()
                         .trim();
-                    let kode_customer_new = 0;
-                    let change_mainroad = "pasar";
+                    var kode_customer_new = 0;
+                    var change_mainroad = "pasar";
 
                     $.ajax({
                         type: 'POST',
@@ -2789,13 +2636,13 @@
             // cek_rute_aktif();
             // // CEK RUTE AKTIF
             function cek_rute_aktif() {
-                let salesman_awal = $('#salesman_awal').val();
-                let id_salesman_awal = $('#id_salesman_awal').val();
-                let iddepo = $('#id_wilayah_awal').val();
-                let id_pasar = $('#id_pasar_awal').val();
-                let rute_awal = $('#rute_awal').val();
-                let hari = rute_awal ? rute_awal.split(' ')[0].trim() : '';
-                let periodik = (rute_awal && rute_awal.split(' ')[1]) ? rute_awal.split(' ')[1].trim() :
+                var salesman_awal = $('#salesman_awal').val();
+                var id_salesman_awal = $('#id_salesman_awal').val();
+                var iddepo = $('#id_wilayah_awal').val();
+                var id_pasar = $('#id_pasar_awal').val();
+                var rute_awal = $('#rute_awal').val();
+                var hari = rute_awal ? rute_awal.split(' ')[0].trim() : '';
+                var periodik = (rute_awal && rute_awal.split(' ')[1]) ? rute_awal.split(' ')[1].trim() :
                     '';
 
                 $.ajax({
@@ -2812,11 +2659,11 @@
                         periodik: periodik
                     },
                     success: function(response) {
-                        let dataRuteID = {};
-                        let dataMRDO_ID = {};
+                        const dataRuteID = {};
+                        const dataMRDO_ID = {};
                         $.each(response.data, function(index, item) {
-                            let id = item.id;
-                            let mrdo_id = item.mrdo_id;
+                            const id = item.id;
+                            const mrdo_id = item.mrdo_id;
                             if (!dataRuteID[id] && item.rute_hari_ini == 1) {
                                 dataRuteID[id] = id;
                             }
@@ -2832,12 +2679,12 @@
                             // }
                         });
                         $('.warnaBaris').each(function() {
-                            let ruteId = $(this).find('.rute_id').text().trim();
-                            let mrdo_id = $(this).find('.id_mrdo').text().trim();
-                            let nama_wilayah = $(this).find('.nama_wilayah');
-                            let nama_salesman = $(this).find('.nama_salesman');
-                            let rute = $(this).find('.rute');
-                            let hari = $(this).find('.hari');
+                            var ruteId = $(this).find('.rute_id').text().trim();
+                            var mrdo_id = $(this).find('.id_mrdo').text().trim();
+                            var nama_wilayah = $(this).find('.nama_wilayah');
+                            var nama_salesman = $(this).find('.nama_salesman');
+                            var rute = $(this).find('.rute');
+                            var hari = $(this).find('.hari');
                             // Mencocokkan ruteId dengan dataRuteID
                             if (dataRuteID[ruteId]) {
                                 nama_wilayah.addClass(
@@ -2857,7 +2704,7 @@
                                     'text-success fw-bolder shadow-sm');
                             }
                             // if (dataMRDO_ID[mrdo_id]) {
-                            //     let rowData = table.row(
+                            //     var rowData = table.row(
                             //         '[data-id="' + mrdo_id +
                             //         '"]').data();
 
@@ -2875,48 +2722,5 @@
                 });
             }
         });
-
-        function copyToClipboard(text) {
-            if (navigator.clipboard && window.isSecureContext) {
-                // Opsi 1: Menggunakan Clipboard API jika tersedia
-                return navigator.clipboard.writeText(text)
-                    .then(() => {
-                        $('#toastSalin').show();
-                        setTimeout(function() {
-                            $('#toastSalin').hide();
-                        }, 2000);
-                    })
-                    .catch(err => {
-                        console.error("Gagal menyalin teks dengan Clipboard API:", err);
-                        fallbackCopy(text);
-                    });
-            } else {
-                // Opsi 2: Fallback ke execCommand
-                fallbackCopy(text);
-            }
-        }
-
-        // Fungsi fallback menggunakan execCommand
-        function fallbackCopy(text) {
-            const textarea = document.createElement("textarea");
-            textarea.value = text;
-            document.body.appendChild(textarea);
-            textarea.select();
-
-            try {
-                if (document.execCommand("copy")) {
-                    $('#toastSalin').show();
-                    setTimeout(function() {
-                        $('#toastSalin').hide();
-                    }, 2000);
-                } else {
-                    console.error("Gagal menyalin teks dengan execCommand.");
-                }
-            } catch (err) {
-                console.error("Error saat menyalin teks:", err);
-            }
-
-            document.body.removeChild(textarea);
-        }
     </script>
 @endsection

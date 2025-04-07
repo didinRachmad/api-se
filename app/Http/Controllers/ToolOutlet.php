@@ -212,8 +212,8 @@ class ToolOutlet extends Controller
         $kode_customer = $request->input('kode_customer_rute');
         // Memecah string menjadi array berdasarkan pemisah "\r\n"
         $kode_customer_rute = explode("\r\n", $kode_customer);
-        // Menghilangkan elemen kosong dan melakukan trim pada setiap elemen
-        $kode_customer_rute = array_filter(array_map('trim', $kode_customer_rute), function ($value) {
+        // Menghilangkan elemen kosong yang mungkin ada dalam array
+        $kode_customer_rute = array_filter($kode_customer_rute, function ($value) {
             return !is_null($value) && $value !== '';
         });
         $id_survey_pasar = $request->input('survey_pasar_id_rute');

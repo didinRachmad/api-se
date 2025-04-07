@@ -154,12 +154,12 @@ div.dt-button-info {
 .btn-sm {
     font-size: 0.8rem;
     font-weight: 700;
-    /* transition: transform .01s; */
+    transition: transform .01s;
 }
 
-/* .btn-sm:hover {
+.btn-sm:hover {
     transform: scale(1.05);
-} */
+}
 
 .bg-btn {
     width: 70%;

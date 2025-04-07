@@ -8,8 +8,8 @@
                         <span class="swal2-x-mark-line-right"></span></span>
                 </div>
                 <div class="Text-primary fw-bold">Gagal Tersimpan</div>
-                <pre class="Text-primary fw-bold mb-3" id="message"></pre>
-                <button type="button button-sm" class="btn btn-outline-success" data-bs-dismiss="modal"
+                <p class="Text-primary fw-bold mb-3" id="message"></p>
+                <button type="button button-sm" class="btn btn-success" data-bs-dismiss="modal"
                     aria-label="Close">Close</button>
             </div>
         </div>
