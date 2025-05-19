@@ -15,10 +15,10 @@
 
     <div class="card">
         {{-- <div class="card-header">PENGGABUNGAN RUTE</div> --}}
-        <div class="card-body card-body-custom mt-3">
+        <div class="card-body">
             <form class="form" method="POST" action="{{ route('GabungRute.prosesGabungRute') }}">
                 @csrf
-                <div class="row">
+                <div class="row mx-0">
                     <div class="col-lg-3">
                         <label for="salesman" class="sr-only">Salesman</label>
                         <select class="form-select form-select-sm select2-salesman w-100" name="salesman" id="salesman"

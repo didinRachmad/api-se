@@ -8,6 +8,7 @@ use App\Models\Karyawan;
 use App\Models\MasterRute;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Http;
 
 class ListRKM extends Controller
 {
@@ -53,52 +54,27 @@ class ListRKM extends Controller
         $nama = $request->input('nama');
         $nik = $request->input('nik');
 
-        $data = [
+        // Validasi sederhana
+        if (!$nik) {
+            return back()->with('error', 'NIK tidak boleh kosong');
+        }
+
+        // Kirim request ke API
+        $response = Http::post('https://sales.motasaindonesia.co.id/api/spvcall/getDataRkm', [
             'nik' => $nik
-        ];
-
-        // Initialize cURL session
-        $ch = curl_init();
-
-        // Set cURL options
-        curl_setopt($ch, CURLOPT_URL, 'https://sales.motasaindonesia.co.id/api/spvcall/getDataRkm');
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, [
-            'Content-Type: application/x-www-form-urlencoded'
         ]);
 
-        // Execute cURL session and get the response
-        $response = curl_exec($ch);
+        if ($response->successful()) {
+            $dataApi = $response->json();
 
-        // Check for cURL errors
-        if (curl_errno($ch)) {
-            $error_message = curl_error($ch);
-            // Handle cURL error, for example:
-            $message = $error_message;
-            curl_close($ch);
-            return view('ListRKM', compact('message', 'nama', 'nik'));
+            $data = $dataApi['data'] ?? [];
+            $message = $dataApi['message'] ?? '';
+            $nama = $dataApi['nama'] ?? '';
+            $nik = $dataApi['nik'] ?? $nik;
+
+            return view('ListRKM', compact('data', 'message', 'nama', 'nik'));
         } else {
-            // No cURL errors, proceed with processing the response
-            curl_close($ch);
-            $res = json_decode($response, true);
-
-            $message = '';
-            if (isset($res['data']) && $res['is_valid']) {
-                $data = $res['data'];
-                $message = $res['message'] ?? "Data ditemukan";
-                $is_valid = $res['is_valid'];
-                return view('ListRKM', compact('data', 'nama', 'nik'));
-            } else {
-                $message = $res['message'] ?? "Data RKM tidak ditemukan";
-                return view('ListRKM', compact('message', 'nama', 'nik'));
-            }
+            return back()->with('error', 'Gagal mengambil data dari API');
         }
-        // return response()->json($res);
-        // } catch (\Exception $e) {
-        // Tangani kesalahan jika ada
-        // return view('ListRKM', compact('nama', 'nik'));
-        // }
     }
 }

@@ -30,8 +30,8 @@
 
     <div class="card">
         {{-- <div class="card-header">Tool Depo</div> --}}
-        <div class="card-body card-body-custom mt-3">
-            <div class="row">
+        <div class="card-body">
+            <div class="row mx-0">
                 <div class="col-lg-4">
                     <div class="input-group input-group-sm flex-nowrap mb-3">
                         <span class="input-group-text">Depo</span>
@@ -546,9 +546,9 @@
                         // if (!$.fn.DataTable.isDataTable('#tableEditNoOrder')) {
                         //     // $('#tableEditNoOrder').DataTable().destroy();
                         //     var tableEditNoOrder = $("#tableEditNoOrder").DataTable({
-                        //         dom: "<'row'<'col-sm-12 col-md-10'B><'col-sm-12 col-md-2 text-right'f>>" +
-                        //             "<'row py-2'<'col-sm-12'tr>>" +
-                        //             "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
+                        //         dom: "<'row mx-0'<'col-sm-12 p-0 col-md-10'B><'col-sm-12 p-0 col-md-2 text-right'f>>" +
+                        //             "<'row mx-0 py-2'<'col-sm-12 p-0'tr>>" +
+                        //             "<'row mx-0'<'col-sm-12 p-0 col-md-5'i><'col-sm-12 p-0 col-md-7'p>>",
                         //         paging: false,
                         //         order: [],
                         //         columnDefs: [{
@@ -679,6 +679,7 @@
                     },
                     success: function(response) {
                         $('#editNoOrderDipilihModal').modal('hide');
+                        copyToClipboard("Silakan tarik ulang");
                         $('#successModal #message').text(response.message + ' ' + response
                             .updated_orders);
                         $('#successModal').modal('show');
@@ -694,5 +695,48 @@
                 });
             });
         });
+
+        function copyToClipboard(text) {
+            if (navigator.clipboard && window.isSecureContext) {
+                // Opsi 1: Menggunakan Clipboard API jika tersedia
+                return navigator.clipboard.writeText(text)
+                    .then(() => {
+                        $('#toastSalin').show();
+                        setTimeout(function() {
+                            $('#toastSalin').hide();
+                        }, 2000);
+                    })
+                    .catch(err => {
+                        console.error("Gagal menyalin teks dengan Clipboard API:", err);
+                        fallbackCopy(text);
+                    });
+            } else {
+                // Opsi 2: Fallback ke execCommand
+                fallbackCopy(text);
+            }
+        }
+
+        // Fungsi fallback menggunakan execCommand
+        function fallbackCopy(text) {
+            const textarea = document.createElement("textarea");
+            textarea.value = text;
+            document.body.appendChild(textarea);
+            textarea.select();
+
+            try {
+                if (document.execCommand("copy")) {
+                    $('#toastSalin').show();
+                    setTimeout(function() {
+                        $('#toastSalin').hide();
+                    }, 2000);
+                } else {
+                    console.error("Gagal menyalin teks dengan execCommand.");
+                }
+            } catch (err) {
+                console.error("Error saat menyalin teks:", err);
+            }
+
+            document.body.removeChild(textarea);
+        }
     </script>
 @endsection

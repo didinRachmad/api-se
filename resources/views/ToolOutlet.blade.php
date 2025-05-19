@@ -17,7 +17,7 @@
 
     <div class="card">
         {{-- <div class="card-header">Tool Outlet</div> --}}
-        <div class="card-body card-body-custom mt-3">
+        <div class="card-body">
             <form class="form" method="POST" action="{{ route('ToolOutlet.getDataByRuteId') }}">
                 @csrf
                 <div class="row justify-content-center">
@@ -158,14 +158,14 @@
                             </ul>
                         </div>
                         <br>
-                        @if (isset($salesman_awal))
-                            <button type="button" class="btn btn-sm rounded-3 shadow-sm btn-outline-info btnOrder">Order
-                                <span> <i class="bi bi-journal-text"></i></span></button>
-                            <button type="button"
-                                class="btn btn-sm rounded-3 shadow-sm btn-outline-secondary btnKandidat">Visit
-                                Kandidat
-                                <span> <i class="bi bi-journal-text"></i></span></button>
-                        @endif
+                        {{-- @if (isset($salesman_awal)) --}}
+                        <button type="button" class="btn btn-sm rounded-3 shadow-sm btn-outline-info btnOrder">Order
+                            <span> <i class="bi bi-journal-text"></i></span></button>
+                        <button type="button"
+                            class="btn btn-sm rounded-3 shadow-sm btn-outline-secondary btnKandidat">Visit
+                            Kandidat
+                            <span> <i class="bi bi-journal-text"></i></span></button>
+                        {{-- @endi f --}}
                     </div>
                 </div>
             </form>
@@ -577,6 +577,21 @@
     <script>
         $(document).ready(function() {
 
+            $('.btnOrder, .btnKandidat').hide();
+
+            // Saat select berubah
+            $('#salesman_awal').on('change', function() {
+                let selected = $(this).val();
+                if (selected && selected.trim() !== '') {
+                    $('.btnOrder, .btnKandidat').show();
+                } else {
+                    $('.btnOrder, .btnKandidat').hide();
+                }
+            });
+
+            // Trigger saat awal jika sudah ada isi (misal edit form)
+            $('#salesman_awal').trigger('change');
+
             // $('form').submit(function() {
             //     let salesman = $('#salesman_awal').val();
             //     let id_pasar = $('#id_pasar_awal').val();
@@ -958,9 +973,9 @@
             });
 
             let table = $('.myTable').DataTable({
-                dom: "<'row'<'col-sm-12 col-md-2 filter-survey_pasar'><'col-sm-12 col-md-2 filter-KodeCustomer'><'col-sm-12 col-md-2 filter-NamaToko'><'col-sm-12 col-md-2 filter-Alamat'><'col-sm-12 col-md-2 filter-jenis_outlet'B><'col-sm-12 col-md-2 text-right'f>>" +
-                    "<'row p-2'<'col-sm-12'tr>>" +
-                    "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
+                dom: "<'row mx-0'<'col-sm-12 col-md-2 filter-survey_pasar'><'col-sm-12 col-md-2 filter-KodeCustomer'><'col-sm-12 col-md-2 filter-NamaToko'><'col-sm-12 col-md-2 filter-Alamat'><'col-sm-12 col-md-2 filter-jenis_outlet'B><'col-sm-12 col-md-2 text-right'f>>" +
+                    "<'row mx-0'<'col-sm-12 p-0'tr>>" +
+                    "<'row mx-0'<'col-sm-12 p-0 col-md-5'i><'col-sm-12 p-0 col-md-7'p>>",
                 paging: false,
                 orderCellsTop: true,
                 fixedHeader: true,
@@ -1205,9 +1220,9 @@
                     TableOrder = $('.TableOrder').DataTable({
                         processing: true,
                         serverSide: true,
-                        dom: "<'row'<'col-sm-12 col-md-2'l><'col-sm-12 col-md-5'B><'col-sm-12 col-md-5 text-right'f >> " +
-                            "<'row p-2'<'col-sm-12'tr>>" +
-                            "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
+                        dom: "<'row mx-0'<'col-sm-12 p-0 col-md-2'l><'col-sm-12 p-0 col-md-5'B><'col-sm-12 p-0 col-md-5 text-right'f >> " +
+                            "<'row mx-0'<'col-sm-12 p-0'tr>>" +
+                            "<'row mx-0'<'col-sm-12 p-0 col-md-5'i><'col-sm-12 p-0 col-md-7'p>>",
                         // scrollY: 260,
                         "lengthMenu": [10, 25, 50, 75, 100, 500],
                         "pageLength": 100,
@@ -1407,9 +1422,9 @@
                     TableKandidat = $('.TableKandidat').DataTable({
                         processing: true,
                         serverSide: true,
-                        dom: "<'row'<'col-sm-12 col-md-2'l><'col-sm-12 col-md-5'B><'col-sm-12 col-md-5 text-right'f >> " +
-                            "<'row p-2'<'col-sm-12'tr>>" +
-                            "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
+                        dom: "<'row mx-0'<'col-sm-12 p-0 col-md-2'l><'col-sm-12 p-0 col-md-5'B><'col-sm-12 p-0 col-md-5 text-right'f >> " +
+                            "<'row mx-0'<'col-sm-12 p-0'tr>>" +
+                            "<'row mx-0'<'col-sm-12 p-0 col-md-5'i><'col-sm-12 p-0 col-md-7'p>>",
                         // scrollY: 260,
                         "lengthMenu": [10, 25, 50, 75, 100, 500],
                         "pageLength": 100,
@@ -2325,7 +2340,7 @@
                     let tipe_outlet_modified = tipe_outlet_parts.join(' - ');
 
                     let rowData = table.row(`[data-id="${mrdo_id}"]`).data();
-                    rowData[12] = tipe_outlet_modified;
+                    rowData[14] = tipe_outlet_modified;
 
                     table.row(`[data-id="${mrdo_id}"]`).data(rowData).draw();
                 }
@@ -2353,7 +2368,7 @@
                                         id_survey_pasar);
                                     if (rute_hari_ini && !response.is_valid) {
                                         // Jika data kunjungan belum masuk
-                                        return `${kode_customer} - ${nama_toko}: Data kunjungan belum masuk ke sistem`;
+                                        return `${kode_customer} - ${nama_toko}: Data kunjungan belum masuk ke sistem, jika sudah dikunjungi, silakan upload ulang dahulu datanya`;
                                     }
                                     let updateResponse = await updateRute(
                                         "https://sales.motasaindonesia.co.id/api/tool/rute/setGrosir",

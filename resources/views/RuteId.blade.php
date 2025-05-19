@@ -8,10 +8,10 @@
 
     <div class="card">
         {{-- <div class="card-header">Search Data by Route ID</div> --}}
-        <div class="card-body card-body-custom mt-3">
+        <div class="card-body">
             <form class="form" method="POST" action="{{ route('RuteId.getDataByRuteId') }}">
                 @csrf
-                <div class="row">
+                <div class="row mx-0">
                     <div class="col-lg-4">
                         <div class="input-group input-group-sm flex-nowrap mb-3">
                             <span class="input-group-text">Salesman</span>
@@ -502,9 +502,9 @@
             });
 
             var table = $('.myTable').DataTable({
-                dom: "<'row'<'col-sm-12 col-md-4'B><'col-sm-12 col-md-2 filter-kode_customer'><'col-sm-12 col-md-6 text-right 'f>>" +
-                    "<'row py-2'<'col-sm-12'tr>>" +
-                    "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
+                dom: "<'row mx-0'<'col-sm-12 col-md-4'B><'col-sm-12 col-md-2 filter-kode_customer'><'col-sm-12 col-md-6 text-right 'f>>" +
+                    "<'row mx-0 py-2'<'col-sm-12'tr>>" +
+                    "<'row mx-0'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
                 // "scrollY": "calc(100vh - 180px)",
                 // "scrollCollapse": true,
                 buttons: [{
@@ -635,9 +635,9 @@
                     TableOrder = $('.TableOrder').DataTable({
                         processing: true,
                         serverSide: true,
-                        dom: "<'row'<'col-sm-12 col-md-2'l><'col-sm-12 col-md-5'B><'col-sm-12 col-md-5 text-right'f >> " +
-                            "<'row py-2'<'col-sm-12'tr>>" +
-                            "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
+                        dom: "<'row mx-0'<'col-sm-12 col-md-2'l><'col-sm-12 col-md-5'B><'col-sm-12 col-md-5 text-right'f >> " +
+                            "<'row mx-0 py-2'<'col-sm-12'tr>>" +
+                            "<'row mx-0'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
                         // scrollY: 260,
                         "lengthMenu": [10, 25, 50, 75, 100, 500],
                         "pageLength": 100,
@@ -773,9 +773,9 @@
                     TableKandidat = $('.TableKandidat').DataTable({
                         processing: true,
                         serverSide: true,
-                        dom: "<'row'<'col-sm-12 col-md-2'l><'col-sm-12 col-md-5'B><'col-sm-12 col-md-5 text-right'f >> " +
-                            "<'row py-2'<'col-sm-12'tr>>" +
-                            "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
+                        dom: "<'row mx-0'<'col-sm-12 col-md-2'l><'col-sm-12 col-md-5'B><'col-sm-12 col-md-5 text-right'f >> " +
+                            "<'row mx-0 py-2'<'col-sm-12'tr>>" +
+                            "<'row mx-0'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
                         // scrollY: 260,
                         "lengthMenu": [10, 25, 50, 75, 100, 500],
                         "pageLength": 100,

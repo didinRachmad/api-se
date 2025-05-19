@@ -8,10 +8,10 @@
 
     <div class="card">
         {{-- <div class="card-header">List Rute</div> --}}
-        <div class="card-body card-body-custom mt-3">
+        <div class="card-body">
             <form class="form" method="POST" action="{{ route('ListRute.getListRute') }}">
                 @csrf
-                <div class="row">
+                <div class="row mx-0">
                     <div class="col-lg-4">
                         <div class="input-group input-group-sm flex-nowrap mb-3">
                             <span class="input-group-text">Salesman</span>
@@ -67,13 +67,7 @@
                             <th>visited</th>
                         </thead>
                         <tbody id="bodyTabelRute">
-                            @php
-                                $no = 0;
-                            @endphp
                             @foreach ($data as $mr)
-                                @php
-                                    $no += 1;
-                                @endphp
                                 <tr class="warnaBaris">
                                     <td></td>
                                     <td>{{ $mr['nama_wilayah'] }} ({{ $mr['iddepo'] }})</td>
@@ -104,13 +98,13 @@
                     </table>
                 </div>
             @else
+                {{-- @php
+                    echo $error;
+                @endphp --}}
                 @if (isset($message))
                     <div class="json-viewer text-center" style="white-space: pre-wrap;">{{ $message }}</div>
                 @endif
             @endif
-            {{-- @php
-                // echo $message;
-            @endphp --}}
         </div>
     </div>
 
@@ -175,9 +169,9 @@
             });
 
             var table = $('.myTable').DataTable({
-                "dom": "<'row'<'col-sm-12 col-md-2 filter-survey_pasar'><'col-sm-12 col-md-2 filter-KodeCustomer'><'col-sm-12 col-md-3 filter-NamaToko'><'col-sm-12 col-md-3 filter-jenis_outlet'B><'col-sm-12 col-md-2 text-right'f>>" +
-                    "<'row py-2'<'col-sm-12'tr>>" +
-                    "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
+                "dom": "<'row mx-0'<'col-sm-12 col-md-2 filter-survey_pasar'><'col-sm-12 col-md-2 filter-KodeCustomer'><'col-sm-12 col-md-3 filter-NamaToko'><'col-sm-12 col-md-3 filter-jenis_outlet'B><'col-sm-12 col-md-2 text-right'f>>" +
+                    "<'row mx-0 py-2'<'col-sm-12'tr>>" +
+                    "<'row mx-0'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
                 "paging": false,
                 buttons: [{
                     extend: 'copy',

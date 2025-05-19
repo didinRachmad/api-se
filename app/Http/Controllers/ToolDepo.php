@@ -310,7 +310,6 @@ class ToolDepo extends Controller
                 case 'PALANGKARAYA':
                 case 'MAGELANG':
                 case 'SEMARANG KODYA':
-                case 'NGAWI':
                 case 'BLITAR':
                 case 'KISARAN':
                 case 'SURABAYA 1':
@@ -390,7 +389,6 @@ class ToolDepo extends Controller
                 switch ($Order['nama_wilayah']) {
                     case 'BANJARNEGARA':
                     case 'PURWOKERTO':
-                    case 'BANJARMASIN':
                     case 'SAMARINDA':
                     case 'PADANG SIDEMPUAN':
                     case 'KEBUMEN':
@@ -401,6 +399,7 @@ class ToolDepo extends Controller
                     case 'MEDAN':
                     case 'DURI':
                     case 'DUMAI':
+                    case 'BANJARMASIN':
                         $digitpref = 8;
                         $digit = 4;
                         break;
@@ -477,14 +476,11 @@ class ToolDepo extends Controller
                         $digitpref = 13;
                         $digit = 4;
                         break;
-                    case 'SINGKAWANG':
-
                     case 'NGAWI':
                         $digitpref = 7;
                         $digit = 7;
                         break;
                     case 'WONOGIRI':
-                    case 'JEMBER':
                         $digitpref = 8;
                         $digit = 6;
                         break;
@@ -494,6 +490,7 @@ class ToolDepo extends Controller
                         break;
                     case 'RANTAU PRAPAT':
                     case 'SUKOHARJO':
+                    case 'JEMBER':
                         $digitpref = 9;
                         $digit = 5;
                         break;
@@ -501,6 +498,7 @@ class ToolDepo extends Controller
                         $digitpref = 7;
                         $digit = 5;
                         break;
+                    case 'SITUBONDO':
                     case 'BONDOWOSO':
                         $digitpref = 7;
                         $digit = 6;
@@ -512,28 +510,37 @@ class ToolDepo extends Controller
                 }
 
                 $tgl_transaksi = Carbon::parse($Order['tgl_transaksi']);
+                $order = Order::where('id', $Order['id'])
+                    ->lockForUpdate()
+                    ->firstOrFail();
 
-                $order = Order::where('id', $Order['id'])->lockForUpdate()->firstOrFail();
-
-                // Menentukan prefix dengan panjang yang sesuai dari no_order saat ini
+                // prefix dan jumlah digit suffix
                 $digitPrefix = strlen($order->no_order) - $digit;
-                $prefix = substr($order->no_order, 0, $digitPrefix);
+                $prefix     = substr($order->no_order, 0, $digitPrefix);
 
-                // Mencari nomor terakhir dengan prefix yang sama
-                $lastOrder = Order::where('no_order', 'like', $prefix . '%')
+                // total panjang no_order yang valid
+                $totalLength = $digitpref + $digit;
+
+                // build query dasar
+                $query = Order::where('no_order', 'like', $prefix . '%')
                     ->where('nama_wilayah', $Order['nama_wilayah'])
                     ->whereYear('tgl_transaksi', $tgl_transaksi->year)
                     ->whereMonth('tgl_transaksi', $tgl_transaksi->month)
-                    ->orderByRaw('CAST(SUBSTRING(no_order, ' . ($digitPrefix + 1) . ') AS UNSIGNED) DESC') // Urutkan berdasarkan angka di sebelah kanan
+                    // filter panjang no_order sesuai total
+                    ->whereRaw('CHAR_LENGTH(no_order) = ' . $totalLength);
+
+                $lastOrder = $query
+                    ->orderByRaw(
+                        'CAST(SUBSTRING(no_order, ' . ($digitPrefix + 1) . ') AS UNSIGNED) DESC'
+                    )
                     ->first();
 
-                // dd($lastOrder);
-
-                // Increment angka di sebelah kanan
-                $nextNumber = $lastOrder ? intval(substr($lastOrder->no_order, -$digit)) + 1 : 1;
+                // hitung nextNumber dan simpan seperti biasa
+                $nextNumber = $lastOrder
+                    ? intval(substr($lastOrder->no_order, -$digit)) + 1
+                    : 1;
                 $newNoOrder = $prefix . str_pad($nextNumber, $digit, '0', STR_PAD_LEFT);
 
-                // Simpan perubahan nomor pesanan
                 $order->no_order = $newNoOrder;
                 $order->save();
 

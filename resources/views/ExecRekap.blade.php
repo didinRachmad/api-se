@@ -2,8 +2,8 @@
 @section('content')
     <div class="card">
         {{-- <div class="card-header">Exec Rekap Call</div> --}}
-        <div class="card-body card-body-custom mt-3">
-            <div class="row">
+        <div class="card-body">
+            <div class="row mx-0">
                 <div class="col-12">
                     <div class="table-responsive">
                         <table class="table  table-light table-striped table-sm align-middle myTable">
@@ -50,9 +50,9 @@
     <script>
         $(document).ready(function() {
             $('.myTable').DataTable({
-                "dom": "<'row'<'col-sm-12 col-md-6 btn_upload'><'col-sm-12 col-md-6 text-right'f>>" +
-                    "<'row py-2'<'col-sm-12'tr>>" +
-                    "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
+                "dom": "<'row mx-0'<'col-sm-12 col-md-6 btn_upload'><'col-sm-12 col-md-6 text-right'f>>" +
+                    "<'row mx-0 py-2'<'col-sm-12'tr>>" +
+                    "<'row mx-0'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
                 "paging": false,
                 "scrollY": 260,
                 "columnDefs": [{

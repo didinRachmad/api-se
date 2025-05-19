@@ -448,8 +448,8 @@ class KodeCustomer extends Controller
             )
             ->join('dataar', 'dataar.survey_pasar_id', '=', 'mot.id_survey_pasar')
             ->where('dataar.kode_customer', $kode_customer)
-            ->whereNotNull('mot.no_hp')
-            ->whereDate('mot.created_at', $today)
+            // ->whereNotNull('mot.no_hp')
+            // ->whereDate('mot.created_at', $today)
             ->orderBy('mot.id', 'desc')
             ->distinct()
             ->get();

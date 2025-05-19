@@ -6,7 +6,7 @@
         }
     </style>
     <div class="card">
-        <div class="card-body card-body-custom mt-3">
+        <div class="card-body">
             <form class="form" method="POST" action="{{ route('KodeCustomer.getDataByKodeCustomer') }}">
                 @csrf
                 <div class="row align-items-top">
@@ -441,9 +441,9 @@
             });
 
             var table = $('.myTable').DataTable({
-                dom: "<'row'<'col-sm-6 col-md-2'l><'col-sm-6 col-md-6 text-right'B><'col-sm-12 col-md-4 text-right'f>>" +
-                    "<'row p-2'<'col-sm-12'tr>>" +
-                    "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
+                dom: "<'row mx-0'<'col-sm-6 col-md-2'l><'col-sm-6 col-md-6 text-right'B><'col-sm-6 col-md-4 text-right'f>>" +
+                    "<'row mx-0'<'col-sm-12 p-0'tr>>" +
+                    "<'row mx-0'<'col-sm-12 p-0 col-md-5'i><'col-sm-12 p-0 col-md-7'p>>",
                 "paging": false,
                 buttons: [
                     'copy', 'csv', {
@@ -504,9 +504,9 @@
                     tableOrder = $('.TableCekOrder').DataTable({
                         processing: true,
                         serverSide: true,
-                        dom: "<'row'<'col-sm-12 col-md-2'l><'col-sm-12 col-md-5'B><'col-sm-12 col-md-5 text-right'f >> " +
-                            "<'row p-2'<'col-sm-12'tr>>" +
-                            "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
+                        dom: "<'row mx-0'<'col-sm-12 p-0 col-md-2'l><'col-sm-12 p-0 col-md-5'B><'col-sm-12 p-0 col-md-5 text-right'f >> " +
+                            "<'row mx-0'<'col-sm-12 p-0'tr>>" +
+                            "<'row mx-0'<'col-sm-12 p-0 col-md-5'i><'col-sm-12 p-0 col-md-7'p>>",
                         // scrollY: 260,
                         "lengthMenu": [10, 25, 50, 75, 100, 500],
                         "pageLength": 100,
@@ -720,9 +720,9 @@
                     tableCekOrder = $('.TableCekOrder').DataTable({
                         processing: true,
                         serverSide: true,
-                        dom: "<'row'<'col-sm-12 col-md-2'l><'col-sm-12 col-md-5'B><'col-sm-12 col-md-5 text-right'f >> " +
-                            "<'row p-2'<'col-sm-12'tr>>" +
-                            "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
+                        dom: "<'row mx-0'<'col-sm-12 p-0 col-md-2'l><'col-sm-12 p-0 col-md-5'B><'col-sm-12 p-0 col-md-5 text-right'f >> " +
+                            "<'row mx-0'<'col-sm-12 p-0'tr>>" +
+                            "<'row mx-0'<'col-sm-12 p-0 col-md-5'i><'col-sm-12 p-0 col-md-7'p>>",
                         // scrollY: 260,
                         "lengthMenu": [10, 25, 50, 75, 100, 500],
                         "pageLength": 100,

@@ -7,6 +7,7 @@ use App\Models\Dataar;
 use App\Models\MasterRute;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Http;
 
 class ListRute extends Controller
 {
@@ -55,55 +56,28 @@ class ListRute extends Controller
         $salesman = $request->input('salesman');
         $id_salesman = $request->input('id_salesman');
 
-        $data = [
+        // Validasi sederhana
+        if (!$id_salesman) {
+            return back()->with('error', 'NIK tidak boleh kosong');
+        }
+
+        // Kirim request ke API
+        $response = Http::post('https://sales.motasaindonesia.co.id/api/downloadrute/getListRute', [
             'id_salesman' => $id_salesman
-        ];
-
-        // Initialize cURL session
-        $ch = curl_init();
-
-        // Set cURL options
-        curl_setopt($ch, CURLOPT_URL, 'https://sales.motasaindonesia.co.id/api/downloadrute/getListRute');
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, [
-            'Content-Type: application/x-www-form-urlencoded'
         ]);
 
-        // Execute cURL session and get the response
-        $response = curl_exec($ch);
+        if ($response->successful()) {
+            $dataApi = $response->json();
 
-        // Check for cURL errors
-        if (curl_errno($ch)) {
-            $error_message = curl_error($ch);
-            // Handle cURL error, for example:
-            $message = $error_message;
-            curl_close($ch);
-            return view('ListRute', compact('message', 'salesman', 'id_salesman'));
+            $data = $dataApi['data'] ?? [];
+            $message = $dataApi['message'] ?? '';
+            $id_salesman = $dataApi['id_salesman'] ?? $id_salesman;
+            $total = $dataApi['total'] ?? 0;
+            $ro = $dataApi['total_ro'] ?? 0;
+            $kandidat = intval($total) - intval($ro);
+            return view('ListRute', compact('data', 'message', 'salesman', 'id_salesman', 'total', 'ro', 'kandidat'));
         } else {
-            // No cURL errors, proceed with processing the response
-            curl_close($ch);
-            $res = json_decode($response, true);
-
-            $message = '';
-            if (isset($res['data']) && $res['is_valid']) {
-                $data = $res['data'];
-                $message = $res['message'];
-                $total = $res['total'];
-                $ro = $res['total_ro'];
-                $kandidat = intval($res['total']) - intval($res['total_ro']);
-                $is_valid = $res['is_valid'];
-                return view('ListRute', compact('data', 'salesman', 'id_salesman', 'total', 'ro', 'kandidat'));
-            } else {
-                $message = $res['message'] ?? "Data Master Rute tidak ditemukan";
-                return view('ListRute', compact('message', 'salesman', 'id_salesman'));
-            }
+            return back()->with('error', 'Gagal mengambil data dari API');
         }
-        // return response()->json($res);
-        // } catch (\Exception $e) {
-        // Tangani kesalahan jika ada
-        // return view('ListRute', compact('salesman', 'id_salesman'));
-        // }
     }
 }
